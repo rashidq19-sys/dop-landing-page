@@ -1,18 +1,20 @@
 /*
  * Section 6: Driver Portal
- * Design: Clean Logistics Blueprint — Text left, screenshot right
+ * Design: Clean Logistics Blueprint — Text left, iPhone mockup carousel right
  * Amber/yellow accent for driver-facing features
- * Lightbox: Click screenshot to view fullscreen
  */
 
-import { useState } from "react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import Lightbox from "@/components/Lightbox";
-import { CheckCircle2, Expand } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 import EmailCaptureInline from "@/components/EmailCaptureInline";
+import IPhoneMockup from "@/components/IPhoneMockup";
 
-const DRIVER_PORTAL_IMG =
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/Drivers_86b5a1e8.webp";
+const portalScreens = [
+  { src: "/images/portal/home.jpeg", label: "Home" },
+  { src: "/images/portal/rota.jpeg", label: "Rota" },
+  { src: "/images/portal/scorecards.jpeg", label: "Scorecards" },
+  { src: "/images/portal/invoice.jpeg", label: "Pay" },
+];
 
 const benefits = [
   "See their rota and request changes — no more calling OSM to check schedule or swap shifts",
@@ -24,7 +26,6 @@ const benefits = [
 
 export default function DriverPortalSection() {
   const { ref, isVisible } = useScrollAnimation(0.15);
-  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
 
   return (
     <section id="driver-portal" className="py-20 lg:py-28 relative">
@@ -80,56 +81,16 @@ export default function DriverPortalSection() {
             <EmailCaptureInline className="mt-8 max-w-lg" buttonText="Give Drivers Their Own Portal" />
           </div>
 
-          {/* Screenshot — Right */}
+          {/* iPhone Mockup — Right */}
           <div
             className={`transition-all duration-700 delay-200 ${
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
             }`}
           >
-            <div
-              className="relative group cursor-pointer"
-              onClick={() => setLightboxSrc(DRIVER_PORTAL_IMG)}
-            >
-              <div className="absolute -inset-3 bg-amber-500/5 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="relative bg-white rounded-xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.12)] border border-border/50 overflow-hidden">
-                {/* Browser bar */}
-                <div className="flex items-center gap-1.5 px-4 py-2.5 bg-slate-light/50 border-b border-border/40">
-                  <div className="w-2 h-2 rounded-full bg-red-400/50" />
-                  <div className="w-2 h-2 rounded-full bg-yellow-400/50" />
-                  <div className="w-2 h-2 rounded-full bg-green-400/50" />
-                  <div className="ml-2 flex-1 h-4 bg-white/70 rounded text-[9px] text-muted-foreground flex items-center px-2">
-                    dspops.app
-                  </div>
-                </div>
-                <div className="relative">
-                  <img
-                    src={DRIVER_PORTAL_IMG}
-                    alt="DSPOps Driver Portal"
-                    className="w-full"
-                    loading="lazy"
-                  />
-                  {/* Fullscreen hint overlay */}
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 flex items-center justify-center">
-                    <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 flex items-center gap-2 shadow-lg">
-                      <Expand size={16} className="text-navy" />
-                      <span className="text-sm font-medium text-navy">
-                        Click to enlarge
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <IPhoneMockup images={portalScreens} interval={4000} />
           </div>
         </div>
       </div>
-
-      {/* Lightbox */}
-      <Lightbox
-        src={lightboxSrc}
-        alt="DSPOps Driver Portal"
-        onClose={() => setLightboxSrc(null)}
-      />
     </section>
   );
 }
