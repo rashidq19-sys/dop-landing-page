@@ -16,7 +16,7 @@ const testimonials = [
   },
   {
     quote:
-      "The van damage detection is a game-changer. We cancelled our ClearCourt subscription on day one. That's £300/month straight back into the business.",
+      "The van damage detection is a game-changer. We cancelled our third-party damage tracking subscription on day one. That's £300/month straight back into the business.",
     name: "Sarah M.",
     role: "Operations Manager, Birmingham",
     initials: "SM",
@@ -49,7 +49,7 @@ export default function TestimonialsSection() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-amber">
+          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">
             Testimonials
           </span>
           <h2 className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-extrabold text-navy tracking-tight">
@@ -67,13 +67,13 @@ export default function TestimonialsSection() {
               }`}
               style={{ transitionDelay: `${i * 100 + 200}ms` }}
             >
-              <Quote size={24} className="text-amber/30 mb-4" />
+              <Quote size={24} className="text-brand/30 mb-4" />
               <p className="text-sm lg:text-base text-navy/80 leading-relaxed mb-6">
                 "{t.quote}"
               </p>
               <div className="flex items-center gap-3 pt-4 border-t border-border/40">
-                <div className="w-10 h-10 rounded-full bg-amber/10 flex items-center justify-center">
-                  <span className="text-sm font-bold text-amber">{t.initials}</span>
+                <div className="w-10 h-10 rounded-full bg-brand/10 flex items-center justify-center">
+                  <span className="text-sm font-bold text-brand">{t.initials}</span>
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-navy">{t.name}</p>

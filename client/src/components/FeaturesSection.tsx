@@ -1,25 +1,34 @@
 /*
- * Design: Clean Logistics Blueprint
- * Features: Alternating left-right sections, each with a large screenshot and descriptive text
- * Hairline section label, generous vertical rhythm
+ * Design: Clean Logistics Blueprint — Dark navy + Blue brand
+ * Features: Alternating left-right sections with screenshots
+ * Lightbox: Click any screenshot to view fullscreen
  */
 
+import { useState } from "react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import Lightbox from "@/components/Lightbox";
+import { Expand } from "lucide-react";
 import {
   Zap,
   Camera,
   Receipt,
-  BarChart3,
   ShieldCheck,
   UserPlus,
+  RefreshCw,
+  Users,
 } from "lucide-react";
 
-const DEPLOYMENT_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/deployment_9e82936d.webp";
-const FLEET_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/fleet-management_ebfc891c.webp";
-const REPORTS_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/reports_41204a79.webp";
-const DRIVERS_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/drivers_650b22a8.webp";
-const TRACKER_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/tracker_978440a5.webp";
-const INSPECTION_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/inspection_59f00ee3.webp";
+const DEPLOYMENT_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/DeploymentPlan_8f6f0776.webp";
+const INSPECTION_DETECTION_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/Inspectiondamagesreport_e1c0b1ab.webp";
+const ROTA_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/Rota_aa854325.webp";
+const SCORECARD_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/Scorecard_5b525443.webp";
+const FLEET_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/FleetManagement_d568d5e9.webp";
+const INSPECTION_V1_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/Inspectionv1_f2ffa66b.webp";
+const INVOICE_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/Invoice_b6d91efd.png";
+const WEEKLY_PAYROLL_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/weeklyPayroll_ceea7203.webp";
+const REPORTS_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/Reports_0d90951a.webp";
+const DRIVERS_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/Drivers_86b5a1e8.webp";
+const CAPACITY_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/capacity-planning-new_dfeca29f.webp";
 
 const features = [
   {
@@ -39,8 +48,8 @@ const features = [
     description:
       "Replace expensive third-party tools. Our AI-powered inspection system detects and documents van damage through photos and videos, creating a complete damage timeline for every vehicle.",
     stat: "Replace £200–300/month tools",
-    image: INSPECTION_IMG,
-    imageAlt: "DOP Van Inspection System",
+    image: INSPECTION_DETECTION_IMG,
+    imageAlt: "DOP AI Van Damage Detection with Photos",
   },
   {
     icon: Receipt,
@@ -49,18 +58,18 @@ const features = [
     description:
       "Upload your Cortex report and let the system calculate everything. Weekly payroll, shift breakdowns, and driver pay — all automated. No more spreadsheet errors at 2am.",
     stat: "Save 5–10 hours/week",
-    image: FLEET_IMG,
-    imageAlt: "DOP Fleet Management and Payroll",
+    image: WEEKLY_PAYROLL_IMG,
+    imageAlt: "DOP Weekly Payroll and Invoicing",
   },
   {
-    icon: BarChart3,
-    label: "Performance Scorecards",
-    title: "Live KPI Dashboards",
+    icon: RefreshCw,
+    label: "Amazon Integration",
+    title: "Sync With Amazon Cortex in 1 Click",
     description:
-      "See exactly how every driver is performing with real-time scorecards. Weekly and daily views, quality metrics, and performance trends — all synced from Amazon data.",
-    stat: "Improve DSP-wide KPIs",
-    image: REPORTS_IMG,
-    imageAlt: "DOP Reports and Analytics Dashboard",
+      "Fully integrated with Amazon's systems. Sync your scorecards, route data, and performance metrics from Amazon Cortex with a single click. No manual data entry, no copy-pasting from spreadsheets.",
+    stat: "One-click Amazon sync",
+    image: SCORECARD_IMG,
+    imageAlt: "DOP Performance Scorecards synced from Amazon Cortex",
   },
   {
     icon: ShieldCheck,
@@ -69,8 +78,8 @@ const features = [
     description:
       "Track every driver licence, passport, RTW document, and van insurance, MOT, and road tax in one place. Automatic alerts when documents are expiring. Stay compliant year-round.",
     stat: "Stay compliant year-round",
-    image: TRACKER_IMG,
-    imageAlt: "DOP Compliance Tracker",
+    image: FLEET_IMG,
+    imageAlt: "DOP Fleet Management and Compliance",
   },
   {
     icon: UserPlus,
@@ -80,16 +89,28 @@ const features = [
       "From onboarding to offboarding, manage your entire driver roster. Digital document collection, status tracking, and performance history — everything in one place.",
     stat: "Faster onboarding, better retention",
     image: DRIVERS_IMG,
-    imageAlt: "DOP Driver Management",
+    imageAlt: "DOP Driver Management Page",
+  },
+  {
+    icon: Users,
+    label: "Capacity Planning",
+    title: "Never Be Short of Drivers Again",
+    description:
+      "See at a glance if you have enough drivers and vans for your committed days. Identify coverage gaps before they become problems, plan ahead, and ensure you always meet Amazon's targets.",
+    stat: "Prevent understaffing",
+    image: CAPACITY_IMG,
+    imageAlt: "DOP Capacity Planning and Driver Coverage",
   },
 ];
 
 function FeatureRow({
   feature,
   index,
+  onImageClick,
 }: {
   feature: (typeof features)[0];
   index: number;
+  onImageClick: (src: string, alt: string) => void;
 }) {
   const { ref, isVisible } = useScrollAnimation(0.15);
   const reversed = index % 2 !== 0;
@@ -107,9 +128,9 @@ function FeatureRow({
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         }`}
       >
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber/10 border border-amber/20 mb-4">
-          <feature.icon size={14} className="text-amber" />
-          <span className="text-xs font-semibold text-amber-dark uppercase tracking-wider">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand/10 border border-brand/20 mb-4">
+          <feature.icon size={14} className="text-brand" />
+          <span className="text-xs font-semibold text-brand-dark uppercase tracking-wider">
             {feature.label}
           </span>
         </div>
@@ -134,8 +155,11 @@ function FeatureRow({
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
         }`}
       >
-        <div className="relative group">
-          <div className="absolute -inset-3 bg-amber/5 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        <div
+          className="relative group cursor-pointer"
+          onClick={() => onImageClick(feature.image, feature.imageAlt)}
+        >
+          <div className="absolute -inset-3 bg-brand/5 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           <div className="relative bg-white rounded-xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.12)] border border-border/50 overflow-hidden">
             {/* Browser bar */}
             <div className="flex items-center gap-1.5 px-4 py-2.5 bg-slate-light/50 border-b border-border/40">
@@ -143,15 +167,24 @@ function FeatureRow({
               <div className="w-2 h-2 rounded-full bg-yellow-400/50" />
               <div className="w-2 h-2 rounded-full bg-green-400/50" />
               <div className="ml-2 flex-1 h-4 bg-white/70 rounded text-[9px] text-muted-foreground flex items-center px-2">
-                dsp-operations-platform.app
+                dspops.app
               </div>
             </div>
-            <img
-              src={feature.image}
-              alt={feature.imageAlt}
-              className="w-full"
-              loading="lazy"
-            />
+            <div className="relative">
+              <img
+                src={feature.image}
+                alt={feature.imageAlt}
+                className="w-full"
+                loading="lazy"
+              />
+              {/* Fullscreen hint overlay */}
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 flex items-center justify-center">
+                <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 flex items-center gap-2 shadow-lg">
+                  <Expand size={16} className="text-navy" />
+                  <span className="text-sm font-medium text-navy">Click to enlarge</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -161,6 +194,13 @@ function FeatureRow({
 
 export default function FeaturesSection() {
   const { ref, isVisible } = useScrollAnimation(0.1);
+  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
+  const [lightboxAlt, setLightboxAlt] = useState("");
+
+  const handleImageClick = (src: string, alt: string) => {
+    setLightboxSrc(src);
+    setLightboxAlt(alt);
+  };
 
   return (
     <section id="features" className="py-20 lg:py-28 relative">
@@ -178,14 +218,14 @@ export default function FeaturesSection() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-amber">
+          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">
             Features
           </span>
           <h2 className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-extrabold text-navy tracking-tight">
             Everything you need to run<br className="hidden sm:block" /> your DSP efficiently
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            Six powerful modules that replace spreadsheets, third-party tools, and
+            Eight powerful modules that replace spreadsheets, third-party tools, and
             manual processes — all in one platform.
           </p>
         </div>
@@ -193,10 +233,22 @@ export default function FeaturesSection() {
         {/* Feature Rows */}
         <div className="space-y-20 lg:space-y-32">
           {features.map((feature, i) => (
-            <FeatureRow key={feature.label} feature={feature} index={i} />
+            <FeatureRow
+              key={feature.label}
+              feature={feature}
+              index={i}
+              onImageClick={handleImageClick}
+            />
           ))}
         </div>
       </div>
+
+      {/* Lightbox */}
+      <Lightbox
+        src={lightboxSrc}
+        alt={lightboxAlt}
+        onClose={() => setLightboxSrc(null)}
+      />
     </section>
   );
 }
