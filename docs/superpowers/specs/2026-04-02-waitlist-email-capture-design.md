@@ -87,14 +87,51 @@ Both `EmailCaptureInline` and `CTASection` share this behavior:
 
 ### File structure
 - `server/db.ts` — Database connection pool + table init
-- `server/routes/waitlist.ts` — API route handlers
+- `server/routes/waitlist.ts` — Waitlist API route handlers
+- `server/routes/admin.ts` — Admin API route handlers (login + data)
 - `server/index.ts` — Register new routes before the catch-all
+- `client/src/pages/Admin.tsx` — Admin dashboard page
+
+## Admin Page
+
+### Purpose
+Password-protected page at `/admin` where the project owner can view all waitlist signups.
+
+### Authentication
+- Simple password gate — not a full user/auth system
+- Password stored as `ADMIN_PASSWORD` environment variable (not hardcoded)
+- **Flow:** User visits `/admin` → sees a password input → enters password → POST to `/api/admin/login` → server compares against env var → returns a session token (simple JWT or random token stored in memory)
+- Token stored in `sessionStorage` (cleared when browser tab closes)
+- All admin API calls include the token in the Authorization header
+
+### API Endpoints
+
+**POST `/api/admin/login`**
+- Body: `{ "password": "string" }`
+- Returns: `{ "success": true, "token": "string" }` or 401
+
+**GET `/api/admin/waitlist`**
+- Header: `Authorization: Bearer <token>`
+- Returns: `{ "entries": [...], "total": number }`
+- Sorted by `created_at` descending (newest first)
+
+### Admin Page UI
+- Clean table showing: Name, Email, Phone, Signed Up (date)
+- Total count at the top
+- Empty name/phone cells show "—" (user only completed step 1)
+- Simple, functional design — no need for heavy styling
+
+### File structure
+- `client/src/pages/Admin.tsx` — Admin page component
+- `server/routes/admin.ts` — Admin API route handlers
+- Route added to wouter in `App.tsx`
 
 ## Environment Variables
 
-| Variable      | Description                  | Required |
-|---------------|------------------------------|----------|
-| DATABASE_URL  | Neon PostgreSQL connection string | Yes |
+| Variable       | Description                      | Required |
+|----------------|----------------------------------|----------|
+| DATABASE_URL   | Neon PostgreSQL connection string | Yes     |
+| ADMIN_PASSWORD | Password for admin page access   | Yes     |
 
 Must be set in Railway (deployment) and locally in `.env` (gitignored).
 
@@ -102,5 +139,7 @@ Must be set in Railway (deployment) and locally in `.env` (gitignored).
 
 - Server-side email validation (never trust client)
 - Parameterized SQL queries (prevent SQL injection)
+- Admin password stored in environment variable, never in code
+- Admin token validated on every request
 - Rate limiting not included in v1 (can add later if spam becomes an issue)
 - `.env` file gitignored — credentials never committed
