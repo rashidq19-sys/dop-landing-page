@@ -2,6 +2,9 @@ import express from "express";
 import { createServer } from "http";
 import path from "path";
 import { fileURLToPath } from "url";
+import { initDb } from "./db.js";
+import waitlistRoutes from "./routes/waitlist.js";
+import adminRoutes from "./routes/admin.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -9,6 +12,16 @@ const __dirname = path.dirname(__filename);
 async function startServer() {
   const app = express();
   const server = createServer(app);
+
+  // Parse JSON request bodies
+  app.use(express.json());
+
+  // Initialize database
+  await initDb();
+
+  // API routes (must come before static/catch-all)
+  app.use("/api/waitlist", waitlistRoutes);
+  app.use("/api/admin", adminRoutes);
 
   // Serve static files from dist/public in production
   const staticPath =
