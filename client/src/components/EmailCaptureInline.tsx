@@ -6,6 +6,7 @@ interface EmailCaptureInlineProps {
   buttonText?: string;
   placeholder?: string;
   className?: string;
+  source?: string;
 }
 
 type FormStep = "email" | "details" | "done";
@@ -15,6 +16,7 @@ export default function EmailCaptureInline({
   buttonText = "Get Early Access",
   placeholder = "Enter your email",
   className = "",
+  source = "",
 }: EmailCaptureInlineProps) {
   const [step, setStep] = useState<FormStep>("email");
   const [email, setEmail] = useState("");
@@ -43,7 +45,7 @@ export default function EmailCaptureInline({
       const res = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, source }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Something went wrong");

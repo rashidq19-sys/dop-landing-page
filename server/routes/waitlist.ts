@@ -5,7 +5,7 @@ const router = Router();
 
 // POST /api/waitlist — Step 1: capture email
 router.post("/", async (req, res) => {
-  const { email } = req.body;
+  const { email, source } = req.body;
 
   if (!email || typeof email !== "string") {
     return res.status(400).json({ error: "Email is required" });
@@ -20,11 +20,12 @@ router.post("/", async (req, res) => {
   }
 
   try {
+    const cleanSource = typeof source === "string" ? source.trim() : null;
     const result = await pool.query(
-      `INSERT INTO waitlist (email) VALUES ($1)
+      `INSERT INTO waitlist (email, source) VALUES ($1, $2)
        ON CONFLICT (email) DO UPDATE SET updated_at = waitlist.updated_at
        RETURNING id`,
-      [cleanEmail]
+      [cleanEmail, cleanSource]
     );
     res.json({ success: true, id: result.rows[0].id });
   } catch (err) {

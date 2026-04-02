@@ -14,9 +14,14 @@ export async function initDb() {
       email VARCHAR(255) UNIQUE NOT NULL,
       name VARCHAR(255),
       phone VARCHAR(50),
+      source VARCHAR(50),
       created_at TIMESTAMP DEFAULT NOW(),
       updated_at TIMESTAMP DEFAULT NOW()
     )
+  `);
+  // Add source column if it doesn't exist (migration for existing tables)
+  await pool.query(`
+    ALTER TABLE waitlist ADD COLUMN IF NOT EXISTS source VARCHAR(50)
   `);
   console.log("Database initialized — waitlist table ready");
 }

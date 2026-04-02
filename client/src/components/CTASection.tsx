@@ -35,6 +35,7 @@ export default function CTASection() {
           <EmailCaptureInline
             variant="dark"
             className="mt-8 max-w-lg mx-auto"
+            source="Bottom CTA"
           />
 
           {/* Or Book Demo */}

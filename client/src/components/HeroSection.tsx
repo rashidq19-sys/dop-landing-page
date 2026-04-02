@@ -68,7 +68,7 @@ export default function HeroSection() {
             </p>
 
             {/* CTAs — Email Capture */}
-            <EmailCaptureInline className="mt-8 max-w-lg" buttonText="Start Saving Time" />
+            <EmailCaptureInline className="mt-8 max-w-lg" buttonText="Start Saving Time" source="Hero" />
 
             <div className="mt-4 flex items-center gap-3">
               <span className="text-sm text-muted-foreground">or</span>
