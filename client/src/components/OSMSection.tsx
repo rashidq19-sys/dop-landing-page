@@ -9,6 +9,7 @@ import { useState } from "react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import Lightbox from "@/components/Lightbox";
 import { CheckCircle2, Expand } from "lucide-react";
+import EmailCaptureInline from "@/components/EmailCaptureInline";
 
 const ROTA_IMG =
   "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/Rota_aa854325.webp";
@@ -110,6 +111,9 @@ export default function OSMSection() {
                 </li>
               ))}
             </ul>
+
+            {/* Email CTA */}
+            <EmailCaptureInline className="mt-8 max-w-lg" buttonText="Make Mornings Easy" />
           </div>
         </div>
       </div>

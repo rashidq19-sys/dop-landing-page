@@ -8,7 +8,8 @@
 import { useState } from "react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { useCountUp } from "@/hooks/useCountUp";
-import { ArrowRight, Calendar, Expand } from "lucide-react";
+import { Calendar, Expand } from "lucide-react";
+import EmailCaptureInline from "@/components/EmailCaptureInline";
 import Lightbox from "@/components/Lightbox";
 
 const DASHBOARD_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/Dashboard_c175dc22.webp";
@@ -66,18 +67,14 @@ export default function HeroSection() {
               <span className="font-semibold text-navy">No more spreadsheets. No more juggling 3 different apps.</span>
             </p>
 
-            {/* CTAs */}
-            <div className="mt-8 flex flex-col sm:flex-row gap-3">
-              <a
-                href="#pricing"
-                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-brand hover:bg-brand-dark text-white font-semibold rounded-lg transition-all duration-200 shadow-[0_4px_14px_0_rgba(59,130,246,0.35)] hover:shadow-[0_6px_20px_0_rgba(59,130,246,0.45)] hover:-translate-y-0.5"
-              >
-                Get Early Access
-                <ArrowRight size={18} />
-              </a>
+            {/* CTAs — Email Capture */}
+            <EmailCaptureInline className="mt-8 max-w-lg" buttonText="Start Saving Time" />
+
+            <div className="mt-4 flex items-center gap-3">
+              <span className="text-sm text-muted-foreground">or</span>
               <a
                 href="#book-demo"
-                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-white border border-border text-navy font-semibold rounded-lg hover:bg-slate-light transition-all duration-200"
+                className="inline-flex items-center gap-2 px-6 py-2.5 bg-white border border-border text-navy font-semibold rounded-lg hover:bg-slate-light transition-all duration-200 text-sm"
               >
                 <Calendar size={16} className="text-brand" />
                 Book a 15-Min Demo

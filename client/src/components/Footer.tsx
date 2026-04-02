@@ -110,7 +110,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="mt-12 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-white/40">
-            &copy; {new Date().getFullYear()} DSPOps. All rights reserved.
+            &copy; {new Date().getFullYear()} DSP<span className="text-brand">Ops</span>. All rights reserved.
           </p>
           <p className="text-xs text-white/30">
             Made with care in the UK

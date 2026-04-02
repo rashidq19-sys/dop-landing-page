@@ -71,7 +71,7 @@ export default function Navbar() {
               Book Demo
             </a>
             <a
-              href="#pricing"
+              href="#book-demo"
               className="text-sm font-semibold text-white bg-brand hover:bg-brand-dark transition-colors px-5 py-2.5 rounded-lg"
             >
               Get Early Access
@@ -104,7 +104,7 @@ export default function Navbar() {
             ))}
             <div className="pt-3 border-t border-border mt-3">
               <a
-                href="#pricing"
+                href="#book-demo"
                 onClick={() => setMobileOpen(false)}
                 className="block w-full text-center text-sm font-semibold text-white bg-brand hover:bg-brand-dark transition-colors px-5 py-2.5 rounded-lg"
               >

@@ -5,6 +5,7 @@
 
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { UserPlus, Settings, Rocket } from "lucide-react";
+import EmailCaptureInline from "@/components/EmailCaptureInline";
 
 const steps = [
   {
@@ -42,7 +43,7 @@ export default function HowItWorksSection() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-amber">
+          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">
             Getting started
           </span>
           <h2 className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-extrabold text-navy tracking-tight">
@@ -58,7 +59,7 @@ export default function HowItWorksSection() {
           {/* Connecting line (desktop) */}
           <div className="hidden md:block absolute top-16 left-[16.67%] right-[16.67%] h-[2px] bg-border" />
 
-          {steps.map((step, i) => (
+          {steps.map((step, i: number) => (
             <div
               key={step.step}
               className={`relative text-center transition-all duration-700 ${
@@ -67,9 +68,9 @@ export default function HowItWorksSection() {
               style={{ transitionDelay: `${i * 150 + 200}ms` }}
             >
               {/* Step number circle */}
-              <div className="relative inline-flex items-center justify-center w-16 h-16 rounded-full bg-amber/10 border-2 border-amber mb-6 z-10">
-                <step.icon size={24} className="text-amber" />
-                <span className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-amber text-white text-[10px] font-bold flex items-center justify-center">
+              <div className="relative inline-flex items-center justify-center w-16 h-16 rounded-full bg-brand/10 border-2 border-brand mb-6 z-10">
+                <step.icon size={24} className="text-brand" />
+                <span className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-brand text-white text-[10px] font-bold flex items-center justify-center">
                   {step.step}
                 </span>
               </div>
@@ -80,6 +81,19 @@ export default function HowItWorksSection() {
               </p>
             </div>
           ))}
+        </div>
+
+        {/* Email CTA */}
+        <div
+          className={`mt-14 text-center transition-all duration-700 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+          style={{ transitionDelay: "600ms" }}
+        >
+          <p className="text-lg font-semibold text-navy mb-4">
+            Ready to save 3+ hours every day?
+          </p>
+          <EmailCaptureInline className="max-w-lg mx-auto" buttonText="Get Started Free" />
         </div>
       </div>
     </section>

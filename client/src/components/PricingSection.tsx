@@ -3,8 +3,9 @@
  * Pricing: 3 tiers, middle highlighted. CTAs updated to Get Early Access / Book a Demo
  */
 
+import { useState } from "react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { Check, Star } from "lucide-react";
+import { Check, Star, ArrowRight } from "lucide-react";
 
 const plans = [
   {
@@ -64,6 +65,40 @@ const plans = [
   },
 ];
 
+function PricingEmailCapture({ popular }: { popular: boolean }) {
+  const [email, setEmail] = useState("");
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email) {
+      alert("Thanks! We'll be in touch soon.");
+      setEmail("");
+    }
+  };
+  return (
+    <form onSubmit={handleSubmit} className="space-y-2 mb-6">
+      <input
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="Enter your email"
+        required
+        className="w-full px-4 py-2.5 rounded-lg border border-border bg-white text-navy placeholder:text-muted-foreground text-sm focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-colors"
+      />
+      <button
+        type="submit"
+        className={`w-full flex items-center justify-center gap-2 py-3 rounded-lg font-semibold transition-all duration-200 ${
+          popular
+            ? "bg-brand hover:bg-brand-dark text-white shadow-[0_4px_14px_0_rgba(59,130,246,0.3)]"
+            : "bg-navy/5 hover:bg-navy/10 text-navy"
+        }`}
+      >
+        Start Free Trial
+        <ArrowRight size={16} />
+      </button>
+    </form>
+  );
+}
+
 export default function PricingSection() {
   const { ref, isVisible } = useScrollAnimation(0.1);
 
@@ -76,7 +111,7 @@ export default function PricingSection() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-amber">
+          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">
             Simple pricing
           </span>
           <h2 className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-extrabold text-navy tracking-tight">
@@ -113,6 +148,14 @@ export default function PricingSection() {
                 <p className="text-sm text-muted-foreground mt-1">{plan.description}</p>
               </div>
 
+              {plan.price !== "Custom" && (
+                <div className="mb-3 inline-flex items-center gap-1.5 px-3 py-1 bg-green-50 border border-green-200 rounded-full whitespace-nowrap">
+                  <span className="text-[11px] font-semibold text-green-700">
+                    14-day free trial — no card required
+                  </span>
+                </div>
+              )}
+
               <div className="mb-6">
                 <div className="flex items-baseline gap-1">
                   {plan.price !== "Custom" && (
@@ -128,16 +171,7 @@ export default function PricingSection() {
                 <p className="text-sm text-brand font-medium mt-1">{plan.drivers}</p>
               </div>
 
-              <a
-                href={plan.cta === "Book a Demo" ? "#book-demo" : "#pricing"}
-                className={`block w-full text-center py-3 rounded-lg font-semibold transition-all duration-200 mb-6 ${
-                  plan.popular
-                    ? "bg-brand hover:bg-brand-dark text-white shadow-[0_4px_14px_0_rgba(59,130,246,0.3)]"
-                    : "bg-navy/5 hover:bg-navy/10 text-navy"
-                }`}
-              >
-                {plan.cta}
-              </a>
+              <PricingEmailCapture popular={plan.popular} />
 
               <ul className="space-y-3">
                 {plan.features.map((feature) => (
@@ -145,7 +179,7 @@ export default function PricingSection() {
                     <Check
                       size={16}
                       className={`shrink-0 mt-0.5 ${
-                        plan.popular ? "text-brand" : "text-green-500"
+                        plan.popular ? "text-amber-500" : "text-green-500"
                       }`}
                     />
                     <span className="text-sm text-navy/80">{feature}</span>

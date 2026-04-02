@@ -84,10 +84,10 @@ export default function MorningStoryboardSection() {
             See it in action
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
-            A morning with DSPOps
+            A morning with DSP<span className="text-brand">Ops</span>
           </h2>
           <p className="mt-4 text-lg text-white/60 max-w-2xl mx-auto">
-            It's 6:00 AM. Dispatch starts. Here's how DSPOps keeps everything
+            It's 6:00 AM. Dispatch starts. Here's how DSP<span className="text-brand">Ops</span> keeps everything
             running smoothly.
           </p>
         </div>

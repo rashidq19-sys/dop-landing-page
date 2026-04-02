@@ -9,7 +9,7 @@ import { Quote } from "lucide-react";
 const testimonials = [
   {
     quote:
-      "DSPOps replaced three different tools we were using. The scheduling alone saves me 3 hours a day. I actually get to go home on time now.",
+      <>DSP<span className="text-brand">Ops</span> replaced three different tools we were using. The scheduling alone saves me 3 hours a day. I actually get to go home on time now.</>,
     name: "James T.",
     role: "DSP Owner, Manchester",
     initials: "JT",

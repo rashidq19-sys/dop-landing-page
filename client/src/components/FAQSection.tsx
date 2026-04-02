@@ -6,6 +6,7 @@
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
+import EmailCaptureInline from "@/components/EmailCaptureInline";
 
 const faqs = [
   {
@@ -29,9 +30,9 @@ const faqs = [
       "Yes, they get their own portal app. It's simple — shifts, pay, performance, damage uploads, all in one place. No more juggling multiple apps.",
   },
   {
-    question: "What makes DSPOps different from Zerity or Courio?",
+    question: <>What makes DSP<span className="text-brand">Ops</span> different from Zerity or Courio?</>,
     answer:
-      "DSPOps bundles everything — scheduling, damage detection, payroll, driver portal — in one platform. Others require separate tools for each. Built by an OSM who understands DSP operations firsthand.",
+      <>DSP<span className="text-brand">Ops</span> bundles everything — scheduling, damage detection, payroll, driver portal — in one platform. Others require separate tools for each. Built by an OSM who understands DSP operations firsthand.</>,
   },
   {
     question: "Is my data secure?",
@@ -46,7 +47,7 @@ const faqs = [
   {
     question: "How does automated payroll work?",
     answer:
-      "DSPOps pulls shift data, applies your pay rules and deductions, and generates payroll reports. Export directly for your accountant — no more reformatting spreadsheets.",
+      <>DSP<span className="text-brand">Ops</span> pulls shift data, applies your pay rules and deductions, and generates payroll reports. Export directly for your accountant — no more reformatting spreadsheets.</>,
   },
 ];
 
@@ -65,13 +66,13 @@ function FAQItem({
         onClick={onToggle}
         className="w-full flex items-center justify-between py-5 text-left group"
       >
-        <span className="text-base lg:text-lg font-semibold text-navy pr-4 group-hover:text-amber transition-colors">
+        <span className="text-base lg:text-lg font-semibold text-navy pr-4 group-hover:text-brand transition-colors">
           {faq.question}
         </span>
         <ChevronDown
           size={18}
           className={`shrink-0 text-muted-foreground transition-transform duration-300 ${
-            isOpen ? "rotate-180 text-amber" : ""
+            isOpen ? "rotate-180 text-brand" : ""
           }`}
         />
       </button>
@@ -102,7 +103,7 @@ export default function FAQSection() {
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
             }`}
           >
-            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-amber">
+            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">
               FAQ
             </span>
             <h2 className="mt-3 text-3xl sm:text-4xl font-extrabold text-navy tracking-tight">
@@ -113,11 +114,19 @@ export default function FAQSection() {
             </p>
             <a
               href="mailto:support@dspops.app"
-              className="inline-flex items-center gap-2 mt-6 text-sm font-semibold text-amber hover:text-amber-dark transition-colors"
+              className="inline-flex items-center gap-2 mt-6 text-sm font-semibold text-brand hover:text-brand-dark transition-colors"
             >
               Contact Support
               <span className="text-lg">&rarr;</span>
             </a>
+
+            {/* Email CTA */}
+            <div className="mt-8">
+              <p className="text-sm font-semibold text-navy mb-3">
+                Ready to get started?
+              </p>
+              <EmailCaptureInline className="max-w-sm" buttonText="Join The Waitlist" />
+            </div>
           </div>
 
           {/* Right — Accordion */}

@@ -1,5 +1,6 @@
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { X, Check } from "lucide-react";
+import EmailCaptureInline from "@/components/EmailCaptureInline";
 
 const withoutItems = [
   "Scheduling in spreadsheets — hours every week",
@@ -36,7 +37,7 @@ export default function BeforeAfterSection() {
           }`}
         >
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-navy">
-            Without DSPOps vs With DSPOps
+            Before & After DSP<span className="text-brand">Ops</span>
           </h2>
         </div>
 
@@ -53,7 +54,7 @@ export default function BeforeAfterSection() {
           >
             <h3 className="text-xl font-semibold text-red-700 mb-6 flex items-center gap-2">
               <X className="w-6 h-6 text-red-500" />
-              Without DSPOps
+              The Old Way
             </h3>
             <ul className="space-y-4">
               {withoutItems.map((item, index) => (
@@ -84,7 +85,7 @@ export default function BeforeAfterSection() {
           >
             <h3 className="text-xl font-semibold text-green-700 mb-6 flex items-center gap-2">
               <Check className="w-6 h-6 text-green-500" />
-              With DSPOps
+              <span>With <span className="text-navy">DSP</span><span className="text-brand">Ops</span></span>
             </h3>
             <ul className="space-y-4">
               {withItems.map((item, index) => (
@@ -103,6 +104,19 @@ export default function BeforeAfterSection() {
               ))}
             </ul>
           </div>
+        </div>
+
+        {/* Email CTA */}
+        <div
+          className={`mt-12 text-center transition-all duration-700 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+          style={{ transitionDelay: "800ms" }}
+        >
+          <p className="text-lg font-semibold text-navy mb-4">
+            See the difference for yourself
+          </p>
+          <EmailCaptureInline className="max-w-lg mx-auto" buttonText="Make The Switch" />
         </div>
       </div>
     </section>

@@ -12,10 +12,8 @@ import OwnerSection from "@/components/OwnerSection";
 import OSMSection from "@/components/OSMSection";
 import DriverPortalSection from "@/components/DriverPortalSection";
 import HowItWorksSection from "@/components/HowItWorksSection";
-import MorningStoryboardSection from "@/components/MorningStoryboardSection";
 import BeforeAfterSection from "@/components/BeforeAfterSection";
-import CostCalculatorSection from "@/components/CostCalculatorSection";
-import VideoSection from "@/components/VideoSection";
+// import VideoSection from "@/components/VideoSection";
 import PricingSection from "@/components/PricingSection";
 import FAQSection from "@/components/FAQSection";
 import CTASection from "@/components/CTASection";
@@ -38,19 +36,13 @@ export default function Home() {
         <DriverPortalSection />
         {/* 6. How It Works */}
         <HowItWorksSection />
-        {/* 7. A Morning With DSPOps */}
-        <MorningStoryboardSection />
-        {/* 8. Before vs After */}
+        {/* 7. Before & After */}
         <BeforeAfterSection />
-        {/* 9. Cost Calculator */}
-        <CostCalculatorSection />
-        {/* 10. Video Demo */}
-        <VideoSection />
-        {/* 11. Pricing */}
+        {/* 8. Pricing */}
         <PricingSection />
-        {/* 12. FAQ */}
+        {/* 9. FAQ */}
         <FAQSection />
-        {/* 13. Final CTA */}
+        {/* 10. Final CTA */}
         <CTASection />
       </main>
       <Footer />

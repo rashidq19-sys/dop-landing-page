@@ -5,6 +5,7 @@
 
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { Clock, Wrench, EyeOff, FileText, Smartphone, MessageSquareWarning } from "lucide-react";
+import EmailCaptureInline from "@/components/EmailCaptureInline";
 
 const problems = [
   {
@@ -96,29 +97,26 @@ export default function ProblemsSection() {
           ))}
         </div>
 
-        {/* Total Cost Callout */}
+        {/* Time Waste Callout + Email CTA */}
         <div
-          className={`mt-10 p-6 lg:p-8 rounded-xl bg-navy text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition-all duration-700 delay-600 ${
+          className={`mt-10 p-6 lg:p-8 rounded-xl bg-navy text-white transition-all duration-700 delay-600 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <div>
-            <p className="text-sm font-medium text-white/60 uppercase tracking-wider">
-              The cost of doing nothing
-            </p>
-            <p className="text-3xl lg:text-4xl font-extrabold mt-1">
-              £8,400 – £15,600<span className="text-lg font-medium text-white/60">/year</span>
-            </p>
-            <p className="text-sm text-white/50 mt-1">
-              in wasted time, extra tools, and missed performance improvements
-            </p>
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+            <div>
+              <p className="text-sm font-medium text-white/60 uppercase tracking-wider">
+                Time you could get back
+              </p>
+              <p className="text-3xl lg:text-4xl font-extrabold mt-1">
+                750+ hours<span className="text-lg font-medium text-white/60">/year</span>
+              </p>
+              <p className="text-sm text-white/50 mt-1">
+                wasted on manual scheduling, payroll, and juggling multiple tools
+              </p>
+            </div>
+            <EmailCaptureInline variant="dark" className="w-full lg:max-w-md" buttonText="Stop Wasting Time" />
           </div>
-          <a
-            href="#pricing"
-            className="shrink-0 px-6 py-3 bg-brand hover:bg-brand-dark text-white font-semibold rounded-lg transition-colors"
-          >
-            See How We Fix This
-          </a>
         </div>
       </div>
     </section>

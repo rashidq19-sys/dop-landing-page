@@ -51,7 +51,7 @@ export default function VideoSection() {
             See It In Action
           </span>
           <h2 className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
-            Watch how DSPOps transforms<br className="hidden sm:block" /> your daily operations
+            Watch how DSP<span className="text-brand">Ops</span> transforms<br className="hidden sm:block" /> your daily operations
           </h2>
           <p className="mt-4 text-lg text-white/60">
             A quick walkthrough of the platform — from scheduling to dispatch to payroll.

@@ -50,7 +50,7 @@ export default function CostCalculatorSection() {
             How much is your current setup costing you?
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            Enter your DSP details and see what you could save with DSPOps.
+            Enter your DSP details and see what you could save with DSP<span className="text-brand">Ops</span>.
           </p>
         </div>
 
@@ -124,7 +124,7 @@ export default function CostCalculatorSection() {
           <div className="bg-navy text-white rounded-xl p-8 flex flex-col justify-between">
             <div>
               <h3 className="text-lg font-bold mb-6 flex items-center gap-2">
-                <TrendingDown size={20} className="text-amber" />
+                <TrendingDown size={20} className="text-green-400" />
                 Your estimated savings
               </h3>
 
@@ -171,7 +171,7 @@ export default function CostCalculatorSection() {
                   ) : (
                     <div>
                       <span className="text-sm text-white/60">Estimated net savings</span>
-                      <p className="text-lg font-semibold text-amber mt-1">
+                      <p className="text-lg font-semibold text-brand-light mt-1">
                         Contact us for a custom quote
                       </p>
                     </div>

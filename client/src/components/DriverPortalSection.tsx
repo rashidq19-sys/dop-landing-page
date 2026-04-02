@@ -9,6 +9,7 @@ import { useState } from "react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import Lightbox from "@/components/Lightbox";
 import { CheckCircle2, Expand } from "lucide-react";
+import EmailCaptureInline from "@/components/EmailCaptureInline";
 
 const DRIVER_PORTAL_IMG =
   "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/Drivers_86b5a1e8.webp";
@@ -38,7 +39,7 @@ export default function DriverPortalSection() {
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
           >
-            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-500">
+            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">
               For Your Drivers (so they stop coming to you)
             </span>
 
@@ -58,7 +59,7 @@ export default function DriverPortalSection() {
                 <li key={benefit} className="flex items-start gap-3">
                   <CheckCircle2
                     size={20}
-                    className="text-amber-500 mt-0.5 shrink-0"
+                    className="text-brand mt-0.5 shrink-0"
                   />
                   <span className="text-sm lg:text-base text-muted-foreground leading-relaxed">
                     {benefit}
@@ -74,6 +75,9 @@ export default function DriverPortalSection() {
                 operation
               </p>
             </div>
+
+            {/* Email CTA */}
+            <EmailCaptureInline className="mt-8 max-w-lg" buttonText="Give Drivers Their Own Portal" />
           </div>
 
           {/* Screenshot — Right */}
