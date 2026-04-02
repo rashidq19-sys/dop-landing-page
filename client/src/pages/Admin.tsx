@@ -43,6 +43,12 @@ export default function Admin() {
   };
 
   const handleLogout = () => {
+    if (token) {
+      fetch("/api/admin/logout", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+      }).catch(() => {});
+    }
     sessionStorage.removeItem("admin_token");
     setToken("");
     setEntries([]);

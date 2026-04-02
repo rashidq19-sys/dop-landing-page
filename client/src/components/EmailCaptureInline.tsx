@@ -146,29 +146,31 @@ export default function EmailCaptureInline({
 
   // Step 1: Email
   return (
-    <form
-      onSubmit={handleEmailSubmit}
-      className={`flex flex-col sm:flex-row items-center gap-3 ${className}`}
-    >
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder={placeholder}
-        required
-        className={`flex-1 sm:w-auto ${inputClass}`}
-      />
-      {error && (
-        <p className={`text-sm w-full ${isDark ? "text-red-300" : "text-red-600"}`}>{error}</p>
-      )}
-      <button
-        type="submit"
-        disabled={loading}
-        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-brand hover:bg-brand-dark text-white font-semibold rounded-lg transition-all duration-200 shadow-[0_4px_14px_0_rgba(59,130,246,0.35)] hover:shadow-[0_6px_20px_0_rgba(59,130,246,0.45)] hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
+    <div className={className}>
+      <form
+        onSubmit={handleEmailSubmit}
+        className="flex flex-col sm:flex-row items-center gap-3"
       >
-        {loading ? <Loader2 size={18} className="animate-spin" /> : buttonText}
-        {!loading && <ArrowRight size={18} />}
-      </button>
-    </form>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder={placeholder}
+          required
+          className={`flex-1 sm:w-auto ${inputClass}`}
+        />
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-brand hover:bg-brand-dark text-white font-semibold rounded-lg transition-all duration-200 shadow-[0_4px_14px_0_rgba(59,130,246,0.35)] hover:shadow-[0_6px_20px_0_rgba(59,130,246,0.45)] hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {loading ? <Loader2 size={18} className="animate-spin" /> : buttonText}
+          {!loading && <ArrowRight size={18} />}
+        </button>
+      </form>
+      {error && (
+        <p className={`text-sm mt-2 ${isDark ? "text-red-300" : "text-red-600"}`}>{error}</p>
+      )}
+    </div>
   );
 }

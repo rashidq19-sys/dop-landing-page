@@ -11,18 +11,20 @@ router.post("/", async (req, res) => {
     return res.status(400).json({ error: "Email is required" });
   }
 
+  const cleanEmail = email.toLowerCase().trim();
+
   // Basic email format validation
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
+  if (!emailRegex.test(cleanEmail)) {
     return res.status(400).json({ error: "Invalid email format" });
   }
 
   try {
     const result = await pool.query(
       `INSERT INTO waitlist (email) VALUES ($1)
-       ON CONFLICT (email) DO UPDATE SET email = EXCLUDED.email
+       ON CONFLICT (email) DO UPDATE SET updated_at = waitlist.updated_at
        RETURNING id`,
-      [email.toLowerCase().trim()]
+      [cleanEmail]
     );
     res.json({ success: true, id: result.rows[0].id });
   } catch (err) {
@@ -33,7 +35,10 @@ router.post("/", async (req, res) => {
 
 // PATCH /api/waitlist/:id — Step 2: add name + phone
 router.patch("/:id", async (req, res) => {
-  const { id } = req.params;
+  const id = parseInt(req.params.id, 10);
+  if (isNaN(id)) {
+    return res.status(400).json({ error: "Invalid ID" });
+  }
   const { name, phone } = req.body;
 
   if (!name || typeof name !== "string" || !name.trim()) {

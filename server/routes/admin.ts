@@ -1,4 +1,5 @@
-import { Router } from "express";
+import { Router, Request, Response, NextFunction } from "express";
+import { timingSafeEqual } from "crypto";
 import { nanoid } from "nanoid";
 import pool from "../db.js";
 
@@ -16,7 +17,8 @@ router.post("/login", (req, res) => {
     return res.status(500).json({ error: "Admin password not configured" });
   }
 
-  if (password !== adminPassword) {
+  if (typeof password !== "string" || password.length !== adminPassword.length ||
+      !timingSafeEqual(Buffer.from(password), Buffer.from(adminPassword))) {
     return res.status(401).json({ error: "Invalid password" });
   }
 
@@ -25,8 +27,17 @@ router.post("/login", (req, res) => {
   res.json({ success: true, token });
 });
 
+// POST /api/admin/logout
+router.post("/logout", (req, res) => {
+  const auth = req.headers.authorization;
+  if (auth?.startsWith("Bearer ")) {
+    validTokens.delete(auth.slice(7));
+  }
+  res.json({ success: true });
+});
+
 // Middleware: verify admin token
-function requireAuth(req: any, res: any, next: any) {
+function requireAuth(req: Request, res: Response, next: NextFunction) {
   const auth = req.headers.authorization;
   if (!auth || !auth.startsWith("Bearer ")) {
     return res.status(401).json({ error: "Unauthorized" });
