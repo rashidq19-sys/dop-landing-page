@@ -1,12 +1,14 @@
 /*
- * Design: Clean Logistics Blueprint — Swiss Design meets SaaS
- * Navbar: Sticky, transparent-to-white on scroll, hairline bottom border
- * Typography: DM Sans 600 for logo, 500 for nav links
- * Color: Navy text, amber accent for CTA
+ * Design: Clean Logistics Blueprint — Dark navy + Blue brand
+ * Navbar: Sticky, transparent-to-white on scroll
+ * Logo: Truck icon from brand assets
+ * Color: Navy text, blue accent for CTA
  */
 
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
+
+const LOGO_URL = "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/dop-logo_ba62af1c.png";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -37,11 +39,13 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <a href="#" className="flex items-center gap-2.5 group">
-            <div className="w-8 h-8 bg-amber rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">D</span>
-            </div>
+            <img
+              src={LOGO_URL}
+              alt="DSP Operations Platform"
+              className="w-9 h-9 rounded-lg"
+            />
             <span className="text-navy font-bold text-lg tracking-tight">
-              DSP<span className="text-amber">Ops</span>
+              DSP<span className="text-brand">Ops</span>
             </span>
           </a>
 
@@ -61,16 +65,16 @@ export default function Navbar() {
           {/* Desktop CTA */}
           <div className="hidden lg:flex items-center gap-3">
             <a
-              href="https://app.dspops.app"
+              href="#book-demo"
               className="text-sm font-medium text-navy/70 hover:text-navy transition-colors px-4 py-2"
             >
-              Sign In
+              Book Demo
             </a>
             <a
-              href="https://app.dspops.app"
-              className="text-sm font-semibold text-white bg-amber hover:bg-amber-dark transition-colors px-5 py-2.5 rounded-lg"
+              href="#pricing"
+              className="text-sm font-semibold text-white bg-brand hover:bg-brand-dark transition-colors px-5 py-2.5 rounded-lg"
             >
-              Start Free Trial
+              Get Early Access
             </a>
           </div>
 
@@ -100,11 +104,11 @@ export default function Navbar() {
             ))}
             <div className="pt-3 border-t border-border mt-3">
               <a
-                href="https://app.dspops.app"
+                href="#pricing"
                 onClick={() => setMobileOpen(false)}
-                className="block w-full text-center text-sm font-semibold text-white bg-amber hover:bg-amber-dark transition-colors px-5 py-2.5 rounded-lg"
+                className="block w-full text-center text-sm font-semibold text-white bg-brand hover:bg-brand-dark transition-colors px-5 py-2.5 rounded-lg"
               >
-                Start Free Trial
+                Get Early Access
               </a>
             </div>
           </div>

@@ -10,23 +10,23 @@ const steps = [
   {
     icon: UserPlus,
     step: "01",
-    title: "Sign Up in 5 Minutes",
+    title: "Sign Up & Add Your Team",
     description:
-      "Create your account, add your drivers and vans. No complex setup, no IT team needed. Import your existing data or start fresh.",
+      "Create your account, add drivers and vans. Takes about 30 minutes. No complex setup, no IT team needed.",
   },
   {
     icon: Settings,
     step: "02",
-    title: "Connect Your Data",
+    title: "Connect Your Amazon Data",
     description:
-      "Sync with Amazon's Capacity Planning using our bookmarklet. Upload Cortex reports for payroll. Everything flows in automatically.",
+      "Sync with Amazon Cortex, upload capacity planning data with one click. Everything flows in automatically.",
   },
   {
     icon: Rocket,
     step: "03",
     title: "Save Hours Every Day",
     description:
-      "Smart Assign handles scheduling. AI tracks van damage. Payroll calculates itself. You focus on growing your business.",
+      "Automation handles scheduling, damage detection, and payroll. Focus on growing your business.",
   },
 ];
 
@@ -43,11 +43,14 @@ export default function HowItWorksSection() {
           }`}
         >
           <span className="text-xs font-semibold uppercase tracking-[0.2em] text-amber">
-            How It Works
+            Getting started
           </span>
           <h2 className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-extrabold text-navy tracking-tight">
-            Up and running in minutes,<br className="hidden sm:block" /> not months
+            Up and running in 30 minutes
           </h2>
+          <p className="mt-4 text-lg text-muted-foreground">
+            No complex setup. No IT team needed. Just sign up and start saving time.
+          </p>
         </div>
 
         {/* Steps */}

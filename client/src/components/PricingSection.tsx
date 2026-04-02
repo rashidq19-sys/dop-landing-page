@@ -1,7 +1,6 @@
 /*
  * Design: Clean Logistics Blueprint
- * Pricing: 3 horizontal cards, middle one highlighted with amber border
- * Clean comparison layout with checkmarks
+ * Pricing: 3 tiers, middle highlighted. CTAs updated to Get Early Access / Book a Demo
  */
 
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
@@ -15,12 +14,14 @@ const plans = [
     description: "Perfect for small DSPs getting started with automation.",
     drivers: "Up to 30 drivers",
     popular: false,
+    cta: "Get Early Access",
     features: [
-      "Smart Assign scheduling",
+      "Smart scheduling",
       "Driver management",
       "Fleet tracking",
       "Basic compliance alerts",
       "Weekly payroll",
+      "Driver portal",
       "Email support",
     ],
   },
@@ -31,13 +32,15 @@ const plans = [
     description: "The complete toolkit for growing DSP operations.",
     drivers: "Up to 100 drivers",
     popular: true,
+    cta: "Get Early Access",
     features: [
       "Everything in Starter",
       "AI van damage detection",
       "Performance scorecards",
       "Advanced compliance tracking",
       "Reports & analytics",
-      "Capacity planning sync",
+      "Capacity planning",
+      "Amazon Cortex integration",
       "Priority support",
     ],
   },
@@ -48,14 +51,15 @@ const plans = [
     description: "For large DSPs needing unlimited scale and support.",
     drivers: "Unlimited drivers",
     popular: false,
+    cta: "Book a Demo",
     features: [
       "Everything in Professional",
       "Multi-DSP management",
       "Custom integrations",
       "Dedicated account manager",
-      "Custom report builder",
+      "Custom reports",
       "SLA guarantee",
-      "Onboarding assistance",
+      "Onboarding support",
     ],
   },
 ];
@@ -73,14 +77,13 @@ export default function PricingSection() {
           }`}
         >
           <span className="text-xs font-semibold uppercase tracking-[0.2em] text-amber">
-            Pricing
+            Simple pricing
           </span>
           <h2 className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-extrabold text-navy tracking-tight">
-            Simple, transparent pricing
+            One platform. No hidden fees.
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            14-day free trial on all plans. No credit card required.
-            Cancel anytime.
+            Replace 3+ tools with one. Every plan includes a 14-day free trial.
           </p>
         </div>
 
@@ -91,15 +94,15 @@ export default function PricingSection() {
               key={plan.name}
               className={`relative rounded-xl p-6 lg:p-8 transition-all duration-700 ${
                 plan.popular
-                  ? "border-2 border-amber shadow-[0_20px_50px_-12px_rgba(230,126,34,0.2)] scale-[1.02] lg:scale-105"
-                  : "border border-border hover:border-amber/30 hover:shadow-lg"
+                  ? "border-2 border-brand shadow-[0_20px_50px_-12px_rgba(59,130,246,0.2)] scale-[1.02] lg:scale-105"
+                  : "border border-border hover:border-brand/30 hover:shadow-lg"
               } bg-white ${
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}
               style={{ transitionDelay: `${i * 100 + 200}ms` }}
             >
               {plan.popular && (
-                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 inline-flex items-center gap-1 px-3 py-1 bg-amber text-white text-xs font-bold rounded-full">
+                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 inline-flex items-center gap-1 px-3 py-1 bg-brand text-white text-xs font-bold rounded-full">
                   <Star size={12} fill="white" />
                   Most Popular
                 </div>
@@ -122,18 +125,18 @@ export default function PricingSection() {
                     <span className="text-muted-foreground">{plan.period}</span>
                   )}
                 </div>
-                <p className="text-sm text-amber font-medium mt-1">{plan.drivers}</p>
+                <p className="text-sm text-brand font-medium mt-1">{plan.drivers}</p>
               </div>
 
               <a
-                href="https://app.dspops.app"
+                href={plan.cta === "Book a Demo" ? "#book-demo" : "#pricing"}
                 className={`block w-full text-center py-3 rounded-lg font-semibold transition-all duration-200 mb-6 ${
                   plan.popular
-                    ? "bg-amber hover:bg-amber-dark text-white shadow-[0_4px_14px_0_rgba(230,126,34,0.3)]"
+                    ? "bg-brand hover:bg-brand-dark text-white shadow-[0_4px_14px_0_rgba(59,130,246,0.3)]"
                     : "bg-navy/5 hover:bg-navy/10 text-navy"
                 }`}
               >
-                {plan.price === "Custom" ? "Contact Sales" : "Start Free Trial"}
+                {plan.cta}
               </a>
 
               <ul className="space-y-3">
@@ -142,7 +145,7 @@ export default function PricingSection() {
                     <Check
                       size={16}
                       className={`shrink-0 mt-0.5 ${
-                        plan.popular ? "text-amber" : "text-green-500"
+                        plan.popular ? "text-brand" : "text-green-500"
                       }`}
                     />
                     <span className="text-sm text-navy/80">{feature}</span>
@@ -152,6 +155,11 @@ export default function PricingSection() {
             </div>
           ))}
         </div>
+
+        {/* Footer note */}
+        <p className="text-center text-sm text-muted-foreground mt-10">
+          All plans include 14-day free trial. No credit card required. Cancel anytime.
+        </p>
       </div>
     </section>
   );

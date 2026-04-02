@@ -15,7 +15,7 @@ export default function Footer() {
     { label: "About", href: "#" },
     { label: "Blog", href: "#" },
     { label: "Careers", href: "#" },
-    { label: "Contact", href: "mailto:support@dspoperationsplatform.com" },
+    { label: "Contact", href: "mailto:support@dspops.app" },
   ];
 
   const legalLinks = [
@@ -31,19 +31,21 @@ export default function Footer() {
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
             <a href="#" className="flex items-center gap-2.5 mb-4">
-              <div className="w-8 h-8 bg-amber rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">D</span>
-              </div>
+              <img
+                src="https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/dop-logo_ba62af1c.png"
+                alt="DSPOps"
+                className="w-9 h-9 rounded-lg"
+              />
               <span className="font-bold text-lg tracking-tight">
-                DSP<span className="text-amber">Ops</span>
+                DSP<span className="text-brand">Ops</span>
               </span>
             </a>
             <p className="text-sm text-white/50 leading-relaxed max-w-xs">
-              Built by a DSP owner, for DSP owners. The all-in-one platform for
+              Built by an OSM, for DSP owners. The all-in-one platform for
               Amazon DSP operations.
             </p>
             <p className="text-sm text-white/40 mt-4">
-              support@dspoperationsplatform.com
+              support@dspops.app
             </p>
           </div>
 
@@ -108,7 +110,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="mt-12 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-white/40">
-            &copy; {new Date().getFullYear()} DSP Operations Platform. All rights reserved.
+            &copy; {new Date().getFullYear()} DSPOps. All rights reserved.
           </p>
           <p className="text-xs text-white/30">
             Made with care in the UK

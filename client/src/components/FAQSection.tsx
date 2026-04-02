@@ -1,6 +1,6 @@
 /*
  * Design: Clean Logistics Blueprint
- * FAQ: Clean accordion with hairline dividers
+ * FAQ: Clean accordion with 8 questions, updated per redesign spec
  */
 
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
@@ -9,39 +9,44 @@ import { ChevronDown } from "lucide-react";
 
 const faqs = [
   {
-    question: "How is this different from Zerity, Courio, or SimplyFleet?",
+    question: "Does it integrate with Amazon Cortex?",
     answer:
-      "DSPOps is built specifically by a DSP owner who understands the daily pain points. Unlike generic fleet tools, we combine scheduling, van damage detection, invoicing, compliance tracking, and performance scorecards in one platform — purpose-built for Amazon DSP operations. No need to stitch together 4-5 different tools.",
+      "Yes, direct integration. Upload capacity planning data, syncs seamlessly. Scorecard data and performance metrics flow in automatically.",
   },
   {
-    question: "Does it integrate with Amazon DSP?",
+    question: "Can I replace my current van damage app?",
     answer:
-      "Yes. We sync directly with Amazon's Capacity Planning data using a simple browser bookmarklet. Upload your Cortex reports for payroll calculations. Scorecard data can be imported to track driver performance against Amazon's metrics.",
-  },
-  {
-    question: "Is my data secure?",
-    answer:
-      "Absolutely. We use industry-standard encryption for all data in transit and at rest. Your data is stored on secure, SOC 2 compliant servers. We never share your data with third parties, and you maintain full ownership of all your information.",
+      "Yes. AI damage detection is built into the Professional plan. Drivers upload photos and videos, the system detects and documents damage automatically. No separate tool needed — save £200-300/month.",
   },
   {
     question: "How long does setup take?",
     answer:
-      "Most DSPs are fully set up within 30 minutes. Add your drivers, import your van fleet, and you're ready to go. No complex integrations, no IT team required. Our onboarding guide walks you through every step.",
+      "About 30 minutes. Add your drivers, import your van fleet, and connect your Amazon data. No complex integrations, no IT team required.",
   },
   {
-    question: "What is the ROI?",
+    question: "Do my drivers need to download an app?",
     answer:
-      "On average, DSPOps delivers a 5.3x return on investment. You save 3+ hours daily on scheduling alone, eliminate £200-300/month in third-party damage tracking tools, and reduce 5-10 hours/week of manual invoicing. Most customers see positive ROI within the first month.",
+      "Yes, they get their own portal app. It's simple — shifts, pay, performance, damage uploads, all in one place. No more juggling multiple apps.",
+  },
+  {
+    question: "What makes DSPOps different from Zerity or Courio?",
+    answer:
+      "DSPOps bundles everything — scheduling, damage detection, payroll, driver portal — in one platform. Others require separate tools for each. Built by an OSM who understands DSP operations firsthand.",
+  },
+  {
+    question: "Is my data secure?",
+    answer:
+      "SOC 2 compliant, end-to-end encryption, regular security audits. Your data is stored on secure servers and we never share it with third parties.",
   },
   {
     question: "Can I cancel anytime?",
     answer:
-      "Yes, absolutely. All plans are month-to-month with no long-term contracts. You can cancel anytime from your account settings. If you cancel, you'll retain access until the end of your current billing period.",
+      "Yes, month-to-month. No long-term contracts. Cancel from your account settings and retain access until the end of your billing period.",
   },
   {
-    question: "What support do you offer?",
+    question: "How does automated payroll work?",
     answer:
-      "All plans include email support with response times under 24 hours. Professional plans get priority support with faster response times. Enterprise customers receive a dedicated account manager and phone support. We also have comprehensive documentation and video guides.",
+      "DSPOps pulls shift data, applies your pay rules and deductions, and generates payroll reports. Export directly for your accountant — no more reformatting spreadsheets.",
   },
 ];
 
@@ -107,11 +112,11 @@ export default function FAQSection() {
               Can't find what you're looking for? Reach out to our support team.
             </p>
             <a
-              href="mailto:support@dspoperationsplatform.com"
+              href="mailto:support@dspops.app"
               className="inline-flex items-center gap-2 mt-6 text-sm font-semibold text-amber hover:text-amber-dark transition-colors"
             >
               Contact Support
-              <span className="text-lg">→</span>
+              <span className="text-lg">&rarr;</span>
             </a>
           </div>
 

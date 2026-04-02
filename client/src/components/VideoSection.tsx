@@ -1,16 +1,15 @@
 /*
  * Design: Clean Logistics Blueprint
- * Video: Large centered video player with glowing amber border
- * Dark navy background for contrast
- * Now uses the real demo video created from app screenshots
+ * Video: Large centered video player on dark navy background
+ * Updated chapter markers per redesign spec
  */
 
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { Play } from "lucide-react";
 import { useState, useRef } from "react";
 
-const DASHBOARD_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/dashboard_274ee24f.webp";
-const VIDEO_URL = "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/dop-demo-video_421046f0.mp4";
+const DASHBOARD_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/Dashboard_c175dc22.webp";
+const VIDEO_URL = "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/dop-demo-video-v2_e34bfb7f.mp4";
 
 export default function VideoSection() {
   const { ref, isVisible } = useScrollAnimation(0.1);
@@ -19,7 +18,6 @@ export default function VideoSection() {
 
   const handlePlay = () => {
     setPlaying(true);
-    // Small delay to let the video element render
     setTimeout(() => {
       videoRef.current?.play();
     }, 100);
@@ -49,14 +47,14 @@ export default function VideoSection() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-amber">
+          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">
             See It In Action
           </span>
           <h2 className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
             Watch how DSPOps transforms<br className="hidden sm:block" /> your daily operations
           </h2>
           <p className="mt-4 text-lg text-white/60">
-            A quick walkthrough of the platform's key features and how they save you time.
+            A quick walkthrough of the platform — from scheduling to dispatch to payroll.
           </p>
         </div>
 
@@ -66,7 +64,7 @@ export default function VideoSection() {
             isVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-8 scale-[0.98]"
           }`}
         >
-          <div className="relative rounded-xl overflow-hidden shadow-[0_30px_80px_-20px_rgba(230,126,34,0.3)] border border-amber/20">
+          <div className="relative rounded-xl overflow-hidden shadow-[0_30px_80px_-20px_rgba(59,130,246,0.3)] border border-brand/20">
             {!playing ? (
               <div className="relative group cursor-pointer" onClick={handlePlay}>
                 {/* Thumbnail */}
@@ -78,13 +76,13 @@ export default function VideoSection() {
                 <div className="absolute inset-0 bg-navy/40 group-hover:bg-navy/30 transition-colors" />
                 {/* Play Button */}
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-20 h-20 rounded-full bg-amber flex items-center justify-center shadow-[0_0_40px_rgba(230,126,34,0.5)] group-hover:scale-110 transition-transform duration-300">
+                  <div className="w-20 h-20 rounded-full bg-brand flex items-center justify-center shadow-[0_0_40px_rgba(59,130,246,0.5)] group-hover:scale-110 transition-transform duration-300">
                     <Play size={32} className="text-white ml-1" fill="white" />
                   </div>
                 </div>
                 {/* Duration badge */}
                 <div className="absolute bottom-4 right-4 px-3 py-1 bg-black/60 rounded-md text-xs text-white font-medium">
-                  0:42
+                  0:34
                 </div>
               </div>
             ) : (
@@ -105,20 +103,22 @@ export default function VideoSection() {
           </div>
         </div>
 
-        {/* Video Chapter Markers */}
+        {/* Updated Chapter Markers */}
         <div
-          className={`mt-12 grid grid-cols-3 lg:grid-cols-3 gap-6 max-w-3xl mx-auto transition-all duration-700 delay-400 ${
+          className={`mt-12 grid grid-cols-5 gap-4 max-w-4xl mx-auto transition-all duration-700 delay-400 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
           {[
-            { label: "Dashboard & Scheduling", time: "0:03" },
-            { label: "Fleet & Compliance", time: "0:19" },
-            { label: "Reports & Payroll", time: "0:31" },
+            { label: "Dashboard", time: "0:03" },
+            { label: "Scheduling", time: "0:10" },
+            { label: "Dispatch", time: "0:18" },
+            { label: "Damage Detection", time: "0:25" },
+            { label: "Payroll", time: "0:32" },
           ].map((item) => (
             <div
               key={item.label}
-              className="text-center p-4 rounded-lg bg-white/5 border border-white/10 hover:border-amber/30 transition-colors cursor-pointer"
+              className="text-center p-3 rounded-lg bg-white/5 border border-white/10 hover:border-brand/30 transition-colors cursor-pointer"
               onClick={() => {
                 if (videoRef.current) {
                   const [min, sec] = item.time.split(":").map(Number);
@@ -127,7 +127,7 @@ export default function VideoSection() {
                 }
               }}
             >
-              <span className="text-xs text-amber font-mono">{item.time}</span>
+              <span className="text-xs text-brand font-mono">{item.time}</span>
               <p className="text-sm text-white font-medium mt-1">{item.label}</p>
             </div>
           ))}
