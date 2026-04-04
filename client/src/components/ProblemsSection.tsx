@@ -40,9 +40,9 @@ const problems = [
   },
   {
     icon: MessageSquareWarning,
-    title: "Owner & OSM Not on the Same Page",
-    description: "Problems get lost in WhatsApp messages. No shared view of what's going wrong, making future planning impossible.",
-    impact: "Misalignment & firefighting",
+    title: "Everything Buried in WhatsApp Groups",
+    description: "Van photos in one group, routes in another, attendance in a third. With 30+ drivers all messaging at once, your OSM spends half the morning scrolling back to figure out who's submitted what — and who hasn't.",
+    impact: "Hours lost in chat every day",
   },
 ];
 

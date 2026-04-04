@@ -44,12 +44,19 @@ export default function HeroSection() {
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
           >
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand/10 border border-brand/20 mb-6">
-              <span className="w-1.5 h-1.5 rounded-full bg-brand animate-pulse" />
-              <span className="text-xs font-semibold text-brand-dark uppercase tracking-wider">
-                Built by an OSM who lived the 4 AM chaos
-              </span>
+            {/* Badges */}
+            <div className="flex flex-wrap items-center gap-3 mb-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand/10 border border-brand/20">
+                <span className="w-1.5 h-1.5 rounded-full bg-brand animate-pulse" />
+                <span className="text-xs font-semibold text-brand-dark uppercase tracking-wider">
+                  Built by an OSM who lived the 4 AM chaos
+                </span>
+              </div>
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-navy/5 border border-navy/15">
+                <span className="text-xs font-semibold text-navy uppercase tracking-wider">
+                  The only platform built around the DSP 2.0 workflow
+                </span>
+              </div>
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] xl:text-6xl font-extrabold text-navy leading-[1.08] tracking-tight">

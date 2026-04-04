@@ -8,7 +8,7 @@ const withoutItems = [
   "Morning dispatch takes 60+ minutes of chaos",
   "Manual pay calculations — 5-10 hours/week",
   "Drivers constantly asking OSM about shifts and pay",
-  "Owner finds out about problems after the fact",
+  "Scrolling through 5 WhatsApp groups to track 30+ drivers",
   "No clear view of driver performance trends",
   "Reformatting data every time accountant needs it",
 ];
@@ -19,7 +19,7 @@ const withItems = [
   "Dispatch done in 30 minutes — calm, tracked, sorted",
   "Payroll calculated automatically from shift data",
   "Drivers see everything on their own portal",
-  "Owner sees everything in real time from anywhere",
+  "Everything submitted, tracked, and visible in one place",
   "Performance pinpointed per driver — with training",
   "One-click export for your accountant",
 ];
