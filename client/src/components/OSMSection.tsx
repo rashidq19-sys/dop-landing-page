@@ -33,9 +33,9 @@ export default function OSMSection() {
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
       >
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-          {/* Screenshot — LEFT */}
+          {/* Screenshot — LEFT on desktop, BELOW text on mobile */}
           <div
-            className={`transition-all duration-700 ${
+            className={`order-2 lg:order-1 transition-all duration-700 ${
               isVisible
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-12"
@@ -77,9 +77,9 @@ export default function OSMSection() {
             </div>
           </div>
 
-          {/* Text — RIGHT */}
+          {/* Text — RIGHT on desktop, ABOVE screenshot on mobile */}
           <div
-            className={`transition-all duration-700 ${
+            className={`order-1 lg:order-2 transition-all duration-700 ${
               isVisible
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-8"
