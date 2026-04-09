@@ -9,7 +9,6 @@ import { useState } from "react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { useCountUp } from "@/hooks/useCountUp";
 import { Calendar, Expand } from "lucide-react";
-import EmailCaptureInline from "@/components/EmailCaptureInline";
 import Lightbox from "@/components/Lightbox";
 
 const DASHBOARD_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/Dashboard_c175dc22.webp";
@@ -44,19 +43,12 @@ export default function HeroSection() {
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
           >
-            {/* Badges */}
-            <div className="flex flex-wrap items-center gap-3 mb-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand/10 border border-brand/20">
-                <span className="w-1.5 h-1.5 rounded-full bg-brand animate-pulse" />
-                <span className="text-xs font-semibold text-brand-dark uppercase tracking-wider">
-                  Built by an OSM who lived the 4 AM chaos
-                </span>
-              </div>
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-navy/5 border border-navy/15">
-                <span className="text-xs font-semibold text-navy uppercase tracking-wider">
-                  The only platform built around the DSP 2.0 workflow
-                </span>
-              </div>
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand/10 border border-brand/20 mb-6">
+              <span className="w-1.5 h-1.5 rounded-full bg-brand animate-pulse" />
+              <span className="text-xs font-semibold text-brand-dark uppercase tracking-wider">
+                The only platform built around the DSP 2.0 workflow
+              </span>
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] xl:text-6xl font-extrabold text-navy leading-[1.08] tracking-tight">
@@ -71,17 +63,20 @@ export default function HeroSection() {
 
             <p className="mt-6 text-lg sm:text-xl text-navy-light/80 leading-relaxed max-w-xl">
               Scheduling, van damage detection, driver management, and payroll — all in one platform.{" "}
-              <span className="font-semibold text-navy">No more spreadsheets. No more juggling 3 different apps.</span>
+              <span className="font-semibold text-navy">No more spreadsheets. No more WhatsApp chaos. No more juggling 3 different apps.</span>
             </p>
 
-            {/* CTAs — Email Capture */}
-            <EmailCaptureInline className="mt-8 max-w-lg" buttonText="Start Saving Time" source="Hero" />
-
-            <div className="mt-4 flex items-center gap-3">
-              <span className="text-sm text-muted-foreground">or</span>
+            {/* CTAs */}
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              <a
+                href="#pricing"
+                className="inline-flex items-center gap-2 px-8 py-3 bg-brand text-white font-semibold rounded-lg hover:bg-brand/90 transition-all duration-200 text-base shadow-md"
+              >
+                Start Saving Time
+              </a>
               <a
                 href="#book-demo"
-                className="inline-flex items-center gap-2 px-6 py-2.5 bg-white border border-border text-navy font-semibold rounded-lg hover:bg-slate-light transition-all duration-200 text-sm"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-white border border-border text-navy font-semibold rounded-lg hover:bg-slate-light transition-all duration-200 text-base"
               >
                 <Calendar size={16} className="text-brand" />
                 Book a 15-Min Demo
