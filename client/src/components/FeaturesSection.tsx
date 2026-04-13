@@ -30,7 +30,7 @@ const WEEKLY_PAYROLL_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/31051966338855
 const REPORTS_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/Reports_0d90951a.webp";
 const DRIVERS_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/Drivers_86b5a1e8.webp";
 const CAPACITY_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/capacity-planning-new_dfeca29f.webp";
-const LEADERBOARD_IMG = "/images/leaderboard-placeholder.png";
+const LEADERBOARD_IMG = ""; // screenshot not yet available — renders a placeholder div
 
 const features = [
   {
@@ -168,8 +168,8 @@ function FeatureRow({
         }`}
       >
         <div
-          className="relative group cursor-pointer"
-          onClick={() => onImageClick(feature.image, feature.imageAlt)}
+          className={`relative ${feature.image ? "group cursor-pointer" : ""}`}
+          onClick={() => feature.image && onImageClick(feature.image, feature.imageAlt)}
         >
           <div className="absolute -inset-3 bg-brand/5 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           <div className="relative bg-white rounded-xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.12)] border border-border/50 overflow-hidden">
@@ -183,19 +183,27 @@ function FeatureRow({
               </div>
             </div>
             <div className="relative">
-              <img
-                src={feature.image}
-                alt={feature.imageAlt}
-                className="w-full"
-                loading="lazy"
-              />
-              {/* Fullscreen hint overlay */}
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 flex items-center justify-center">
-                <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 flex items-center gap-2 shadow-lg">
-                  <Expand size={16} className="text-navy" />
-                  <span className="text-sm font-medium text-navy">Click to enlarge</span>
+              {feature.image ? (
+                <>
+                  <img
+                    src={feature.image}
+                    alt={feature.imageAlt}
+                    className="w-full"
+                    loading="lazy"
+                  />
+                  {/* Fullscreen hint overlay */}
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 flex items-center justify-center">
+                    <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 flex items-center gap-2 shadow-lg">
+                      <Expand size={16} className="text-navy" />
+                      <span className="text-sm font-medium text-navy">Click to enlarge</span>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <div className="w-full aspect-video bg-slate-100 flex items-center justify-center">
+                  <span className="text-sm text-muted-foreground">Screenshot coming soon</span>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>

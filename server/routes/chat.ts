@@ -44,19 +44,26 @@ router.post("/", async (req, res) => {
   }
 
   try {
+    // Anthropic API requires the first message to have role "user".
+    // Drop any leading assistant messages (the initial greeting lives in frontend state only).
+    const apiMessages = messages.filter(
+      (m, i) => !(i === 0 && m.role === "assistant")
+    );
+
     const response = await client.messages.create({
       model: "claude-haiku-4-5-20251001",
       max_tokens: 1024,
       system: SYSTEM_PROMPT,
-      messages: messages.map((m) => ({ role: m.role, content: m.content })),
+      messages: apiMessages.map((m) => ({ role: m.role, content: m.content })),
     });
 
     const reply =
       response.content[0].type === "text" ? response.content[0].text : "";
 
-    // Fire-and-forget notification email on first message
-    if (messages.length === 1) {
-      const visitorQuestion = messages[0].content;
+    // Fire-and-forget notification email on the user's first message
+    const userMessageCount = messages.filter((m) => m.role === "user").length;
+    if (userMessageCount === 1) {
+      const visitorQuestion = messages.find((m) => m.role === "user")?.content ?? "";
       sendEmail(
         "New visitor chatting on DSPOps",
         visitorQuestion
