@@ -11,6 +11,7 @@ import ProblemsSection from "@/components/ProblemsSection";
 import OwnerSection from "@/components/OwnerSection";
 import OSMSection from "@/components/OSMSection";
 import DriverPortalSection from "@/components/DriverPortalSection";
+import NewFeaturesSection from "@/components/NewFeaturesSection";
 import HowItWorksSection from "@/components/HowItWorksSection";
 import BeforeAfterSection from "@/components/BeforeAfterSection";
 // import VideoSection from "@/components/VideoSection";
@@ -34,7 +35,9 @@ export default function Home() {
         <OSMSection />
         {/* 5. Driver Portal */}
         <DriverPortalSection />
-        {/* 6. How It Works */}
+        {/* 6. New Features */}
+        <NewFeaturesSection />
+        {/* 7. How It Works */}
         <HowItWorksSection />
         {/* 7. Before & After */}
         <BeforeAfterSection />
