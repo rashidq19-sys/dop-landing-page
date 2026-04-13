@@ -6,6 +6,7 @@ import { fileURLToPath } from "url";
 import { initDb } from "./db.js";
 import waitlistRoutes from "./routes/waitlist.js";
 import adminRoutes from "./routes/admin.js";
+import chatRoutes from "./routes/chat.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -23,6 +24,7 @@ async function startServer() {
   // API routes (must come before static/catch-all)
   app.use("/api/waitlist", waitlistRoutes);
   app.use("/api/admin", adminRoutes);
+  app.use("/api/chat", chatRoutes);
 
   // Serve static files from dist/public in production
   const staticPath =
