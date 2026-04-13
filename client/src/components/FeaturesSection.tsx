@@ -16,6 +16,7 @@ import {
   UserPlus,
   RefreshCw,
   Users,
+  Trophy,
 } from "lucide-react";
 
 const DEPLOYMENT_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/DeploymentPlan_8f6f0776.webp";
@@ -29,6 +30,7 @@ const WEEKLY_PAYROLL_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/31051966338855
 const REPORTS_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/Reports_0d90951a.webp";
 const DRIVERS_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/Drivers_86b5a1e8.webp";
 const CAPACITY_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/capacity-planning-new_dfeca29f.webp";
+const LEADERBOARD_IMG = "/images/leaderboard-placeholder.png";
 
 const features = [
   {
@@ -100,6 +102,16 @@ const features = [
     stat: "Prevent understaffing",
     image: CAPACITY_IMG,
     imageAlt: "DOP Capacity Planning and Driver Coverage",
+  },
+  {
+    icon: Trophy,
+    label: "Driver Leaderboard",
+    title: "Rate Your Drivers Automatically — Even Without Amazon's Scorecard",
+    description:
+      "Amazon stopped publishing individual driver scorecards. DSPOps fills that gap — pulling your Amazon performance metrics and automatically calculating each driver's rating. OSMs can adjust the metric weighting to match what matters to your operation. See your full leaderboard at a glance and know exactly who your top performers are.",
+    stat: "No more guesswork on driver performance",
+    image: LEADERBOARD_IMG,
+    imageAlt: "DSPOps Driver Rating Leaderboard",
   },
 ];
 
