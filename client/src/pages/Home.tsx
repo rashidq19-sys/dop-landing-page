@@ -19,6 +19,7 @@ import PricingSection from "@/components/PricingSection";
 import FAQSection from "@/components/FAQSection";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
+import ChatbotWidget from "@/components/ChatbotWidget";
 
 export default function Home() {
   return (
@@ -51,6 +52,8 @@ export default function Home() {
         <CTASection />
       </main>
       <Footer />
+      {/* Floating chatbot widget — outside main, fixed position overlay */}
+      <ChatbotWidget />
     </div>
   );
 }
