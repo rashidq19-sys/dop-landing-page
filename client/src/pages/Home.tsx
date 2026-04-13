@@ -14,7 +14,6 @@ import DriverPortalSection from "@/components/DriverPortalSection";
 import NewFeaturesSection from "@/components/NewFeaturesSection";
 import HowItWorksSection from "@/components/HowItWorksSection";
 import BeforeAfterSection from "@/components/BeforeAfterSection";
-// import VideoSection from "@/components/VideoSection";
 import PricingSection from "@/components/PricingSection";
 import FAQSection from "@/components/FAQSection";
 import CTASection from "@/components/CTASection";
@@ -39,13 +38,13 @@ export default function Home() {
         <NewFeaturesSection />
         {/* 7. How It Works */}
         <HowItWorksSection />
-        {/* 7. Before & After */}
+        {/* 8. Before & After */}
         <BeforeAfterSection />
-        {/* 8. Pricing */}
+        {/* 9. Pricing */}
         <PricingSection />
-        {/* 9. FAQ */}
+        {/* 10. FAQ */}
         <FAQSection />
-        {/* 10. Final CTA */}
+        {/* 11. Final CTA */}
         <CTASection />
       </main>
       <Footer />
