@@ -1,10 +1,30 @@
+# Privacy Policy Page — Implementation Plan
+
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+
+**Goal:** Add a standalone `/privacy` page with the full DSPOps privacy policy, satisfying Apple App Store and Google Play Store submission requirements.
+
+**Architecture:** Two new files (`PrivacyPage.tsx` content component + `Privacy.tsx` page shell), plus minor updates to `App.tsx` (new route) and `Footer.tsx` (link href). Uses the existing wouter router and matches the Clean Logistics Blueprint design system.
+
+**Tech Stack:** React 19, TypeScript, TailwindCSS v4, wouter routing
+
+---
+
+### Task 1: Create PrivacyPage.tsx — policy content component
+
+**Files:**
+- Create: `client/src/components/PrivacyPage.tsx`
+
+- [ ] **Step 1: Create the file with full policy content**
+
+Create `client/src/components/PrivacyPage.tsx` with this exact content:
+
+```tsx
 /*
  * Design: Clean Logistics Blueprint
  * Page: Privacy Policy — readable document layout
  * Typography: DM Sans, navy text on off-white background
  */
-
-import React from "react";
 
 const EFFECTIVE_DATE = "16 April 2026";
 
@@ -23,36 +43,10 @@ const dataCategories = [
 
 const thirdParties = [
   { service: "Anthropic (Claude AI)", data: "Document images (licence, passport)", purpose: "Automated field extraction during onboarding" },
+  { service: "Roboflow", data: "Van photo frames", purpose: "AI-assisted damage detection" },
   { service: "OneSignal", data: "Device tokens, driver identifiers", purpose: "Push notifications" },
   { service: "Cloudflare R2", data: "All uploaded files and photos", purpose: "Cloud file storage" },
   { service: "Neon (PostgreSQL)", data: "All structured data", purpose: "Database hosting" },
-];
-
-const gdprRights: { right: string; desc: React.ReactNode }[] = [
-  { right: "Access", desc: "You can request a copy of the personal data we hold about you." },
-  { right: "Correction", desc: "You can ask us to correct any inaccurate or incomplete data." },
-  { right: "Deletion", desc: "You can request that we delete your personal data." },
-  { right: "Restriction", desc: "You can ask us to limit how we use your data in certain circumstances." },
-  { right: "Portability", desc: "You can request your data in a structured, machine-readable format." },
-  { right: "Withdrawal of consent", desc: "Where processing is based on consent, you can withdraw it at any time." },
-  {
-    right: "Complain to the ICO",
-    desc: (
-      <>
-        You have the right to lodge a complaint with the Information
-        Commissioner's Office at{" "}
-        <a
-          href="https://ico.org.uk"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-brand hover:underline"
-        >
-          ico.org.uk
-        </a>
-        .
-      </>
-    ),
-  },
 ];
 
 export default function PrivacyPage() {
@@ -74,9 +68,7 @@ export default function PrivacyPage() {
               <p>
                 DSPOps is a fleet management and operations platform for Amazon Delivery Service
                 Partners (DSPs). It is operated under the trading name{" "}
-                <strong className="text-navy">DSPOps</strong>. DSPOps is registered with the
-                Information Commissioner's Office (ICO) as a data controller. ICO registration
-                reference: <strong className="text-navy">00013790820</strong>.
+                <strong className="text-navy">DSPOps</strong>.
               </p>
               <p>
                 This Privacy Policy explains what personal data we collect, why we collect it, how
@@ -232,7 +224,15 @@ export default function PrivacyPage() {
               Under UK GDPR, you have the following rights regarding your personal data:
             </p>
             <ul className="space-y-2.5 list-none mb-4">
-              {gdprRights.map(({ right, desc }) => (
+              {[
+                { right: "Access", desc: "You can request a copy of the personal data we hold about you." },
+                { right: "Correction", desc: "You can ask us to correct any inaccurate or incomplete data." },
+                { right: "Deletion", desc: "You can request that we delete your personal data." },
+                { right: "Restriction", desc: "You can ask us to limit how we use your data in certain circumstances." },
+                { right: "Portability", desc: "You can request your data in a structured, machine-readable format." },
+                { right: "Withdrawal of consent", desc: "Where processing is based on consent, you can withdraw it at any time." },
+                { right: "Complain to the ICO", desc: "You have the right to lodge a complaint with the Information Commissioner's Office at ico.org.uk." },
+              ].map(({ right, desc }) => (
                 <li key={right} className="flex items-start gap-2.5 text-navy/70 text-[15px] leading-relaxed">
                   <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-brand flex-shrink-0" />
                   <span>
@@ -292,7 +292,6 @@ export default function PrivacyPage() {
                   support@dspops.app
                 </a>
               </p>
-              <p className="text-navy/70">ICO registration reference: 00013790820</p>
             </div>
           </section>
         </div>
@@ -300,3 +299,130 @@ export default function PrivacyPage() {
     </div>
   );
 }
+```
+
+- [ ] **Step 2: Verify TypeScript compiles**
+
+```bash
+cd f:/Github-DOP/dop-marketing-landing-page && npx tsc --noEmit
+```
+
+Expected: no errors
+
+---
+
+### Task 2: Create Privacy.tsx page shell
+
+**Files:**
+- Create: `client/src/pages/Privacy.tsx`
+
+- [ ] **Step 1: Create the page shell**
+
+Create `client/src/pages/Privacy.tsx` with this exact content:
+
+```tsx
+/*
+ * Page: Privacy Policy
+ * Layout: Same shell as Home — Navbar + content + Footer + ChatbotWidget
+ */
+
+import Navbar from "@/components/Navbar";
+import PrivacyPage from "@/components/PrivacyPage";
+import Footer from "@/components/Footer";
+import ChatbotWidget from "@/components/ChatbotWidget";
+
+export default function Privacy() {
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Navbar />
+      <main className="flex-1">
+        <PrivacyPage />
+      </main>
+      <Footer />
+      <ChatbotWidget />
+    </div>
+  );
+}
+```
+
+---
+
+### Task 3: Wire up route and update footer link
+
+**Files:**
+- Modify: `client/src/App.tsx`
+- Modify: `client/src/components/Footer.tsx`
+
+- [ ] **Step 1: Add `/privacy` route to App.tsx**
+
+In `client/src/App.tsx`, add the import after the existing page imports:
+
+```tsx
+import Privacy from "./pages/Privacy";
+```
+
+Then add the route inside `<Switch>`, before the `"/"` catch-all route (order matters in wouter — more specific routes must come first):
+
+```tsx
+<Route path="/privacy" component={Privacy} />
+<Route path="/" component={Home} />
+```
+
+The full updated `<Switch>` block should look like:
+
+```tsx
+<Switch>
+  <Route path="/admin" component={Admin} />
+  <Route path="/privacy" component={Privacy} />
+  <Route path="/" component={Home} />
+</Switch>
+```
+
+- [ ] **Step 2: Update Privacy Policy link in Footer.tsx**
+
+In `client/src/components/Footer.tsx`, find the `legalLinks` array and change the Privacy Policy href from `"#"` to `"/privacy"`:
+
+```tsx
+const legalLinks = [
+  { label: "Privacy Policy", href: "/privacy" },
+  { label: "Terms of Service", href: "#" },
+  { label: "Cookie Policy", href: "#" },
+];
+```
+
+---
+
+### Task 4: Verify and commit
+
+- [ ] **Step 1: TypeScript check**
+
+```bash
+cd f:/Github-DOP/dop-marketing-landing-page && npx tsc --noEmit
+```
+
+Expected: no errors
+
+- [ ] **Step 2: Start dev server and manually verify**
+
+```bash
+cd f:/Github-DOP/dop-marketing-landing-page && npm run dev
+```
+
+Then open `http://localhost:3000/privacy` in a browser and confirm:
+- Page loads without errors
+- Navbar is present and sticky
+- All 10 sections render with correct content
+- Both tables (data categories, third-party services) display correctly
+- Footer is present and "Privacy Policy" link in footer points to `/privacy` (not `#`)
+- Page is readable on mobile width
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add client/src/components/PrivacyPage.tsx client/src/pages/Privacy.tsx client/src/App.tsx client/src/components/Footer.tsx
+git commit -m "feat: add /privacy page with UK GDPR-compliant privacy policy
+
+Covers all data categories, third-party services, security measures,
+1-year retention, and UK GDPR rights. Required for App Store and
+Google Play Store submissions."
+```

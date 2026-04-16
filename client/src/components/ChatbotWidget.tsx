@@ -1,6 +1,47 @@
 import { useState, useRef, useEffect } from "react";
 import { MessageCircle, X, Send } from "lucide-react";
 
+// Renders **bold**, bullet lines (- item), and blank-line spacing
+function renderContent(content: string, isUser: boolean) {
+  const lines = content.split("\n");
+  const nodes: React.ReactNode[] = [];
+
+  lines.forEach((line, i) => {
+    if (line === "") {
+      nodes.push(<div key={`sp-${i}`} className="h-2" />);
+      return;
+    }
+
+    const isBullet = line.startsWith("- ");
+    const text = isBullet ? line.slice(2) : line;
+
+    // Parse **bold** spans
+    const parts = text.split(/(\*\*[^*]+\*\*)/g);
+    const rendered = parts.map((part, j) =>
+      part.startsWith("**") && part.endsWith("**") ? (
+        <strong key={j} className={isUser ? "font-bold" : "font-semibold text-[#0F1B2D]"}>
+          {part.slice(2, -2)}
+        </strong>
+      ) : (
+        <span key={j}>{part}</span>
+      )
+    );
+
+    if (isBullet) {
+      nodes.push(
+        <div key={i} className="flex items-start gap-2 mt-1.5">
+          <span className={`mt-[6px] w-1.5 h-1.5 rounded-full flex-shrink-0 ${isUser ? "bg-white/70" : "bg-[#2563EB]"}`} />
+          <span className="leading-snug">{rendered}</span>
+        </div>
+      );
+    } else {
+      nodes.push(<p key={i} className="leading-snug">{rendered}</p>);
+    }
+  });
+
+  return nodes;
+}
+
 type Message = {
   role: "user" | "assistant";
   content: string;
@@ -104,7 +145,7 @@ export default function ChatbotWidget() {
           </div>
 
           {/* Message Thread */}
-          <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
+          <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
             {messages.map((msg, idx) => (
               <div
                 key={idx}
@@ -113,13 +154,13 @@ export default function ChatbotWidget() {
                 }`}
               >
                 <div
-                  className={`max-w-[80%] px-3 py-2 rounded-2xl text-sm leading-relaxed ${
+                  className={`max-w-[85%] px-4 py-3 rounded-2xl text-sm ${
                     msg.role === "user"
-                      ? "bg-brand text-white rounded-br-sm"
-                      : "bg-gray-100 text-gray-800 rounded-bl-sm"
+                      ? "bg-[#2563EB] text-white rounded-br-sm"
+                      : "bg-white border border-gray-100 shadow-sm text-gray-700 rounded-bl-sm"
                   }`}
                 >
-                  {msg.content}
+                  {renderContent(msg.content, msg.role === "user")}
                 </div>
               </div>
             ))}

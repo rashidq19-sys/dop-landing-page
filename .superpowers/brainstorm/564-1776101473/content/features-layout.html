@@ -1,0 +1,33 @@
+<h2>New Features Section Layout</h2>
+<p class="subtitle">4 features: Live Tracking, Same Day Delivery, Arriving, Automatic Data Backup. Which layout style?</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Alternating rows — text + screenshot</h3>
+      <p>Matches the rest of the page exactly. Each feature gets its own full-width row — copy on one side, screenshot placeholder on the other, alternating left/right. Scroll animations, same "browser frame" treatment as other sections.</p>
+      <div style="margin-top:12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;font-size:12px;color:#64748b;font-family:monospace;">
+        ← [Live Tracking copy] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [screenshot →]<br>
+        → [screenshot] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [Same Day copy →]<br>
+        ← [Arriving copy] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [screenshot →]<br>
+        → [screenshot] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [Data Backup copy →]
+      </div>
+      <div style="margin-top:8px;font-size:12px;color:#64748b;">+ Consistent with the rest of the page &nbsp;· &nbsp;Longer scroll</div>
+    </div>
+  </div>
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>2×2 card grid — icon + copy only</h3>
+      <p>Four cards in a clean 2-column grid. Each card has an icon, feature name, and 2–3 lines of copy. No screenshots needed — compact and scannable. Works well as a "What's New" block without breaking the page flow.</p>
+      <div style="margin-top:12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <div style="background:white;border:1px solid #e2e8f0;border-radius:6px;padding:8px;font-size:11px;color:#374151;"><strong>📡 Live Tracking</strong><br><span style="color:#6b7280">Driver progress synced from Amazon Cortex…</span></div>
+        <div style="background:white;border:1px solid #e2e8f0;border-radius:6px;padding:8px;font-size:11px;color:#374151;"><strong>📦 Same Day Delivery</strong><br><span style="color:#6b7280">Separate SDD driver roster…</span></div>
+        <div style="background:white;border:1px solid #e2e8f0;border-radius:6px;padding:8px;font-size:11px;color:#374151;"><strong>✅ Arriving</strong><br><span style="color:#6b7280">Live dispatch attendance tracking…</span></div>
+        <div style="background:white;border:1px solid #e2e8f0;border-radius:6px;padding:8px;font-size:11px;color:#374151;"><strong>🔒 Auto Backup</strong><br><span style="color:#6b7280">All your data secured and backed up…</span></div>
+      </div>
+      <div style="margin-top:8px;font-size:12px;color:#64748b;">+ Compact, fast to scan &nbsp;· &nbsp;Less visual impact</div>
+    </div>
+  </div>
+</div>

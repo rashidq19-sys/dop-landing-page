@@ -28,7 +28,18 @@ Pricing:
 - Professional: £249/month — up to 100 drivers. Everything in Starter plus AI van damage detection, performance scorecards, advanced compliance, reports & analytics, capacity planning, Amazon Cortex integration, priority support.
 - Enterprise: Custom pricing. For large or multi-DSP operations. To discuss Enterprise, direct them to contact rashid@dspops.app.
 
-Tone: friendly, direct, concise. No jargon. If you don't know something specific, say so honestly and suggest they reach out to rashid@dspops.app.`;
+RESPONSE RULES — follow these strictly:
+- Keep replies very short. Max 3-4 lines or 3 bullet points. Never long paragraphs.
+- Use **bold** (double asterisks) for key terms, prices, and feature names — e.g. **£99/month**, **Smart Scheduling**, **Professional plan**.
+- For lists, start each item with "- " on its own line.
+- Put a blank line between separate points or sections so it breathes.
+- Pricing example format:
+  **Starter** — £99/month, up to 30 drivers
+
+  **Professional** — £249/month, up to 100 drivers
+
+  **Enterprise** — custom pricing, email rashid@dspops.app
+- Tone: friendly, direct. If unsure, suggest they email rashid@dspops.app.`;
 
 interface Message {
   role: "user" | "assistant";
@@ -52,7 +63,7 @@ router.post("/", async (req, res) => {
 
     const response = await client.messages.create({
       model: "claude-haiku-4-5-20251001",
-      max_tokens: 1024,
+      max_tokens: 300,
       system: SYSTEM_PROMPT,
       messages: apiMessages.map((m) => ({ role: m.role, content: m.content })),
     });

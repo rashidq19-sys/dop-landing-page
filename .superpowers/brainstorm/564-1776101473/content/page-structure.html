@@ -1,0 +1,49 @@
+<h2>Where should the new features go?</h2>
+<p class="subtitle">You've described 4 new app features + a chatbot. The first question is how to fit them into the existing page structure.</p>
+
+<div class="section">
+  <h3>Current page order</h3>
+  <div style="display:flex;flex-direction:column;gap:6px;max-width:480px;margin:0 auto 24px;">
+    <div style="background:#f0f4ff;border:1px solid #c7d7fd;border-radius:6px;padding:10px 16px;font-size:13px;color:#1e3a8a;font-weight:500;">1. Hero</div>
+    <div style="background:#f0f4ff;border:1px solid #c7d7fd;border-radius:6px;padding:10px 16px;font-size:13px;color:#1e3a8a;font-weight:500;">2. Problems (WhatsApp chaos, no visibility, etc.)</div>
+    <div style="background:#f0f4ff;border:1px solid #c7d7fd;border-radius:6px;padding:10px 16px;font-size:13px;color:#1e3a8a;font-weight:500;">3. For DSP Owners</div>
+    <div style="background:#f0f4ff;border:1px solid #c7d7fd;border-radius:6px;padding:10px 16px;font-size:13px;color:#1e3a8a;font-weight:500;">4. For OSMs (dispatch, rota, attendance)</div>
+    <div style="background:#f0f4ff;border:1px solid #c7d7fd;border-radius:6px;padding:10px 16px;font-size:13px;color:#1e3a8a;font-weight:500;">5. Driver Portal</div>
+    <div style="background:#f0f4ff;border:1px solid #c7d7fd;border-radius:6px;padding:10px 16px;font-size:13px;color:#1e3a8a;font-weight:500;">6. How It Works</div>
+    <div style="background:#f0f4ff;border:1px solid #c7d7fd;border-radius:6px;padding:10px 16px;font-size:13px;color:#1e3a8a;font-weight:500;">7. Before &amp; After</div>
+    <div style="background:#f0f4ff;border:1px solid #c7d7fd;border-radius:6px;padding:10px 16px;font-size:13px;color:#1e3a8a;font-weight:500;">8. Pricing</div>
+    <div style="background:#f0f4ff;border:1px solid #c7d7fd;border-radius:6px;padding:10px 16px;font-size:13px;color:#1e3a8a;font-weight:500;">9. FAQ</div>
+    <div style="background:#f0f4ff;border:1px solid #c7d7fd;border-radius:6px;padding:10px 16px;font-size:13px;color:#1e3a8a;font-weight:500;">10. CTA</div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>How should we add the 4 new app features?</h3>
+</div>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>New "New Features" section after Driver Portal</h3>
+      <p>A dedicated section showcasing all 4 new features — Live Tracking, Same Day Delivery, Arriving/Attendance, and Data Backup — as a grid or card list. Clean, self-contained. Best for features that don't fit neatly into existing sections.</p>
+      <div style="margin-top:8px;font-size:12px;color:#64748b;">+ Clear &amp; focused &nbsp;· &nbsp;Slightly longer page</div>
+    </div>
+  </div>
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Expand existing sections with the new features</h3>
+      <p>Live Tracking → add to Driver Portal section. Same Day Delivery + Arriving → add to OSM section. Data Backup → add to FAQ. Keeps the page tight — each feature shows up in the right context.</p>
+      <div style="margin-top:8px;font-size:12px;color:#64748b;">+ Page stays lean &nbsp;· &nbsp;Harder to spotlight big features</div>
+    </div>
+  </div>
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Re-activate the Features section (already built)</h3>
+      <p>There's already a FeaturesSection.tsx in the codebase — it shows 7 features with screenshots. Add the 4 new features there and put it back on the page. Works well if you have or will have screenshots for the new features.</p>
+      <div style="margin-top:8px;font-size:12px;color:#64748b;">+ Reuses existing component &nbsp;· &nbsp;Needs screenshot images</div>
+    </div>
+  </div>
+</div>
