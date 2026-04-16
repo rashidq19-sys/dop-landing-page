@@ -4,6 +4,8 @@
  * Typography: DM Sans, navy text on off-white background
  */
 
+import React from "react";
+
 const EFFECTIVE_DATE = "16 April 2026";
 
 const dataCategories = [
@@ -25,6 +27,33 @@ const thirdParties = [
   { service: "OneSignal", data: "Device tokens, driver identifiers", purpose: "Push notifications" },
   { service: "Cloudflare R2", data: "All uploaded files and photos", purpose: "Cloud file storage" },
   { service: "Neon (PostgreSQL)", data: "All structured data", purpose: "Database hosting" },
+];
+
+const gdprRights: { right: string; desc: React.ReactNode }[] = [
+  { right: "Access", desc: "You can request a copy of the personal data we hold about you." },
+  { right: "Correction", desc: "You can ask us to correct any inaccurate or incomplete data." },
+  { right: "Deletion", desc: "You can request that we delete your personal data." },
+  { right: "Restriction", desc: "You can ask us to limit how we use your data in certain circumstances." },
+  { right: "Portability", desc: "You can request your data in a structured, machine-readable format." },
+  { right: "Withdrawal of consent", desc: "Where processing is based on consent, you can withdraw it at any time." },
+  {
+    right: "Complain to the ICO",
+    desc: (
+      <>
+        You have the right to lodge a complaint with the Information
+        Commissioner's Office at{" "}
+        <a
+          href="https://ico.org.uk"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-brand hover:underline"
+        >
+          ico.org.uk
+        </a>
+        .
+      </>
+    ),
+  },
 ];
 
 export default function PrivacyPage() {
@@ -202,15 +231,7 @@ export default function PrivacyPage() {
               Under UK GDPR, you have the following rights regarding your personal data:
             </p>
             <ul className="space-y-2.5 list-none mb-4">
-              {[
-                { right: "Access", desc: "You can request a copy of the personal data we hold about you." },
-                { right: "Correction", desc: "You can ask us to correct any inaccurate or incomplete data." },
-                { right: "Deletion", desc: "You can request that we delete your personal data." },
-                { right: "Restriction", desc: "You can ask us to limit how we use your data in certain circumstances." },
-                { right: "Portability", desc: "You can request your data in a structured, machine-readable format." },
-                { right: "Withdrawal of consent", desc: "Where processing is based on consent, you can withdraw it at any time." },
-                { right: "Complain to the ICO", desc: "You have the right to lodge a complaint with the Information Commissioner's Office at ico.org.uk." },
-              ].map(({ right, desc }) => (
+              {gdprRights.map(({ right, desc }) => (
                 <li key={right} className="flex items-start gap-2.5 text-navy/70 text-[15px] leading-relaxed">
                   <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-brand flex-shrink-0" />
                   <span>
