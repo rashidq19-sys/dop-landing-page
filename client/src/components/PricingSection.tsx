@@ -123,14 +123,14 @@ export default function PricingSection() {
         </div>
 
         {/* Plans */}
-        <div className="grid md:grid-cols-3 gap-6 lg:gap-8 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-6 lg:gap-8 max-w-5xl mx-auto items-start">
           {plans.map((plan, i) => (
             <div
               key={plan.name}
-              className={`relative rounded-xl p-6 lg:p-8 transition-all duration-700 ${
+              className={`relative rounded-2xl p-6 lg:p-8 transition-all duration-700 ${
                 plan.popular
-                  ? "border-2 border-brand shadow-[0_20px_50px_-12px_rgba(59,130,246,0.2)] scale-[1.02] lg:scale-105"
-                  : "border border-border hover:border-brand/30 hover:shadow-lg"
+                  ? "border-2 border-brand shadow-[0_25px_60px_-8px_rgba(59,130,246,0.28),0_8px_24px_-4px_rgba(0,0,0,0.08)] scale-[1.03] lg:scale-[1.05] z-10"
+                  : "border border-border/50 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.07)] hover:shadow-[0_16px_40px_-8px_rgba(0,0,0,0.12)] hover:-translate-y-1"
               } bg-white ${
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}

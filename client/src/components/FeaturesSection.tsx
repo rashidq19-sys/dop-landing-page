@@ -1,13 +1,14 @@
 /*
- * Design: Clean Logistics Blueprint — Dark navy + Blue brand
- * Features: Alternating left-right sections with screenshots
- * Lightbox: Click any screenshot to view fullscreen
+ * Design: Stripe-inspired bento grid — varied card sizes, cropped screenshot close-ups
+ * Layout: 3-col grid on desktop. Large cards (col-span-2) use horizontal split.
+ *         Medium cards (col-span-1) use vertical stack. Wide card (col-span-3) spans full row.
+ * Screenshots: Cropped with object-cover + object-position for close-up "hero shots"
+ * Shadows: Stripe-style soft elevation — lifts on hover
  */
 
 import { useState } from "react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import Lightbox from "@/components/Lightbox";
-import { Expand } from "lucide-react";
 import {
   Zap,
   Camera,
@@ -115,97 +116,193 @@ const features = [
   },
 ];
 
-function FeatureRow({
+type LayoutType = "horizontal" | "vertical" | "wide";
+
+// Bento grid config — controls each card's size and screenshot crop position
+const bentoConfig: { gridClass: string; layout: LayoutType; objectPosition: string }[] = [
+  { gridClass: "lg:col-span-2",                         layout: "horizontal", objectPosition: "top left"    },
+  { gridClass: "lg:col-span-1",                         layout: "vertical",   objectPosition: "top center"  },
+  { gridClass: "lg:col-span-1",                         layout: "vertical",   objectPosition: "top left"    },
+  { gridClass: "lg:col-span-1",                         layout: "vertical",   objectPosition: "top center"  },
+  { gridClass: "lg:col-span-1",                         layout: "vertical",   objectPosition: "top right"   },
+  { gridClass: "lg:col-span-1",                         layout: "vertical",   objectPosition: "top center"  },
+  { gridClass: "lg:col-span-2",                         layout: "horizontal", objectPosition: "top center"  },
+  { gridClass: "col-span-1 md:col-span-2 lg:col-span-3", layout: "wide",     objectPosition: "top center"  },
+];
+
+function BentoCard({
   feature,
-  index,
+  gridClass,
+  layout,
+  objectPosition,
   onImageClick,
 }: {
-  feature: (typeof features)[0];
-  index: number;
+  feature: (typeof features)[number];
+  gridClass: string;
+  layout: LayoutType;
+  objectPosition: string;
   onImageClick: (src: string, alt: string) => void;
 }) {
-  const { ref, isVisible } = useScrollAnimation(0.15);
-  const reversed = index % 2 !== 0;
+  const { ref, isVisible } = useScrollAnimation(0.1);
 
+  const baseCard = [
+    gridClass,
+    "group bg-white rounded-2xl overflow-hidden",
+    "border border-border/40",
+    "shadow-[0_8px_30px_-4px_rgba(0,0,0,0.08)]",
+    "hover:shadow-[0_24px_50px_-8px_rgba(0,0,0,0.14)]",
+    "hover:-translate-y-1",
+    "transition-all duration-300",
+    isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8",
+    "transition-[opacity,transform] duration-700",
+  ].join(" ");
+
+  /* ── Horizontal card (2-col wide): content left, screenshot right ── */
+  if (layout === "horizontal") {
+    return (
+      <div ref={ref} className={baseCard}>
+        <div className="flex flex-col lg:grid lg:grid-cols-[45%_55%] min-h-[300px]">
+          {/* Content */}
+          <div className="p-6 lg:p-8 flex flex-col justify-center">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand/10 border border-brand/20 mb-4 self-start">
+              <feature.icon size={13} className="text-brand" />
+              <span className="text-xs font-semibold text-brand-dark uppercase tracking-wider">
+                {feature.label}
+              </span>
+            </div>
+            <h3 className="text-xl lg:text-2xl font-extrabold text-navy tracking-tight leading-tight">
+              {feature.title}
+            </h3>
+            <p className="mt-3 text-sm text-muted-foreground leading-relaxed line-clamp-4">
+              {feature.description}
+            </p>
+            <div className="mt-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-green-50 border border-green-200 self-start">
+              <div className="w-1.5 h-1.5 rounded-full bg-green-500 shrink-0" />
+              <span className="text-xs font-semibold text-green-700">{feature.stat}</span>
+            </div>
+          </div>
+          {/* Screenshot — close-up crop */}
+          {feature.image ? (
+            <div
+              className="relative overflow-hidden bg-slate-50 min-h-[220px] lg:min-h-full cursor-pointer"
+              onClick={() => onImageClick(feature.image, feature.imageAlt)}
+            >
+              <img
+                src={feature.image}
+                alt={feature.imageAlt}
+                className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
+                style={{ objectPosition }}
+                loading="lazy"
+              />
+            </div>
+          ) : (
+            <div className="bg-slate-100 flex items-center justify-center min-h-[220px]">
+              <span className="text-sm text-muted-foreground">Screenshot coming soon</span>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  /* ── Wide card (3-col): content left, placeholder/screenshot right ── */
+  if (layout === "wide") {
+    return (
+      <div ref={ref} className={baseCard}>
+        <div className="flex flex-col lg:grid lg:grid-cols-[38%_62%] min-h-[200px]">
+          {/* Content */}
+          <div className="p-6 lg:p-8 flex flex-col justify-center">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand/10 border border-brand/20 mb-3 self-start">
+              <feature.icon size={13} className="text-brand" />
+              <span className="text-xs font-semibold text-brand-dark uppercase tracking-wider">
+                {feature.label}
+              </span>
+            </div>
+            <h3 className="text-lg lg:text-xl font-extrabold text-navy tracking-tight leading-tight">
+              {feature.title}
+            </h3>
+            <p className="mt-2 text-sm text-muted-foreground leading-relaxed line-clamp-3">
+              {feature.description}
+            </p>
+            <div className="mt-3 inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-green-50 border border-green-200 self-start">
+              <div className="w-1.5 h-1.5 rounded-full bg-green-500 shrink-0" />
+              <span className="text-xs font-semibold text-green-700">{feature.stat}</span>
+            </div>
+          </div>
+          {/* Screenshot or placeholder */}
+          {feature.image ? (
+            <div
+              className="relative overflow-hidden bg-slate-50 min-h-[180px] lg:min-h-full cursor-pointer"
+              onClick={() => onImageClick(feature.image, feature.imageAlt)}
+            >
+              <img
+                src={feature.image}
+                alt={feature.imageAlt}
+                className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
+                style={{ objectPosition }}
+                loading="lazy"
+              />
+            </div>
+          ) : (
+            <div className="bg-slate-100/80 flex items-center justify-center min-h-[160px] lg:min-h-full">
+              <div className="text-center">
+                <div className="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center mx-auto mb-2">
+                  <feature.icon size={18} className="text-slate-400" />
+                </div>
+                <span className="text-sm text-muted-foreground">Screenshot coming soon</span>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  /* ── Vertical card (1-col): screenshot on top, content below ── */
   return (
     <div
       ref={ref}
-      className={`grid lg:grid-cols-2 gap-10 lg:gap-16 items-center ${
-        reversed ? "lg:direction-rtl" : ""
-      }`}
+      className={`${baseCard} flex flex-col ${feature.image ? "cursor-pointer" : ""}`}
+      onClick={() => feature.image && onImageClick(feature.image, feature.imageAlt)}
     >
-      {/* Text */}
-      <div
-        className={`${reversed ? "lg:order-2 lg:direction-ltr" : ""} transition-all duration-700 ${
-          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-        }`}
-      >
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand/10 border border-brand/20 mb-4">
-          <feature.icon size={14} className="text-brand" />
+      {/* Screenshot — cropped close-up at 4:3 */}
+      {feature.image ? (
+        <div className="relative overflow-hidden bg-slate-50 aspect-[4/3] shrink-0">
+          <img
+            src={feature.image}
+            alt={feature.imageAlt}
+            className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
+            style={{ objectPosition }}
+            loading="lazy"
+          />
+        </div>
+      ) : (
+        <div className="aspect-[4/3] bg-slate-100/80 flex items-center justify-center shrink-0">
+          <div className="text-center">
+            <div className="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center mx-auto mb-2">
+              <feature.icon size={18} className="text-slate-400" />
+            </div>
+            <span className="text-sm text-muted-foreground">Screenshot coming soon</span>
+          </div>
+        </div>
+      )}
+      {/* Content */}
+      <div className="p-5 lg:p-6 flex flex-col flex-1">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand/10 border border-brand/20 mb-3 self-start">
+          <feature.icon size={13} className="text-brand" />
           <span className="text-xs font-semibold text-brand-dark uppercase tracking-wider">
             {feature.label}
           </span>
         </div>
-
-        <h3 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-navy tracking-tight leading-tight">
+        <h3 className="text-base lg:text-lg font-extrabold text-navy tracking-tight leading-tight">
           {feature.title}
         </h3>
-
-        <p className="mt-4 text-base lg:text-lg text-muted-foreground leading-relaxed">
+        <p className="mt-2 text-sm text-muted-foreground leading-relaxed line-clamp-3 flex-1">
           {feature.description}
         </p>
-
-        <div className="mt-6 inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-green-50 border border-green-200">
-          <div className="w-2 h-2 rounded-full bg-green-500" />
-          <span className="text-sm font-semibold text-green-700">{feature.stat}</span>
-        </div>
-      </div>
-
-      {/* Screenshot */}
-      <div
-        className={`${reversed ? "lg:order-1 lg:direction-ltr" : ""} transition-all duration-700 delay-200 ${
-          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-        }`}
-      >
-        <div
-          className={`relative ${feature.image ? "group cursor-pointer" : ""}`}
-          onClick={() => feature.image && onImageClick(feature.image, feature.imageAlt)}
-        >
-          <div className="absolute -inset-3 bg-brand/5 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-          <div className="relative bg-white rounded-xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.12)] border border-border/50 overflow-hidden">
-            {/* Browser bar */}
-            <div className="flex items-center gap-1.5 px-4 py-2.5 bg-slate-light/50 border-b border-border/40">
-              <div className="w-2 h-2 rounded-full bg-red-400/50" />
-              <div className="w-2 h-2 rounded-full bg-yellow-400/50" />
-              <div className="w-2 h-2 rounded-full bg-green-400/50" />
-              <div className="ml-2 flex-1 h-4 bg-white/70 rounded text-[9px] text-muted-foreground flex items-center px-2">
-                dspops.app
-              </div>
-            </div>
-            <div className="relative">
-              {feature.image ? (
-                <>
-                  <img
-                    src={feature.image}
-                    alt={feature.imageAlt}
-                    className="w-full"
-                    loading="lazy"
-                  />
-                  {/* Fullscreen hint overlay */}
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 flex items-center justify-center">
-                    <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 flex items-center gap-2 shadow-lg">
-                      <Expand size={16} className="text-navy" />
-                      <span className="text-sm font-medium text-navy">Click to enlarge</span>
-                    </div>
-                  </div>
-                </>
-              ) : (
-                <div className="w-full aspect-video bg-slate-100 flex items-center justify-center">
-                  <span className="text-sm text-muted-foreground">Screenshot coming soon</span>
-                </div>
-              )}
-            </div>
-          </div>
+        <div className="mt-3 inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-green-50 border border-green-200 self-start">
+          <div className="w-1.5 h-1.5 rounded-full bg-green-500 shrink-0" />
+          <span className="text-xs font-semibold text-green-700">{feature.stat}</span>
         </div>
       </div>
     </div>
@@ -225,16 +322,19 @@ export default function FeaturesSection() {
   return (
     <section id="features" className="py-20 lg:py-28 relative">
       {/* Subtle pattern background */}
-      <div className="absolute inset-0 opacity-[0.03]" style={{
-        backgroundImage: `url(https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/features-pattern-JrKiqRyPV3uvpEHyPpEEiP.webp)`,
-        backgroundSize: "400px",
-      }} />
+      <div
+        className="absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage: `url(https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/features-pattern-JrKiqRyPV3uvpEHyPpEEiP.webp)`,
+          backgroundSize: "400px",
+        }}
+      />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div
           ref={ref}
-          className={`text-center max-w-3xl mx-auto mb-16 lg:mb-24 transition-all duration-600 ${
+          className={`text-center max-w-3xl mx-auto mb-12 lg:mb-16 transition-all duration-600 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
@@ -242,7 +342,8 @@ export default function FeaturesSection() {
             Features
           </span>
           <h2 className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-extrabold text-navy tracking-tight">
-            Everything you need to run<br className="hidden sm:block" /> your DSP efficiently
+            Everything you need to run
+            <br className="hidden sm:block" /> your DSP efficiently
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
             Eight powerful modules that replace spreadsheets, third-party tools, and
@@ -250,13 +351,15 @@ export default function FeaturesSection() {
           </p>
         </div>
 
-        {/* Feature Rows */}
-        <div className="space-y-20 lg:space-y-32">
+        {/* Bento Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5">
           {features.map((feature, i) => (
-            <FeatureRow
+            <BentoCard
               key={feature.label}
               feature={feature}
-              index={i}
+              gridClass={bentoConfig[i].gridClass}
+              layout={bentoConfig[i].layout}
+              objectPosition={bentoConfig[i].objectPosition}
               onImageClick={handleImageClick}
             />
           ))}

@@ -131,31 +131,35 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* Trust Bar — 4 stats */}
+        {/* Trust Bar — 4 elevated stat cards */}
         <div
-          className={`mt-16 lg:mt-20 grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-12 max-w-3xl transition-all duration-700 delay-400 ${
+          className={`mt-16 lg:mt-20 grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5 transition-all duration-700 delay-400 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <div className="border-l-2 border-brand pl-4">
+          <div className="bg-white rounded-xl p-4 lg:p-5 border border-border/40 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.08)] hover:shadow-[0_12px_32px_-4px_rgba(0,0,0,0.12)] hover:-translate-y-0.5 transition-all duration-200">
+            <div className="w-8 h-1 rounded-full bg-brand mb-3" />
             <div className="text-3xl lg:text-4xl font-extrabold text-navy">
               {hours}+
             </div>
             <div className="text-sm text-muted-foreground mt-1">Hours saved daily</div>
           </div>
-          <div className="border-l-2 border-brand/80 pl-4">
+          <div className="bg-white rounded-xl p-4 lg:p-5 border border-border/40 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.08)] hover:shadow-[0_12px_32px_-4px_rgba(0,0,0,0.12)] hover:-translate-y-0.5 transition-all duration-200">
+            <div className="w-8 h-1 rounded-full bg-brand/80 mb-3" />
             <div className="text-3xl lg:text-4xl font-extrabold text-navy">
               {hoursYear}+
             </div>
             <div className="text-sm text-muted-foreground mt-1">Hours back per year</div>
           </div>
-          <div className="border-l-2 border-brand/60 pl-4">
+          <div className="bg-white rounded-xl p-4 lg:p-5 border border-border/40 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.08)] hover:shadow-[0_12px_32px_-4px_rgba(0,0,0,0.12)] hover:-translate-y-0.5 transition-all duration-200">
+            <div className="w-8 h-1 rounded-full bg-brand/60 mb-3" />
             <div className="text-3xl lg:text-4xl font-extrabold text-navy">
               {platforms}
             </div>
             <div className="text-sm text-muted-foreground mt-1">Platform replaces 3+ tools</div>
           </div>
-          <div className="border-l-2 border-brand/40 pl-4">
+          <div className="bg-white rounded-xl p-4 lg:p-5 border border-border/40 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.08)] hover:shadow-[0_12px_32px_-4px_rgba(0,0,0,0.12)] hover:-translate-y-0.5 transition-all duration-200">
+            <div className="w-8 h-1 rounded-full bg-brand/40 mb-3" />
             <div className="text-3xl lg:text-4xl font-extrabold text-navy">
               {roi}x
             </div>
