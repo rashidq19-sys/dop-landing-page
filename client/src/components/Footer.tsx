@@ -30,12 +30,15 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
-            <a href="#" className="flex items-center mb-4">
+            <a href="#" className="flex items-center gap-2.5 mb-4">
               <img
-                src="/logo.png"
+                src="https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/dop-logo_ba62af1c.png"
                 alt="DSPOps"
-                className="h-10 w-auto brightness-0 invert"
+                className="w-9 h-9 rounded-lg"
               />
+              <span className="font-bold text-lg tracking-tight">
+                DSP<span className="text-brand">Ops</span>
+              </span>
             </a>
             <p className="text-sm text-white/50 leading-relaxed max-w-xs">
               Built by an OSM, for DSP owners. The all-in-one platform for
