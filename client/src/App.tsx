@@ -6,6 +6,7 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import Admin from "./pages/Admin";
 import Privacy from "./pages/Privacy";
+import Download from "./pages/Download";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Switch>
             <Route path="/admin" component={Admin} />
             <Route path="/privacy" component={Privacy} />
+            <Route path="/download" component={Download} />
             <Route path="/" component={Home} />
           </Switch>
         </TooltipProvider>
