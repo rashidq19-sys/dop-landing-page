@@ -5,6 +5,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import Admin from "./pages/Admin";
+import Privacy from "./pages/Privacy";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Toaster />
           <Switch>
             <Route path="/admin" component={Admin} />
+            <Route path="/privacy" component={Privacy} />
             <Route path="/" component={Home} />
           </Switch>
         </TooltipProvider>
