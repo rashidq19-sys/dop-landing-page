@@ -1,94 +1,36 @@
-/*
- * Section 6: Driver Portal
- * Design: Clean Logistics Blueprint — Text left, iPhone mockup carousel right
- * Amber/yellow accent for driver-facing features
- */
-
-import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { CheckCircle2 } from "lucide-react";
-import EmailCaptureInline from "@/components/EmailCaptureInline";
-import IPhoneMockup from "@/components/IPhoneMockup";
-
-const portalScreens = [
-  { src: "/images/portal/home.jpeg", label: "Home" },
-  { src: "/images/portal/rota.jpeg", label: "Rota" },
-  { src: "/images/portal/scorecards.jpeg", label: "Scorecards" },
-  { src: "/images/portal/invoice.jpeg", label: "Pay" },
-];
-
-const benefits = [
-  "See their rota and request changes — no more calling OSM to check schedule or swap shifts",
-  "Pay and shift details — always visible — drivers see exactly what they're being paid and why",
-  "Performance scores with clear guidance — shows where they're struggling and what to improve",
-  "Van damage — upload and track in one place — no separate app",
-  "Built-in training — targeted training based on weak areas",
+const PORTAL_SCREENS = [
+  { src: "/images/portal/home.jpeg", label: "Deployment", desc: "Wave, route, van, cage — every morning, clearly laid out." },
+  { src: "/images/portal/rota.jpeg", label: "Availability", desc: "Drivers set their own rota. OSM locks it when ready." },
+  { src: "/images/portal/scorecards.jpeg", label: "Scorecards", desc: "Cortex metrics live. Drivers see their score — fewer calls." },
+  { src: "/images/portal/invoice.jpeg", label: "Payslips", desc: "Auto-generated. PDF download. Zero questions." },
 ];
 
 export default function DriverPortalSection() {
-  const { ref, isVisible } = useScrollAnimation(0.15);
-
   return (
-    <section id="driver-portal" className="py-20 lg:py-28 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div
-          ref={ref}
-          className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center"
-        >
-          {/* Text — Left */}
-          <div
-            className={`transition-all duration-700 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
-          >
-            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">
-              For Your Drivers (so they stop coming to you)
-            </span>
-
-            <h2 className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-extrabold text-navy tracking-tight leading-tight">
-              One app. Everything they need to know.
-            </h2>
-
-            <p className="mt-4 text-base lg:text-lg text-muted-foreground leading-relaxed">
-              Drivers get their own portal — shifts, pay, performance, van damage
-              — all in one place. They stop chasing the OSM. You get your time
-              back.
+    <section id="driver-portal" className="bg-background py-[100px] border-b border-border">
+      <div className="max-w-[1280px] mx-auto px-8">
+        {/* Header */}
+        <div className="mb-12">
+          <div className="text-[11px] font-semibold text-brand uppercase tracking-[0.14em] mb-3.5">— DRIVER PORTAL</div>
+          <div className="flex items-end justify-between gap-10 flex-wrap">
+            <h2 className="text-[52px] font-extrabold text-[#111113] tracking-[-0.035em] leading-[1.02]">In every driver&apos;s pocket. Included in every plan.</h2>
+            <p className="text-[17px] text-[#6C6C72] leading-[1.55] max-w-[420px]">
+              Drivers self-serve their rota, payslips, scorecards, and van inspections — so your OSM stops being a help desk.
             </p>
+          </div>
+        </div>
 
-            {/* Benefit list */}
-            <ul className="mt-8 space-y-4">
-              {benefits.map((benefit) => (
-                <li key={benefit} className="flex items-start gap-3">
-                  <CheckCircle2
-                    size={20}
-                    className="text-brand mt-0.5 shrink-0"
-                  />
-                  <span className="text-sm lg:text-base text-muted-foreground leading-relaxed">
-                    {benefit}
-                  </span>
-                </li>
-              ))}
-            </ul>
-
-            {/* Callout */}
-            <div className="mt-8 bg-amber-50 border border-amber-200 rounded-xl p-4">
-              <p className="text-sm font-medium text-amber-800">
-                Less time answering driver questions = more time improving your
-                operation
-              </p>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-[18px]">
+          {PORTAL_SCREENS.map((s, i) => (
+            <div key={s.label} className="bg-white rounded-[20px] p-6 flex flex-col items-center gap-[18px] border border-border">
+              <img src={s.src} className="w-full max-w-[210px] rounded-[18px] shadow-[0_20px_40px_-10px_rgba(17,17,19,0.18)]" alt={s.label} />
+              <div className="text-center">
+                <div className="text-[10px] text-[#6C6C72] uppercase tracking-[0.12em]">0{i + 1}</div>
+                <div className="text-[18px] font-bold text-[#111113] mt-1 tracking-[-0.015em]">{s.label}</div>
+                <div className="text-[13px] text-[#6C6C72] mt-1.5 leading-[1.5]">{s.desc}</div>
+              </div>
             </div>
-
-            {/* Email CTA */}
-            <EmailCaptureInline className="mt-8 max-w-lg" buttonText="Give Drivers Their Own Portal" />
-          </div>
-
-          {/* iPhone Mockup — Right */}
-          <div
-            className={`transition-all duration-700 delay-200 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-            }`}
-          >
-            <IPhoneMockup images={portalScreens} interval={4000} />
-          </div>
+          ))}
         </div>
       </div>
     </section>
