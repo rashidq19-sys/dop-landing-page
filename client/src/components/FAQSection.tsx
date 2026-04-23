@@ -1,54 +1,20 @@
 /*
  * Design: Clean Logistics Blueprint
- * FAQ: Clean accordion with 8 questions, updated per redesign spec
+ * FAQ: Clean accordion with 7 questions, updated per redesign spec
  */
 
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
-import EmailCaptureInline from "@/components/EmailCaptureInline";
 
 const faqs = [
-  {
-    question: "Does it integrate with Amazon Cortex?",
-    answer:
-      "Yes, direct integration. Upload capacity planning data, syncs seamlessly. Scorecard data and performance metrics flow in automatically.",
-  },
-  {
-    question: "Can I replace my current van damage app?",
-    answer:
-      "Yes. AI damage detection is built into the Professional plan. Drivers upload photos and videos, the system detects and documents damage automatically. No separate tool needed — save £200-300/month.",
-  },
-  {
-    question: "How long does setup take?",
-    answer:
-      "About 30 minutes. Add your drivers, import your van fleet, and connect your Amazon data. No complex integrations, no IT team required.",
-  },
-  {
-    question: "Do my drivers need to download an app?",
-    answer:
-      "Yes, they get their own portal app. It's simple — shifts, pay, performance, damage uploads, all in one place. No more juggling multiple apps.",
-  },
-  {
-    question: <>What makes DSP<span className="text-brand">Ops</span> different from Zerity or Courio?</>,
-    answer:
-      <>DSP<span className="text-brand">Ops</span> bundles everything — scheduling, damage detection, payroll, driver portal — in one platform. Others require separate tools for each. Built by an OSM who understands DSP operations firsthand.</>,
-  },
-  {
-    question: "Is my data secure?",
-    answer:
-      "SOC 2 compliant, end-to-end encryption, regular security audits. Your data is stored on secure servers and we never share it with third parties.",
-  },
-  {
-    question: "Can I cancel anytime?",
-    answer:
-      "Yes, month-to-month. No long-term contracts. Cancel from your account settings and retain access until the end of your billing period.",
-  },
-  {
-    question: "How does automated payroll work?",
-    answer:
-      <>DSP<span className="text-brand">Ops</span> pulls shift data, applies your pay rules and deductions, and generates payroll reports. Export directly for your accountant — no more reformatting spreadsheets.</>,
-  },
+  { question: "How long does setup take?", answer: "Most DSPs are live in 20 minutes. We import your drivers from a CSV, connect your Cortex scorecard feed, and generate driver portal logins automatically. Priority onboarding sessions are included on Professional and Enterprise plans." },
+  { question: "Does it work with Amazon Cortex?", answer: "Yes — live two-way sync. Scorecards, delivery progress, and route data flow into DSPOps automatically. No more manual re-keying, no more 'why is my score wrong?' calls." },
+  { question: "We run Same-Day Delivery. Is that supported?", answer: "Yes — SDD is a first-class module, not an afterthought. You get a separate wave view for same-day routes, tighter SLA timers, late-stop alerts, and SDD-specific payroll rates. Owners running both standard and SDD contracts see everything in one fleet-wide dashboard." },
+  { question: "Do drivers need to install anything?", answer: "No app store, no download. Drivers get a login link via text and access the portal from any phone's browser. It works offline too — they can mark vans, submit damage, check rota without signal." },
+  { question: "Can I cancel my other tools immediately?", answer: "Usually yes. DSPOps replaces rota spreadsheets, WhatsApp driver groups, van inspection apps, and most payroll sheets. We migrate historical data in your first week so you lose nothing." },
+  { question: "Is it GDPR compliant?", answer: "Yes — UK-hosted, GDPR-compliant. Driver data stays in the UK. We sign DPAs and provide audit logs for all data access." },
+  { question: "What if my fleet grows past a tier?", answer: "We upgrade you mid-month and prorate the difference. No per-driver fees, ever — you just move to the next tier when you hit the driver limit." },
 ];
 
 function FAQItem({
@@ -107,26 +73,11 @@ export default function FAQSection() {
               FAQ
             </span>
             <h2 className="mt-3 text-3xl sm:text-4xl font-extrabold text-navy tracking-tight">
-              Frequently asked questions
+              Questions DSP owners ask us.
             </h2>
             <p className="mt-4 text-muted-foreground">
-              Can't find what you're looking for? Reach out to our support team.
+              Still something missing? Email hello@dspops.co.uk — real humans answer.
             </p>
-            <a
-              href="mailto:support@dspops.app"
-              className="inline-flex items-center gap-2 mt-6 text-sm font-semibold text-brand hover:text-brand-dark transition-colors"
-            >
-              Contact Support
-              <span className="text-lg">&rarr;</span>
-            </a>
-
-            {/* Email CTA */}
-            <div className="mt-8">
-              <p className="text-sm font-semibold text-navy mb-3">
-                Ready to get started?
-              </p>
-              <EmailCaptureInline className="max-w-sm" buttonText="Join The Waitlist" />
-            </div>
           </div>
 
           {/* Right — Accordion */}
