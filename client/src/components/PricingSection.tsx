@@ -9,61 +9,25 @@ import { Check, Star, ArrowRight } from "lucide-react";
 
 const plans = [
   {
-    name: "Starter",
-    price: "99",
-    period: "/month",
-    description: "Perfect for small DSPs getting started with automation.",
-    drivers: "Up to 30 drivers",
-    popular: false,
-    cta: "Get Early Access",
-    features: [
-      "Smart scheduling",
-      "Driver management",
-      "Fleet tracking",
-      "Basic compliance alerts",
-      "Weekly payroll",
-      "Driver portal",
-      "Email support",
-    ],
+    name: "Starter", price: "99", period: "/mo", drivers: "Up to 30 drivers", popular: false,
+    features: ["All 8 modules", "Driver portal", "Email support", "Cortex integration"],
   },
   {
-    name: "Professional",
-    price: "249",
-    period: "/month",
-    description: "The complete toolkit for growing DSP operations.",
-    drivers: "Up to 100 drivers",
-    popular: true,
-    cta: "Get Early Access",
-    features: [
-      "Everything in Starter",
-      "AI van damage detection",
-      "Performance scorecards",
-      "Advanced compliance tracking",
-      "Reports & analytics",
-      "Capacity planning",
-      "Amazon Cortex integration",
-      "Priority support",
-    ],
+    name: "Professional", price: "249", period: "/mo", drivers: "Up to 100 drivers", popular: true,
+    features: ["Everything in Starter", "Priority support", "Custom scorecards", "API access", "Dedicated onboarding"],
   },
   {
-    name: "Enterprise",
-    price: "Custom",
-    period: "",
-    description: "For large DSPs needing unlimited scale and support.",
-    drivers: "Unlimited drivers",
-    popular: false,
-    cta: "Book a Demo",
-    features: [
-      "Everything in Professional",
-      "Multi-DSP management",
-      "Custom integrations",
-      "Dedicated account manager",
-      "Custom reports",
-      "SLA guarantee",
-      "Onboarding support",
-    ],
+    name: "Enterprise", price: null, period: "", drivers: "100+ drivers", popular: false,
+    features: ["Everything in Pro", "Dedicated CSM", "SSO / SAML", "Custom SLAs", "White-glove setup"],
   },
-];
+] as const satisfies {
+  name: string;
+  price: string | null;
+  period: string;
+  drivers: string;
+  popular: boolean;
+  features: readonly string[];
+}[];
 
 function PricingEmailCapture({ popular }: { popular: boolean }) {
   const [email, setEmail] = useState("");
@@ -112,13 +76,13 @@ export default function PricingSection() {
           }`}
         >
           <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">
-            Simple pricing
+            PRICING
           </span>
           <h2 className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-extrabold text-navy tracking-tight">
-            One platform. No hidden fees.
+            Flat monthly. No per-driver fees. Ever.
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            Replace 3+ tools with one. Every plan includes a 14-day free trial.
+            Add all the drivers you want within your tier. We never charge per-seat — so you're never penalised for growing.
           </p>
         </div>
 
@@ -131,24 +95,23 @@ export default function PricingSection() {
                 plan.popular
                   ? "border-2 border-brand shadow-[0_25px_60px_-8px_rgba(59,130,246,0.28),0_8px_24px_-4px_rgba(0,0,0,0.08)] scale-[1.03] lg:scale-[1.05] z-10"
                   : "border border-border/50 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.07)] hover:shadow-[0_16px_40px_-8px_rgba(0,0,0,0.12)] hover:-translate-y-1"
-              } bg-white ${
+              } ${plan.popular ? 'bg-[#111113]' : 'bg-white'} ${
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}
               style={{ transitionDelay: `${i * 100 + 200}ms` }}
             >
               {plan.popular && (
-                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 inline-flex items-center gap-1 px-3 py-1 bg-brand text-white text-xs font-bold rounded-full">
+                <div className="absolute top-6 right-6 inline-flex items-center gap-1 px-3 py-1 bg-brand text-white text-xs font-bold rounded-full">
                   <Star size={12} fill="white" />
                   Most Popular
                 </div>
               )}
 
               <div className="mb-6">
-                <h3 className="text-lg font-bold text-navy">{plan.name}</h3>
-                <p className="text-sm text-muted-foreground mt-1">{plan.description}</p>
+                <h3 className={`text-lg font-bold ${plan.popular ? 'text-white' : 'text-navy'}`}>{plan.name}</h3>
               </div>
 
-              {plan.price !== "Custom" && (
+              {plan.price !== null && (
                 <div className="mb-3 inline-flex items-center gap-1.5 px-3 py-1 bg-green-50 border border-green-200 rounded-full whitespace-nowrap">
                   <span className="text-[11px] font-semibold text-green-700">
                     14-day free trial — no card required
@@ -158,14 +121,14 @@ export default function PricingSection() {
 
               <div className="mb-6">
                 <div className="flex items-baseline gap-1">
-                  {plan.price !== "Custom" && (
-                    <span className="text-lg text-muted-foreground">£</span>
+                  {plan.price !== null && (
+                    <span className={`text-lg ${plan.popular ? 'text-white/60' : 'text-muted-foreground'}`}>£</span>
                   )}
-                  <span className="text-4xl lg:text-5xl font-extrabold text-navy">
+                  <span className={`text-4xl lg:text-5xl font-extrabold ${plan.popular ? 'text-white' : 'text-navy'}`}>
                     {plan.price}
                   </span>
                   {plan.period && (
-                    <span className="text-muted-foreground">{plan.period}</span>
+                    <span className={plan.popular ? 'text-white/60' : 'text-muted-foreground'}>{plan.period}</span>
                   )}
                 </div>
                 <p className="text-sm text-brand font-medium mt-1">{plan.drivers}</p>
@@ -179,10 +142,10 @@ export default function PricingSection() {
                     <Check
                       size={16}
                       className={`shrink-0 mt-0.5 ${
-                        plan.popular ? "text-amber-500" : "text-green-500"
+                        plan.popular ? "text-brand-light" : "text-green-500"
                       }`}
                     />
-                    <span className="text-sm text-navy/80">{feature}</span>
+                    <span className={`text-sm ${plan.popular ? 'text-white/80' : 'text-navy/80'}`}>{feature}</span>
                   </li>
                 ))}
               </ul>
