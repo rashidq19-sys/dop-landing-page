@@ -3,7 +3,7 @@ import { Menu, X } from "lucide-react";
 
 const LOGO_URL = "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/dop-logo_ba62af1c.png";
 
-const navLinks = [
+const navLinks: { label: string; href: string }[] = [
   { label: "Platform", href: "#features" },
   { label: "For owners", href: "#audiences" },
   { label: "For operations", href: "#audiences" },
@@ -28,7 +28,7 @@ export default function Navbar() {
       <div className="max-w-[1280px] mx-auto px-8">
         <div className="flex items-center justify-between h-[68px]">
           {/* Logo */}
-          <a href="#" className="flex items-center gap-2.5">
+          <a href="/" className="flex items-center gap-2.5">
             <img src={LOGO_URL} alt="DSPOps" className="w-9 h-9 rounded-lg" />
             <span className="text-[#111113] font-bold text-lg tracking-tight">
               DSP<span className="text-brand">Ops</span>
@@ -49,7 +49,7 @@ export default function Navbar() {
           </div>
 
           {/* Mobile toggle */}
-          <button onClick={() => setMobileOpen(!mobileOpen)} className="lg:hidden p-2 text-[#111113]">
+          <button onClick={() => setMobileOpen(!mobileOpen)} aria-expanded={mobileOpen} aria-label={mobileOpen ? "Close menu" : "Open menu"} className="lg:hidden p-2 text-[#111113]">
             {mobileOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
