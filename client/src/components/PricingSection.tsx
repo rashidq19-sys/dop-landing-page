@@ -7,18 +7,20 @@ import { useState } from "react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { Check, Star, ArrowRight } from "lucide-react";
 
+const STARTER_MODULES = "Rota · Dispatch · Portal · Scorecards · Compliance · Tracking";
+
 const plans = [
   {
     name: "Starter", price: "99", period: "/mo", drivers: "Up to 30 drivers", popular: false,
-    features: ["All 8 modules", "Driver portal", "Email support", "Cortex integration"],
+    features: ["6 modules", "Email support", "Cortex integration"],
   },
   {
     name: "Professional", price: "249", period: "/mo", drivers: "Up to 100 drivers", popular: true,
-    features: ["Everything in Starter", "Priority support", "Custom scorecards", "API access", "Dedicated onboarding"],
+    features: ["Everything in Starter", "Payroll", "Van Condition", "Same-Day Delivery", "Priority support", "Custom scorecards", "API access", "Dedicated onboarding"],
   },
   {
     name: "Enterprise", price: null, period: "", drivers: "100+ drivers", popular: false,
-    features: ["Everything in Pro", "Dedicated CSM", "SSO / SAML", "Custom SLAs", "White-glove setup"],
+    features: ["Everything in Pro", "Multi-station support", "API access", "Dedicated CSM", "SSO / SAML", "Custom SLAs", "White-glove setup"],
   },
 ] as const satisfies {
   name: string;
@@ -145,7 +147,16 @@ export default function PricingSection() {
                         plan.popular ? "text-brand-light" : "text-green-500"
                       }`}
                     />
-                    <span className={`text-sm ${plan.popular ? 'text-white/80' : 'text-navy/80'}`}>{feature}</span>
+                    {feature === "6 modules" ? (
+                      <span className={`text-sm ${plan.popular ? 'text-white/80' : 'text-navy/80'} relative group cursor-help`}>
+                        6 modules
+                        <span className="absolute bottom-full left-0 mb-2 hidden group-hover:block w-56 bg-[#111113] text-white text-xs rounded-lg px-3 py-2 shadow-xl z-20 leading-relaxed pointer-events-none">
+                          {STARTER_MODULES}
+                        </span>
+                      </span>
+                    ) : (
+                      <span className={`text-sm ${plan.popular ? 'text-white/80' : 'text-navy/80'}`}>{feature}</span>
+                    )}
                   </li>
                 ))}
               </ul>
