@@ -76,7 +76,7 @@ export default function FAQSection() {
               Questions DSP owners ask us.
             </h2>
             <p className="mt-4 text-muted-foreground">
-              Still something missing? Email hello@dspops.co.uk — real humans answer.
+              Still something missing? Email support@dspops.app — real humans answer.
             </p>
           </div>
 

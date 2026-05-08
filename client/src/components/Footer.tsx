@@ -16,7 +16,7 @@ export default function Footer() {
             { label: "Privacy", href: "/privacy" },
             { label: "Terms", href: "#" },
             { label: "Security", href: "#" },
-            { label: "hello@dspops.co.uk", href: "mailto:hello@dspops.co.uk" },
+            { label: "support@dspops.app", href: "mailto:support@dspops.app" },
           ].map(l => (
             <a key={l.label} href={l.href} className="hover:text-white transition-colors">{l.label}</a>
           ))}
