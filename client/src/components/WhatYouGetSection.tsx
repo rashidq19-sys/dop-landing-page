@@ -14,7 +14,7 @@ const OUTCOMES = [
   {
     role: "Operations Manager",
     headline: "Leave the depot on time.",
-    detail: "No more rota_v17_FINAL.xlsx, no more WhatsApp chaos at 06:30. Dispatch done by 08:30, scorecards pulled from Cortex, payroll runs itself on Friday.",
+    detail: "No more spreadsheets. No more WhatsApp chaos at 06:30. Dispatch done on time, scorecards pulled from Cortex, next week's scheduling sorted in minutes, payroll runs itself at the end of the week.",
     metric: "20+ hrs/wk back",
     Icon: Clock,
     color: "text-emerald-600",
