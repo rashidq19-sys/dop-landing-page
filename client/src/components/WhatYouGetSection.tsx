@@ -1,4 +1,4 @@
-import { PoundSterling, Clock, Zap } from "lucide-react";
+import { PoundSterling, Clock, Zap, Building2 } from "lucide-react";
 
 const OUTCOMES = [
   {
@@ -31,6 +31,16 @@ const OUTCOMES = [
     bg: "bg-amber-100",
     dot: "bg-amber-500",
   },
+  {
+    role: "Multi-Station DSPs",
+    headline: "Run multiple stations. One platform.",
+    detail: "Got a station in Bracknell and another in Wembley? Manage both from one account. Each station has its own drivers, scheduling, dispatch, and performance — tracked separately, with zero confusion between them.",
+    metric: "Unlimited stations",
+    Icon: Building2,
+    color: "text-violet-600",
+    bg: "bg-violet-100",
+    dot: "bg-violet-600",
+  },
 ];
 
 export default function WhatYouGetSection() {
@@ -40,10 +50,10 @@ export default function WhatYouGetSection() {
         {/* Header */}
         <div className="mb-12">
           <div className="text-[11px] font-semibold text-brand uppercase tracking-[0.14em] mb-3.5">— WHAT YOU GET</div>
-          <h2 className="text-[52px] font-extrabold text-[#111113] tracking-[-0.035em] leading-[1.02]">Three promises. Built into the platform.</h2>
+          <h2 className="text-[52px] font-extrabold text-[#111113] tracking-[-0.035em] leading-[1.02]">Four promises. Built into the platform.</h2>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
           {OUTCOMES.map((o, i) => (
             <div key={i} className="bg-white border border-border rounded-[16px] p-8 flex flex-col gap-[18px]">
               <div className="flex justify-between items-start">
