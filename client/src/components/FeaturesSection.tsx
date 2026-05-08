@@ -17,7 +17,7 @@ type ModuleKey = typeof MODULES[number]["key"];
 
 function ModulePreview({ moduleKey }: { moduleKey: ModuleKey }) {
   if (moduleKey === "portal") {
-    return <img src="/images/portal/home.jpeg" className="max-h-[440px] rounded-[22px] shadow-[0_25px_60px_-12px_rgba(17,17,19,0.28)]" alt="Driver portal" />;
+    return <img src="/images/driver-portal.png" className="max-h-[440px] rounded-[22px] shadow-[0_25px_60px_-12px_rgba(17,17,19,0.28)]" alt="Driver portal" />;
   }
   if (moduleKey === "payroll") {
     return <img src="/images/portal/invoice.jpeg" className="max-h-[440px] rounded-[22px] shadow-[0_25px_60px_-12px_rgba(17,17,19,0.28)]" alt="Payslip" />;
