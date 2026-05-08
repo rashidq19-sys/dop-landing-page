@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Calendar, Sunrise, Smartphone, PoundSterling, BarChart2, Truck, Shield, Zap, Activity } from "lucide-react";
 
 const MODULES = [
-  { key: "rota", name: "Rota", short: "Scheduling", blurb: "Drag-to-assign routes. Conflict detection. Driver availability baked in.", icon: Calendar, saved: "9hr/wk" },
+  { key: "rota", name: "Rota", short: "Scheduling", blurb: "Fully automated. Drivers choose their availability from their own portal — it syncs straight to the rota, no chasing required.", icon: Calendar, saved: "9hr/wk" },
   { key: "dispatch", name: "Dispatch", short: "Morning", blurb: "Mark arrivals, hand out keys, track no-shows in under 30 minutes.", icon: Sunrise, saved: "4hr/wk" },
   { key: "portal", name: "Portal", short: "Driver app", blurb: "Every driver gets their own app. Rota, payslips, scorecards, van inspections.", icon: Smartphone, saved: "3hr/wk" },
   { key: "payroll", name: "Payroll", short: "& Invoices", blurb: "Pay calculated from shift data. One-click export for your accountant.", icon: PoundSterling, saved: "6hr/wk" },
@@ -26,23 +26,7 @@ function ModulePreview({ moduleKey }: { moduleKey: ModuleKey }) {
     return <img src="/images/portal/scorecards.jpeg" className="max-h-[440px] rounded-[22px] shadow-[0_25px_60px_-12px_rgba(17,17,19,0.28)]" alt="Scorecards" />;
   }
   if (moduleKey === "rota") {
-    return (
-      <div className="w-full max-w-[420px] bg-white rounded-xl border border-border p-5">
-        <div className="text-[13px] font-bold text-[#111113] mb-3.5">Week 3 · Apr 12 – 18</div>
-        <div className="grid grid-cols-7 gap-1">
-          {["M","T","W","T","F","S","S"].map((d, i) => (
-            <div key={i} className="p-2 bg-background rounded-md border border-border">
-              <div className="text-[10px] text-[#6C6C72] font-semibold mb-1.5">{d}</div>
-              {[0,1,2,3].map(r => (
-                <div key={r} className={`h-3 rounded-sm mb-[3px] border ${
-                  i >= 5 ? "bg-emerald-100 border-emerald-200" : "bg-brand/10 border-brand/20"
-                }`} />
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
-    );
+    return <img src="/images/rota-phone-v2.png" className="max-h-[440px] rounded-[22px] shadow-[0_25px_60px_-12px_rgba(17,17,19,0.28)]" alt="Rota" />;
   }
   if (moduleKey === "dispatch") {
     return (
