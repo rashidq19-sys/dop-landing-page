@@ -97,7 +97,7 @@ export default function FeaturesSection() {
             <div className="text-[11px] text-[#6C6C72] uppercase tracking-[0.1em]">MODULE · 0{active + 1}/09 · {m.short.toUpperCase()}</div>
             <h3 className="text-[44px] font-extrabold text-[#111113] tracking-[-0.03em] leading-[1.02] mt-3">{m.name}</h3>
             <p className="text-[17px] text-[#353538] leading-[1.55] mt-4">{m.blurb}</p>
-            <div className="flex flex-wrap gap-2 mt-6">
+            <div className="mt-auto flex flex-wrap gap-2 pt-6">
               {["Built for Amazon DSPs", "Mobile + web", "CSV export", "Live sync"].map(t => (
                 <span key={t} className="px-3 py-1.5 bg-white border border-border rounded-full text-[12px] font-medium text-[#353538]">{t}</span>
               ))}
