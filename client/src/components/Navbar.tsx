@@ -5,10 +5,7 @@ const LOGO_URL = "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwB
 
 const navLinks: { label: string; href: string }[] = [
   { label: "Platform", href: "#features" },
-  { label: "For owners", href: "#audiences" },
-  { label: "For operations", href: "#audiences" },
   { label: "Pricing", href: "#pricing" },
-  { label: "Changelog", href: "#" },
 ];
 
 export default function Navbar() {

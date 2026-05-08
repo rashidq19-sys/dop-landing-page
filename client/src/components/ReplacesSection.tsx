@@ -331,8 +331,7 @@ export default function ReplacesSection() {
               <div className="text-[22px] text-white/55 font-medium">/yr</div>
             </div>
             <p className="text-[15px] text-white/70 mt-4 max-w-[440px] leading-[1.55]">
-              saved on duplicate tools plus OSM hours clawed back from re-keying.{" "}
-              <a href="#calculator" className="text-brand-light underline font-semibold">Run your own numbers →</a>
+              saved on duplicate tools plus OSM hours clawed back from re-keying.
             </p>
           </div>
           <div className="self-stretch bg-white/12" />

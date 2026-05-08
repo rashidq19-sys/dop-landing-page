@@ -25,7 +25,7 @@ function HeroMock() {
               <div key={c} className="w-[9px] h-[9px] rounded-full" style={{ background: c }} />
             ))}
           </div>
-          <div className="text-[11px] text-[#6C6C72] font-sans">app.dspops.co.uk</div>
+          <div className="text-[11px] text-[#6C6C72] font-sans">dspops.app</div>
           <div className="w-[30px]" />
         </div>
         {/* Content */}

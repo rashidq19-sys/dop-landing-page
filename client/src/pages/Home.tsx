@@ -1,10 +1,8 @@
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import ReplacesSection from "@/components/ReplacesSection";
-import AudiencesSection from "@/components/AudiencesSection";
 import FeaturesSection from "@/components/FeaturesSection";
 import DriverPortalSection from "@/components/DriverPortalSection";
-import CostCalculatorSection from "@/components/CostCalculatorSection";
 import WhatYouGetSection from "@/components/WhatYouGetSection";
 import PricingSection from "@/components/PricingSection";
 import FAQSection from "@/components/FAQSection";
@@ -19,10 +17,8 @@ export default function Home() {
       <main>
         <HeroSection />
         <ReplacesSection />
-        <AudiencesSection />
         <FeaturesSection />
         <DriverPortalSection />
-        <CostCalculatorSection />
         <WhatYouGetSection />
         <PricingSection />
         <FAQSection />
