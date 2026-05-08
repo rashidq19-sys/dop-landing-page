@@ -10,7 +10,7 @@ const MODULES = [
   { key: "damage", name: "Van Condition", short: "Inspections", blurb: "Daily van checks with photos + videos. Instantly see who has and hasn't uploaded their check. Replace your £200+ third-party inspection app — built right into DSPOps.", icon: Truck, saved: "£200+/mo" },
   { key: "compliance", name: "Compliance", short: "Docs", blurb: "Licences, right-to-work, insurance — expiries tracked. Auto-reminders.", icon: Shield, saved: "2hr/wk" },
   { key: "sdd", name: "Same-Day", short: "SDD waves", blurb: "Purpose-built for DSPs running SDD. Manage your standard and same-day routes completely separately — their own rota, scheduling, wave times, and vans — all without the chaos of mixing them together.", icon: Zap, saved: "SLA risk ↓" },
-  { key: "tracking", name: "Tracking", short: "Live", blurb: "Live delivery progress from Cortex, surfaced directly to your drivers. No more calling them mid-route to ask where they are or how many stops they have left — they can see it themselves.", icon: Activity, saved: "2hr/wk" },
+  { key: "tracking", name: "Tracking", short: "Live", blurb: "Live delivery progress from Cortex, surfaced directly to your drivers. No more calling them mid-route to tell them where they are or how many stops they have left — they can see it themselves.", icon: Activity, saved: "2hr/wk" },
 ] as const;
 
 type ModuleKey = typeof MODULES[number]["key"];
