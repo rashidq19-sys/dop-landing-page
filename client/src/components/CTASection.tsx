@@ -39,7 +39,7 @@ export default function CTASection() {
           <div className="text-[22px] font-bold mt-1 tracking-[-0.01em]">See your DSP live on DSPOps</div>
           <form onSubmit={handleSubmit} className="flex flex-col gap-2.5 mt-5">
             <input
-              type="email" placeholder="Work email" required value={email}
+              type="email" placeholder="Email" required value={email}
               onChange={e => setEmail(e.target.value)}
               className="px-[14px] py-[13px] bg-white border-0 rounded-lg text-[14px] text-[#111113] placeholder:text-[#6C6C72] outline-none focus:ring-2 focus:ring-brand"
             />
