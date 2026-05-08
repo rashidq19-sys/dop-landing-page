@@ -198,7 +198,7 @@ function DSPOpsPanel({ ease }: { ease: MotionValue<number> }) {
       className="bg-white rounded-[16px] border border-border shadow-[0_30px_60px_-20px_rgba(17,17,19,0.12)] overflow-hidden">
       {/* chrome */}
       <div className="px-[18px] py-3 border-b border-border flex items-center gap-2.5 bg-background">
-        <div className="w-[22px] h-[22px] rounded-[6px] bg-[#111113] text-white flex items-center justify-center text-[11px] font-extrabold tracking-[-0.05em]">D</div>
+        <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/dop-logo_ba62af1c.png" alt="DSPOps" className="w-[22px] h-[22px] rounded-[6px]" />
         <div className="text-[13px] font-bold text-[#111113]">DSPOps · Morning</div>
         <div className="ml-auto flex items-center gap-1.5 text-[11px] text-emerald-600 font-semibold">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" /> Live · 06:42
