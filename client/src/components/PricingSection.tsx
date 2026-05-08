@@ -113,7 +113,7 @@ export default function PricingSection() {
                 <h3 className={`text-lg font-bold ${plan.popular ? 'text-white' : 'text-navy'}`}>{plan.name}</h3>
               </div>
 
-              {plan.price !== null && (
+              {(plan.price !== null || plan.name === 'Enterprise') && (
                 <div className="mb-3 inline-flex items-center gap-1.5 px-3 py-1 bg-green-50 border border-green-200 rounded-full whitespace-nowrap">
                   <span className="text-[11px] font-semibold text-green-700">
                     14-day free trial — no card required
