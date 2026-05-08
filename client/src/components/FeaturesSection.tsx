@@ -35,28 +35,7 @@ function ModulePreview({ moduleKey }: { moduleKey: ModuleKey }) {
     return <img src="/images/van-checks.png" className="max-h-[440px] rounded-[22px] shadow-[0_25px_60px_-12px_rgba(17,17,19,0.28)]" alt="Van Checks" />;
   }
   if (moduleKey === "compliance") {
-    return (
-      <div className="w-full max-w-[400px] bg-white rounded-xl border border-border overflow-hidden">
-        {[
-          { n: "Driving licence", d: "Expires Feb 2027", ok: true },
-          { n: "Right to work", d: "Expires May 2028", ok: true },
-          { n: "Insurance", d: "Expires in 14 days", ok: false },
-          { n: "DBS check", d: "Up to date", ok: true },
-        ].map((x, i) => (
-          <div key={i} className="px-4 py-3.5 border-b border-[#EFEFEB] last:border-0 flex justify-between items-center">
-            <div>
-              <div className="text-[14px] font-semibold text-[#111113]">{x.n}</div>
-              <div className="text-[12px] text-[#6C6C72] mt-0.5">{x.d}</div>
-            </div>
-            <div className={`w-7 h-7 rounded-full flex items-center justify-center ${
-              x.ok ? "bg-emerald-100 text-emerald-700" : "bg-amber-100 text-amber-700"
-            }`}>
-              {x.ok ? "✓" : "!"}
-            </div>
-          </div>
-        ))}
-      </div>
-    );
+    return <img src="/images/compliance.png" className="max-h-[440px] rounded-[22px] shadow-[0_25px_60px_-12px_rgba(17,17,19,0.28)]" alt="Compliance" />;
   }
   if (moduleKey === "sdd") {
     return (
