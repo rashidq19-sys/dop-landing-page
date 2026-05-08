@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 
 interface Props {
@@ -22,7 +23,7 @@ export default function SignInModal({ onClose }: Props) {
     }
   };
 
-  return (
+  return createPortal(
     <div
       className="fixed inset-0 z-[100] flex items-center justify-center px-4"
       style={{ background: "rgba(0,0,0,0.55)", backdropFilter: "blur(4px)" }}
@@ -71,6 +72,7 @@ export default function SignInModal({ onClose }: Props) {
           </>
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
