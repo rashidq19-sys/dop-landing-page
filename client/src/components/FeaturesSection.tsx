@@ -3,7 +3,7 @@ import { Calendar, Sunrise, Smartphone, PoundSterling, BarChart2, Truck, Shield,
 
 const MODULES = [
   { key: "rota", name: "Rota", short: "Scheduling", blurb: "Fully automated. Drivers choose their availability from their own portal — it syncs straight to the rota, no chasing required.", icon: Calendar, saved: "9hr/wk" },
-  { key: "dispatch", name: "Dispatch", short: "Morning", blurb: "Mark arrivals, hand out keys, track no-shows in under 30 minutes.", icon: Sunrise, saved: "4hr/wk" },
+  { key: "dispatch", name: "Dispatch", short: "Deployment Plan", blurb: "Mark arrivals, hand out keys, track no-shows in under 30 minutes.", icon: Sunrise, saved: "4hr/wk" },
   { key: "portal", name: "Portal", short: "Driver app", blurb: "Every driver gets their own app. Rota, payslips, scorecards, van inspections.", icon: Smartphone, saved: "3hr/wk" },
   { key: "payroll", name: "Payroll", short: "& Invoices", blurb: "Pay calculated from shift data. One-click export for your accountant.", icon: PoundSterling, saved: "6hr/wk" },
   { key: "scorecards", name: "Scorecards", short: "Cortex", blurb: "Amazon Cortex metrics live. Drivers see their score — so you stop getting asked.", icon: BarChart2, saved: "3hr/wk" },
@@ -29,25 +29,7 @@ function ModulePreview({ moduleKey }: { moduleKey: ModuleKey }) {
     return <img src="/images/rota-phone-v2.png" className="max-h-[440px] rounded-[22px] shadow-[0_25px_60px_-12px_rgba(17,17,19,0.28)]" alt="Rota" />;
   }
   if (moduleKey === "dispatch") {
-    return (
-      <div className="w-full max-w-[440px] bg-white rounded-xl border border-border overflow-hidden">
-        <div className="px-4 py-3 border-b border-border text-[13px] font-bold text-[#111113]">Dispatch · 38/42 arrived</div>
-        {[
-          { name: "Amelia Scott · CA_R01", s: "a" },
-          { name: "Marcus Okoye · CA_R04", s: "a" },
-          { name: "Priya Mehta · CA_R07", s: "l" },
-          { name: "James Callahan · CA_R11", s: "a" },
-          { name: "Sofia Delgado · CA_R14", s: "n" },
-        ].map((x, i) => (
-          <div key={i} className="px-4 py-[11px] border-b border-[#EFEFEB] last:border-0 flex justify-between items-center text-xs">
-            <span className="text-[#111113] font-mono">{x.name}</span>
-            <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-              x.s === "a" ? "bg-emerald-100 text-emerald-700" : x.s === "l" ? "bg-amber-100 text-amber-700" : "bg-red-100 text-red-600"
-            }`}>{x.s === "a" ? "Arrived" : x.s === "l" ? "Late" : "No-show"}</span>
-          </div>
-        ))}
-      </div>
-    );
+    return <img src="/images/dispatch-deployment-plan.png" className="max-h-[440px] rounded-[22px] shadow-[0_25px_60px_-12px_rgba(17,17,19,0.28)]" alt="Deployment Plan" />;
   }
   if (moduleKey === "damage") {
     return (
