@@ -317,36 +317,6 @@ export default function ReplacesSection() {
           </div>
         </div>
 
-        {/* Payoff band */}
-        <div className="bg-[#111113] text-white rounded-[20px] px-[52px] py-12 grid gap-9 relative overflow-hidden"
-          style={{ gridTemplateColumns: "1.4fr 1px 1fr 1px 1fr" }}>
-          <div className="absolute inset-0 pointer-events-none"
-            style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
-          <div className="relative">
-            <div className="text-[11px] font-bold text-brand-light tracking-[0.22em] uppercase mb-3.5 flex items-center gap-2.5">
-              <span className="w-6 h-px bg-brand-light" /> So, Monday becomes…
-            </div>
-            <div className="flex items-baseline gap-2.5">
-              <div className="text-[80px] lg:text-[120px] font-extrabold tracking-[-0.05em] leading-[0.85] tabular-nums">+£13,400</div>
-              <div className="text-[22px] text-white/55 font-medium">/yr</div>
-            </div>
-            <p className="text-[15px] text-white/70 mt-4 max-w-[440px] leading-[1.55]">
-              saved on duplicate tools plus OSM hours clawed back from re-keying.
-            </p>
-          </div>
-          <div className="self-stretch bg-white/12" />
-          <div className="relative">
-            <div className="text-[11px] font-bold text-white/50 tracking-[0.22em] uppercase mb-3.5">Payback</div>
-            <div className="text-[68px] font-extrabold tracking-[-0.04em] leading-[0.9]">~3 wks</div>
-            <p className="text-[13px] text-white/60 mt-3.5 leading-[1.5]">Break-even on Professional for most DSPs.</p>
-          </div>
-          <div className="self-stretch bg-white/12" />
-          <div className="relative">
-            <div className="text-[11px] font-bold text-white/50 tracking-[0.22em] uppercase mb-3.5">Logins · bills</div>
-            <div className="text-[68px] font-extrabold tracking-[-0.04em] leading-[0.9]">5 <span className="text-brand-light">→</span> 1</div>
-            <p className="text-[13px] text-white/60 mt-3.5 leading-[1.5]">One platform, one invoice, one login.</p>
-          </div>
-        </div>
       </div>
     </section>
   );
