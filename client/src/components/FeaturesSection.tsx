@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Calendar, Sunrise, Smartphone, PoundSterling, BarChart2, Truck, Shield, Zap, Activity } from "lucide-react";
 
 const MODULES = [
@@ -40,17 +40,116 @@ function ModulePreview({ moduleKey }: { moduleKey: ModuleKey }) {
   if (moduleKey === "sdd") {
     return <img src="/images/sdd.png" className="max-h-[440px] rounded-[22px] shadow-[0_25px_60px_-12px_rgba(17,17,19,0.28)]" alt="Same-Day Delivery" />;
   }
-  // tracking (default)
   return <img src="/images/tracking.png" className="max-h-[440px] rounded-[22px] shadow-[0_25px_60px_-12px_rgba(17,17,19,0.28)]" alt="Tracking" />;
 }
 
 export default function FeaturesSection() {
   const [active, setActive] = useState(0);
+  const [visited, setVisited] = useState<Set<number>>(new Set([0]));
+  const [showHint, setShowHint] = useState(false);
+
+  const sectionRef = useRef<HTMLElement>(null);
+  const activeRef = useRef(0);
+  const isInSectionRef = useRef(false);
+  const lastWheelTime = useRef(0);
+  const autoTimerRef = useRef<number | null>(null);
+  const hasInteracted = useRef(false);
+
+  // Keep activeRef in sync and track visited tabs
+  useEffect(() => {
+    activeRef.current = active;
+    setVisited(prev => new Set([...prev, active]));
+  }, [active]);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const isMobile = () => window.innerWidth < 768;
+
+    const stopAutoCycle = () => {
+      if (autoTimerRef.current !== null) {
+        clearInterval(autoTimerRef.current);
+        autoTimerRef.current = null;
+      }
+    };
+
+    const startAutoCycle = () => {
+      if (autoTimerRef.current !== null) return;
+      autoTimerRef.current = window.setInterval(() => {
+        if (hasInteracted.current) { stopAutoCycle(); return; }
+        setActive(prev => {
+          if (prev >= MODULES.length - 1) { stopAutoCycle(); return prev; }
+          return prev + 1;
+        });
+      }, 2500);
+    };
+
+    // Detect when the viewport midpoint is inside the section
+    const checkInSection = () => {
+      const rect = section.getBoundingClientRect();
+      const midpoint = window.innerHeight / 2;
+      const prev = isInSectionRef.current;
+      isInSectionRef.current = rect.top < midpoint && rect.bottom > midpoint;
+
+      if (!prev && isInSectionRef.current) {
+        setShowHint(true);
+        if (isMobile() && !hasInteracted.current) startAutoCycle();
+      } else if (prev && !isInSectionRef.current) {
+        stopAutoCycle();
+      }
+    };
+
+    // Intercept wheel scroll to advance tabs instead of scrolling the page
+    const handleWheel = (e: WheelEvent) => {
+      if (!isInSectionRef.current || isMobile()) return;
+
+      const now = Date.now();
+      if (now - lastWheelTime.current < 160) return;
+
+      const cur = activeRef.current;
+
+      if (e.deltaY > 0 && cur < MODULES.length - 1) {
+        e.preventDefault();
+        lastWheelTime.current = now;
+        setActive(cur + 1);
+        setShowHint(false);
+        hasInteracted.current = true;
+      } else if (e.deltaY < 0 && cur > 0) {
+        e.preventDefault();
+        lastWheelTime.current = now;
+        setActive(cur - 1);
+        setShowHint(false);
+        hasInteracted.current = true;
+      }
+      // If on first/last tab, fall through and let page scroll normally
+    };
+
+    window.addEventListener("scroll", checkInSection, { passive: true });
+    window.addEventListener("wheel", handleWheel, { passive: false });
+    checkInSection();
+
+    return () => {
+      window.removeEventListener("scroll", checkInSection);
+      window.removeEventListener("wheel", handleWheel);
+      stopAutoCycle();
+    };
+  }, []);
+
+  const handleTabClick = (i: number) => {
+    hasInteracted.current = true;
+    setActive(i);
+    setShowHint(false);
+    if (autoTimerRef.current !== null) {
+      clearInterval(autoTimerRef.current);
+      autoTimerRef.current = null;
+    }
+  };
+
   const m = MODULES[active];
-  const Icon = m.icon;
 
   return (
-    <section id="features" className="bg-white py-[100px] border-b border-border">
+    <section ref={sectionRef} id="features" className="bg-white py-[100px] border-b border-border">
       <div className="max-w-[1280px] mx-auto px-8">
         {/* Header */}
         <div className="mb-12">
@@ -61,21 +160,44 @@ export default function FeaturesSection() {
           </div>
         </div>
 
-        {/* Module pill row */}
+        {/* Controls row */}
         <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
-          <div className="flex items-center gap-2 text-[11px] text-[#6C6C72] uppercase tracking-[0.12em]">
-            <span className="px-[9px] py-1 bg-[#111113] text-white rounded-full text-[10px] font-bold">TAP TO EXPLORE</span>
-            <span className="hidden sm:inline">← select a module →</span>
+          <div className="flex items-center gap-3 flex-wrap">
+            <div className="flex items-center gap-2 text-[11px] text-[#6C6C72] uppercase tracking-[0.12em]">
+              <span className="px-[9px] py-1 bg-[#111113] text-white rounded-full text-[10px] font-bold">TAP TO EXPLORE</span>
+              <span className="hidden sm:inline">← select a module →</span>
+            </div>
+            {/* Progress dots — pill shape for visited, circle for not yet seen */}
+            <div className="flex items-center gap-1">
+              {MODULES.map((_, i) => (
+                <div
+                  key={i}
+                  className={`rounded-full transition-all duration-300 ${
+                    visited.has(i)
+                      ? "w-4 h-1.5 bg-brand"
+                      : "w-1.5 h-1.5 bg-[#D1D5DB]"
+                  }`}
+                />
+              ))}
+            </div>
           </div>
-          <div className="text-[11px] text-[#6C6C72] tabular-nums">0{active + 1} / 09</div>
+          <div className="flex items-center gap-3">
+            {showHint && (
+              <span className="text-[11px] text-[#6C6C72] hidden md:flex items-center gap-1 animate-pulse">
+                ↓ scroll to explore modules
+              </span>
+            )}
+            <div className="text-[11px] text-[#6C6C72] tabular-nums">0{active + 1} / 09</div>
+          </div>
         </div>
 
+        {/* Tab buttons */}
         <div className="bg-background rounded-[16px] border border-border p-2 grid gap-1 mb-6"
           style={{ gridTemplateColumns: "repeat(9, 1fr)" }}>
           {MODULES.map((mod, i) => {
             const Ic = mod.icon;
             return (
-              <button key={mod.key} onClick={() => setActive(i)}
+              <button key={mod.key} onClick={() => handleTabClick(i)}
                 className={`py-4 px-2 flex flex-col items-center gap-2 rounded-[11px] text-[12px] font-semibold transition-all duration-150 relative ${
                   active === i
                     ? "bg-brand text-white border border-brand shadow-[0_6px_16px_rgba(37,99,235,0.35)]"
