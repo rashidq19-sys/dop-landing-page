@@ -262,7 +262,7 @@ export default function ReplacesSection() {
         <div className="mb-[80px]">
           <h2 className="font-sans text-[72px] lg:text-[108px] font-extrabold text-[#111113] tracking-[-0.045em] leading-[0.92]">
             Five apps.<br />
-            <span className="italic font-medium text-[#353538]">One platform.</span>
+            <span className="italic font-medium text-brand">One platform.</span>
           </h2>
         </div>
 
