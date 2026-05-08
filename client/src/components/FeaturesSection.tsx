@@ -6,7 +6,7 @@ const MODULES = [
   { key: "dispatch", name: "Dispatch", short: "Deployment Plan", blurb: "Mark arrivals, hand out keys, track no-shows in under 30 minutes.", icon: Sunrise, saved: "4hr/wk" },
   { key: "portal", name: "Portal", short: "Driver app", blurb: "Every driver gets their own app. Rota, payslips, scorecards, van inspections.", icon: Smartphone, saved: "3hr/wk" },
   { key: "payroll", name: "Payroll", short: "& Invoices", blurb: "Pay calculated directly from Amazon Cortex's Work Summary Tool. One-click export for your accountant.", icon: PoundSterling, saved: "6hr/wk" },
-  { key: "scorecards", name: "Scorecards", short: "Cortex", blurb: "Amazon Cortex metrics live. Drivers see their score — so you stop getting asked.", icon: BarChart2, saved: "3hr/wk" },
+  { key: "scorecards", name: "Scorecards", short: "Cortex", blurb: "Amazon Cortex metrics live. Every driver sees their own score. Your OSM instantly knows where the DSP needs attention — spot the pattern, stop the same problem recurring.", icon: BarChart2, saved: "3hr/wk" },
   { key: "damage", name: "Van Condition", short: "Inspections", blurb: "Daily van check-ins with photo + timestamp. Replace your £249/mo third-party inspection app.", icon: Truck, saved: "£249/mo" },
   { key: "compliance", name: "Compliance", short: "Docs", blurb: "Licences, right-to-work, insurance — expiries tracked. Auto-reminders.", icon: Shield, saved: "2hr/wk" },
   { key: "sdd", name: "Same-Day", short: "SDD waves", blurb: "Purpose-built for DSPs running SDD. Separate wave view, tighter SLAs, late-stop alerts — all live from Cortex.", icon: Zap, saved: "SLA risk ↓" },
@@ -23,7 +23,7 @@ function ModulePreview({ moduleKey }: { moduleKey: ModuleKey }) {
     return <img src="/images/payroll-phone.png" className="max-h-[440px] rounded-[22px] shadow-[0_25px_60px_-12px_rgba(17,17,19,0.28)]" alt="Payroll" />;
   }
   if (moduleKey === "scorecards") {
-    return <img src="/images/portal/scorecards.jpeg" className="max-h-[440px] rounded-[22px] shadow-[0_25px_60px_-12px_rgba(17,17,19,0.28)]" alt="Scorecards" />;
+    return <img src="/images/scorecard.png" className="max-h-[440px] rounded-[22px] shadow-[0_25px_60px_-12px_rgba(17,17,19,0.28)]" alt="Scorecards" />;
   }
   if (moduleKey === "rota") {
     return <img src="/images/rota-phone-v2.png" className="max-h-[440px] rounded-[22px] shadow-[0_25px_60px_-12px_rgba(17,17,19,0.28)]" alt="Rota" />;
