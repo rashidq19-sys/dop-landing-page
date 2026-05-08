@@ -1,16 +1,19 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
+import SignInModal from "./SignInModal";
 
 const LOGO_URL = "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/dop-logo_ba62af1c.png";
 
 const navLinks: { label: string; href: string }[] = [
   { label: "Platform", href: "#features" },
   { label: "Pricing", href: "#pricing" },
+  { label: "Contact", href: "mailto:support@dspops.app" },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [signInOpen, setSignInOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -39,7 +42,7 @@ export default function Navbar() {
 
           {/* Desktop CTAs */}
           <div className="hidden lg:flex items-center gap-2.5">
-            <a href="#" className="text-sm font-medium text-[#353538] hover:text-[#111113] transition-colors px-2">Sign in</a>
+            <button onClick={() => setSignInOpen(true)} className="text-sm font-medium text-[#353538] hover:text-[#111113] transition-colors px-2">Sign in</button>
             <a href="#book-demo" className="px-4 py-[9px] bg-[#111113] text-white rounded-lg text-sm font-semibold hover:bg-[#353538] transition-colors">
               Book demo →
             </a>
@@ -52,6 +55,8 @@ export default function Navbar() {
         </div>
       </div>
 
+      {signInOpen && <SignInModal onClose={() => setSignInOpen(false)} />}
+
       {/* Mobile menu */}
       {mobileOpen && (
         <div className="lg:hidden bg-white border-t border-border px-4 py-4 space-y-1">
@@ -61,7 +66,11 @@ export default function Navbar() {
               {l.label}
             </a>
           ))}
-          <div className="pt-3 border-t border-border">
+          <div className="pt-3 border-t border-border flex flex-col gap-2">
+            <button onClick={() => { setMobileOpen(false); setSignInOpen(true); }}
+              className="block w-full text-center text-sm font-medium text-[#353538] hover:text-[#111113] px-5 py-2.5 rounded-lg transition-colors">
+              Sign in
+            </button>
             <a href="#book-demo" onClick={() => setMobileOpen(false)}
               className="block w-full text-center text-sm font-semibold text-white bg-[#111113] px-5 py-2.5 rounded-lg">
               Book demo →
