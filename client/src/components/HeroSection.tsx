@@ -101,7 +101,7 @@ export default function HeroSection() {
   const [lightboxOpen, setLightboxOpen] = useState(false);
 
   return (
-    <section className="bg-background border-b border-border py-[60px] pb-[80px] relative overflow-hidden">
+    <section className="bg-background border-b border-border pt-[100px] pb-[80px] relative overflow-hidden">
       <div ref={ref} className="max-w-[1280px] mx-auto px-8">
         <div className={`grid grid-cols-1 lg:grid-cols-[1.05fr_1fr] gap-[52px] items-center transition-all duration-700 ${
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
