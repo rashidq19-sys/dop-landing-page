@@ -23,8 +23,8 @@ const OUTCOMES = [
   },
   {
     role: "SDD Operations",
-    headline: "Never miss an SDD SLA.",
-    detail: "Dedicated Same-Day wave view with live SLA timers, late-stop alerts and auto-flagged at-risk routes. Purpose-built for DSPs running same-day contracts.",
+    headline: "Dedicated Same-Day Delivery.",
+    detail: "Easily manage your same-day drivers separately from your standard route drivers. Their own scheduling, wave times, and vans — all kept apart so nothing gets mixed up and everything is easier to track and manage.",
     metric: "Real-time wave view",
     Icon: Zap,
     color: "text-amber-700",
