@@ -9,7 +9,7 @@ const MODULES = [
   { key: "scorecards", name: "Scorecards", short: "Cortex", blurb: "Amazon Cortex metrics live. Control your DCR, DPMO, and DNRs. Improve your POD, CC, CDF and every other metric that matters. Every driver sees their own score — your OSM instantly knows where the DSP needs attention, spots the pattern, and stops the same problem recurring.", icon: BarChart2, saved: "3hr/wk" },
   { key: "damage", name: "Van Condition", short: "Inspections", blurb: "Daily van checks with photos + videos. Instantly see who has and hasn't uploaded their check. Replace your £200+ third-party inspection app — built right into DSPOps.", icon: Truck, saved: "£200+/mo" },
   { key: "compliance", name: "Compliance", short: "Docs", blurb: "Licences, right-to-work, insurance — expiries tracked. Auto-reminders.", icon: Shield, saved: "2hr/wk" },
-  { key: "sdd", name: "Same-Day", short: "SDD waves", blurb: "Purpose-built for DSPs running SDD. Separate wave view, tighter SLAs, late-stop alerts — all live from Cortex.", icon: Zap, saved: "SLA risk ↓" },
+  { key: "sdd", name: "Same-Day", short: "SDD waves", blurb: "Purpose-built for DSPs running SDD. Manage your standard and same-day routes completely separately — their own rota, scheduling, wave times, and vans — all without the chaos of mixing them together.", icon: Zap, saved: "SLA risk ↓" },
   { key: "tracking", name: "Tracking", short: "Live", blurb: "Live delivery progress from Cortex, surfaced to drivers so they know where they stand.", icon: Activity, saved: "2hr/wk" },
 ] as const;
 
@@ -38,35 +38,7 @@ function ModulePreview({ moduleKey }: { moduleKey: ModuleKey }) {
     return <img src="/images/compliance.png" className="max-h-[440px] rounded-[22px] shadow-[0_25px_60px_-12px_rgba(17,17,19,0.28)]" alt="Compliance" />;
   }
   if (moduleKey === "sdd") {
-    return (
-      <div className="w-full max-w-[440px] bg-white rounded-xl border border-border overflow-hidden">
-        <div className="px-4 py-3 border-b border-border flex justify-between items-center">
-          <div className="text-[13px] font-bold text-[#111113]">Same-Day · Wave 3</div>
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-amber-100 text-amber-700 rounded-full text-[11px] font-bold">
-            ⏰ SLA 14:30
-          </div>
-        </div>
-        <div className="px-4 py-2 bg-red-50 border-b border-[#EFEFEB] flex items-center gap-2 text-[12px] text-red-600 font-semibold">
-          ⚡ 2 routes at risk — reassign or extend window
-        </div>
-        {[
-          { r: "SDD_R14", d: "Priya M.", stops: "18/24", eta: "14:12", s: "risk" },
-          { r: "SDD_R15", d: "Marcus O.", stops: "22/22", eta: "13:48", s: "done" },
-          { r: "SDD_R16", d: "Amelia S.", stops: "9/21", eta: "14:55", s: "late" },
-          { r: "SDD_R17", d: "James C.", stops: "15/19", eta: "14:22", s: "live" },
-        ].map((x, i) => {
-          const colors: Record<string, string> = { done: "bg-emerald-100 text-emerald-700", late: "bg-red-100 text-red-600", risk: "bg-amber-100 text-amber-700", live: "bg-brand/10 text-brand" };
-          return (
-            <div key={i} className="px-4 py-3 border-b border-[#EFEFEB] last:border-0 grid grid-cols-[1.1fr_1fr_0.9fr_0.7fr] items-center text-xs">
-              <span className="text-[#111113] font-mono font-semibold">{x.r}</span>
-              <span className="text-[#353538]">{x.d}</span>
-              <span className="text-[#6C6C72] tabular-nums">{x.stops}</span>
-              <span className={`justify-self-end px-2 py-0.5 rounded-full text-[10px] font-bold ${colors[x.s]}`}>{x.eta}</span>
-            </div>
-          );
-        })}
-      </div>
-    );
+    return <img src="/images/sdd.png" className="max-h-[440px] rounded-[22px] shadow-[0_25px_60px_-12px_rgba(17,17,19,0.28)]" alt="Same-Day Delivery" />;
   }
   // tracking (default)
   return (
