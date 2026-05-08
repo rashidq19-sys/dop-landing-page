@@ -7,7 +7,7 @@ const MODULES = [
   { key: "portal", name: "Portal", short: "Driver app", blurb: "Every driver gets their own app. Rota, payslips, scorecards, van inspections.", icon: Smartphone, saved: "3hr/wk" },
   { key: "payroll", name: "Payroll", short: "& Invoices", blurb: "Pay calculated directly from Amazon Cortex's Work Summary Tool. One-click export for your accountant.", icon: PoundSterling, saved: "6hr/wk" },
   { key: "scorecards", name: "Scorecards", short: "Cortex", blurb: "Amazon Cortex metrics live. Control your DCR, DPMO, and DNRs. Improve your POD, CC, CDF and every other metric that matters. Every driver sees their own score — your OSM instantly knows where the DSP needs attention, spots the pattern, and stops the same problem recurring.", icon: BarChart2, saved: "3hr/wk" },
-  { key: "damage", name: "Van Condition", short: "Inspections", blurb: "Daily van check-ins with photo + timestamp. Replace your £249/mo third-party inspection app.", icon: Truck, saved: "£249/mo" },
+  { key: "damage", name: "Van Condition", short: "Inspections", blurb: "Daily van checks with photos + videos. Instantly see who has and hasn't uploaded their check. Replace your £200+ third-party inspection app — built right into DSPOps.", icon: Truck, saved: "£200+/mo" },
   { key: "compliance", name: "Compliance", short: "Docs", blurb: "Licences, right-to-work, insurance — expiries tracked. Auto-reminders.", icon: Shield, saved: "2hr/wk" },
   { key: "sdd", name: "Same-Day", short: "SDD waves", blurb: "Purpose-built for DSPs running SDD. Separate wave view, tighter SLAs, late-stop alerts — all live from Cortex.", icon: Zap, saved: "SLA risk ↓" },
   { key: "tracking", name: "Tracking", short: "Live", blurb: "Live delivery progress from Cortex, surfaced to drivers so they know where they stand.", icon: Activity, saved: "2hr/wk" },
@@ -32,17 +32,7 @@ function ModulePreview({ moduleKey }: { moduleKey: ModuleKey }) {
     return <img src="/images/dispatch-deployment-plan.png" className="max-h-[440px] rounded-[22px] shadow-[0_25px_60px_-12px_rgba(17,17,19,0.28)]" alt="Deployment Plan" />;
   }
   if (moduleKey === "damage") {
-    return (
-      <div className="w-full max-w-[420px] grid grid-cols-3 gap-2">
-        {[0,1,2,3,4,5].map(i => (
-          <div key={i} className="aspect-square bg-gradient-to-br from-[#EFEFEB] to-border rounded-lg relative border border-border">
-            <div className={`absolute top-1.5 left-1.5 px-1.5 py-0.5 rounded text-[10px] font-bold ${
-              i < 2 ? "bg-amber-100 text-amber-700" : "bg-emerald-100 text-emerald-700"
-            }`}>{i < 2 ? "ATTN" : "CLEAN"}</div>
-          </div>
-        ))}
-      </div>
-    );
+    return <img src="/images/van-checks.png" className="max-h-[440px] rounded-[22px] shadow-[0_25px_60px_-12px_rgba(17,17,19,0.28)]" alt="Van Checks" />;
   }
   if (moduleKey === "compliance") {
     return (
