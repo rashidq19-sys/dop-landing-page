@@ -16,7 +16,7 @@ const plans = [
   },
   {
     name: "Professional", price: "249", period: "/mo", drivers: "Up to 100 drivers", popular: true,
-    features: ["Everything in Starter", "Payroll", "Van Condition", "Same-Day Delivery", "Priority support", "Custom scorecards", "API access", "Dedicated onboarding"],
+    features: ["Everything in Starter", "Payroll", "Van Condition", "Same-Day Delivery", "Priority support"],
   },
   {
     name: "Enterprise", price: null, period: "", drivers: "100+ drivers", popular: false,
