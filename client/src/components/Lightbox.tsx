@@ -1,7 +1,7 @@
 /*
- * Lightbox: Fullscreen image overlay with smooth animations
- * Click any screenshot to expand, click backdrop or X to close
- * Supports keyboard (Escape to close)
+ * Lightbox: Fullscreen overlay with smooth animations
+ * Supports both image previews and YouTube video embeds
+ * Click backdrop or X to close, Escape key also closes
  */
 
 import { useEffect, useCallback } from "react";
@@ -9,12 +9,15 @@ import { X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface LightboxProps {
-  src: string | null;
+  src?: string | null;
+  videoId?: string | null;
   alt?: string;
   onClose: () => void;
 }
 
-export default function Lightbox({ src, alt, onClose }: LightboxProps) {
+export default function Lightbox({ src, videoId, alt, onClose }: LightboxProps) {
+  const isOpen = !!(src || videoId);
+
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -23,7 +26,7 @@ export default function Lightbox({ src, alt, onClose }: LightboxProps) {
   );
 
   useEffect(() => {
-    if (src) {
+    if (isOpen) {
       document.addEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "hidden";
     }
@@ -31,11 +34,11 @@ export default function Lightbox({ src, alt, onClose }: LightboxProps) {
       document.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "";
     };
-  }, [src, handleKeyDown]);
+  }, [isOpen, handleKeyDown]);
 
   return (
     <AnimatePresence>
-      {src && (
+      {isOpen && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -51,22 +54,42 @@ export default function Lightbox({ src, alt, onClose }: LightboxProps) {
           <button
             onClick={onClose}
             className="absolute top-4 right-4 sm:top-6 sm:right-6 z-10 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
-            aria-label="Close fullscreen"
+            aria-label="Close"
           >
             <X size={24} />
           </button>
 
-          {/* Image */}
-          <motion.img
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.9, opacity: 0 }}
-            transition={{ duration: 0.25, ease: "easeOut" }}
-            src={src}
-            alt={alt || "Fullscreen preview"}
-            className="relative max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
-          />
+          {videoId ? (
+            /* YouTube embed */
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+              className="relative w-full max-w-4xl aspect-video rounded-xl overflow-hidden shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <iframe
+                src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-full"
+                title="DSPOps Demo Video"
+              />
+            </motion.div>
+          ) : (
+            /* Image preview */
+            <motion.img
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+              src={src!}
+              alt={alt || "Fullscreen preview"}
+              className="relative max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            />
+          )}
         </motion.div>
       )}
     </AnimatePresence>

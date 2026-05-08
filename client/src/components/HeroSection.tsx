@@ -174,7 +174,7 @@ export default function HeroSection() {
         </div>
       </div>
 
-      <Lightbox src={lightboxOpen ? DASHBOARD_IMG : null} alt="DSPOps Dashboard" onClose={() => setLightboxOpen(false)} />
+      <Lightbox videoId={lightboxOpen ? "DJtEvVlwjHo" : null} onClose={() => setLightboxOpen(false)} />
     </section>
   );
 }
