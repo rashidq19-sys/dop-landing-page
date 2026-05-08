@@ -108,17 +108,17 @@ export default function HeroSection() {
         }`}>
           {/* Left */}
           <div>
+            {/* Headline */}
+            <h1 className="font-sans text-[56px] lg:text-[84px] font-extrabold tracking-[-0.045em] leading-[0.98] text-[#111113]">
+              Run your DSP<br />in <span className="text-brand">one screen.</span>
+            </h1>
+
             {/* Badge */}
-            <div className="inline-flex items-center gap-[10px] py-2 pr-[18px] pl-2 bg-white border border-border rounded-full text-sm text-[#111113] shadow-sm">
+            <div className="inline-flex items-center gap-[10px] py-2 pr-[18px] pl-2 bg-white border border-border rounded-full text-sm text-[#111113] shadow-sm mt-5">
               <span className="px-[11px] py-1 bg-brand text-white rounded-full text-[11px] font-extrabold tracking-[0.06em]">NEW</span>
               <span className="font-semibold tracking-[-0.005em]">Built for DSP 2.0</span>
               <span className="text-brand font-bold">→</span>
             </div>
-
-            {/* Headline */}
-            <h1 className="font-sans text-[56px] lg:text-[84px] font-extrabold tracking-[-0.045em] leading-[0.98] text-[#111113] mt-[22px]">
-              Run your DSP<br />in <span className="text-brand">one screen.</span>
-            </h1>
 
             {/* Description */}
             <p className="text-[17px] lg:text-[19px] leading-[1.5] text-[#6C6C72] mt-5 max-w-[500px]">
