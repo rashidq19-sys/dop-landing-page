@@ -10,7 +10,7 @@ const MODULES = [
   { key: "damage", name: "Van Condition", short: "Inspections", blurb: "Daily van checks with photos + videos. Instantly see who has and hasn't uploaded their check. Replace your £200+ third-party inspection app — built right into DSPOps.", icon: Truck, saved: "£200+/mo" },
   { key: "compliance", name: "Compliance", short: "Docs", blurb: "Licences, right-to-work, insurance — expiries tracked. Auto-reminders.", icon: Shield, saved: "2hr/wk" },
   { key: "sdd", name: "Same-Day", short: "SDD waves", blurb: "Purpose-built for DSPs running SDD. Manage your standard and same-day routes completely separately — their own rota, scheduling, wave times, and vans — all without the chaos of mixing them together.", icon: Zap, saved: "SLA risk ↓" },
-  { key: "tracking", name: "Tracking", short: "Live", blurb: "Live delivery progress from Cortex, surfaced to drivers so they know where they stand.", icon: Activity, saved: "2hr/wk" },
+  { key: "tracking", name: "Tracking", short: "Live", blurb: "Live delivery progress from Cortex, surfaced directly to your drivers. No more calling them mid-route to ask where they are or how many stops they have left — they can see it themselves.", icon: Activity, saved: "2hr/wk" },
 ] as const;
 
 type ModuleKey = typeof MODULES[number]["key"];
@@ -41,24 +41,7 @@ function ModulePreview({ moduleKey }: { moduleKey: ModuleKey }) {
     return <img src="/images/sdd.png" className="max-h-[440px] rounded-[22px] shadow-[0_25px_60px_-12px_rgba(17,17,19,0.28)]" alt="Same-Day Delivery" />;
   }
   // tracking (default)
-  return (
-    <div className="w-full max-w-[400px] bg-white rounded-xl border border-border p-5">
-      {[
-        { l: "Wave 1 · CA_R01", p: 78 }, { l: "Wave 1 · CA_R04", p: 92 },
-        { l: "Wave 2 · CA_R07", p: 45 }, { l: "Wave 2 · CA_R11", p: 32 }, { l: "SDD · CA_R14", p: 12 },
-      ].map((x, i) => (
-        <div key={i} className="mb-3.5 last:mb-0">
-          <div className="flex justify-between text-xs mb-1.5">
-            <span className="text-[#353538] font-mono">{x.l}</span>
-            <span className="text-[#111113] font-bold">{x.p}%</span>
-          </div>
-          <div className="h-1.5 bg-border rounded-full overflow-hidden">
-            <div className="h-full bg-brand rounded-full" style={{ width: `${x.p}%` }} />
-          </div>
-        </div>
-      ))}
-    </div>
-  );
+  return <img src="/images/tracking.png" className="max-h-[440px] rounded-[22px] shadow-[0_25px_60px_-12px_rgba(17,17,19,0.28)]" alt="Tracking" />;
 }
 
 export default function FeaturesSection() {
