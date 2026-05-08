@@ -20,7 +20,7 @@ const plans = [
   },
   {
     name: "Enterprise", price: null, period: "", drivers: "100+ drivers", popular: false,
-    features: ["Everything in Pro", "Multi-station support", "API access", "Dedicated CSM", "SSO / SAML", "Custom SLAs", "White-glove setup"],
+    features: ["Everything in Pro", "Multi-station support", "API access", "Dedicated CSM", "White-glove setup"],
   },
 ] as const satisfies {
   name: string;
