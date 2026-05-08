@@ -259,36 +259,11 @@ export default function ReplacesSection() {
 
       <div className="max-w-[1280px] mx-auto px-8 relative">
         {/* Section header */}
-        <div className="mb-[72px]">
-          <div className="text-[12px] font-semibold text-[#6C6C72] uppercase tracking-[0.2em] mb-5 flex items-center gap-3">
-            <span className="w-7 h-px bg-[#111113]" />
-            CHAPTER 01 · The morning you lose
-          </div>
-          <h2 className="font-sans text-[72px] lg:text-[108px] font-extrabold text-[#111113] tracking-[-0.045em] leading-[0.92] max-w-[1100px]">
+        <div className="mb-[80px]">
+          <h2 className="font-sans text-[72px] lg:text-[108px] font-extrabold text-[#111113] tracking-[-0.045em] leading-[0.92]">
             Five apps.<br />
-            <span className="relative inline-block">
-              Three WhatsApps.
-              <svg className="absolute left-[-8px] bottom-[-14px]" style={{ width: "calc(100% + 16px)", height: 20 }} viewBox="0 0 600 20" preserveAspectRatio="none">
-                <path d="M5 12 Q 150 3, 300 10 T 595 11" fill="none" stroke="#2563EB" strokeWidth="3" strokeLinecap="round" />
-              </svg>
-            </span>
-            <br />
-            <span className="italic font-medium text-[#353538]">One printer that jams.</span>
+            <span className="italic font-medium text-[#353538]">One platform.</span>
           </h2>
-          <div className="mt-10 grid grid-cols-[1fr_auto_1fr] gap-12 items-start max-w-[1100px]">
-            <p className="text-[18px] text-[#353538] leading-[1.55] max-w-[460px]">
-              Before 9 AM on a Monday your OSM has switched apps seventeen times, typed the same driver&apos;s name into four different spreadsheets, and answered the phone while doing both.
-            </p>
-            <div className="self-stretch w-px bg-border" />
-            <div>
-              <div className="text-[68px] font-extrabold text-[#111113] tracking-[-0.04em] leading-[0.95] tabular-nums">
-                32<span className="text-[28px] font-semibold text-[#6C6C72] tracking-normal"> hrs/wk</span>
-              </div>
-              <div className="text-[14px] text-[#6C6C72] mt-2.5 max-w-[320px] leading-[1.5]">
-                lost per station to the pile below. Unbilled. Uncharted. Just… Tuesday.
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* Animation stage: chaos → order */}
