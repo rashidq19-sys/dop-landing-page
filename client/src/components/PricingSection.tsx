@@ -97,7 +97,7 @@ export default function PricingSection() {
                 plan.popular
                   ? "border-2 border-brand shadow-[0_25px_60px_-8px_rgba(59,130,246,0.28),0_8px_24px_-4px_rgba(0,0,0,0.08)] scale-[1.03] lg:scale-[1.05] z-10"
                   : "border border-border/50 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.07)] hover:shadow-[0_16px_40px_-8px_rgba(0,0,0,0.12)] hover:-translate-y-1"
-              } ${plan.popular ? 'bg-[#111113]' : 'bg-white'} ${
+              } ${plan.popular ? 'bg-[#111113]' : plan.name === 'Enterprise' ? 'bg-gradient-to-br from-slate-50 to-blue-50/70' : 'bg-white'} ${
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}
               style={{ transitionDelay: `${i * 100 + 200}ms` }}
