@@ -25,8 +25,8 @@ export default function CTASection() {
         {/* Left: headline */}
         <div>
           <h2 className="font-sans text-[56px] lg:text-[76px] font-extrabold tracking-[-0.04em] leading-[0.98] text-white">
-            Your Monday<br />starts at 06:42.<br />
-            <span className="text-brand-light">It doesn't have to.</span>
+            You didn't start<br />a DSP to spend<br />mornings fighting<br />spreadsheets.<br />
+            <span className="text-brand-light">We fixed that.</span>
           </h2>
           <p className="text-[17px] text-[#94A3B8] mt-5.5 max-w-[500px] leading-[1.55]">
             20 minutes with us and you'll see your DSP on DSPOps. We'll import drivers, rota and Cortex data live.
