@@ -2,7 +2,10 @@
   "permissions": {
     "allow": [
       "Bash(npm install:*)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(rm -rf ~/.claude/skills/awesome-design-md/)",
+      "Read(//c/Users/rashi/.claude/skills/**)",
+      "Bash(pnpm exec *)"
     ]
   }
 }

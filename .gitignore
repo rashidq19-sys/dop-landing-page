@@ -114,3 +114,8 @@ temp/
 # Manus (auto-generated, not part of source)
 client/public/__manus__/version.json
 .manus-logs/
+
+# Large media files
+*.mp4
+*.mov
+*.avi
