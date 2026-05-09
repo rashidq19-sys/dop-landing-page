@@ -1,5 +1,6 @@
 import { Router } from "express";
 import pool from "../db.js";
+import { sendEmail } from "../email.js";
 
 const router = Router();
 
@@ -28,6 +29,11 @@ router.post("/", async (req, res) => {
       [cleanEmail, cleanSource]
     );
     res.json({ success: true, id: result.rows[0].id });
+
+    sendEmail(
+      "New DSPOps signup — Step 1 (email captured)",
+      `A new visitor has joined the waitlist.\n\nEmail: ${cleanEmail}\nSignup source: ${cleanSource || "unknown"}`
+    ).catch((err) => console.error("Notification email failed (step 1):", err));
   } catch (err) {
     console.error("Waitlist insert error:", err);
     res.status(500).json({ error: "Server error" });
@@ -51,13 +57,20 @@ router.patch("/:id", async (req, res) => {
 
   try {
     const result = await pool.query(
-      `UPDATE waitlist SET name = $1, phone = $2, updated_at = NOW() WHERE id = $3 RETURNING id`,
+      `UPDATE waitlist SET name = $1, phone = $2, updated_at = NOW()
+       WHERE id = $3 RETURNING id, email, source`,
       [name.trim(), phone.trim(), id]
     );
     if (result.rowCount === 0) {
       return res.status(404).json({ error: "Record not found" });
     }
     res.json({ success: true });
+
+    const row = result.rows[0];
+    sendEmail(
+      "DSPOps signup complete — Step 2 (full details)",
+      `A signup has been completed.\n\nName: ${name.trim()}\nEmail: ${row.email}\nPhone: ${phone.trim()}\nSignup source: ${row.source || "unknown"}`
+    ).catch((err) => console.error("Notification email failed (step 2):", err));
   } catch (err) {
     console.error("Waitlist update error:", err);
     res.status(500).json({ error: "Server error" });
