@@ -47,7 +47,7 @@ function FAQItem({
           isOpen ? "max-h-60 pb-5" : "max-h-0"
         }`}
       >
-        <p className="text-sm lg:text-base text-muted-foreground leading-relaxed pr-8">
+        <p className="text-sm lg:text-base text-muted-foreground leading-relaxed pr-4 sm:pr-8">
           {faq.answer}
         </p>
       </div>

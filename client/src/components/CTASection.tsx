@@ -18,13 +18,13 @@ export default function CTASection() {
   };
 
   return (
-    <section id="book-demo" className="bg-[#111113] py-[110px] relative overflow-hidden">
+    <section id="book-demo" className="bg-[#111113] py-[70px] sm:py-[110px] relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none"
         style={{ background: "radial-gradient(ellipse at 30% 50%, rgba(37,99,235,0.27), transparent 60%)" }} />
-      <div className="max-w-[1280px] mx-auto px-8 relative grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-[52px] items-center">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-8 relative grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-8 sm:gap-[52px] items-center">
         {/* Left: headline */}
         <div>
-          <h2 className="font-sans text-[56px] lg:text-[76px] font-extrabold tracking-[-0.04em] leading-[0.98] text-white">
+          <h2 className="font-sans text-[36px] sm:text-[56px] lg:text-[76px] font-extrabold tracking-[-0.04em] leading-[0.98] text-white">
             The platform<br />Amazon forgot<br />
             <span className="text-brand-light">to build.</span>
           </h2>
@@ -34,9 +34,9 @@ export default function CTASection() {
         </div>
 
         {/* Right: form */}
-        <div className="bg-white/4 border border-white/10 rounded-[16px] p-8 backdrop-blur-[10px] text-white">
+        <div className="bg-white/4 border border-white/10 rounded-[16px] p-5 sm:p-8 backdrop-blur-[10px] text-white">
           <div className="text-[11px] text-brand-light uppercase tracking-[0.1em]">BOOK A 20-MIN DEMO</div>
-          <div className="text-[22px] font-bold mt-1 tracking-[-0.01em]">See your DSP live on DSPOps</div>
+          <div className="text-[18px] sm:text-[22px] font-bold mt-1 tracking-[-0.01em]">See your DSP live on DSPOps</div>
           <form onSubmit={handleSubmit} className="flex flex-col gap-2.5 mt-5">
             <input
               type="email" placeholder="Email" required value={email}

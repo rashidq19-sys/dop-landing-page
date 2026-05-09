@@ -21,13 +21,13 @@ export default function CostCalculatorSection() {
   const netMonthly = timeVal + damageVal - tier.cost;
 
   return (
-    <section id="calculator" className="bg-white py-[100px] border-b border-border">
-      <div className="max-w-[1280px] mx-auto px-8">
+    <section id="calculator" className="bg-white py-[70px] sm:py-[100px] border-b border-border">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-8">
         {/* Header */}
         <div className="mb-12">
           <div className="text-[11px] font-semibold text-brand uppercase tracking-[0.14em] mb-3.5">— CALCULATE</div>
           <div className="flex items-end justify-between gap-10 flex-wrap">
-            <h2 className="text-[52px] font-extrabold text-[#111113] tracking-[-0.035em] leading-[1.02]">See your exact savings.</h2>
+            <h2 className="text-[32px] sm:text-[52px] font-extrabold text-[#111113] tracking-[-0.035em] leading-[1.02]">See your exact savings.</h2>
             <p className="text-[17px] text-[#6C6C72] leading-[1.55] max-w-[420px]">
               Adjust the sliders to match your fleet. We use a typical £25/hr loaded rate for OSM time.
             </p>
@@ -36,7 +36,7 @@ export default function CostCalculatorSection() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {/* Inputs */}
-          <div className="bg-background rounded-[16px] border border-border p-8">
+          <div className="bg-background rounded-[16px] border border-border p-5 sm:p-8">
             <div className="text-[11px] text-[#6C6C72] uppercase tracking-[0.1em] mb-6">INPUTS</div>
             <div className="flex flex-col gap-7">
               {[
@@ -73,7 +73,7 @@ export default function CostCalculatorSection() {
           </div>
 
           {/* Results */}
-          <div className="bg-[#111113] text-white rounded-[16px] p-8 flex flex-col justify-between">
+          <div className="bg-[#111113] text-white rounded-[16px] p-5 sm:p-8 flex flex-col justify-between">
             <div>
               <div className="text-[11px] text-[#94A3B8] uppercase tracking-[0.1em] mb-5">YOUR MONTHLY ESTIMATE</div>
               <div className="flex flex-col gap-3.5">
@@ -91,9 +91,9 @@ export default function CostCalculatorSection() {
                 ))}
               </div>
             </div>
-            <div className="mt-7 p-[22px] bg-brand/15 border border-brand/35 rounded-xl">
+            <div className="mt-7 p-4 sm:p-[22px] bg-brand/15 border border-brand/35 rounded-xl">
               <div className="text-[11px] text-brand-light uppercase tracking-[0.1em]">NET SAVINGS / MONTH</div>
-              <div className="text-[52px] font-extrabold tracking-[-0.04em] leading-none mt-1">
+              <div className="text-[36px] sm:text-[52px] font-extrabold tracking-[-0.04em] leading-none mt-1">
                 {tier.cost ? `£${Math.round(netMonthly).toLocaleString()}` : "Custom"}
               </div>
               <div className="text-[13px] text-[#94A3B8] mt-1.5">

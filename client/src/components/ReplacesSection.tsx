@@ -1,5 +1,5 @@
 "use client";
-import { useRef } from "react";
+import { useRef, useState, useLayoutEffect } from "react";
 import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 
 // ── Artifact definitions ──────────────────────────────────────────
@@ -13,6 +13,8 @@ const ARTIFACTS = [
 
 const COLLAPSE_X = 520;
 const COLLAPSE_Y = 220;
+const NATURAL_WIDTH = 1220;
+const NATURAL_HEIGHT = 560;
 
 // ── Per-artifact animated wrapper ─────────────────────────────────
 function ArtifactWrapper({
@@ -236,6 +238,9 @@ function ProgressArrow({ ease }: { ease: MotionValue<number> }) {
 // ── Main section ──────────────────────────────────────────────────
 export default function ReplacesSection() {
   const sectionRef = useRef<HTMLElement>(null);
+  const stageContainerRef = useRef<HTMLDivElement>(null);
+  const [stageScale, setStageScale] = useState(1);
+
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start end", "end start"],
@@ -246,8 +251,18 @@ export default function ReplacesSection() {
     1 - Math.pow(1 - Math.min(1, Math.max(0, p)), 3)
   );
 
+  useLayoutEffect(() => {
+    const compute = () => {
+      const w = stageContainerRef.current?.offsetWidth ?? NATURAL_WIDTH;
+      setStageScale(Math.min(1, w / NATURAL_WIDTH));
+    };
+    compute();
+    window.addEventListener("resize", compute);
+    return () => window.removeEventListener("resize", compute);
+  }, []);
+
   return (
-    <section ref={sectionRef} className="bg-background py-[140px] border-b border-border overflow-hidden relative">
+    <section ref={sectionRef} className="bg-background py-[80px] sm:py-[140px] border-b border-border overflow-hidden relative">
       {/* Grid texture */}
       <div className="absolute inset-0 opacity-40 pointer-events-none"
         style={{
@@ -257,38 +272,42 @@ export default function ReplacesSection() {
         }}
       />
 
-      <div className="max-w-[1280px] mx-auto px-8 relative">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-8 relative">
         {/* Section header */}
-        <div className="mb-[80px]">
-          <h2 className="font-sans text-[72px] lg:text-[108px] font-extrabold text-[#111113] tracking-[-0.045em] leading-[0.92]">
+        <div className="mb-10 sm:mb-[80px]">
+          <h2 className="font-sans text-[40px] sm:text-[72px] lg:text-[108px] font-extrabold text-[#111113] tracking-[-0.045em] leading-[0.92]">
             Five apps.<br />
             <span className="italic font-medium text-brand">One platform.</span>
           </h2>
         </div>
 
-        {/* Animation stage: chaos → order */}
-        <div className="grid mb-24" style={{ gridTemplateColumns: "1fr 60px 1fr", alignItems: "center", minHeight: 560 }}>
-          {/* LEFT: artifact pile */}
-          <div style={{ position: "relative", height: 520 }}>
-            <div className="absolute top-[-24px] left-0 text-[11px] font-bold text-red-600 tracking-[0.18em] uppercase">Before · 06:42 MON</div>
-            {ARTIFACTS.map((a, i) => (
-              <ArtifactWrapper key={i} artifact={a} index={i} ease={ease}>
-                {a.kind === "whatsapp" && <WhatsAppMock />}
-                {a.kind === "excel" && <ExcelMock />}
-                {a.kind === "postit" && <PostItMock />}
-                {a.kind === "invoice" && <InvoiceMock />}
-                {a.kind === "scorecard" && <ScorecardMock />}
-              </ArtifactWrapper>
-            ))}
-          </div>
+        {/* Animation stage: chaos → order — scales down on mobile */}
+        <div ref={stageContainerRef} style={{ height: NATURAL_HEIGHT * stageScale, overflow: "hidden" }}>
+          <div style={{ width: NATURAL_WIDTH, minWidth: NATURAL_WIDTH, transform: `scale(${stageScale})`, transformOrigin: "top left" }}>
+            <div className="grid" style={{ gridTemplateColumns: "1fr 60px 1fr", alignItems: "center", minHeight: NATURAL_HEIGHT }}>
+              {/* LEFT: artifact pile */}
+              <div style={{ position: "relative", height: 520 }}>
+                <div className="absolute top-[-24px] left-0 text-[11px] font-bold text-red-600 tracking-[0.18em] uppercase">Before · 06:42 MON</div>
+                {ARTIFACTS.map((a, i) => (
+                  <ArtifactWrapper key={i} artifact={a} index={i} ease={ease}>
+                    {a.kind === "whatsapp" && <WhatsAppMock />}
+                    {a.kind === "excel" && <ExcelMock />}
+                    {a.kind === "postit" && <PostItMock />}
+                    {a.kind === "invoice" && <InvoiceMock />}
+                    {a.kind === "scorecard" && <ScorecardMock />}
+                  </ArtifactWrapper>
+                ))}
+              </div>
 
-          {/* MIDDLE: progress arrow */}
-          <ProgressArrow ease={ease} />
+              {/* MIDDLE: progress arrow */}
+              <ProgressArrow ease={ease} />
 
-          {/* RIGHT: DSPOps panel */}
-          <div className="relative">
-            <div className="absolute top-[-24px] right-0 text-[11px] font-bold text-brand tracking-[0.18em] uppercase">After · One screen</div>
-            <DSPOpsPanel ease={ease} />
+              {/* RIGHT: DSPOps panel */}
+              <div className="relative">
+                <div className="absolute top-[-24px] right-0 text-[11px] font-bold text-brand tracking-[0.18em] uppercase">After · One screen</div>
+                <DSPOpsPanel ease={ease} />
+              </div>
+            </div>
           </div>
         </div>
 

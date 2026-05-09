@@ -54,9 +54,9 @@ type Persona = typeof OWNER;
 
 function PersonaPanel({ p }: { p: Persona }) {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_1fr] border border-border rounded-[20px] overflow-hidden min-h-[520px]">
+    <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_1fr] border border-border rounded-[20px] overflow-hidden lg:min-h-[520px]">
       {/* Left: colored panel */}
-      <div className={`${p.panelBg} text-white p-10 flex flex-col relative overflow-hidden`}>
+      <div className={`${p.panelBg} text-white p-6 sm:p-10 flex flex-col relative overflow-hidden`}>
         <div className="absolute right-[-80px] top-[-80px] w-[300px] h-[300px] rounded-full bg-white/10 blur-2xl pointer-events-none" />
         {/* Persona header */}
         <div className="flex items-center gap-3.5 relative">
@@ -69,13 +69,13 @@ function PersonaPanel({ p }: { p: Persona }) {
           </div>
         </div>
         {/* Headline */}
-        <h3 className="relative text-[28px] font-extrabold tracking-[-0.03em] leading-[1.1] mt-7 max-w-[420px]">{p.headline}</h3>
+        <h3 className="relative text-[22px] sm:text-[28px] font-extrabold tracking-[-0.03em] leading-[1.1] mt-5 sm:mt-7 max-w-[420px]">{p.headline}</h3>
         {/* Metrics 2x2 */}
         <div className="relative mt-auto pt-9 grid grid-cols-2 gap-px bg-white/10 rounded-xl overflow-hidden">
           {p.metrics.map((m, i) => (
             <div key={i} className="px-5 py-[18px] bg-white/[0.04] backdrop-blur-sm">
               <div className={`text-[10px] ${p.accent} uppercase tracking-[0.1em]`}>{m.l}</div>
-              <div className="text-[28px] font-extrabold tracking-[-0.025em] mt-1 leading-none">{m.v}</div>
+              <div className="text-[22px] sm:text-[28px] font-extrabold tracking-[-0.025em] mt-1 leading-none">{m.v}</div>
               <div className="text-[11px] text-white/65 mt-1">{m.d}</div>
             </div>
           ))}
@@ -83,7 +83,7 @@ function PersonaPanel({ p }: { p: Persona }) {
       </div>
 
       {/* Right: timeline */}
-      <div className="bg-white p-10 flex flex-col">
+      <div className="bg-white p-6 sm:p-10 flex flex-col">
         <div className="flex items-center justify-between mb-6">
           <div className="text-[11px] text-[#6C6C72] uppercase tracking-[0.12em] font-semibold">A DAY WITH DSPOps</div>
           <div className={`flex items-center gap-1.5 px-[10px] py-1 ${p.tagBg} ${p.tagText} rounded-full text-[11px] font-bold`}>
@@ -117,13 +117,13 @@ function PersonaPanel({ p }: { p: Persona }) {
 
 export default function AudiencesSection() {
   return (
-    <section id="audiences" className="bg-background py-[100px] border-b border-border">
-      <div className="max-w-[1280px] mx-auto px-8">
+    <section id="audiences" className="bg-background py-[70px] sm:py-[100px] border-b border-border">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-8">
         {/* Header */}
         <div className="mb-12">
           <div className="text-[11px] font-semibold text-brand uppercase tracking-[0.14em] mb-3.5">— WHO IT&apos;S FOR</div>
           <div className="flex items-end justify-between gap-10 flex-wrap">
-            <h2 className="text-[52px] font-extrabold text-[#111113] tracking-[-0.035em] leading-[1.02]">Two people, one platform.</h2>
+            <h2 className="text-[32px] sm:text-[52px] font-extrabold text-[#111113] tracking-[-0.035em] leading-[1.02]">Two people, one platform.</h2>
             <p className="text-[17px] text-[#6C6C72] leading-[1.55] max-w-[420px]">The Owner makes the call. The OSM lives in it. Both see the same truth.</p>
           </div>
         </div>
@@ -131,7 +131,7 @@ export default function AudiencesSection() {
         <Tabs defaultValue="owner">
           <TabsList className="mb-5 p-1 bg-white border border-border rounded-xl gap-1 h-auto">
             <TabsTrigger value="owner"
-              className="flex items-center gap-3 px-[18px] py-3 rounded-[9px] data-[state=active]:bg-background data-[state=active]:border data-[state=active]:border-border data-[state=active]:shadow-sm text-left">
+              className="flex items-center gap-3 px-3 sm:px-[18px] py-2 sm:py-3 rounded-[9px] data-[state=active]:bg-background data-[state=active]:border data-[state=active]:border-border data-[state=active]:shadow-sm text-left">
               <div className="w-8 h-8 rounded-lg bg-brand text-white flex items-center justify-center text-xs font-bold shrink-0">A</div>
               <div>
                 <div className="text-[14px] font-bold text-[#111113]">DSP Owner</div>
@@ -139,7 +139,7 @@ export default function AudiencesSection() {
               </div>
             </TabsTrigger>
             <TabsTrigger value="osm"
-              className="flex items-center gap-3 px-[18px] py-3 rounded-[9px] data-[state=active]:bg-background data-[state=active]:border data-[state=active]:border-border data-[state=active]:shadow-sm text-left">
+              className="flex items-center gap-3 px-3 sm:px-[18px] py-2 sm:py-3 rounded-[9px] data-[state=active]:bg-background data-[state=active]:border data-[state=active]:border-border data-[state=active]:shadow-sm text-left">
               <div className="w-8 h-8 rounded-lg bg-[#111113] text-white flex items-center justify-center text-xs font-bold shrink-0">P</div>
               <div>
                 <div className="text-[14px] font-bold text-[#111113]">Operations Manager</div>

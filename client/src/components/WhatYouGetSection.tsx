@@ -45,24 +45,24 @@ const OUTCOMES = [
 
 export default function WhatYouGetSection() {
   return (
-    <section className="bg-background py-[100px] border-b border-border">
-      <div className="max-w-[1280px] mx-auto px-8">
+    <section className="bg-background py-[70px] sm:py-[100px] border-b border-border">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-8">
         {/* Header */}
         <div className="mb-12">
           <div className="text-[11px] font-semibold text-brand uppercase tracking-[0.14em] mb-3.5">— WHAT YOU GET</div>
-          <h2 className="text-[52px] font-extrabold text-[#111113] tracking-[-0.035em] leading-[1.02]">Four promises. Built into the platform.</h2>
+          <h2 className="text-[32px] sm:text-[52px] font-extrabold text-[#111113] tracking-[-0.035em] leading-[1.02]">Four promises. Built into the platform.</h2>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
           {OUTCOMES.map((o, i) => (
-            <div key={i} className="bg-white border border-border rounded-[16px] p-8 flex flex-col gap-[18px]">
+            <div key={i} className="bg-white border border-border rounded-[16px] p-5 sm:p-8 flex flex-col gap-[18px]">
               <div className="flex justify-between items-start">
                 <div className={`w-12 h-12 rounded-xl ${o.bg} ${o.color} flex items-center justify-center`}>
                   <o.Icon size={24} />
                 </div>
                 <div className="text-[10px] text-[#6C6C72] uppercase tracking-[0.12em]">FOR {o.role.toUpperCase()}</div>
               </div>
-              <div className="text-[24px] font-extrabold text-[#111113] tracking-[-0.02em] leading-[1.15]">{o.headline}</div>
+              <div className="text-[20px] sm:text-[24px] font-extrabold text-[#111113] tracking-[-0.02em] leading-[1.15]">{o.headline}</div>
               <div className="text-[14px] text-[#6C6C72] leading-[1.55] flex-1">{o.detail}</div>
               <div className="mt-auto pt-4 border-t border-[#EFEFEB] flex items-center gap-2">
                 <div className={`w-1.5 h-1.5 rounded-full ${o.dot}`} />

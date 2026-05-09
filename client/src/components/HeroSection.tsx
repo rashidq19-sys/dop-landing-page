@@ -15,7 +15,7 @@ const DRIVERS = [
 
 function HeroMock() {
   return (
-    <div className="relative pr-[60px]">
+    <div className="relative pr-[40px] sm:pr-[60px]">
       {/* Main dashboard */}
       <div className="bg-white rounded-[14px] border border-border shadow-[0_30px_60px_-20px_rgba(17,17,19,0.2)] overflow-hidden">
         {/* Browser chrome */}
@@ -74,12 +74,12 @@ function HeroMock() {
       </div>
 
       {/* Floating iPhone */}
-      <div className="absolute right-[-10px] top-20 w-[180px] bg-[#111113] rounded-[24px] p-1 shadow-[0_25px_50px_-10px_rgba(17,17,19,0.3)] border-[6px] border-[#111113]">
+      <div className="absolute right-0 sm:right-[-10px] top-14 sm:top-20 w-[120px] sm:w-[180px] bg-[#111113] rounded-[24px] p-1 shadow-[0_25px_50px_-10px_rgba(17,17,19,0.3)] border-[6px] border-[#111113]">
         <img src="/images/portal/home.jpeg" className="w-full rounded-[18px] block" alt="Driver portal" />
       </div>
 
       {/* Floating notification */}
-      <div className="absolute left-[-24px] bottom-10 bg-white border border-border rounded-[12px] p-3 shadow-[0_15px_30px_-8px_rgba(17,17,19,0.18)] flex gap-[10px] items-center w-[240px]">
+      <div className="absolute left-0 sm:left-[-24px] bottom-6 sm:bottom-10 bg-white border border-border rounded-[12px] p-3 shadow-[0_15px_30px_-8px_rgba(17,17,19,0.18)] flex gap-[10px] items-center w-[200px] sm:w-[240px]">
         <div className="w-[34px] h-[34px] rounded-[9px] bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
           <Check size={17} />
         </div>
@@ -101,15 +101,15 @@ export default function HeroSection() {
   const [lightboxOpen, setLightboxOpen] = useState(false);
 
   return (
-    <section className="bg-background border-b border-border pt-[100px] pb-[80px] relative overflow-hidden">
-      <div ref={ref} className="max-w-[1280px] mx-auto px-8">
-        <div className={`grid grid-cols-1 lg:grid-cols-[1.05fr_1fr] gap-[52px] items-center transition-all duration-700 ${
+    <section className="bg-background border-b border-border pt-[70px] sm:pt-[100px] pb-[60px] sm:pb-[80px] relative overflow-hidden">
+      <div ref={ref} className="max-w-[1280px] mx-auto px-4 sm:px-8">
+        <div className={`grid grid-cols-1 lg:grid-cols-[1.05fr_1fr] gap-8 lg:gap-[52px] items-center transition-all duration-700 ${
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         }`}>
           {/* Left */}
           <div>
             {/* Headline */}
-            <h1 className="font-sans text-[56px] lg:text-[84px] font-extrabold tracking-[-0.045em] leading-[0.98] text-[#111113]">
+            <h1 className="font-sans text-[44px] sm:text-[56px] lg:text-[84px] font-extrabold tracking-[-0.045em] leading-[0.98] text-[#111113]">
               Run your DSP<br />in <span className="text-brand">one screen.</span>
             </h1>
 
@@ -121,7 +121,7 @@ export default function HeroSection() {
             </div>
 
             {/* Description */}
-            <p className="text-[17px] lg:text-[19px] leading-[1.5] text-[#6C6C72] mt-5 max-w-[500px]">
+            <p className="text-[15px] sm:text-[17px] lg:text-[19px] leading-[1.5] text-[#6C6C72] mt-5 max-w-[500px]">
               Rota, dispatch, payroll, compliance, driver portal, van inspections — and dedicated Same-Day Delivery tooling. Built for UK Amazon DSP owners. Replace five tools, save your OSM 32 hours a week.
             </p>
 
@@ -147,7 +147,7 @@ export default function HeroSection() {
             </div>
 
             {/* Stat cards (kept from current design) */}
-            <div className={`mt-11 pt-7 border-t border-border grid grid-cols-2 lg:grid-cols-4 gap-4 transition-all duration-700 delay-300 ${
+            <div className={`mt-7 sm:mt-11 pt-7 border-t border-border grid grid-cols-2 lg:grid-cols-4 gap-4 transition-all duration-700 delay-300 ${
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}>
               {[

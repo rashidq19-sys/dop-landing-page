@@ -3,7 +3,7 @@ const LOGO_URL = "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwB
 export default function Footer() {
   return (
     <footer className="bg-[#111113] py-10 border-t border-white/6">
-      <div className="max-w-[1280px] mx-auto px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[13px] text-[#94A3B8] font-sans">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[13px] text-[#94A3B8] font-sans">
         <div className="flex items-center gap-4">
           <a href="#" className="flex items-center gap-2.5">
             <img src={LOGO_URL} alt="DSPOps" className="w-6 h-6 rounded-md" />
@@ -11,7 +11,7 @@ export default function Footer() {
           </a>
           <span>© {new Date().getFullYear()} DSPOps Ltd</span>
         </div>
-        <div className="flex gap-6">
+        <div className="flex flex-wrap justify-center gap-3 sm:gap-6">
           {[
             { label: "Privacy", href: "/privacy" },
             { label: "Terms", href: "#" },

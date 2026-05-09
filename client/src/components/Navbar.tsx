@@ -25,7 +25,7 @@ export default function Navbar() {
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       scrolled ? "bg-background/90 backdrop-blur-[12px] border-b border-border" : "bg-transparent"
     }`}>
-      <div className="max-w-[1280px] mx-auto px-8">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-8">
         <div className="flex items-center justify-between h-[68px]">
           {/* Logo */}
           <a href="/" className="flex items-center gap-2.5">
