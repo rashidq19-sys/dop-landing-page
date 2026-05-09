@@ -14,14 +14,14 @@ export default function CTASection() {
 
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email) return;
+    if (!email || !dspName) return;
     setLoading(true);
     setError("");
     try {
       const res = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, source: "Bottom CTA" }),
+        body: JSON.stringify({ email, dsp_name: dspName, source: "Bottom CTA" }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Something went wrong");
@@ -36,7 +36,7 @@ export default function CTASection() {
 
   const handleDetailsSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!dspName || !phone) return;
+    if (!phone) return;
     setLoading(true);
     setError("");
     try {
@@ -95,6 +95,11 @@ export default function CTASection() {
                   onChange={e => setEmail(e.target.value)}
                   className={inputClass}
                 />
+                <input
+                  type="text" placeholder="DSP name" required value={dspName}
+                  onChange={e => setDspName(e.target.value)}
+                  className={inputClass}
+                />
                 {error && <p className="text-red-300 text-[13px]">{error}</p>}
                 <button type="submit" disabled={loading}
                   className="px-4 py-[13px] bg-brand text-white rounded-lg text-[14px] font-bold hover:bg-brand-dark transition-colors flex items-center justify-center gap-2 disabled:opacity-50">
@@ -109,14 +114,9 @@ export default function CTASection() {
             <>
               <div className="flex items-center gap-2 mt-5 mb-4 px-4 py-2.5 rounded-lg bg-emerald-500/15 border border-emerald-500/25 text-emerald-300 text-[13px] font-semibold">
                 <Check size={15} className="shrink-0" />
-                You're on the list! Just two more details.
+                Almost there! One last detail.
               </div>
               <form onSubmit={handleDetailsSubmit} className="flex flex-col gap-2.5">
-                <input
-                  type="text" placeholder="DSP name" required value={dspName}
-                  onChange={e => setDspName(e.target.value)}
-                  className={inputClass}
-                />
                 <input
                   type="tel" placeholder="Phone number" required value={phone}
                   onChange={e => setPhone(e.target.value)}

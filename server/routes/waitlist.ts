@@ -21,17 +21,18 @@ router.post("/", async (req, res) => {
 
   try {
     const cleanSource = typeof source === "string" ? source.trim() : null;
+    const cleanDspName = typeof req.body.dsp_name === "string" ? req.body.dsp_name.trim() : null;
     const result = await pool.query(
-      `INSERT INTO waitlist (email, source) VALUES ($1, $2)
-       ON CONFLICT (email) DO UPDATE SET updated_at = waitlist.updated_at
+      `INSERT INTO waitlist (email, source, dsp_name) VALUES ($1, $2, $3)
+       ON CONFLICT (email) DO UPDATE SET dsp_name = COALESCE($3, waitlist.dsp_name), updated_at = NOW()
        RETURNING id`,
-      [cleanEmail, cleanSource]
+      [cleanEmail, cleanSource, cleanDspName || null]
     );
     res.json({ success: true, id: result.rows[0].id });
 
     sendEmail(
       "New DSPOps signup — Step 1 (email captured)",
-      `A new visitor has joined the waitlist.\n\nEmail: ${cleanEmail}\nSignup source: ${cleanSource || "unknown"}`
+      `A new visitor has joined the waitlist.\n\nEmail: ${cleanEmail}\nDSP name: ${cleanDspName || "—"}\nSignup source: ${cleanSource || "unknown"}`
     ).catch((err) => console.error("Notification email failed (step 1):", err));
   } catch (err) {
     console.error("Waitlist insert error:", err);
