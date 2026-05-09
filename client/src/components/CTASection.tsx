@@ -1,19 +1,28 @@
 import { useState } from "react";
+import { Check } from "lucide-react";
 
 export default function CTASection() {
   const [email, setEmail] = useState("");
   const [dsp, setDsp] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email && dsp) {
-      fetch("/api/waitlist", {
+    if (!email || !dsp) return;
+    setError("");
+    try {
+      const res = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, source: "Bottom CTA", metadata: { dspName: dsp } }),
       });
+      if (!res.ok) throw new Error("Something went wrong");
+      setSubmitted(true);
       setEmail("");
       setDsp("");
+    } catch {
+      setError("Something went wrong — please try again.");
     }
   };
 
@@ -37,6 +46,17 @@ export default function CTASection() {
         <div className="bg-white/4 border border-white/10 rounded-[16px] p-5 sm:p-8 backdrop-blur-[10px] text-white">
           <div className="text-[11px] text-brand-light uppercase tracking-[0.1em]">BOOK A 20-MIN DEMO</div>
           <div className="text-[18px] sm:text-[22px] font-bold mt-1 tracking-[-0.01em]">See your DSP live on DSPOps</div>
+          {submitted && (
+            <div className="flex items-center gap-2 px-4 py-3 mb-4 bg-emerald-500/15 border border-emerald-500/25 rounded-lg text-emerald-300 text-[13px] font-semibold">
+              <Check size={15} className="shrink-0" />
+              Got it — someone from the team will reach out shortly.
+            </div>
+          )}
+          {error && (
+            <div className="px-4 py-3 mb-4 bg-red-500/15 border border-red-500/25 rounded-lg text-red-300 text-[13px]">
+              {error}
+            </div>
+          )}
           <form onSubmit={handleSubmit} className="flex flex-col gap-2.5 mt-5">
             <input
               type="email" placeholder="Email" required value={email}

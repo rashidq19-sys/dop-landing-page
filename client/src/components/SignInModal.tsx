@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
-import { X } from "lucide-react";
+import { X, Check } from "lucide-react";
 
 interface Props {
   onClose: () => void;
@@ -10,16 +10,22 @@ export default function SignInModal({ onClose }: Props) {
   const [email, setEmail] = useState("");
   const [dsp, setDsp] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email && dsp) {
-      fetch("/api/waitlist", {
+    if (!email || !dsp) return;
+    setError("");
+    try {
+      const res = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, source: "Sign In", metadata: { dspName: dsp } }),
       });
+      if (!res.ok) throw new Error("Something went wrong");
       setSubmitted(true);
+    } catch {
+      setError("Something went wrong — please try again.");
     }
   };
 
@@ -41,36 +47,35 @@ export default function SignInModal({ onClose }: Props) {
           <X size={20} />
         </button>
 
-        {submitted ? (
-          <div className="text-center py-6">
-            <div className="text-[40px] mb-3">✓</div>
-            <div className="text-[20px] font-bold text-[#111113] tracking-[-0.01em]">Got it!</div>
-            <p className="text-[15px] text-[#6C6C72] mt-2 leading-[1.55]">
-              Someone will contact you soon.
-            </p>
-          </div>
-        ) : (
-          <>
-            <div className="text-[22px] font-bold text-[#111113] tracking-[-0.01em]">Sign in to DSPOps</div>
-            <p className="text-[14px] text-[#6C6C72] mt-1 mb-5">Enter your details and we'll be in touch.</p>
-            <form onSubmit={handleSubmit} className="flex flex-col gap-2.5">
-              <input
-                type="email" placeholder="Email" required value={email}
-                onChange={e => setEmail(e.target.value)}
-                className="px-[14px] py-[13px] bg-[#F5F5F3] border border-[#E5E5E3] rounded-lg text-[14px] text-[#111113] placeholder:text-[#6C6C72] outline-none focus:ring-2 focus:ring-brand"
-              />
-              <input
-                type="text" placeholder="DSP name" required value={dsp}
-                onChange={e => setDsp(e.target.value)}
-                className="px-[14px] py-[13px] bg-[#F5F5F3] border border-[#E5E5E3] rounded-lg text-[14px] text-[#111113] placeholder:text-[#6C6C72] outline-none focus:ring-2 focus:ring-brand"
-              />
-              <button type="submit"
-                className="px-4 py-[13px] bg-brand text-white rounded-lg text-[14px] font-bold hover:bg-brand-dark transition-colors mt-1">
-                Sign in →
-              </button>
-            </form>
-          </>
-        )}
+          <div className="text-[22px] font-bold text-[#111113] tracking-[-0.01em]">Sign in to DSPOps</div>
+          <p className="text-[14px] text-[#6C6C72] mt-1 mb-5">Enter your details and we'll be in touch.</p>
+          {submitted && (
+            <div className="flex items-center gap-2 px-4 py-3 mb-4 bg-emerald-50 border border-emerald-200 rounded-lg text-emerald-700 text-[13px] font-semibold">
+              <Check size={15} className="shrink-0" />
+              Got it — someone from the team will reach out shortly.
+            </div>
+          )}
+          {error && (
+            <div className="px-4 py-3 mb-4 bg-red-50 border border-red-200 rounded-lg text-red-600 text-[13px]">
+              {error}
+            </div>
+          )}
+          <form onSubmit={handleSubmit} className="flex flex-col gap-2.5">
+            <input
+              type="email" placeholder="Email" required value={email}
+              onChange={e => setEmail(e.target.value)}
+              className="px-[14px] py-[13px] bg-[#F5F5F3] border border-[#E5E5E3] rounded-lg text-[14px] text-[#111113] placeholder:text-[#6C6C72] outline-none focus:ring-2 focus:ring-brand"
+            />
+            <input
+              type="text" placeholder="DSP name" required value={dsp}
+              onChange={e => setDsp(e.target.value)}
+              className="px-[14px] py-[13px] bg-[#F5F5F3] border border-[#E5E5E3] rounded-lg text-[14px] text-[#111113] placeholder:text-[#6C6C72] outline-none focus:ring-2 focus:ring-brand"
+            />
+            <button type="submit"
+              className="px-4 py-[13px] bg-brand text-white rounded-lg text-[14px] font-bold hover:bg-brand-dark transition-colors mt-1">
+              Sign in →
+            </button>
+          </form>
       </div>
     </div>,
     document.body

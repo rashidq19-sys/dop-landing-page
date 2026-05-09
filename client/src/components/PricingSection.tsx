@@ -31,37 +31,70 @@ const plans = [
   features: readonly string[];
 }[];
 
-function PricingEmailCapture({ popular }: { popular: boolean }) {
+function PricingEmailCapture({ popular, planName }: { popular: boolean; planName: string }) {
   const [email, setEmail] = useState("");
-  const handleSubmit = (e: React.FormEvent) => {
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) {
-      alert("Thanks! We'll be in touch soon.");
+    if (!email) return;
+    setError("");
+    try {
+      const res = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, source: `Pricing – ${planName}` }),
+      });
+      if (!res.ok) throw new Error("Something went wrong");
+      setSubmitted(true);
       setEmail("");
+    } catch {
+      setError("Something went wrong — please try again.");
     }
   };
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-2 mb-6">
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="Enter your email"
-        required
-        className="w-full px-4 py-2.5 rounded-lg border border-border bg-white text-navy placeholder:text-muted-foreground text-sm focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-colors"
-      />
-      <button
-        type="submit"
-        className={`w-full flex items-center justify-center gap-2 py-3 rounded-lg font-semibold transition-all duration-200 ${
+    <div className="mb-6">
+      {submitted && (
+        <div className={`flex items-center gap-2 px-4 py-3 mb-3 rounded-lg text-[13px] font-semibold ${
           popular
-            ? "bg-brand hover:bg-brand-dark text-white shadow-[0_4px_14px_0_rgba(59,130,246,0.3)]"
-            : "bg-navy/5 hover:bg-navy/10 text-navy"
-        }`}
-      >
-        Start Free Trial
-        <ArrowRight size={16} />
-      </button>
-    </form>
+            ? "bg-emerald-500/15 border border-emerald-500/25 text-emerald-300"
+            : "bg-emerald-50 border border-emerald-200 text-emerald-700"
+        }`}>
+          <Check size={15} className="shrink-0" />
+          Got it — someone from the team will reach out shortly.
+        </div>
+      )}
+      {error && (
+        <div className={`px-4 py-3 mb-3 rounded-lg text-[13px] ${
+          popular ? "bg-red-500/15 border border-red-500/25 text-red-300" : "bg-red-50 border border-red-200 text-red-600"
+        }`}>
+          {error}
+        </div>
+      )}
+      <form onSubmit={handleSubmit} className="space-y-2">
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Enter your email"
+          required
+          className="w-full px-4 py-2.5 rounded-lg border border-border bg-white text-navy placeholder:text-muted-foreground text-sm focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-colors"
+        />
+        <button
+          type="submit"
+          className={`w-full flex items-center justify-center gap-2 py-3 rounded-lg font-semibold transition-all duration-200 ${
+            popular
+              ? "bg-brand hover:bg-brand-dark text-white shadow-[0_4px_14px_0_rgba(59,130,246,0.3)]"
+              : "bg-navy/5 hover:bg-navy/10 text-navy"
+          }`}
+        >
+          Start Free Trial
+          <ArrowRight size={16} />
+        </button>
+      </form>
+    </div>
   );
 }
 
@@ -136,7 +169,7 @@ export default function PricingSection() {
                 <p className="text-sm text-brand font-medium mt-1">{plan.drivers}</p>
               </div>
 
-              <PricingEmailCapture popular={plan.popular} />
+              <PricingEmailCapture popular={plan.popular} planName={plan.name} />
 
               <ul className="space-y-3">
                 {plan.features.map((feature) => (
