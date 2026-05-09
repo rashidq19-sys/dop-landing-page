@@ -14,7 +14,6 @@ router.post("/", async (req, res) => {
 
   const cleanEmail = email.toLowerCase().trim();
 
-  // Basic email format validation
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(cleanEmail)) {
     return res.status(400).json({ error: "Invalid email format" });
@@ -40,26 +39,33 @@ router.post("/", async (req, res) => {
   }
 });
 
-// PATCH /api/waitlist/:id — Step 2: add name + phone
+// PATCH /api/waitlist/:id — Step 2: add details (name, dsp_name, phone)
 router.patch("/:id", async (req, res) => {
   const id = parseInt(req.params.id, 10);
   if (isNaN(id)) {
     return res.status(400).json({ error: "Invalid ID" });
   }
-  const { name, phone } = req.body;
 
-  if (!name || typeof name !== "string" || !name.trim()) {
-    return res.status(400).json({ error: "Name is required" });
-  }
+  const { name, dsp_name, phone } = req.body;
+
   if (!phone || typeof phone !== "string" || !phone.trim()) {
     return res.status(400).json({ error: "Phone is required" });
   }
 
+  const cleanName = typeof name === "string" ? name.trim() : null;
+  const cleanDspName = typeof dsp_name === "string" ? dsp_name.trim() : null;
+  const cleanPhone = phone.trim();
+
   try {
     const result = await pool.query(
-      `UPDATE waitlist SET name = $1, phone = $2, updated_at = NOW()
-       WHERE id = $3 RETURNING id, email, source`,
-      [name.trim(), phone.trim(), id]
+      `UPDATE waitlist
+       SET name = COALESCE($1, name),
+           dsp_name = COALESCE($2, dsp_name),
+           phone = $3,
+           updated_at = NOW()
+       WHERE id = $4
+       RETURNING id, email, source`,
+      [cleanName || null, cleanDspName || null, cleanPhone, id]
     );
     if (result.rowCount === 0) {
       return res.status(404).json({ error: "Record not found" });
@@ -69,7 +75,7 @@ router.patch("/:id", async (req, res) => {
     const row = result.rows[0];
     sendEmail(
       "DSPOps signup complete — Step 2 (full details)",
-      `A signup has been completed.\n\nName: ${name.trim()}\nEmail: ${row.email}\nPhone: ${phone.trim()}\nSignup source: ${row.source || "unknown"}`
+      `A signup has been completed.\n\nDSP name: ${cleanDspName || "—"}\nContact name: ${cleanName || "—"}\nEmail: ${row.email}\nPhone: ${cleanPhone}\nSignup source: ${row.source || "unknown"}`
     ).catch((err) => console.error("Notification email failed (step 2):", err));
   } catch (err) {
     console.error("Waitlist update error:", err);

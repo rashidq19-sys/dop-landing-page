@@ -5,6 +5,7 @@ interface WaitlistEntry {
   id: number;
   email: string;
   name: string | null;
+  dsp_name: string | null;
   phone: string | null;
   source: string | null;
   created_at: string;
@@ -170,6 +171,9 @@ export default function Admin() {
                       Name
                     </th>
                     <th className="text-left px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                      DSP Name
+                    </th>
+                    <th className="text-left px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">
                       Email
                     </th>
                     <th className="text-left px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">
@@ -191,6 +195,9 @@ export default function Admin() {
                       </td>
                       <td className="px-6 py-4 text-sm font-medium text-slate-900">
                         {entry.name || "—"}
+                      </td>
+                      <td className="px-6 py-4 text-sm font-medium text-slate-900">
+                        {entry.dsp_name || "—"}
                       </td>
                       <td className="px-6 py-4 text-sm text-slate-700">
                         {entry.email}
