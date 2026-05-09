@@ -11,7 +11,7 @@ export async function sendEmail(subject: string, body: string): Promise<void> {
 
   const resend = new Resend(apiKey);
   const { data, error } = await resend.emails.send({
-    from: "DSPOps <onboarding@resend.dev>",
+    from: "DSPOps <notifications@dspops.app>",
     to: toEmail,
     subject,
     text: body,
