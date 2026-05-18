@@ -3,7 +3,12 @@
 .pnpm-store/
 
 # Build outputs
-dist/
+# We track dist/public/ in git because the per-route prerendered HTML is
+# generated locally (Puppeteer takes too long to run reliably on Railway)
+# and shipped as-is. dist/index.js (the bundled server) is rebuilt on
+# Railway, so it stays ignored.
+dist/*
+!dist/public/
 build/
 *.dist
 

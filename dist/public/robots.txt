@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Disallow: /admin
+Disallow: /download
+Disallow: /api/
+
+Sitemap: https://dspops.app/sitemap.xml

@@ -1,47 +1,22 @@
 [phases.setup]
 nixPkgs = ["nodejs_22"]
-# unzip: needed by puppeteer's postinstall to extract the chrome download.
-# The rest are Chrome's shared-library deps. Without them, the binary
-# downloads fine but `puppeteer.launch()` fails with code 127 ("error
-# while loading shared libraries"). Nixpacks auto-detects most of these
-# when puppeteer is in package.json, but specifying `aptPkgs` here
-# replaces that auto-detection — so we list everything explicitly.
-aptPkgs = [
-  "unzip",
-  "libglib2.0-0",
-  "libnss3",
-  "libnspr4",
-  "libatk1.0-0",
-  "libatk-bridge2.0-0",
-  "libcups2",
-  "libdrm2",
-  "libdbus-1-3",
-  "libxcb1",
-  "libxkbcommon0",
-  "libx11-6",
-  "libxcomposite1",
-  "libxdamage1",
-  "libxext6",
-  "libxfixes3",
-  "libxrandr2",
-  "libgbm1",
-  "libpango-1.0-0",
-  "libpangocairo-1.0-0",
-  "libcairo2",
-  "libasound2t64",
-  "libatspi2.0-0",
-  "libxss1",
-  "libgtk-3-0",
-  "libxshmfence1",
-  "libglu1",
-  "fonts-liberation",
-]
+
+[variables]
+# Skip Puppeteer's Chrome download during `npm install` on Railway.
+# Puppeteer is only needed locally for prerendering — the per-route HTML
+# in dist/public/ is committed to git and shipped as-is. Without this,
+# every Railway build wastes minutes downloading a ~200 MB Chrome that
+# the runtime never uses.
+PUPPETEER_SKIP_DOWNLOAD = "true"
 
 [phases.install]
 cmds = ["npm install --legacy-peer-deps"]
 
 [phases.build]
-cmds = ["npm run build"]
+# Railway only bundles the server with esbuild. Vite build + prerender
+# happen locally before pushing — see `npm run build` and commit the
+# resulting dist/public/ directory.
+cmds = ["npm run build:server"]
 
 [start]
 cmd = "NODE_ENV=production node dist/index.js"
