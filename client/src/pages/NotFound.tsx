@@ -1,56 +1,85 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { AlertCircle, Home } from "lucide-react";
-import { useLocation } from "wouter";
+import { Link } from "wouter";
+import { ArrowRight, Home as HomeIcon } from "lucide-react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { usePageMeta } from "@/hooks/usePageMeta";
 
 export default function NotFound() {
-  const [, setLocation] = useLocation();
-
   usePageMeta({
     title: "Page not found | DSPOps",
-    description: "The page you're looking for doesn't exist.",
+    description: "The page you're looking for doesn't exist. Head back to the DSPOps homepage or book a 20-minute demo.",
     noindex: true,
   });
 
-  const handleGoHome = () => {
-    setLocation("/");
-  };
-
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100">
-      <Card className="w-full max-w-lg mx-4 shadow-lg border-0 bg-white/80 backdrop-blur-sm">
-        <CardContent className="pt-8 pb-8 text-center">
-          <div className="flex justify-center mb-6">
-            <div className="relative">
-              <div className="absolute inset-0 bg-red-100 rounded-full animate-pulse" />
-              <AlertCircle className="relative h-16 w-16 text-red-500" />
-            </div>
+    <div className="min-h-screen flex flex-col bg-background">
+      <Navbar />
+      <main className="flex-1 pt-[68px]">
+        <section className="max-w-[1100px] mx-auto px-4 sm:px-8 py-20 sm:py-28 text-center">
+          <div className="text-[11px] font-semibold text-brand uppercase tracking-[0.14em] mb-3">
+            — 404
           </div>
-
-          <h1 className="text-4xl font-bold text-slate-900 mb-2">404</h1>
-
-          <h2 className="text-xl font-semibold text-slate-700 mb-4">
-            Page Not Found
-          </h2>
-
-          <p className="text-slate-600 mb-8 leading-relaxed">
-            Sorry, the page you are looking for doesn't exist.
-            <br />
-            It may have been moved or deleted.
+          <h1 className="text-[40px] sm:text-[64px] font-extrabold text-[#111113] tracking-[-0.035em] leading-[1.02]">
+            Page not found.
+          </h1>
+          <p className="mt-6 text-[18px] sm:text-[20px] text-[#353538] leading-[1.55] max-w-[640px] mx-auto">
+            We couldn't find the page you were looking for. It may have moved, or the link might be wrong.
           </p>
-
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Button
-              onClick={handleGoHome}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 px-5 py-3 bg-brand text-white rounded-lg text-[15px] font-bold hover:bg-brand-dark transition-colors"
             >
-              <Home className="w-4 h-4 mr-2" />
-              Go Home
-            </Button>
+              <HomeIcon size={16} /> Go to homepage
+            </Link>
+            <Link
+              href="/#book-demo"
+              className="inline-flex items-center gap-2 px-5 py-3 border border-border text-[#111113] rounded-lg text-[15px] font-bold hover:border-brand hover:text-brand transition-colors"
+            >
+              Book a 20-min demo <ArrowRight size={16} />
+            </Link>
           </div>
-        </CardContent>
-      </Card>
+
+          <div className="mt-16 text-left max-w-[760px] mx-auto">
+            <div className="text-[11px] font-semibold text-brand uppercase tracking-[0.14em] mb-3">
+              — POPULAR PAGES
+            </div>
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[15px]">
+              <li>
+                <Link href="/amazon-dsp-management-software" className="text-[#111113] hover:text-brand font-semibold">
+                  Amazon DSP management software →
+                </Link>
+              </li>
+              <li>
+                <Link href="/driver-performance-tracking" className="text-[#111113] hover:text-brand font-semibold">
+                  Driver performance tracking →
+                </Link>
+              </li>
+              <li>
+                <Link href="/van-inspection-app" className="text-[#111113] hover:text-brand font-semibold">
+                  Van inspection app →
+                </Link>
+              </li>
+              <li>
+                <Link href="/dsp-rota-management" className="text-[#111113] hover:text-brand font-semibold">
+                  DSP rota management →
+                </Link>
+              </li>
+              <li>
+                <Link href="/dsp-invoicing-payroll" className="text-[#111113] hover:text-brand font-semibold">
+                  Invoicing and payroll →
+                </Link>
+              </li>
+              <li>
+                <Link href="/dsp-compliance-tools" className="text-[#111113] hover:text-brand font-semibold">
+                  DSP compliance tools →
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </section>
+      </main>
+      <Footer />
     </div>
   );
 }

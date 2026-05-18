@@ -13,9 +13,9 @@ import { usePageMeta } from "@/hooks/usePageMeta";
 
 export default function Home() {
   usePageMeta({
-    title: "Amazon DSP Management Software UK | DSPOps",
+    title: "DSPOps — Amazon DSP Management Platform for UK Delivery Service Partners",
     description:
-      "Manage Amazon DSP scheduling, driver performance, van inspections, invoicing and compliance from one platform. Built for UK Delivery Service Partners.",
+      "Run your Amazon DSP from one screen. DSPOps brings rota, driver performance, van inspections, payroll and compliance into a single UK-built platform. 14-day free trial.",
     canonicalPath: "/",
   });
 
