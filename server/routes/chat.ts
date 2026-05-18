@@ -105,4 +105,28 @@ router.post("/end", async (req, res) => {
   return res.json({ ok: true });
 });
 
+// POST /api/chat/lead
+router.post("/lead", async (req, res) => {
+  const { name, email } = req.body as { name?: string; email?: string };
+
+  const trimmedName = typeof name === "string" ? name.trim() : "";
+  const trimmedEmail = typeof email === "string" ? email.trim() : "";
+
+  if (!trimmedName || !trimmedEmail) {
+    return res.status(400).json({ error: "name and email are required" });
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(trimmedEmail)) {
+    return res.status(400).json({ error: "invalid email" });
+  }
+
+  sendEmail(
+    "New lead started chatting on DSPOps",
+    `Name: ${trimmedName}\nEmail: ${trimmedEmail}\nTime: ${new Date().toISOString()}`
+  ).catch((err) => console.error("Lead notification email failed:", err));
+
+  return res.json({ ok: true });
+});
+
 export default router;
