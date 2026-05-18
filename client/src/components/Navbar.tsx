@@ -59,6 +59,9 @@ export default function Navbar() {
 
           {/* Desktop nav */}
           <div className="hidden lg:flex items-center gap-[26px] text-sm font-medium text-[#353538]">
+            <Link href="/" className="hover:text-[#111113] transition-colors">
+              Home
+            </Link>
             {/* Features dropdown */}
             <div ref={featuresRef} className="relative">
               <button
@@ -126,6 +129,14 @@ export default function Navbar() {
       {/* Mobile menu */}
       {mobileOpen && (
         <div className="lg:hidden bg-white border-t border-border px-4 py-4 space-y-1 max-h-[calc(100vh-68px)] overflow-y-auto">
+          <Link
+            href="/"
+            onClick={() => setMobileOpen(false)}
+            className="block px-3 py-2.5 text-sm font-medium text-[#353538] hover:text-[#111113] hover:bg-background rounded-lg transition-colors"
+          >
+            Home
+          </Link>
+          <div className="border-t border-border my-2" />
           <div className="px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#6C6C72]">
             Features
           </div>
