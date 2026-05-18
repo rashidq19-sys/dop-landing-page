@@ -8,8 +8,16 @@ import FAQSection from "@/components/FAQSection";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
 import ChatbotWidget from "@/components/ChatbotWidget";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 export default function Home() {
+  usePageMeta({
+    title: "DSPOps — Operations platform for UK Amazon DSPs",
+    description:
+      "The operations platform built for UK Amazon DSPs. Rota, payroll, scorecards, and driver portal — replacing 5 tools. 14-day free trial.",
+    canonicalPath: "/",
+  });
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />

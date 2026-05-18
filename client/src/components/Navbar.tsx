@@ -5,8 +5,9 @@ import SignInModal from "./SignInModal";
 const LOGO_URL = "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/dop-logo_ba62af1c.png";
 
 const navLinks: { label: string; href: string }[] = [
-  { label: "Platform", href: "#features" },
-  { label: "Pricing", href: "#pricing" },
+  { label: "Platform", href: "/#features" },
+  { label: "Pricing", href: "/#pricing" },
+  { label: "Blog", href: "/blog" },
   { label: "Contact", href: "mailto:support@dspops.app" },
 ];
 
@@ -43,7 +44,7 @@ export default function Navbar() {
           {/* Desktop CTAs */}
           <div className="hidden lg:flex items-center gap-2.5">
             <button onClick={() => setSignInOpen(true)} className="text-sm font-medium text-[#353538] hover:text-[#111113] transition-colors px-2">Sign in</button>
-            <a href="#book-demo" className="px-4 py-[9px] bg-[#111113] text-white rounded-lg text-sm font-semibold hover:bg-[#353538] transition-colors">
+            <a href="/#book-demo" className="px-4 py-[9px] bg-[#111113] text-white rounded-lg text-sm font-semibold hover:bg-[#353538] transition-colors">
               Book demo →
             </a>
           </div>
@@ -71,7 +72,7 @@ export default function Navbar() {
               className="block w-full text-center text-sm font-medium text-[#353538] hover:text-[#111113] px-5 py-2.5 rounded-lg transition-colors">
               Sign in
             </button>
-            <a href="#book-demo" onClick={() => setMobileOpen(false)}
+            <a href="/#book-demo" onClick={() => setMobileOpen(false)}
               className="block w-full text-center text-sm font-semibold text-white bg-[#111113] px-5 py-2.5 rounded-lg">
               Book demo →
             </a>

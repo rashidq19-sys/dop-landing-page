@@ -6,11 +6,147 @@
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-    <title>DSP Ops — Stop Running Your DSP From a Spreadsheet</title>
-    <meta name="description" content="Scheduling, van damage detection, invoicing, and performance tracking. One platform. Fully automated. Save 3+ hours every day." />
+    <title>DSPOps — Operations platform for UK Amazon DSPs</title>
+    <meta name="description" content="The operations platform built for UK Amazon DSPs. Rota, payroll, scorecards, and driver portal — replacing 5 tools. 14-day free trial." />
+    <link rel="canonical" href="https://dspops.app/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://dspops.app/" />
+    <meta property="og:site_name" content="DSPOps" />
+    <meta property="og:title" content="DSPOps — Operations platform for UK Amazon DSPs" />
+    <meta property="og:description" content="The operations platform built for UK Amazon DSPs. Rota, payroll, scorecards, and driver portal — replacing 5 tools. 14-day free trial." />
+    <meta property="og:image" content="https://dspops.app/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="DSPOps — the operations platform built for UK Amazon DSPs" />
+    <meta property="og:locale" content="en_GB" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="DSPOps — Operations platform for UK Amazon DSPs" />
+    <meta name="twitter:description" content="The operations platform built for UK Amazon DSPs. Rota, payroll, scorecards, and driver portal — replacing 5 tools. 14-day free trial." />
+    <meta name="twitter:image" content="https://dspops.app/og-image.png" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&display=swap" rel="stylesheet" />
+
+    <!-- Structured data: SoftwareApplication -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "DSPOps",
+      "applicationCategory": "BusinessApplication",
+      "applicationSubCategory": "Fleet operations software",
+      "operatingSystem": "Web",
+      "url": "https://dspops.app/",
+      "description": "Operations platform for UK Amazon DSPs. Rota, payroll, scorecards, van inspections, compliance, and a driver portal in one place — replacing 5 separate tools.",
+      "audience": {
+        "@type": "BusinessAudience",
+        "audienceType": "Amazon Delivery Service Partners (DSPs)"
+      },
+      "offers": {
+        "@type": "Offer",
+        "priceCurrency": "GBP",
+        "price": "0",
+        "description": "14-day free trial, no credit card required."
+      },
+      "featureList": [
+        "Rota and scheduling",
+        "Driver portal",
+        "Payroll calculated from Amazon Cortex",
+        "Cortex scorecard sync",
+        "Van inspections with photo and video",
+        "Compliance and document expiry tracking",
+        "Same-Day Delivery (SDD) wave management",
+        "Live delivery tracking"
+      ]
+    }
+    </script>
+
+    <!-- Structured data: Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "DSPOps",
+      "url": "https://dspops.app/",
+      "logo": "https://dspops.app/logo.png",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "email": "support@dspops.app",
+        "contactType": "customer support"
+      }
+    }
+    </script>
+
+    <!-- Structured data: FAQPage (keep in sync with shared/faqs.ts) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How long does setup take?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Most DSPs are live in 20 minutes. We import your drivers from a CSV, connect your Cortex scorecard feed, and generate driver portal logins automatically. Priority onboarding sessions are included on Professional and Enterprise plans."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does it work with Amazon Cortex?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes — live two-way sync. Scorecards, delivery progress, and route data flow into DSPOps automatically. No more manual re-keying, no more 'why is my score wrong?' calls."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "We run Same-Day Delivery. Is that supported?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes — SDD is a first-class module, not an afterthought. You get a separate wave view for same-day routes, tighter SLA timers, late-stop alerts, and SDD-specific payroll rates. Owners running both standard and SDD contracts see everything in one fleet-wide dashboard."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do drivers need to install anything?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No app store, no download. Drivers get a login link via text and access the portal from any phone's browser. It works offline too — they can mark vans, submit damage, check rota without signal."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I cancel my other tools immediately?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Usually yes. DSPOps replaces rota spreadsheets, WhatsApp driver groups, van inspection apps, and most payroll sheets. We migrate historical data in your first week so you lose nothing."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is it GDPR compliant?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes — UK-hosted, GDPR-compliant. Driver data stays in the UK. We sign DPAs and provide audit logs for all data access."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What if my fleet grows past a tier?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We upgrade you mid-month and prorate the difference. No per-driver fees, ever — you just move to the next tier when you hit the driver limit."
+          }
+        }
+      ]
+    }
+    </script>
   </head>
 
   <body>
