@@ -1,16 +1,15 @@
 [phases.setup]
 nixPkgs = ["nodejs_22"]
 
-[variables]
-# Skip Puppeteer's Chrome download during `npm install` on Railway.
-# Puppeteer is only needed locally for prerendering — the per-route HTML
-# in dist/public/ is committed to git and shipped as-is. Without this,
-# every Railway build wastes minutes downloading a ~200 MB Chrome that
-# the runtime never uses.
-PUPPETEER_SKIP_DOWNLOAD = "true"
-
 [phases.install]
-cmds = ["npm install --legacy-peer-deps"]
+# PUPPETEER_SKIP_DOWNLOAD prepended directly because Nixpacks's [variables]
+# block doesn't reliably propagate to phase commands on Railway. Without it
+# `npm install` runs puppeteer's postinstall which tries to download Chrome,
+# then fails extracting the archive because unzip isn't on PATH. Puppeteer
+# is only needed locally for prerendering — the per-route HTML in
+# dist/public/ is committed to git and shipped as-is, so the runtime never
+# needs Chrome.
+cmds = ["PUPPETEER_SKIP_DOWNLOAD=true npm install --legacy-peer-deps"]
 
 [phases.build]
 # Railway only bundles the server with esbuild. Vite build + prerender
