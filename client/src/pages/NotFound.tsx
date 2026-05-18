@@ -2,9 +2,16 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { AlertCircle, Home } from "lucide-react";
 import { useLocation } from "wouter";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 export default function NotFound() {
   const [, setLocation] = useLocation();
+
+  usePageMeta({
+    title: "Page not found | DSPOps",
+    description: "The page you're looking for doesn't exist.",
+    noindex: true,
+  });
 
   const handleGoHome = () => {
     setLocation("/");

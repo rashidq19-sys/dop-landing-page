@@ -3,22 +3,38 @@ import { Link } from "wouter";
 const LOGO_URL = "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/dop-logo_ba62af1c.png";
 
 const productLinks = [
-  { label: "Rota", href: "/features/rota" },
-  { label: "Payroll", href: "/features/payroll" },
-  { label: "Scorecard", href: "/features/scorecard" },
+  { label: "DSP Management Software", href: "/amazon-dsp-management-software" },
+  { label: "Driver Performance", href: "/driver-performance-tracking" },
+  { label: "Van Inspection App", href: "/van-inspection-app" },
+  { label: "Rota Management", href: "/dsp-rota-management" },
+  { label: "Invoicing & Payroll", href: "/dsp-invoicing-payroll" },
+  { label: "Compliance Tools", href: "/dsp-compliance-tools" },
 ];
 
 const resourceLinks = [
   { label: "Blog", href: "/blog" },
   { label: "Pricing", href: "/#pricing" },
   { label: "FAQ", href: "/#faq" },
+  { label: "Book a demo", href: "/#book-demo" },
 ];
 
 const legalLinks = [
   { label: "Privacy", href: "/privacy" },
-  { label: "Terms", href: "#" },
-  { label: "Security", href: "#" },
 ];
+
+function NavLink({ href, label }: { href: string; label: string }) {
+  const internal = href.startsWith("/") && !href.includes("#") && !href.startsWith("mailto:");
+  const cls = "text-[#94A3B8] hover:text-white transition-colors";
+  return internal ? (
+    <Link href={href} className={cls}>
+      {label}
+    </Link>
+  ) : (
+    <a href={href} className={cls}>
+      {label}
+    </a>
+  );
+}
 
 export default function Footer() {
   return (
@@ -30,9 +46,7 @@ export default function Footer() {
             <ul className="space-y-2">
               {productLinks.map((l) => (
                 <li key={l.href}>
-                  <Link href={l.href} className="text-[#94A3B8] hover:text-white transition-colors">
-                    {l.label}
-                  </Link>
+                  <NavLink {...l} />
                 </li>
               ))}
             </ul>
@@ -42,15 +56,7 @@ export default function Footer() {
             <ul className="space-y-2">
               {resourceLinks.map((l) => (
                 <li key={l.href}>
-                  {l.href.startsWith("/") && !l.href.includes("#") ? (
-                    <Link href={l.href} className="text-[#94A3B8] hover:text-white transition-colors">
-                      {l.label}
-                    </Link>
-                  ) : (
-                    <a href={l.href} className="text-[#94A3B8] hover:text-white transition-colors">
-                      {l.label}
-                    </a>
-                  )}
+                  <NavLink {...l} />
                 </li>
               ))}
             </ul>
@@ -60,15 +66,7 @@ export default function Footer() {
             <ul className="space-y-2">
               {legalLinks.map((l) => (
                 <li key={l.label}>
-                  {l.href.startsWith("/") ? (
-                    <Link href={l.href} className="text-[#94A3B8] hover:text-white transition-colors">
-                      {l.label}
-                    </Link>
-                  ) : (
-                    <a href={l.href} className="text-[#94A3B8] hover:text-white transition-colors">
-                      {l.label}
-                    </a>
-                  )}
+                  <NavLink {...l} />
                 </li>
               ))}
             </ul>
@@ -92,7 +90,7 @@ export default function Footer() {
               DSP<span className="text-brand">Ops</span>
             </span>
           </Link>
-          <span>© {new Date().getFullYear()} DSPOps Ltd · Operations platform for UK Amazon DSPs</span>
+          <span>© {new Date().getFullYear()} DSPOps Ltd · Amazon DSP management software for UK Delivery Service Partners</span>
         </div>
       </div>
     </footer>

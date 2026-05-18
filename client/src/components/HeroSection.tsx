@@ -109,8 +109,8 @@ export default function HeroSection() {
           {/* Left */}
           <div>
             {/* Headline */}
-            <h1 className="font-sans text-[44px] sm:text-[56px] lg:text-[84px] font-extrabold tracking-[-0.045em] leading-[0.98] text-[#111113]">
-              Run your DSP<br />in <span className="text-brand">one screen.</span>
+            <h1 className="font-sans text-[40px] sm:text-[52px] lg:text-[76px] font-extrabold tracking-[-0.045em] leading-[1] text-[#111113]">
+              Stop Running Your DSP<br />From a <span className="text-brand">Spreadsheet.</span>
             </h1>
 
             {/* Badge */}

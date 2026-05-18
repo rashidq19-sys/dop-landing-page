@@ -6,17 +6,32 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://dspops.app/features/rota</loc>
+    <loc>https://dspops.app/amazon-dsp-management-software</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://dspops.app/driver-performance-tracking</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://dspops.app/features/payroll</loc>
+    <loc>https://dspops.app/van-inspection-app</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://dspops.app/features/scorecard</loc>
+    <loc>https://dspops.app/dsp-rota-management</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://dspops.app/dsp-invoicing-payroll</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://dspops.app/dsp-compliance-tools</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

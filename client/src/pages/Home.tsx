@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import ReplacesSection from "@/components/ReplacesSection";
 import FeaturesSection from "@/components/FeaturesSection";
+import SEOOverviewSection from "@/components/SEOOverviewSection";
 import WhatYouGetSection from "@/components/WhatYouGetSection";
 import PricingSection from "@/components/PricingSection";
 import FAQSection from "@/components/FAQSection";
@@ -12,9 +13,9 @@ import { usePageMeta } from "@/hooks/usePageMeta";
 
 export default function Home() {
   usePageMeta({
-    title: "DSPOps — Operations platform for UK Amazon DSPs",
+    title: "Amazon DSP Management Software UK | DSPOps",
     description:
-      "The operations platform built for UK Amazon DSPs. Rota, payroll, scorecards, and driver portal — replacing 5 tools. 14-day free trial.",
+      "Manage Amazon DSP scheduling, driver performance, van inspections, invoicing and compliance from one platform. Built for UK Delivery Service Partners.",
     canonicalPath: "/",
   });
 
@@ -25,6 +26,7 @@ export default function Home() {
         <HeroSection />
         <ReplacesSection />
         <FeaturesSection />
+        <SEOOverviewSection />
         <WhatYouGetSection />
         <PricingSection />
         <FAQSection />
