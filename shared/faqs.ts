@@ -1,5 +1,4 @@
-// Single source of truth for FAQs.
-// Also referenced in client/index.html as FAQPage JSON-LD — keep in sync.
+// Single source of truth for FAQs. Used by FAQSection.tsx and Home.tsx (FAQPage JSON-LD).
 
 export type Faq = {
   question: string;

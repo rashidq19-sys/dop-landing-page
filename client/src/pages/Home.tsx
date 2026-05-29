@@ -9,7 +9,8 @@ import FAQSection from "@/components/FAQSection";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
 import ChatbotWidget from "@/components/ChatbotWidget";
-import { usePageMeta } from "@/hooks/usePageMeta";
+import { usePageMeta, faqJsonLd } from "@/hooks/usePageMeta";
+import { faqs } from "@shared/faqs";
 
 export default function Home() {
   usePageMeta({
@@ -17,6 +18,7 @@ export default function Home() {
     description:
       "Run your Amazon DSP from one screen. DSPOps brings rota, driver performance, van inspections, payroll and compliance into a single UK-built platform. 14-day free trial.",
     canonicalPath: "/",
+    jsonLd: faqJsonLd(faqs),
   });
 
   return (
