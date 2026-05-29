@@ -29,7 +29,7 @@ function BlogPostBody({
   Body: React.ComponentType;
 }) {
   usePageMeta({
-    title: `${post.title} | DSPOps`,
+    title: `${post.metaTitle ?? post.title} | DSPOps`,
     description: post.description,
     canonicalPath: `/blog/${post.slug}`,
   });

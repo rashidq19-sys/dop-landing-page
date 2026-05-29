@@ -4,10 +4,12 @@
 
 import type { ComponentType } from "react";
 import ImproveCortexScorecard from "@/content/blog/improve-amazon-cortex-scorecard";
+import AmazonCortexDcrScore from "@/content/blog/amazon-cortex-dcr-score";
 
 export type BlogPost = {
   slug: string;
   title: string;
+  metaTitle?: string; // overrides title in the <title> tag when set; title is always the H1
   description: string;
   excerpt: string;
   date: string; // ISO date
@@ -16,6 +18,18 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  {
+    slug: "amazon-cortex-dcr-score",
+    title: "What is a good Amazon Cortex DCR score, and how do you improve it?",
+    metaTitle: "Amazon Cortex DCR Score: What's Good and How to Improve It",
+    description:
+      "What DCR means on your Amazon Cortex scorecard, what counts as a good score, and the exact steps UK DSPs use to push it higher.",
+    excerpt:
+      "Your Amazon Cortex DCR score defines your week. Here's what counts as a good score, why it drops, and the per-driver playbook to fix it fast.",
+    date: "2026-05-29",
+    readingMinutes: 7,
+    Body: AmazonCortexDcrScore,
+  },
   {
     slug: "improve-amazon-cortex-scorecard",
     title: "How to improve your Amazon Cortex scorecard",
