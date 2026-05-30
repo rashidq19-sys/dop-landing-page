@@ -110,6 +110,14 @@ async function startServer() {
       return res.status(404).json({ error: "Not found" });
     }
 
+    // "/$" and its percent-encoded equivalent "/%24" are garbage URLs that were
+    // indexed by Google before the 404 catch-all was added. 301-redirect them to
+    // the homepage so Google deindexes them quickly rather than waiting for the
+    // 404 + noindex signal to propagate.
+    if (pathname === "/$" || pathname === "/%24") {
+      return res.redirect(301, "/");
+    }
+
     const known = isKnownRoute(pathname);
 
     if (known) {
