@@ -5,6 +5,7 @@
 import type { ComponentType } from "react";
 import ImproveCortexScorecard from "@/content/blog/improve-amazon-cortex-scorecard";
 import AmazonCortexDcrScore from "@/content/blog/amazon-cortex-dcr-score";
+import OnboardNewDriversAmazonDsp from "@/content/blog/how-to-onboard-new-drivers-amazon-dsp";
 
 export type BlogPost = {
   slug: string;
@@ -18,6 +19,17 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  {
+    slug: "how-to-onboard-new-drivers-amazon-dsp",
+    title: "How to onboard new drivers at an Amazon DSP",
+    description:
+      "A step-by-step guide to onboarding new Amazon DSP drivers in the UK — right-to-work checks, licence verification, station induction, and the two-week follow-up routine.",
+    excerpt:
+      "Most DSP driver problems start in week one. Here is the compliance checklist and two-week routine that turns new starters into consistent performers.",
+    date: "2026-06-01",
+    readingMinutes: 5,
+    Body: OnboardNewDriversAmazonDsp,
+  },
   {
     slug: "amazon-cortex-dcr-score",
     title: "What is a good Amazon Cortex DCR score, and how do you improve it?",
