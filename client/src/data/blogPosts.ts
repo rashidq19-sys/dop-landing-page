@@ -6,6 +6,7 @@ import type { ComponentType } from "react";
 import ImproveCortexScorecard from "@/content/blog/improve-amazon-cortex-scorecard";
 import AmazonCortexDcrScore from "@/content/blog/amazon-cortex-dcr-score";
 import OnboardNewDriversAmazonDsp from "@/content/blog/how-to-onboard-new-drivers-amazon-dsp";
+import ReduceDriverTurnoverAmazonDsp from "@/content/blog/reduce-driver-turnover-amazon-dsp";
 
 export type BlogPost = {
   slug: string;
@@ -19,6 +20,17 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  {
+    slug: "reduce-driver-turnover-amazon-dsp",
+    title: "How to reduce driver turnover at an Amazon DSP",
+    description:
+      "Practical steps UK Amazon DSP owners can take to reduce driver churn — from structured 90-day onboarding to rota visibility and daily performance feedback.",
+    excerpt:
+      "Driver turnover is one of the most expensive problems a DSP can face. Here are the operational changes that keep drivers around long-term.",
+    date: "2026-06-08",
+    readingMinutes: 5,
+    Body: ReduceDriverTurnoverAmazonDsp,
+  },
   {
     slug: "how-to-onboard-new-drivers-amazon-dsp",
     title: "How to onboard new drivers at an Amazon DSP",
