@@ -7,6 +7,7 @@ import ImproveCortexScorecard from "@/content/blog/improve-amazon-cortex-scoreca
 import AmazonCortexDcrScore from "@/content/blog/amazon-cortex-dcr-score";
 import OnboardNewDriversAmazonDsp from "@/content/blog/how-to-onboard-new-drivers-amazon-dsp";
 import ReduceDriverTurnoverAmazonDsp from "@/content/blog/reduce-driver-turnover-amazon-dsp";
+import VanInspectionComplianceAmazonDsp from "@/content/blog/van-inspection-compliance-amazon-dsp";
 
 export type BlogPost = {
   slug: string;
@@ -20,6 +21,17 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  {
+    slug: "van-inspection-compliance-amazon-dsp",
+    title: "Van inspection compliance: what Amazon audits and what DSPs miss",
+    description:
+      "What Amazon checks in a van inspection audit, where UK DSPs fall short on vehicle compliance, and how to build a daily walkaround routine that holds up under scrutiny.",
+    excerpt:
+      "Van inspections feel administrative until the day they aren't. Here is what Amazon audits, where most DSPs have gaps, and how to build a process that actually holds up.",
+    date: "2026-06-15",
+    readingMinutes: 5,
+    Body: VanInspectionComplianceAmazonDsp,
+  },
   {
     slug: "reduce-driver-turnover-amazon-dsp",
     title: "How to reduce driver turnover at an Amazon DSP",
