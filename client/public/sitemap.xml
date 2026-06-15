@@ -44,21 +44,15 @@
   </url>
   <url>
     <loc>https://dspops.app/blog</loc>
-    <lastmod>2026-05-18</lastmod>
+    <lastmod>2026-06-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dspops.app/blog/amazon-cortex-dcr-score</loc>
-    <lastmod>2026-05-29</lastmod>
+    <loc>https://dspops.app/blog/van-inspection-compliance-amazon-dsp</loc>
+    <lastmod>2026-06-15</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://dspops.app/blog/improve-amazon-cortex-scorecard</loc>
-    <lastmod>2026-05-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://dspops.app/blog/reduce-driver-turnover-amazon-dsp</loc>
@@ -73,10 +67,16 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://dspops.app/blog/van-inspection-compliance-amazon-dsp</loc>
-    <lastmod>2026-06-15</lastmod>
+    <loc>https://dspops.app/blog/amazon-cortex-dcr-score</loc>
+    <lastmod>2026-05-29</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://dspops.app/blog/improve-amazon-cortex-scorecard</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dspops.app/privacy</loc>
