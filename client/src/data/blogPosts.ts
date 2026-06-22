@@ -8,6 +8,7 @@ import AmazonCortexDcrScore from "@/content/blog/amazon-cortex-dcr-score";
 import OnboardNewDriversAmazonDsp from "@/content/blog/how-to-onboard-new-drivers-amazon-dsp";
 import ReduceDriverTurnoverAmazonDsp from "@/content/blog/reduce-driver-turnover-amazon-dsp";
 import VanInspectionComplianceAmazonDsp from "@/content/blog/van-inspection-compliance-amazon-dsp";
+import AmazonDspDriverBriefings from "@/content/blog/amazon-dsp-driver-briefings";
 
 export type BlogPost = {
   slug: string;
@@ -21,6 +22,17 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  {
+    slug: "amazon-dsp-driver-briefings",
+    title: "How to run effective driver briefings before a delivery wave",
+    description:
+      "How UK Amazon DSP owners can run a 10-minute pre-wave driver briefing that improves POD, CC, and DCR — without adding more meetings to the day.",
+    excerpt:
+      "Most DSP driver briefings are rushed and generic. A ten-minute structured briefing with yesterday's Cortex data does more for your scorecard than any retraining session.",
+    date: "2026-06-22",
+    readingMinutes: 5,
+    Body: AmazonDspDriverBriefings,
+  },
   {
     slug: "van-inspection-compliance-amazon-dsp",
     title: "Van inspection compliance: what Amazon audits and what DSPs miss",
