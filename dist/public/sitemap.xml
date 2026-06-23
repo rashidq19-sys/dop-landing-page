@@ -44,9 +44,33 @@
   </url>
   <url>
     <loc>https://dspops.app/blog</loc>
-    <lastmod>2026-05-18</lastmod>
+    <lastmod>2026-06-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://dspops.app/blog/amazon-dsp-driver-briefings</loc>
+    <lastmod>2026-06-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dspops.app/blog/van-inspection-compliance-amazon-dsp</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dspops.app/blog/reduce-driver-turnover-amazon-dsp</loc>
+    <lastmod>2026-06-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dspops.app/blog/how-to-onboard-new-drivers-amazon-dsp</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://dspops.app/blog/amazon-cortex-dcr-score</loc>

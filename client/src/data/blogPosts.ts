@@ -5,6 +5,10 @@
 import type { ComponentType } from "react";
 import ImproveCortexScorecard from "@/content/blog/improve-amazon-cortex-scorecard";
 import AmazonCortexDcrScore from "@/content/blog/amazon-cortex-dcr-score";
+import OnboardNewDriversAmazonDsp from "@/content/blog/how-to-onboard-new-drivers-amazon-dsp";
+import ReduceDriverTurnoverAmazonDsp from "@/content/blog/reduce-driver-turnover-amazon-dsp";
+import VanInspectionComplianceAmazonDsp from "@/content/blog/van-inspection-compliance-amazon-dsp";
+import AmazonDspDriverBriefings from "@/content/blog/amazon-dsp-driver-briefings";
 
 export type BlogPost = {
   slug: string;
@@ -18,6 +22,50 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  {
+    slug: "amazon-dsp-driver-briefings",
+    title: "How to run effective driver briefings before a delivery wave",
+    description:
+      "How UK Amazon DSP owners can run a 10-minute pre-wave driver briefing that improves POD, CC, and DCR — without adding more meetings to the day.",
+    excerpt:
+      "Most DSP driver briefings are rushed and generic. A ten-minute structured briefing with yesterday's Cortex data does more for your scorecard than any retraining session.",
+    date: "2026-06-22",
+    readingMinutes: 5,
+    Body: AmazonDspDriverBriefings,
+  },
+  {
+    slug: "van-inspection-compliance-amazon-dsp",
+    title: "Van inspection compliance: what Amazon audits and what DSPs miss",
+    description:
+      "What Amazon checks in a van inspection audit, where UK DSPs fall short on vehicle compliance, and how to build a daily walkaround routine that holds up under scrutiny.",
+    excerpt:
+      "Van inspections feel administrative until the day they aren't. Here is what Amazon audits, where most DSPs have gaps, and how to build a process that actually holds up.",
+    date: "2026-06-15",
+    readingMinutes: 5,
+    Body: VanInspectionComplianceAmazonDsp,
+  },
+  {
+    slug: "reduce-driver-turnover-amazon-dsp",
+    title: "How to reduce driver turnover at an Amazon DSP",
+    description:
+      "Practical steps UK Amazon DSP owners can take to reduce driver churn — from structured 90-day onboarding to rota visibility and daily performance feedback.",
+    excerpt:
+      "Driver turnover is one of the most expensive problems a DSP can face. Here are the operational changes that keep drivers around long-term.",
+    date: "2026-06-08",
+    readingMinutes: 5,
+    Body: ReduceDriverTurnoverAmazonDsp,
+  },
+  {
+    slug: "how-to-onboard-new-drivers-amazon-dsp",
+    title: "How to onboard new drivers at an Amazon DSP",
+    description:
+      "A step-by-step guide to onboarding new Amazon DSP drivers in the UK — right-to-work checks, licence verification, station induction, and the two-week follow-up routine.",
+    excerpt:
+      "Most DSP driver problems start in week one. Here is the compliance checklist and two-week routine that turns new starters into consistent performers.",
+    date: "2026-06-01",
+    readingMinutes: 5,
+    Body: OnboardNewDriversAmazonDsp,
+  },
   {
     slug: "amazon-cortex-dcr-score",
     title: "What is a good Amazon Cortex DCR score, and how do you improve it?",

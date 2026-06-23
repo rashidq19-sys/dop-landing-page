@@ -121,6 +121,7 @@ temp/
 
 # Manus (auto-generated, not part of source)
 client/public/__manus__/version.json
+dist/public/__manus__/
 .manus-logs/
 
 # Large media files
