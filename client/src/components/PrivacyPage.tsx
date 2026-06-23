@@ -180,6 +180,14 @@ export default function PrivacyPage() {
                 </tbody>
               </table>
             </div>
+            <p className="text-navy/70 text-[15px] leading-relaxed mt-4">
+              Separately, this marketing website uses a simple first-party visit
+              counter to understand how many people view our pages. It records the
+              page visited, a timestamp, and a randomly generated identifier stored
+              in your browser — never your name, email address, or IP address. This
+              data stays on our own systems, is not shared with any third party, and
+              is not used for advertising or cross-site tracking.
+            </p>
           </section>
 
           {/* 5. Data Security */}
