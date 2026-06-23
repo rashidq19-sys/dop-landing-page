@@ -62,4 +62,86 @@ router.get("/waitlist", requireAuth, async (_req, res) => {
   }
 });
 
+// GET /api/admin/stats — site traffic summary from the page_views table.
+// All day buckets use Europe/London so "today" matches the user's clock.
+// Note: a window's "unique visitors" is COUNT(DISTINCT visitor_id) over that
+// whole window, so it intentionally does NOT equal the sum of the daily unique
+// figures (someone who visits on 3 days counts once in the 30-day total but
+// appears in 3 daily rows).
+router.get("/stats", requireAuth, async (_req, res) => {
+  try {
+    const [headline, daily, byPage] = await Promise.all([
+      pool.query(`
+        WITH t AS (SELECT (now() AT TIME ZONE 'Europe/London')::date AS today),
+        v AS (
+          SELECT visitor_id, (created_at AT TIME ZONE 'Europe/London')::date AS day
+          FROM page_views
+        )
+        SELECT
+          to_char(t.today, 'YYYY-MM-DD') AS today,
+          COUNT(v.visitor_id)            FILTER (WHERE v.day = t.today)        AS pv_today,
+          COUNT(DISTINCT v.visitor_id)   FILTER (WHERE v.day = t.today)        AS uv_today,
+          COUNT(v.visitor_id)            FILTER (WHERE v.day >= t.today - 6)   AS pv_7,
+          COUNT(DISTINCT v.visitor_id)   FILTER (WHERE v.day >= t.today - 6)   AS uv_7,
+          COUNT(v.visitor_id)            FILTER (WHERE v.day >= t.today - 29)  AS pv_30,
+          COUNT(DISTINCT v.visitor_id)   FILTER (WHERE v.day >= t.today - 29)  AS uv_30,
+          COUNT(v.visitor_id)                                                  AS pv_all,
+          COUNT(DISTINCT v.visitor_id)                                         AS uv_all
+        FROM t LEFT JOIN v ON true
+        GROUP BY t.today
+      `),
+      pool.query(`
+        SELECT to_char(day, 'YYYY-MM-DD') AS day,
+               COUNT(*)                   AS page_views,
+               COUNT(DISTINCT visitor_id) AS unique_visitors
+        FROM (
+          SELECT visitor_id, (created_at AT TIME ZONE 'Europe/London')::date AS day
+          FROM page_views
+        ) v
+        WHERE day >= (now() AT TIME ZONE 'Europe/London')::date - 29
+        GROUP BY day
+        ORDER BY day DESC
+      `),
+      pool.query(`
+        SELECT path,
+               COUNT(*)                   AS page_views,
+               COUNT(DISTINCT visitor_id) AS unique_visitors
+        FROM (
+          SELECT visitor_id, path, (created_at AT TIME ZONE 'Europe/London')::date AS day
+          FROM page_views
+        ) v
+        WHERE day >= (now() AT TIME ZONE 'Europe/London')::date - 29
+        GROUP BY path
+        ORDER BY page_views DESC, path ASC
+        LIMIT 50
+      `),
+    ]);
+
+    const h = headline.rows[0] || {};
+    const n = (x: unknown) => Number(x) || 0;
+
+    res.json({
+      summary: {
+        today: { uniqueVisitors: n(h.uv_today), pageViews: n(h.pv_today) },
+        last7Days: { uniqueVisitors: n(h.uv_7), pageViews: n(h.pv_7) },
+        last30Days: { uniqueVisitors: n(h.uv_30), pageViews: n(h.pv_30) },
+        allTime: { uniqueVisitors: n(h.uv_all), pageViews: n(h.pv_all) },
+      },
+      daily: daily.rows.map((r) => ({
+        day: r.day,
+        uniqueVisitors: n(r.unique_visitors),
+        pageViews: n(r.page_views),
+      })),
+      byPage: byPage.rows.map((r) => ({
+        path: r.path,
+        uniqueVisitors: n(r.unique_visitors),
+        pageViews: n(r.page_views),
+      })),
+    });
+  } catch (err) {
+    console.error("Admin stats fetch error:", err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 export default router;

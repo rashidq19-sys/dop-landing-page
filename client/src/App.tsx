@@ -1,9 +1,10 @@
-import { lazy, Suspense } from "react";
-import { Route, Switch } from "wouter";
+import { lazy, Suspense, useEffect } from "react";
+import { Route, Switch, useLocation } from "wouter";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import { trackPageView } from "./lib/tracking";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 
@@ -24,7 +25,17 @@ function PageFallback() {
   return <div className="min-h-screen bg-background" aria-hidden="true" />;
 }
 
+// Fire an anonymous page-view beacon on first load and on every SPA navigation.
+function usePageViewTracking() {
+  const [location] = useLocation();
+  useEffect(() => {
+    trackPageView(location);
+  }, [location]);
+}
+
 function App() {
+  usePageViewTracking();
+
   return (
     <ErrorBoundary>
       <ThemeProvider defaultTheme="light">

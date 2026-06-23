@@ -9,6 +9,7 @@ import { initDb } from "./db.js";
 import waitlistRoutes from "./routes/waitlist.js";
 import adminRoutes from "./routes/admin.js";
 import chatRoutes from "./routes/chat.js";
+import trackRoutes from "./routes/track.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -70,6 +71,7 @@ async function startServer() {
   app.use("/api/waitlist", waitlistRoutes);
   app.use("/api/admin", adminRoutes);
   app.use("/api/chat", chatRoutes);
+  app.use("/api/track", trackRoutes);
 
   // Serve static files from dist/public in production
   const staticPath =

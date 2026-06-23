@@ -50,6 +50,9 @@ pids
 *.seed
 *.pid.lock
 
+# Claude Code scheduled-task runtime lock (must never be committed)
+.claude/scheduled_tasks.lock
+
 # Coverage directory used by tools like istanbul
 coverage/
 *.lcov
