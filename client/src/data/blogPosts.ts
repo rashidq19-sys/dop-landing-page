@@ -9,6 +9,7 @@ import OnboardNewDriversAmazonDsp from "@/content/blog/how-to-onboard-new-driver
 import ReduceDriverTurnoverAmazonDsp from "@/content/blog/reduce-driver-turnover-amazon-dsp";
 import VanInspectionComplianceAmazonDsp from "@/content/blog/van-inspection-compliance-amazon-dsp";
 import AmazonDspDriverBriefings from "@/content/blog/amazon-dsp-driver-briefings";
+import DspRightToWorkLicenceChecks from "@/content/blog/dsp-right-to-work-licence-checks";
 
 export type BlogPost = {
   slug: string;
@@ -22,6 +23,17 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  {
+    slug: "dsp-right-to-work-licence-checks",
+    title: "Managing right-to-work checks and licence expiry for DSP drivers",
+    description:
+      "How UK Amazon DSP owners can track driver right-to-work documents and driving licence expiry dates — before they become an audit or insurance problem.",
+    excerpt:
+      "A lapsed visa or expired driving licence sitting unnoticed on your rota is a compliance exposure most DSPs only discover too late. Here is how to stay ahead of it.",
+    date: "2026-06-29",
+    readingMinutes: 5,
+    Body: DspRightToWorkLicenceChecks,
+  },
   {
     slug: "amazon-dsp-driver-briefings",
     title: "How to run effective driver briefings before a delivery wave",
