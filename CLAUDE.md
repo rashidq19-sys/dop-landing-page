@@ -64,6 +64,14 @@ If you forget step 2, Railway will serve stale HTML for the changed routes. The 
 - `npm run build:no-prerender` — skips Puppeteer, useful if local Puppeteer is broken (sub-pages ship as SPA shell only)
 - `npm run build:server` — esbuild only, what Railway uses; **never run this alone unless dist/public is already current**
 
+## Parallel Writers (multi-agent repo)
+
+This repo has more than one committer: Claude Code sessions, a **scheduled weekly blog agent** that commits straight to main (Railway auto-deploys it), and occasionally other AI tools. Consequences:
+
+- `[IMPORTANT]` Start every session, and precede every push, with `git fetch origin` + `git pull --rebase origin main`. The local checkout is routinely stale.
+- A rejected push ("fetch first") means a parallel writer landed commits — pull-rebase and retry once; never force-push.
+- Before building on top of recently-touched files, check `git log --oneline -5` for commits you didn't make.
+
 ## Lessons Learned
 
 ### Frontend

@@ -20,3 +20,16 @@ Consistent with the main DSPOps app's design system. shadcn/ui provides accessib
 
 ## 7. Waitlist with source tracking
 Email captures track which CTA section (`source` field) the signup came from, enabling conversion analysis per section.
+
+---
+
+*Entries 1–7 were generated at project init (undated). Entries below are backfilled on 2026-07-05 from git history and CLAUDE.md; new decisions get dated entries going forward.*
+
+## 8. (2026-05, backfilled) Prerendering runs locally; dist/public is committed — Railway never builds the frontend
+Puppeteer on Railway failed three separate ways (no `unzip` for the Chrome archive, missing Chrome shared libraries, then a ~1 GB image with 25–30 min pushes). Decision: Railway skips Chrome entirely (`PUPPETEER_SKIP_DOWNLOAD=true`), runs only `npm run build:server`, and serves the pre-built `dist/public/` committed in git. Deploys dropped to 1–2 min. Consequence: the "build locally, commit dist/public" workflow rule in CLAUDE.md is load-bearing — forgetting it ships stale HTML.
+
+## 9. (2026-05-29) Weekly blog agent commits directly to main
+A scheduled cloud agent writes one blog post a week and pushes to main; Railway auto-deploys it. Chosen for hands-off content cadence. Consequence: the repo has parallel writers — see "Parallel Writers" in CLAUDE.md (fetch + pull-rebase at session start and before every push).
+
+## 10. (2026-06-23) First-party anonymous visitor counter instead of third-party analytics
+Site traffic is tracked in our own `page_views` table (anonymous visitor id, no IP/PII, no cookies) and surfaced in the admin dashboard (commits 43768c3, 12663cf). Chosen over another third-party script: keeps data first-party, avoids a cookie banner, and the admin page is where Rashid already looks.
