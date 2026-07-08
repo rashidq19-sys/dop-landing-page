@@ -10,6 +10,7 @@ import ReduceDriverTurnoverAmazonDsp from "@/content/blog/reduce-driver-turnover
 import VanInspectionComplianceAmazonDsp from "@/content/blog/van-inspection-compliance-amazon-dsp";
 import AmazonDspDriverBriefings from "@/content/blog/amazon-dsp-driver-briefings";
 import DspRightToWorkLicenceChecks from "@/content/blog/dsp-right-to-work-licence-checks";
+import ManageFuelVehicleCostsAmazonDsp from "@/content/blog/manage-fuel-vehicle-costs-amazon-dsp";
 
 export type BlogPost = {
   slug: string;
@@ -23,6 +24,17 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  {
+    slug: "manage-fuel-vehicle-costs-amazon-dsp",
+    title: "Managing fuel and vehicle costs as a UK Amazon DSP",
+    description:
+      "How UK Amazon DSP owners can track and reduce fleet running costs — from per-van fuel efficiency to preventive maintenance and peak-season readiness.",
+    excerpt:
+      "Fuel and vehicle costs are the second-largest DSP expense after payroll, but most operators only review them when it's too late. Here is how to stay ahead of them.",
+    date: "2026-07-08",
+    readingMinutes: 5,
+    Body: ManageFuelVehicleCostsAmazonDsp,
+  },
   {
     slug: "dsp-right-to-work-licence-checks",
     title: "Managing right-to-work checks and licence expiry for DSP drivers",
