@@ -11,6 +11,7 @@ import VanInspectionComplianceAmazonDsp from "@/content/blog/van-inspection-comp
 import AmazonDspDriverBriefings from "@/content/blog/amazon-dsp-driver-briefings";
 import DspRightToWorkLicenceChecks from "@/content/blog/dsp-right-to-work-licence-checks";
 import ManageFuelVehicleCostsAmazonDsp from "@/content/blog/manage-fuel-vehicle-costs-amazon-dsp";
+import ReduceDnrAmazonDsp from "@/content/blog/reduce-dnr-amazon-dsp";
 
 export type BlogPost = {
   slug: string;
@@ -24,6 +25,17 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  {
+    slug: "reduce-dnr-amazon-dsp",
+    title: "How to reduce DNRs at an Amazon DSP",
+    description:
+      "How UK Amazon DSP owners can identify the root causes of DNR claims, investigate driver patterns, and reduce Delivered Not Received rates on their Cortex scorecard.",
+    excerpt:
+      "A DNR means a customer says their parcel never arrived — even though Cortex says it was delivered. Here is how to investigate the patterns and fix the habits before they compound.",
+    date: "2026-07-13",
+    readingMinutes: 5,
+    Body: ReduceDnrAmazonDsp,
+  },
   {
     slug: "manage-fuel-vehicle-costs-amazon-dsp",
     title: "Managing fuel and vehicle costs as a UK Amazon DSP",
