@@ -12,6 +12,7 @@ import AmazonDspDriverBriefings from "@/content/blog/amazon-dsp-driver-briefings
 import DspRightToWorkLicenceChecks from "@/content/blog/dsp-right-to-work-licence-checks";
 import ManageFuelVehicleCostsAmazonDsp from "@/content/blog/manage-fuel-vehicle-costs-amazon-dsp";
 import ReduceDnrAmazonDsp from "@/content/blog/reduce-dnr-amazon-dsp";
+import DspPayrollCortexLateChanges from "@/content/blog/dsp-payroll-cortex-late-changes";
 
 export type BlogPost = {
   slug: string;
@@ -25,6 +26,17 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  {
+    slug: "dsp-payroll-cortex-late-changes",
+    title: "How to handle DSP payroll when Cortex data changes late",
+    description:
+      "How UK Amazon DSP owners can protect their payroll process when Cortex stop credits and DNR reversals arrive after payroll has already been calculated and paid.",
+    excerpt:
+      "Cortex data does not always finalise when you expect it — and if your pay structure is tied to performance metrics, a late change means drivers were paid the wrong amount. Here is how to handle it.",
+    date: "2026-07-20",
+    readingMinutes: 5,
+    Body: DspPayrollCortexLateChanges,
+  },
   {
     slug: "reduce-dnr-amazon-dsp",
     title: "How to reduce DNRs at an Amazon DSP",

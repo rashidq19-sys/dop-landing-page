@@ -49,6 +49,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://dspops.app/blog/dsp-payroll-cortex-late-changes</loc>
+    <lastmod>2026-07-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://dspops.app/blog/reduce-dnr-amazon-dsp</loc>
     <lastmod>2026-07-13</lastmod>
     <changefreq>monthly</changefreq>

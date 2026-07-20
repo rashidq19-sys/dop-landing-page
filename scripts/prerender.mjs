@@ -34,6 +34,7 @@ const ROUTES = [
   "/dsp-invoicing-payroll",
   "/dsp-compliance-tools",
   "/blog",
+  "/blog/dsp-payroll-cortex-late-changes",
   "/blog/reduce-dnr-amazon-dsp",
   "/blog/manage-fuel-vehicle-costs-amazon-dsp",
   "/blog/dsp-right-to-work-licence-checks",
