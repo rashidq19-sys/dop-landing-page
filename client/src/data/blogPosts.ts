@@ -13,6 +13,7 @@ import DspRightToWorkLicenceChecks from "@/content/blog/dsp-right-to-work-licenc
 import ManageFuelVehicleCostsAmazonDsp from "@/content/blog/manage-fuel-vehicle-costs-amazon-dsp";
 import ReduceDnrAmazonDsp from "@/content/blog/reduce-dnr-amazon-dsp";
 import DspPayrollCortexLateChanges from "@/content/blog/dsp-payroll-cortex-late-changes";
+import DspRotaPeakDeliverySeasons from "@/content/blog/dsp-rota-peak-delivery-seasons";
 
 export type BlogPost = {
   slug: string;
@@ -26,6 +27,17 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  {
+    slug: "dsp-rota-peak-delivery-seasons",
+    title: "How to manage your DSP driver rota during Amazon peak delivery seasons",
+    description:
+      "How UK Amazon DSP owners can prepare their driver rota, staffing levels, and compliance checks for Amazon peak delivery seasons like Christmas and Prime Day.",
+    excerpt:
+      "Peak seasons mean more routes, more temporary drivers, and less time to fix mistakes. Here is how to build a rota process that holds up when the volume spikes.",
+    date: "2026-07-27",
+    readingMinutes: 5,
+    Body: DspRotaPeakDeliverySeasons,
+  },
   {
     slug: "dsp-payroll-cortex-late-changes",
     title: "How to handle DSP payroll when Cortex data changes late",
