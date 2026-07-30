@@ -22,7 +22,7 @@ const faqs: Faq[] = [
   {
     question: "Is DSPOps GDPR compliant?",
     answer:
-      "Yes — DSPOps is UK-hosted, UK GDPR-compliant, and DSPOps Ltd is registered with the Information Commissioner's Office. We sign DPAs where required and keep audit logs for all personal data access.",
+      "Yes — DSPOps is UK-hosted, UK GDPR-compliant, and Layerform System Limited (trading as DSPOps) is registered with the Information Commissioner's Office. We sign DPAs where required and keep audit logs for all personal data access.",
   },
   {
     question: "Where is driver data stored?",
@@ -142,7 +142,7 @@ export default function DspComplianceTools() {
                 {
                   icon: Shield,
                   title: "UK-hosted, UK GDPR-compliant",
-                  body: "All driver data stays in the UK. DSPOps Ltd is registered with the Information Commissioner's Office.",
+                  body: "All driver data stays in the UK. Layerform System Limited (trading as DSPOps) is registered with the Information Commissioner's Office.",
                 },
                 {
                   icon: Lock,

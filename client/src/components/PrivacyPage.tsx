@@ -6,7 +6,7 @@
 
 import React from "react";
 
-const EFFECTIVE_DATE = "16 April 2026";
+const EFFECTIVE_DATE = "30 July 2026";
 
 const dataCategories = [
   { category: "Identity", data: "Full name, date of birth, email address, phone number, home address" },
@@ -73,10 +73,12 @@ export default function PrivacyPage() {
             <div className="space-y-3 text-navy/70 text-[15px] leading-relaxed">
               <p>
                 DSPOps is a fleet management and operations platform for Amazon Delivery Service
-                Partners (DSPs). It is operated under the trading name{" "}
-                <strong className="text-navy">DSPOps</strong>. DSPOps is registered with the
-                Information Commissioner's Office (ICO) as a data controller. ICO registration
-                reference: <strong className="text-navy">00013790820</strong>.
+                Partners (DSPs). It is operated by{" "}
+                <strong className="text-navy">Layerform System Limited</strong>, a company
+                registered in England and Wales (company no. 16171454), trading as{" "}
+                <strong className="text-navy">DSPOps</strong>. Layerform System Limited is
+                registered with the Information Commissioner's Office (ICO) as a data controller.
+                ICO registration reference: <strong className="text-navy">ZC124917</strong>.
               </p>
               <p>
                 This Privacy Policy explains what personal data we collect, why we collect it, how
@@ -293,14 +295,17 @@ export default function PrivacyPage() {
               For any privacy-related questions, requests, or concerns, please contact us:
             </p>
             <div className="p-4 rounded-lg bg-navy/[0.03] border border-navy/10 text-[15px] space-y-1">
-              <p className="font-semibold text-navy">DSPOps</p>
+              <p className="font-semibold text-navy">Layerform System Limited, trading as DSPOps</p>
               <p className="text-navy/70">
                 Email:{" "}
                 <a href="mailto:support@dspops.app" className="text-brand hover:underline">
                   support@dspops.app
                 </a>
               </p>
-              <p className="text-navy/70">ICO registration reference: 00013790820</p>
+              <p className="text-navy/70">
+                Registered in England and Wales, company no. 16171454
+              </p>
+              <p className="text-navy/70">ICO registration reference: ZC124917</p>
             </div>
           </section>
         </div>

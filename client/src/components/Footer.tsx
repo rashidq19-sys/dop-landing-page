@@ -90,7 +90,7 @@ export default function Footer() {
               DSP<span className="text-brand">Ops</span>
             </span>
           </Link>
-          <span>© {new Date().getFullYear()} DSPOps Ltd · Amazon DSP management software for UK Delivery Service Partners</span>
+          <span>© {new Date().getFullYear()} Layerform System Limited, trading as DSPOps · Amazon DSP management software for UK Delivery Service Partners</span>
         </div>
       </div>
     </footer>
