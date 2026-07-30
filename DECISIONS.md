@@ -33,3 +33,12 @@ A scheduled cloud agent writes one blog post a week and pushes to main; Railway 
 
 ## 10. (2026-06-23) First-party anonymous visitor counter instead of third-party analytics
 Site traffic is tracked in our own `page_views` table (anonymous visitor id, no IP/PII, no cookies) and surfaced in the admin dashboard (commits 43768c3, 12663cf). Chosen over another third-party script: keeps data first-party, avoids a cookie banner, and the admin page is where Rashid already looks.
+
+## 11. (2026-07-30) Layerform System Limited is the named operating entity; "DSPOps Ltd" removed from the site
+The ICO registration certificate (reference **ZC124917**, registered 15 Apr 2026) names **LAYERFORM SYSTEM LIMITED** as the data controller, with **DSPOps** recorded against it as a trading name. Companies House confirms Layerform System Limited (company no. **16171454**, incorporated 8 Jan 2025) and returns **no company called "DSPOps Ltd"** — so the site's previous claim that "DSPOps Ltd is registered with the Information Commissioner's Office" (compliance page ×2, footer, and the `FAQPage` structured data Google reads) was unverifiable. The privacy policy separately showed `00013790820`, which is the ICO *application* reference, not the registration number.
+
+Decision: the site names Layerform System Limited as the operator trading as DSPOps, with the company number and ICO reference on `/privacy` and the entity named wherever the ICO claim appears. Two deliberate omissions:
+- **Registered address** (1 Caroline Close, West Drayton) — reads as residential, and is already public on both the ICO register and Companies House for anyone who needs it. Company number + place of registration carry the identification requirement.
+- **Registration expiry** (14 Apr 2027) — a published expiry silently reads as lapsed the moment it passes; the reference alone lets anyone check live status on the ICO register.
+
+Consequences: `[IMPORTANT]` any new copy asserting who is registered, incorporated, or liable must say Layerform System Limited (trading as DSPOps), never "DSPOps Ltd". Off-repo, the LinkedIn company page is still at `linkedin.com/company/dspopsltd` — inconsistent with this, not yet addressed. Renewal falls due **14 April 2027** (Tier 1).
