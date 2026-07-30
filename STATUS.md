@@ -5,7 +5,7 @@
 **Last updated:** 2026-07-30 (ICO registration + legal entity correction)
 
 ## Where things stand
-- main @ 77ac260, clean tree — **4 commits unpushed**: the ICO fix + its docs commit from this session, plus `a5b7b1d` and `bccd484` carried over from the 2026-07-05 session, which never reached origin. Next push sends all four. Nothing here is deployed yet.
+- main @ cde19b2, clean tree, **pushed and deployed** (2026-07-30). This push also carried `a5b7b1d` and `bccd484` — two docs commits stranded locally since the 2026-07-05 session — so origin and local are finally in sync.
 - ICO registration is now live on the site: Layerform System Limited (company no. 16171454) trading as DSPOps, reference **ZC124917**. See DECISIONS.md #11 for what was wrong and what was deliberately left off. **Renewal due 14 April 2027.**
 - `[IMPORTANT]` No copy anywhere should say "DSPOps Ltd" — that company does not exist at Companies House. Use "Layerform System Limited (trading as DSPOps)".
 - main was rebased onto origin at session start; origin had advanced by three blog posts (f4bd468 and earlier) plus three new `seo-report/*` branches from scheduled runs.
