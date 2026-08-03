@@ -34,6 +34,7 @@ const ROUTES = [
   "/dsp-invoicing-payroll",
   "/dsp-compliance-tools",
   "/blog",
+  "/blog/amazon-dsp-csat-improvement",
   "/blog/dsp-rota-peak-delivery-seasons",
   "/blog/dsp-payroll-cortex-late-changes",
   "/blog/reduce-dnr-amazon-dsp",

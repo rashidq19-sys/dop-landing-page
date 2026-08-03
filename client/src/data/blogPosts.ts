@@ -14,6 +14,7 @@ import ManageFuelVehicleCostsAmazonDsp from "@/content/blog/manage-fuel-vehicle-
 import ReduceDnrAmazonDsp from "@/content/blog/reduce-dnr-amazon-dsp";
 import DspPayrollCortexLateChanges from "@/content/blog/dsp-payroll-cortex-late-changes";
 import DspRotaPeakDeliverySeasons from "@/content/blog/dsp-rota-peak-delivery-seasons";
+import AmazonDspCsatImprovement from "@/content/blog/amazon-dsp-csat-improvement";
 
 export type BlogPost = {
   slug: string;
@@ -27,6 +28,17 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  {
+    slug: "amazon-dsp-csat-improvement",
+    title: "How to improve CSAT at an Amazon DSP",
+    description:
+      "How UK Amazon DSP owners can improve their Customer Delivery Feedback (CDF) score on Cortex — through POD compliance, contact habits, and driver-level coaching.",
+    excerpt:
+      "Your CDF score is almost entirely driven by what happens in the last ninety seconds of each delivery. Here is how to identify the patterns and fix them before Monday's scorecard.",
+    date: "2026-08-03",
+    readingMinutes: 4,
+    Body: AmazonDspCsatImprovement,
+  },
   {
     slug: "dsp-rota-peak-delivery-seasons",
     title: "How to manage your DSP driver rota during Amazon peak delivery seasons",

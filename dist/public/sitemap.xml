@@ -44,9 +44,15 @@
   </url>
   <url>
     <loc>https://dspops.app/blog</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-08-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://dspops.app/blog/amazon-dsp-csat-improvement</loc>
+    <lastmod>2026-08-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://dspops.app/blog/dsp-rota-peak-delivery-seasons</loc>
