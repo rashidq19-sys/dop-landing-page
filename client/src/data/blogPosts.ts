@@ -15,6 +15,7 @@ import ReduceDnrAmazonDsp from "@/content/blog/reduce-dnr-amazon-dsp";
 import DspPayrollCortexLateChanges from "@/content/blog/dsp-payroll-cortex-late-changes";
 import DspRotaPeakDeliverySeasons from "@/content/blog/dsp-rota-peak-delivery-seasons";
 import AmazonDspCsatImprovement from "@/content/blog/amazon-dsp-csat-improvement";
+import ManagingDriverAbsenceAmazonDsp from "@/content/blog/managing-driver-absence-amazon-dsp";
 
 export type BlogPost = {
   slug: string;
@@ -28,6 +29,17 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  {
+    slug: "managing-driver-absence-amazon-dsp",
+    title: "How to manage driver absence and last-minute callouts at an Amazon DSP",
+    description:
+      "How UK Amazon DSP owners can manage driver absences, build a reliable standby pool, and protect DCR when drivers call in sick at short notice.",
+    excerpt:
+      "A driver calling in sick at 5am can derail the whole wave. Here is how to build the rota buffer, standby pool, and callout policy that stops one absence becoming a DCR problem.",
+    date: "2026-08-10",
+    readingMinutes: 5,
+    Body: ManagingDriverAbsenceAmazonDsp,
+  },
   {
     slug: "amazon-dsp-csat-improvement",
     title: "How to improve CSAT at an Amazon DSP",
