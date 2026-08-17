@@ -16,6 +16,7 @@ import DspPayrollCortexLateChanges from "@/content/blog/dsp-payroll-cortex-late-
 import DspRotaPeakDeliverySeasons from "@/content/blog/dsp-rota-peak-delivery-seasons";
 import AmazonDspCsatImprovement from "@/content/blog/amazon-dsp-csat-improvement";
 import ManagingDriverAbsenceAmazonDsp from "@/content/blog/managing-driver-absence-amazon-dsp";
+import DspDriverWorkingHoursUk from "@/content/blog/dsp-driver-working-hours-uk";
 
 export type BlogPost = {
   slug: string;
@@ -29,6 +30,17 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  {
+    slug: "dsp-driver-working-hours-uk",
+    title: "Managing driver working hours compliance at a UK Amazon DSP",
+    description:
+      "How UK Amazon DSP owners can manage Working Time Regulations compliance — from rest gaps and opt-outs to record-keeping and rota planning.",
+    excerpt:
+      "Working hours compliance is easy to overlook until a driver grievance or HMRC audit forces the issue. Here is what the rules actually require and how to build it into your rota process.",
+    date: "2026-08-17",
+    readingMinutes: 4,
+    Body: DspDriverWorkingHoursUk,
+  },
   {
     slug: "managing-driver-absence-amazon-dsp",
     title: "How to manage driver absence and last-minute callouts at an Amazon DSP",
