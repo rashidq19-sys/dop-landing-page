@@ -88,6 +88,106 @@ function loadStoredLead(): Lead | null {
   return null;
 }
 
+// Below this width the chat opens as a full-height sheet instead of a small
+// floating panel — see useVisualViewportSheet for why.
+const MOBILE_BREAKPOINT = 640;
+
+function useIsMobileViewport() {
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== "undefined" && window.innerWidth < MOBILE_BREAKPOINT
+  );
+
+  useEffect(() => {
+    const mq = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
+    const onChange = () => setIsMobile(mq.matches);
+    onChange();
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
+  return isMobile;
+}
+
+// iOS Safari does not shrink the layout viewport when the software keyboard
+// opens — it shrinks the *visual* viewport and scrolls the page underneath.
+// A position:fixed panel therefore stays anchored to the full-height layout
+// viewport, ends up behind the keyboard, and Safari drags the page about trying
+// to reveal the focused input. That is what made the widget float up and down
+// while someone was typing. Pinning the sheet to the visual viewport instead
+// keeps the composer sitting directly on top of the keyboard.
+function useVisualViewportSheet(active: boolean) {
+  const [style, setStyle] = useState<React.CSSProperties | null>(null);
+
+  useEffect(() => {
+    if (!active) {
+      setStyle(null);
+      return;
+    }
+
+    const vv = window.visualViewport;
+    const apply = () => {
+      setStyle({
+        top: vv ? vv.offsetTop : 0,
+        left: vv ? vv.offsetLeft : 0,
+        width: vv ? vv.width : window.innerWidth,
+        height: vv ? vv.height : window.innerHeight,
+      });
+    };
+
+    apply();
+    // iOS reports the keyboard through visualViewport; Android Chrome resizes
+    // the layout viewport instead and only fires window resize. Listen to both.
+    vv?.addEventListener("resize", apply);
+    vv?.addEventListener("scroll", apply);
+    window.addEventListener("resize", apply);
+    window.addEventListener("orientationchange", apply);
+    return () => {
+      vv?.removeEventListener("resize", apply);
+      vv?.removeEventListener("scroll", apply);
+      window.removeEventListener("resize", apply);
+      window.removeEventListener("orientationchange", apply);
+    };
+  }, [active]);
+
+  return style;
+}
+
+// With the sheet covering the screen the page behind it must not scroll, or a
+// drag anywhere outside the message list moves the page and the sheet appears
+// to slide with it. position:fixed on the body is the only lock iOS respects;
+// the scroll position is put back on close.
+function useBodyScrollLock(active: boolean) {
+  useEffect(() => {
+    if (!active) return;
+
+    const { body } = document;
+    const scrollY = window.scrollY;
+    const previous = {
+      position: body.style.position,
+      top: body.style.top,
+      left: body.style.left,
+      right: body.style.right,
+      overflow: body.style.overflow,
+    };
+
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.left = "0";
+    body.style.right = "0";
+    body.style.overflow = "hidden";
+
+    return () => {
+      body.style.position = previous.position;
+      body.style.top = previous.top;
+      body.style.left = previous.left;
+      body.style.right = previous.right;
+      body.style.overflow = previous.overflow;
+      // html { scroll-behavior: smooth } would otherwise animate the restore.
+      window.scrollTo({ top: scrollY, behavior: "instant" });
+    };
+  }, [active]);
+}
+
 export default function ChatbotWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [lead, setLead] = useState<Lead | null>(() => loadStoredLead());
@@ -107,6 +207,11 @@ export default function ChatbotWidget() {
 
   const conversationId = lead?.conversationId ?? "";
 
+  const isMobile = useIsMobileViewport();
+  const isSheet = isOpen && isMobile;
+  const sheetStyle = useVisualViewportSheet(isSheet);
+  useBodyScrollLock(isSheet);
+
   const merge = useCallback((incoming: Message[]) => {
     if (!incoming.length) return;
     setMessages((prev) => {
@@ -118,14 +223,20 @@ export default function ChatbotWidget() {
     highestId.current = Math.max(highestId.current, ...incoming.map((m) => m.id));
   }, []);
 
-  // Auto-scroll to bottom when messages change
+  // Auto-scroll to bottom when messages change, and again whenever the sheet
+  // resizes — the keyboard opening shrinks the thread, which would otherwise
+  // leave the newest message hidden behind it. Deliberately not smooth: an
+  // in-flight scroll animation fighting the keyboard slide is what reads as
+  // the panel jittering.
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+    messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
+  }, [messages, sheetStyle?.height]);
 
-  // Focus the right field when panel opens
+  // Focus the right field when panel opens. Not on phones — focusing throws
+  // the keyboard up the instant the sheet appears, which hides half the
+  // conversation before anyone has read it.
   useEffect(() => {
-    if (!isOpen) return;
+    if (!isOpen || isMobile) return;
     const t = setTimeout(() => {
       if (lead) {
         inputRef.current?.focus();
@@ -134,7 +245,7 @@ export default function ChatbotWidget() {
       }
     }, 100);
     return () => clearTimeout(t);
-  }, [isOpen, lead]);
+  }, [isOpen, lead, isMobile]);
 
   // Rejoin an existing conversation. A refresh must not lose the thread, and
   // Rashid may have replied while the visitor was away.
@@ -314,7 +425,14 @@ export default function ChatbotWidget() {
   return (
     <>
       {isOpen && (
-        <div className="fixed bottom-20 right-6 z-50 flex flex-col w-[calc(100vw-3rem)] sm:w-[400px] h-[500px] max-h-[70vh] bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
+        <div
+          className={
+            isSheet
+              ? "fixed z-50 flex flex-col bg-white shadow-xl overflow-hidden"
+              : "fixed bottom-20 right-6 z-50 flex flex-col w-[calc(100vw-3rem)] sm:w-[400px] h-[500px] max-h-[70vh] bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden"
+          }
+          style={sheetStyle ?? undefined}
+        >
           {/* Header */}
           <div className="flex items-center justify-between px-4 py-3 bg-navy">
             <span className="text-white font-semibold text-sm">
@@ -494,7 +612,9 @@ export default function ChatbotWidget() {
       {/* Floating Action Button */}
       <button
         onClick={() => setIsOpen((prev) => !prev)}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-navy text-white rounded-full shadow-lg hover:bg-navy-light transition-colors flex items-center justify-center"
+        className={`fixed bottom-6 right-6 z-50 w-14 h-14 bg-navy text-white rounded-full shadow-lg hover:bg-navy-light transition-colors items-center justify-center ${
+          isSheet ? "hidden" : "flex"
+        }`}
         aria-label={isOpen ? "Close chat" : "Open chat"}
       >
         {isOpen ? <X size={22} /> : <MessageCircle size={22} />}

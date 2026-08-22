@@ -155,3 +155,17 @@
 html {
   scroll-behavior: smooth;
 }
+
+/* iOS Safari zooms the entire page whenever a focused form control has a
+   font-size under 16px. Every input on the site was 14px (text-sm), so tapping
+   any of them — chat composer, email capture, demo form — zoomed the layout and
+   left fixed elements like the chat panel drifting around the screen.
+   Unlayered so it beats Tailwind's layered `text-sm` utility; phones only, so
+   the desktop sizing is untouched. */
+@media (max-width: 639px) {
+  input:not([type="checkbox"]):not([type="radio"]),
+  textarea,
+  select {
+    font-size: 16px;
+  }
+}
