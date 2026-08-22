@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Lock, LogOut, Users, BarChart3 } from "lucide-react";
+import { Lock, LogOut, Users, BarChart3, Trash2 } from "lucide-react";
 
 interface WaitlistEntry {
   id: number;
@@ -79,6 +79,7 @@ export default function Admin() {
   const [stats, setStats] = useState<TrafficStats | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [deletingId, setDeletingId] = useState<number | null>(null);
 
   const isLoggedIn = !!token;
 
@@ -117,6 +118,35 @@ export default function Admin() {
     setEntries([]);
     setTotal(0);
     setStats(null);
+  };
+
+  const handleDelete = async (id: number, email: string) => {
+    if (!window.confirm(`Delete ${email} from the waitlist? This cannot be undone.`)) return;
+
+    setDeletingId(id);
+    try {
+      const res = await fetch(`/api/admin/waitlist/${id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (res.status === 401) {
+        handleLogout();
+        setError("Session expired. Please log in again.");
+        return;
+      }
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || "Failed to delete signup");
+      }
+
+      setEntries((prev) => prev.filter((e) => e.id !== id));
+      setTotal((prev) => prev - 1);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setDeletingId(null);
+    }
   };
 
   useEffect(() => {
@@ -392,6 +422,7 @@ export default function Admin() {
                     <th className="text-left px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">
                       Signed Up
                     </th>
+                    <th className="px-6 py-3" />
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
@@ -423,6 +454,16 @@ export default function Admin() {
                           hour: "2-digit",
                           minute: "2-digit",
                         })}
+                      </td>
+                      <td className="px-6 py-4 text-right">
+                        <button
+                          onClick={() => handleDelete(entry.id, entry.email)}
+                          disabled={deletingId === entry.id}
+                          aria-label={`Delete ${entry.email}`}
+                          className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                        >
+                          <Trash2 size={16} />
+                        </button>
                       </td>
                     </tr>
                   ))}

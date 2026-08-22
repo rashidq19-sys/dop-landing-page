@@ -62,6 +62,25 @@ router.get("/waitlist", requireAuth, async (_req, res) => {
   }
 });
 
+// DELETE /api/admin/waitlist/:id
+router.delete("/waitlist/:id", requireAuth, async (req, res) => {
+  const id = Number(req.params.id);
+  if (!Number.isInteger(id) || id <= 0) {
+    return res.status(400).json({ error: "Invalid id" });
+  }
+
+  try {
+    const result = await pool.query(`DELETE FROM waitlist WHERE id = $1`, [id]);
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: "Not found" });
+    }
+    res.json({ success: true });
+  } catch (err) {
+    console.error("Admin waitlist delete error:", err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 // GET /api/admin/stats — site traffic summary from the page_views table.
 // All day buckets use Europe/London so "today" matches the user's clock.
 // Note: a window's "unique visitors" is COUNT(DISTINCT visitor_id) over that
