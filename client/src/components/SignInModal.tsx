@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import { X, Check } from "lucide-react";
+import {
+  useIsPhoneViewport,
+  useVisualViewportRect,
+  useBodyScrollLock,
+} from "@/hooks/useVisualViewportPanel";
 
 interface Props {
   onClose: () => void;
@@ -11,6 +16,11 @@ export default function SignInModal({ onClose }: Props) {
   const [dsp, setDsp] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
+
+  // The modal only exists while it is open, so being mounted is the signal.
+  const isPhone = useIsPhoneViewport();
+  const viewportRect = useVisualViewportRect(isPhone);
+  useBodyScrollLock(isPhone);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,19 +39,37 @@ export default function SignInModal({ onClose }: Props) {
     }
   };
 
+  // On a phone the overlay is pinned to the visual viewport instead of
+  // inset-0, so the card centres inside the area the keyboard is NOT covering.
+  // As inset-0 the "Sign in" button sat behind the keyboard — both fields were
+  // reachable, and then there was nothing to press.
+  //
+  // The card uses m-auto rather than the parent's items-center: inside an
+  // overflow-y-auto parent, a centred flex item taller than the container gets
+  // its top clipped with no way to scroll back to it. Auto margins centre it
+  // and keep every edge reachable.
+  //
+  // The close button gained padding rather than a bigger icon — the 20px glyph
+  // stays where it was, but the tap area becomes 36px.
   return createPortal(
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center px-4"
-      style={{ background: "rgba(0,0,0,0.55)", backdropFilter: "blur(4px)" }}
+      className={`fixed z-[100] flex justify-center overflow-y-auto px-4 py-6 ${
+        viewportRect ? "" : "inset-0"
+      }`}
+      style={{
+        background: "rgba(0,0,0,0.55)",
+        backdropFilter: "blur(4px)",
+        ...(viewportRect ?? {}),
+      }}
       onClick={onClose}
     >
       <div
-        className="relative bg-white rounded-[16px] w-full max-w-[420px] p-8 shadow-2xl"
+        className="relative m-auto bg-white rounded-[16px] w-full max-w-[420px] p-8 shadow-2xl"
         onClick={e => e.stopPropagation()}
       >
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-[#6C6C72] hover:text-[#111113] transition-colors"
+          className="absolute top-2 right-2 p-2 text-[#6C6C72] hover:text-[#111113] transition-colors"
           aria-label="Close"
         >
           <X size={20} />
