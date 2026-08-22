@@ -1,167 +1,330 @@
 import { Router } from "express";
-import Anthropic from "@anthropic-ai/sdk";
 import pool from "../db.js";
 import { sendEmail } from "../email.js";
+import { chatLinkUrl } from "../lib/chatLinks.js";
+import { generateBotReply, matchesEscalationPhrase } from "../lib/chatAi.js";
+import {
+  addMessage,
+  countMessages,
+  createConversation,
+  getConversationByPublicId,
+  getMessages,
+  getRecentMessages,
+  setStatus,
+  type ChatMessage,
+  type Conversation,
+} from "../lib/chatStore.js";
 
 const router = Router();
 
-const client = new Anthropic();
+// Visitor-facing chat. The operator side lives in routes/adminChat.ts.
+//
+// Conversations are persisted (see server/lib/chatStore.ts) so a human can join
+// one. The bot keeps answering right up until a human actually joins — being
+// escalated is not the same as being abandoned.
 
-const SYSTEM_PROMPT = `You are the helpful assistant for DSPOps — a SaaS platform for Amazon DSP (Delivery Service Partner) operators in the UK.
+const GREETING = "Hi! Ask me anything about DSPOps — features, pricing, or how it works.";
+const MAX_MESSAGE_CHARS = 2000;
+const MAX_MESSAGES_PER_CONVERSATION = 100;
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const ESCALATION_NOTICE =
+  "A member of the team has been notified — they'll be with you shortly. Carry on asking me anything in the meantime.";
 
-DSPOps replaces spreadsheets, WhatsApp chaos, and third-party tools with one platform. Key features:
-- Smart scheduling / route assignment
-- AI van damage detection (replaces tools like £200-300/month third-party apps)
-- Weekly payroll automation (upload Cortex report, system calculates everything)
-- Amazon Cortex integration (one-click sync of scorecards and route data)
-- Compliance management (driver licences, passports, van MOT/insurance)
-- Driver management (full lifecycle from onboarding to offboarding)
-- Capacity planning (always know if you have enough drivers)
-- Driver portal app (drivers see shifts, pay, performance, damage — stop calling the OSM)
-- Live Tracking (delivery progress synced from Amazon Cortex to driver portal automatically)
-- Same Day Delivery management (separate SDD driver roster and scheduling)
-- Arriving / dispatch attendance (OSM marks arrivals live during dispatch)
-- Automatic data backup (all data continuously backed up, nothing lost)
-- Driver Rating & Leaderboard (automatic ratings from Amazon metrics, OSM-adjustable weighting)
-
-Pricing:
-- All plans (Starter, Professional, Enterprise) include Same-Day Delivery support and hassle-free driver onboarding (CSV import, auto-generated driver portal logins) — these are never tier-gated, always mention them regardless of which plan is being discussed.
-- Starter: £99/month — up to 30 drivers. Includes smart scheduling, driver management, fleet tracking, basic compliance, weekly payroll, driver portal, email support.
-- Professional: £249/month — up to 100 drivers. Everything in Starter plus AI van damage detection, performance scorecards, advanced compliance, reports & analytics, capacity planning, Amazon Cortex integration, priority support.
-- Enterprise: Unlimited drivers AND unlimited stations — built for large or multi-station DSP operations. If a DSP runs more than one station, they can add as many stations as they like on Enterprise (this is an Enterprise-only capability — Starter and Professional are single-station). Priced PER ACTIVE DRIVER per month — not a flat fee — at a rate agreed with each client. Each month they pay for whichever is HIGHER: their actual active driver count, or their agreed minimum (never fewer than 100 drivers). So a DSP running 140 drivers pays for 140, not 100 — the 100 is only a floor for months they run fewer. Everything in Professional plus unlimited stations, API access, dedicated CSM, custom SLAs and white-glove setup. There is no published per-driver rate, so never quote a figure — direct them to email rashid@dspops.app for a quote.
-
-Never say DSPOps has "no per-driver fees" as a blanket statement. Starter and Professional are flat monthly fees with no per-driver charge; Enterprise is charged per driver. "Unlimited drivers/stations" describes the CAP (no upper limit) — it is not free. Enterprise is still billed per active driver above the 100 minimum; never imply otherwise.
-
-RESPONSE RULES — follow these strictly:
-- Keep replies very short. Max 3-4 lines or 3 bullet points. Never long paragraphs.
-- Use **bold** (double asterisks) for key terms, prices, and feature names — e.g. **£99/month**, **Smart Scheduling**, **Professional plan**.
-- For lists, start each item with "- " on its own line.
-- Put a blank line between separate points or sections so it breathes.
-- Pricing example format:
-  **Starter** — £99/month, up to 30 drivers
-
-  **Professional** — £249/month, up to 100 drivers
-
-  **Enterprise** — Unlimited drivers & stations, priced per active driver (minimum 100 billed/month), email rashid@dspops.app
-
-  All plans include Same-Day Delivery support and hassle-free driver onboarding.
-- Tone: friendly, direct. If unsure, suggest they email rashid@dspops.app.`;
-
-interface Message {
-  role: "user" | "assistant";
-  content: string;
+/** Shape sent to the browser. The numeric conversation id never leaves the server. */
+function publicMessage(m: ChatMessage) {
+  return { id: m.id, role: m.role, content: m.content, createdAt: m.createdAt };
 }
 
-// POST /api/chat
-router.post("/", async (req, res) => {
-  const { messages } = req.body as { messages: Message[] };
+/**
+ * Hand the conversation to a human: flip the status, tell the visitor, and email
+ * Rashid a link straight into this chat. Idempotent — a conversation that has
+ * already been escalated never re-notifies, however many triggers fire.
+ */
+async function escalate(
+  conversation: Conversation,
+  reason: string | null
+): Promise<ChatMessage | null> {
+  if (conversation.status !== "bot") return null;
 
+  await setStatus(conversation.publicId, "awaiting_human", {
+    escalationReason: reason ?? "visitor asked for a person",
+  });
+  const notice = await addMessage(conversation.id, "system", ESCALATION_NOTICE);
+
+  const recent = await getRecentMessages(conversation.id, 8);
+  const transcript = recent
+    .map((m) => `${m.role === "visitor" ? "Them" : m.role === "bot" ? "Bot" : "—"}: ${m.content}`)
+    .join("\n");
+
+  let link = "(link unavailable — CHAT_LINK_SECRET is not set)";
+  try {
+    link = chatLinkUrl(conversation.publicId);
+  } catch (err) {
+    console.error("Chat link could not be signed:", err);
+  }
+
+  sendEmail(
+    `${conversation.visitorName || "Someone"} wants to talk to you on DSPOps`,
+    `${conversation.visitorName || "A visitor"} is chatting on the site right now and should be handed to a human.\n\n` +
+      `Name:   ${conversation.visitorName || "—"}\n` +
+      `Email:  ${conversation.visitorEmail || "—"}\n` +
+      `Reason: ${reason ?? "asked for a person"}\n\n` +
+      `Open the chat and reply:\n${link}\n\n` +
+      `Recent messages:\n${transcript}\n\n` +
+      `The bot is still helping them until you join.`
+  ).catch((err) => console.error("Escalation email failed:", err));
+
+  return notice;
+}
+
+// POST /api/chat/start — begin a conversation
+router.post("/start", async (req, res) => {
+  const { name, email } = req.body as { name?: string; email?: string };
+
+  const trimmedName = typeof name === "string" ? name.trim() : "";
+  const trimmedEmail = typeof email === "string" ? email.trim().toLowerCase() : "";
+
+  if (!trimmedName || !trimmedEmail) {
+    return res.status(400).json({ error: "name and email are required" });
+  }
+  if (!EMAIL_REGEX.test(trimmedEmail)) {
+    return res.status(400).json({ error: "invalid email" });
+  }
+
+  try {
+    const conversation = await createConversation(trimmedName, trimmedEmail);
+    const greeting = await addMessage(conversation.id, "bot", GREETING);
+
+    // The chatbot is the only place on the site that asks a visitor for their
+    // name, so this upsert is the only way that name reaches the lead list.
+    // An email we already know keeps its original source (first-touch
+    // attribution) and simply gains the name.
+    pool
+      .query(
+        `INSERT INTO waitlist (email, name, source) VALUES ($1, $2, $3)
+         ON CONFLICT (email) DO UPDATE
+           SET name = COALESCE(EXCLUDED.name, waitlist.name), updated_at = NOW()`,
+        [trimmedEmail, trimmedName.slice(0, 255), "Chatbot"]
+      )
+      .catch((err) => console.error("Chat lead insert error:", err));
+
+    sendEmail(
+      "New lead started chatting on DSPOps",
+      `Name: ${trimmedName}\nEmail: ${trimmedEmail}\nTime: ${new Date().toISOString()}`
+    ).catch((err) => console.error("Lead notification email failed:", err));
+
+    return res.json({
+      conversationId: conversation.publicId,
+      greeting: greeting.content,
+      greetingId: greeting.id,
+      status: conversation.status,
+    });
+  } catch (err) {
+    console.error("Chat start error:", err);
+    return res.status(500).json({ error: "Could not start the chat" });
+  }
+});
+
+// POST /api/chat/:publicId/message — visitor says something
+router.post("/:publicId/message", async (req, res) => {
+  const { content } = req.body as { content?: string };
+  const text = typeof content === "string" ? content.trim() : "";
+
+  if (!text) return res.status(400).json({ error: "content is required" });
+  if (text.length > MAX_MESSAGE_CHARS) {
+    return res.status(400).json({ error: `messages are limited to ${MAX_MESSAGE_CHARS} characters` });
+  }
+
+  try {
+    const conversation = await getConversationByPublicId(req.params.publicId);
+    if (!conversation) return res.status(404).json({ error: "conversation not found" });
+    if (conversation.status === "closed") {
+      return res.status(409).json({ error: "this conversation has ended" });
+    }
+    if ((await countMessages(conversation.id)) >= MAX_MESSAGES_PER_CONVERSATION) {
+      return res.status(429).json({ error: "this conversation has reached its limit" });
+    }
+
+    const visitorMessage = await addMessage(conversation.id, "visitor", text);
+    const produced: ChatMessage[] = [];
+
+    // A human has the floor. Store what the visitor said and stay quiet — this
+    // is the guarantee that the bot never talks over Rashid.
+    if (conversation.status === "human") {
+      return res.json({
+        messages: [visitorMessage].map(publicMessage),
+        status: conversation.status,
+      });
+    }
+
+    const history = await getRecentMessages(conversation.id, 30);
+    const bot = await generateBotReply(history);
+
+    if (bot.reply.trim()) {
+      produced.push(await addMessage(conversation.id, "bot", bot.reply.trim()));
+    }
+
+    let status = conversation.status;
+    if (bot.escalate || matchesEscalationPhrase(text)) {
+      const notice = await escalate(
+        conversation,
+        bot.reason ?? (matchesEscalationPhrase(text) ? "asked to speak to a person" : null)
+      );
+      if (notice) {
+        produced.push(notice);
+        status = "awaiting_human";
+      }
+    }
+
+    return res.json({
+      messages: [visitorMessage, ...produced].map(publicMessage),
+      status,
+    });
+  } catch (err) {
+    console.error("Chat message error:", err);
+    return res.status(500).json({ error: "Failed to get response from AI" });
+  }
+});
+
+// POST /api/chat/:publicId/request-human — the "Talk to a person" button
+router.post("/:publicId/request-human", async (req, res) => {
+  try {
+    const conversation = await getConversationByPublicId(req.params.publicId);
+    if (!conversation) return res.status(404).json({ error: "conversation not found" });
+    if (conversation.status === "closed") {
+      return res.status(409).json({ error: "this conversation has ended" });
+    }
+
+    const notice = await escalate(conversation, "pressed 'Talk to a person'");
+    return res.json({
+      messages: notice ? [publicMessage(notice)] : [],
+      status: notice ? "awaiting_human" : conversation.status,
+    });
+  } catch (err) {
+    console.error("Chat request-human error:", err);
+    return res.status(500).json({ error: "Could not reach the team" });
+  }
+});
+
+// GET /api/chat/:publicId/messages?since= — the visitor's poll
+router.get("/:publicId/messages", async (req, res) => {
+  try {
+    const conversation = await getConversationByPublicId(req.params.publicId);
+    if (!conversation) return res.status(404).json({ error: "conversation not found" });
+
+    const since = Number(req.query.since);
+    const messages = await getMessages(
+      conversation.id,
+      Number.isFinite(since) && since > 0 ? since : 0
+    );
+
+    return res.json({ messages: messages.map(publicMessage), status: conversation.status });
+  } catch (err) {
+    console.error("Chat poll error:", err);
+    return res.status(500).json({ error: "Could not load messages" });
+  }
+});
+
+// POST /api/chat/:publicId/close — visitor closed the widget
+router.post("/:publicId/close", async (req, res) => {
+  try {
+    const conversation = await getConversationByPublicId(req.params.publicId);
+    if (!conversation) return res.status(404).json({ error: "conversation not found" });
+
+      await setStatus(conversation.publicId, "closed");
+
+    const messages = await getMessages(conversation.id);
+    if (messages.filter((m) => m.role === "visitor").length > 0) {
+      const transcript = messages
+        .map((m) => `${m.role}: ${m.content}`)
+        .join("\n");
+      sendEmail(
+        `DSPOps chat transcript — ${conversation.visitorName || "visitor"}`,
+        `Name:  ${conversation.visitorName || "—"}\nEmail: ${conversation.visitorEmail || "—"}\n\n${transcript}`
+      ).catch((err) => console.error("Transcript email failed:", err));
+    }
+
+    return res.json({ ok: true });
+  } catch (err) {
+    console.error("Chat close error:", err);
+    return res.status(500).json({ error: "Could not close the chat" });
+  }
+});
+
+// ---------------------------------------------------------------------------
+// Legacy endpoints. Kept for one release so a visitor holding a cached bundle
+// from before this change is not left with a dead widget.
+// ---------------------------------------------------------------------------
+
+// POST /api/chat — the old stateless message endpoint
+router.post("/", async (req, res) => {
+  const { messages } = req.body as { messages?: Array<{ role: string; content: string }> };
   if (!Array.isArray(messages) || messages.length === 0) {
     return res.status(400).json({ error: "messages must be a non-empty array" });
   }
 
   try {
-    // Anthropic API requires the first message to have role "user".
-    // Drop any leading assistant messages (the initial greeting lives in frontend state only).
-    const apiMessages = messages.filter(
-      (m, i) => !(i === 0 && m.role === "assistant")
-    );
-
-    const response = await client.messages.create({
-      model: "claude-haiku-4-5-20251001",
-      max_tokens: 300,
-      system: SYSTEM_PROMPT,
-      messages: apiMessages.map((m) => ({ role: m.role, content: m.content })),
-    });
-
-    const reply =
-      response.content[0].type === "text" ? response.content[0].text : "";
-
-    // Fire-and-forget notification email on the user's first message
-    const userMessageCount = messages.filter((m) => m.role === "user").length;
-    if (userMessageCount === 1) {
-      const visitorQuestion = messages.find((m) => m.role === "user")?.content ?? "";
-      sendEmail(
-        "New visitor chatting on DSPOps",
-        visitorQuestion
-      ).catch((err) => console.error("Notification email failed:", err));
-    }
-
-    return res.json({ reply });
+    const history: ChatMessage[] = messages.map((m, i) => ({
+      id: i + 1,
+      role: m.role === "user" ? "visitor" : "bot",
+      content: m.content,
+      createdAt: new Date(),
+    }));
+    const bot = await generateBotReply(history);
+    return res.json({ reply: bot.reply });
   } catch (err) {
-    console.error("Chat API error:", err);
+    console.error("Chat API error (legacy):", err);
     return res.status(500).json({ error: "Failed to get response from AI" });
   }
 });
 
-// POST /api/chat/end
-router.post("/end", async (req, res) => {
-  const { messages } = req.body as { messages: Message[] };
-
-  if (Array.isArray(messages) && messages.length > 0) {
-    const transcript = messages
-      .map((m) => `${m.role === "user" ? "User" : "Assistant"}: ${m.content}`)
-      .join("\n");
-
-    sendEmail("DSPOps chat transcript", transcript).catch((err) =>
-      console.error("Transcript email failed:", err)
-    );
-  }
-
-  return res.json({ ok: true });
-});
-
-// POST /api/chat/lead
+// POST /api/chat/lead — the old lead capture, now also opening a conversation
 router.post("/lead", async (req, res) => {
   const { name, email } = req.body as { name?: string; email?: string };
-
   const trimmedName = typeof name === "string" ? name.trim() : "";
-  // Lowercased to match the waitlist route — waitlist.email is UNIQUE, so mixed
-  // case would create a second row for the same person.
-  const trimmedEmail =
-    typeof email === "string" ? email.trim().toLowerCase() : "";
+  const trimmedEmail = typeof email === "string" ? email.trim().toLowerCase() : "";
 
   if (!trimmedName || !trimmedEmail) {
     return res.status(400).json({ error: "name and email are required" });
   }
-
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(trimmedEmail)) {
+  if (!EMAIL_REGEX.test(trimmedEmail)) {
     return res.status(400).json({ error: "invalid email" });
   }
 
-  // waitlist.name is VARCHAR(255) — truncate rather than lose the whole lead to
-  // a failed insert.
-  const storedName = trimmedName.slice(0, 255);
-
-  // Persist the lead. The chatbot is the only place on the site that asks a
-  // visitor for their name, so without this the name lived nowhere but their own
-  // browser. An email we already know keeps its original source (first-touch
-  // attribution) and simply gains the name.
   let stored = false;
   try {
     await pool.query(
       `INSERT INTO waitlist (email, name, source) VALUES ($1, $2, $3)
        ON CONFLICT (email) DO UPDATE
          SET name = COALESCE(EXCLUDED.name, waitlist.name), updated_at = NOW()`,
-      [trimmedEmail, storedName, "Chatbot"]
+      [trimmedEmail, trimmedName.slice(0, 255), "Chatbot"]
     );
     stored = true;
   } catch (err) {
     console.error("Chat lead insert error:", err);
   }
 
-  // Sent whatever happened above — if the database write failed, this email is
-  // the only surviving copy of the lead.
   sendEmail(
     "New lead started chatting on DSPOps",
     `Name: ${trimmedName}\nEmail: ${trimmedEmail}\nTime: ${new Date().toISOString()}` +
-      (stored
-        ? ""
-        : "\n\nWARNING: this lead could NOT be saved to the database — keep this email.")
+      (stored ? "" : "\n\nWARNING: this lead could NOT be saved to the database — keep this email.")
   ).catch((err) => console.error("Lead notification email failed:", err));
 
   return res.json({ ok: true, stored });
+});
+
+// POST /api/chat/end — the old transcript-on-close endpoint
+router.post("/end", async (req, res) => {
+  const { messages } = req.body as { messages?: Array<{ role: string; content: string }> };
+  if (Array.isArray(messages) && messages.length > 0) {
+    const transcript = messages
+      .map((m) => `${m.role === "user" ? "User" : "Assistant"}: ${m.content}`)
+      .join("\n");
+    sendEmail("DSPOps chat transcript", transcript).catch((err) =>
+      console.error("Transcript email failed:", err)
+    );
+  }
+  return res.json({ ok: true });
 });
 
 export default router;
