@@ -191,6 +191,33 @@ export async function setStatus(
   return result.rowCount ? toConversation(result.rows[0]) : null;
 }
 
+/**
+ * Escalate, but ONLY from the 'bot' state — the guard is in the WHERE clause,
+ * not in JavaScript.
+ *
+ * Generating a bot reply takes a second or two, and the operator can press Join
+ * during that window. A caller holding a conversation it read before the AI call
+ * would otherwise resurrect a chat Rashid has already joined, dropping it back
+ * to 'awaiting_human' and letting the bot talk over him. Returns null when the
+ * transition did not apply, which also makes escalation naturally idempotent.
+ */
+export async function escalateToAwaitingHuman(
+  publicId: string,
+  reason: string | null
+): Promise<Conversation | null> {
+  const result = await pool.query(
+    `UPDATE chat_conversations
+        SET status = 'awaiting_human',
+            escalation_reason = COALESCE(escalation_reason, $2::text),
+            escalated_at = COALESCE(escalated_at, NOW()),
+            updated_at = NOW()
+      WHERE public_id = $1 AND status = 'bot'
+      RETURNING ${CONVERSATION_COLUMNS}`,
+    [publicId, reason]
+  );
+  return result.rowCount ? toConversation(result.rows[0]) : null;
+}
+
 export async function listConversations(limit = 50): Promise<ConversationSummary[]> {
   const result = await pool.query(
     `SELECT c.id, c.public_id, c.visitor_name, c.visitor_email, c.status,

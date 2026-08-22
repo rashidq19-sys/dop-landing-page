@@ -10,6 +10,7 @@ import {
   getConversationByPublicId,
   getMessages,
   getRecentMessages,
+  escalateToAwaitingHuman,
   setStatus,
   type ChatMessage,
   type Conversation,
@@ -44,11 +45,16 @@ async function escalate(
   conversation: Conversation,
   reason: string | null
 ): Promise<ChatMessage | null> {
-  if (conversation.status !== "bot") return null;
+  // Guarded in SQL, not here: the caller may be holding a snapshot read before
+  // a slow AI call, during which Rashid could have joined. Returns null if the
+  // conversation is no longer in the bot state, which also makes repeated
+  // escalation triggers naturally idempotent.
+  const escalated = await escalateToAwaitingHuman(
+    conversation.publicId,
+    reason ?? "visitor asked for a person"
+  );
+  if (!escalated) return null;
 
-  await setStatus(conversation.publicId, "awaiting_human", {
-    escalationReason: reason ?? "visitor asked for a person",
-  });
   const notice = await addMessage(conversation.id, "system", ESCALATION_NOTICE);
 
   const recent = await getRecentMessages(conversation.id, 8);
@@ -159,6 +165,17 @@ router.post("/:publicId/message", async (req, res) => {
 
     const history = await getRecentMessages(conversation.id, 30);
     const bot = await generateBotReply(history);
+
+    // Generating that reply took a second or two. Rashid may have pressed Join
+    // in the meantime, so re-read before storing — a snapshot from before the
+    // AI call is not safe to act on.
+    const current = await getConversationByPublicId(conversation.publicId);
+    if (!current || current.status === "human" || current.status === "closed") {
+      return res.json({
+        messages: [visitorMessage].map(publicMessage),
+        status: current?.status ?? conversation.status,
+      });
+    }
 
     if (bot.reply.trim()) {
       produced.push(await addMessage(conversation.id, "bot", bot.reply.trim()));
