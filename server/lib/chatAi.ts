@@ -190,7 +190,19 @@ export async function suggestOperatorReply(
     model: MODEL,
     max_tokens: 300,
     system: `${SYSTEM_PROMPT}\n\n---\n\n${OPERATOR_VOICE}\n${who}`,
-    messages,
+    // The transcript often ends on a bot or admin turn — Rashid opens the screen
+    // after the bot has just answered. Passing that straight through leaves the
+    // API on an assistant turn, so the model tries to CONTINUE that message and
+    // usually returns nothing. This closing instruction guarantees the call ends
+    // on a user turn and states the job explicitly.
+    messages: [
+      ...messages,
+      {
+        role: "user" as const,
+        content:
+          "Write the next message for Rashid to send to this visitor. Output only that message.",
+      },
+    ],
   });
 
   const block = response.content.find((b) => b.type === "text");

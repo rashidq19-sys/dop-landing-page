@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Lock, LogOut, Users, BarChart3, Trash2 } from "lucide-react";
+import { Lock, LogOut, Users, BarChart3, Trash2, MessageSquare, ArrowRight } from "lucide-react";
 
 interface WaitlistEntry {
   id: number;
@@ -71,6 +71,32 @@ function StatCard({ label, metric }: { label: string; metric: MetricPair }) {
   );
 }
 
+
+interface ChatSummary {
+  conversationId: string;
+  visitorName: string | null;
+  visitorEmail: string | null;
+  status: "bot" | "awaiting_human" | "human" | "closed";
+  escalationReason: string | null;
+  messageCount: number;
+  lastMessageAt: string | null;
+  createdAt: string;
+}
+
+const CHAT_STATUS_LABEL: Record<ChatSummary["status"], string> = {
+  bot: "Bot",
+  awaiting_human: "Waiting for you",
+  human: "You are live",
+  closed: "Closed",
+};
+
+const CHAT_STATUS_STYLE: Record<ChatSummary["status"], string> = {
+  bot: "bg-slate-100 text-slate-600",
+  awaiting_human: "bg-amber-100 text-amber-800",
+  human: "bg-emerald-100 text-emerald-800",
+  closed: "bg-slate-100 text-slate-400",
+};
+
 export default function Admin() {
   const [token, setToken] = useState(() => sessionStorage.getItem("admin_token") || "");
   const [password, setPassword] = useState("");
@@ -80,6 +106,7 @@ export default function Admin() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [deletingId, setDeletingId] = useState<number | null>(null);
+  const [chats, setChats] = useState<ChatSummary[]>([]);
 
   const isLoggedIn = !!token;
 
@@ -118,6 +145,7 @@ export default function Admin() {
     setEntries([]);
     setTotal(0);
     setStats(null);
+    setChats([]);
   };
 
   const handleDelete = async (id: number, email: string) => {
@@ -157,9 +185,10 @@ export default function Admin() {
     async function fetchData() {
       setLoading(true);
       try {
-        const [waitlistRes, statsRes] = await Promise.all([
+        const [waitlistRes, statsRes, chatsRes] = await Promise.all([
           fetch("/api/admin/waitlist", { headers: { Authorization: `Bearer ${token}` } }),
           fetch("/api/admin/stats", { headers: { Authorization: `Bearer ${token}` } }),
+          fetch("/api/admin/chats", { headers: { Authorization: `Bearer ${token}` } }),
         ]);
 
         if (waitlistRes.status === 401 || statsRes.status === 401) {
@@ -177,6 +206,11 @@ export default function Admin() {
         setEntries(waitlistData.entries);
         setTotal(waitlistData.total);
         setStats(statsData);
+        // A failed chat list must not blank the rest of the dashboard.
+        if (chatsRes.ok) {
+          const chatsData = await chatsRes.json();
+          setChats(chatsData.conversations ?? []);
+        }
       } catch (err: any) {
         if (!cancelled) setError(err.message);
       } finally {
@@ -380,6 +414,56 @@ export default function Admin() {
         </section>
 
         {/* Waitlist */}
+        {/* Live chats — anyone waiting on a human is pinned to the top by the API */}
+        <section>
+          <div className="flex items-center gap-2 mb-4">
+            <MessageSquare size={20} className="text-brand" />
+            <h2 className="text-lg font-bold text-slate-900">Live Chats</h2>
+            {chats.some((c) => c.status === "awaiting_human") && (
+              <span className="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 text-sm font-semibold">
+                {chats.filter((c) => c.status === "awaiting_human").length} waiting
+              </span>
+            )}
+          </div>
+
+          {chats.length === 0 ? (
+            <p className="text-sm text-slate-500 bg-white border border-slate-200 rounded-xl p-5">
+              No chats yet. Conversations appear here as soon as a visitor starts one.
+            </p>
+          ) : (
+            <div className="bg-white border border-slate-200 rounded-xl divide-y divide-slate-100 overflow-hidden">
+              {chats.map((c) => (
+                <a
+                  key={c.conversationId}
+                  href={`/admin/chat/${c.conversationId}`}
+                  className="flex items-center gap-3 px-4 py-3 hover:bg-slate-50 transition-colors"
+                >
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold text-slate-900 text-sm truncate">
+                        {c.visitorName || "Visitor"}
+                      </span>
+                      <span
+                        className={`text-[11px] font-semibold px-2 py-0.5 rounded-full shrink-0 ${CHAT_STATUS_STYLE[c.status]}`}
+                      >
+                        {CHAT_STATUS_LABEL[c.status]}
+                      </span>
+                    </div>
+                    <div className="text-xs text-slate-500 truncate">
+                      {c.visitorEmail || "—"}
+                      {c.escalationReason ? ` · ${c.escalationReason}` : ""}
+                    </div>
+                  </div>
+                  <div className="text-xs text-slate-400 shrink-0 hidden sm:block">
+                    {c.messageCount} msg{c.messageCount === 1 ? "" : "s"}
+                  </div>
+                  <ArrowRight size={16} className="text-slate-400 shrink-0" />
+                </a>
+              ))}
+            </div>
+          )}
+        </section>
+
         <section>
           <div className="flex items-center gap-2 mb-4">
             <Users size={20} className="text-brand" />

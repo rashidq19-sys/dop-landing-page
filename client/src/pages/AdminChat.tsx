@@ -238,7 +238,15 @@ export default function AdminChat() {
       }
     };
     const handle = window.setInterval(tick, POLL_MS);
-    return () => window.clearInterval(handle);
+    // Catch up immediately on returning to the tab — he may have been away
+    // while the visitor was typing.
+    document.addEventListener("visibilitychange", tick);
+    window.addEventListener("focus", tick);
+    return () => {
+      window.clearInterval(handle);
+      document.removeEventListener("visibilitychange", tick);
+      window.removeEventListener("focus", tick);
+    };
   }, [error, loading, status, qs, applyMessages, suggest, draft, isAiDraft]);
 
   useEffect(() => {

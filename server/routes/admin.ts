@@ -1,12 +1,12 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { timingSafeEqual } from "crypto";
-import { nanoid } from "nanoid";
 import pool from "../db.js";
+import { issueAdminToken, isValidAdminToken, revokeAdminToken } from "../lib/adminTokens.js";
 
 const router = Router();
 
-// In-memory token store (simple, resets on server restart)
-const validTokens = new Set<string>();
+// The token store moved to server/lib/adminTokens.ts so the chat routes can
+// recognise a logged-in admin too. Still in memory — a restart signs you out.
 
 // POST /api/admin/login
 router.post("/login", (req, res) => {
@@ -22,16 +22,14 @@ router.post("/login", (req, res) => {
     return res.status(401).json({ error: "Invalid password" });
   }
 
-  const token = nanoid(32);
-  validTokens.add(token);
-  res.json({ success: true, token });
+  res.json({ success: true, token: issueAdminToken() });
 });
 
 // POST /api/admin/logout
 router.post("/logout", (req, res) => {
   const auth = req.headers.authorization;
   if (auth?.startsWith("Bearer ")) {
-    validTokens.delete(auth.slice(7));
+    revokeAdminToken(auth.slice(7));
   }
   res.json({ success: true });
 });
@@ -43,7 +41,7 @@ function requireAuth(req: Request, res: Response, next: NextFunction) {
     return res.status(401).json({ error: "Unauthorized" });
   }
   const token = auth.slice(7);
-  if (!validTokens.has(token)) {
+  if (!isValidAdminToken(token)) {
     return res.status(401).json({ error: "Invalid token" });
   }
   next();

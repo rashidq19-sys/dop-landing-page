@@ -1,5 +1,5 @@
-import { useState, useRef, useEffect } from "react";
-import { MessageCircle, X, Send } from "lucide-react";
+import { useState, useRef, useEffect, useCallback } from "react";
+import { MessageCircle, X, Send, UserRound } from "lucide-react";
 
 // Renders **bold**, bullet lines (- item), and blank-line spacing
 function renderContent(content: string, isUser: boolean) {
@@ -42,18 +42,24 @@ function renderContent(content: string, isUser: boolean) {
   return nodes;
 }
 
+type Role = "visitor" | "bot" | "admin" | "system";
+type Status = "bot" | "awaiting_human" | "human" | "closed";
+
 type Message = {
-  role: "user" | "assistant";
+  id: number;
+  role: Role;
   content: string;
 };
 
 type Lead = {
   name: string;
   email: string;
+  conversationId: string;
 };
 
 const LEAD_STORAGE_KEY = "dspops_chat_lead";
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const POLL_MS = 2000;
 
 function loadStoredLead(): Lead | null {
   if (typeof window === "undefined") return null;
@@ -65,10 +71,16 @@ function loadStoredLead(): Lead | null {
       parsed &&
       typeof parsed.name === "string" &&
       typeof parsed.email === "string" &&
+      typeof parsed.conversationId === "string" &&
       parsed.name.trim() &&
+      parsed.conversationId.trim() &&
       EMAIL_REGEX.test(parsed.email)
     ) {
-      return { name: parsed.name, email: parsed.email };
+      return {
+        name: parsed.name,
+        email: parsed.email,
+        conversationId: parsed.conversationId,
+      };
     }
   } catch {
     // ignore corrupt storage
@@ -76,26 +88,35 @@ function loadStoredLead(): Lead | null {
   return null;
 }
 
-function buildGreeting(): Message {
-  return {
-    role: "assistant",
-    content: "Hi! Ask me anything about DSPOps — features, pricing, or how it works.",
-  };
-}
-
 export default function ChatbotWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [lead, setLead] = useState<Lead | null>(() => loadStoredLead());
-  const [messages, setMessages] = useState<Message[]>(() => [buildGreeting()]);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [status, setStatus] = useState<Status>("bot");
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [leadName, setLeadName] = useState("");
   const [leadEmail, setLeadEmail] = useState("");
   const [leadError, setLeadError] = useState<string | null>(null);
   const [isSubmittingLead, setIsSubmittingLead] = useState(false);
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const nameInputRef = useRef<HTMLInputElement>(null);
+  const highestId = useRef(0);
+
+  const conversationId = lead?.conversationId ?? "";
+
+  const merge = useCallback((incoming: Message[]) => {
+    if (!incoming.length) return;
+    setMessages((prev) => {
+      const seen = new Set(prev.map((m) => m.id));
+      const fresh = incoming.filter((m) => !seen.has(m.id));
+      if (!fresh.length) return prev;
+      return [...prev, ...fresh].sort((a, b) => a.id - b.id);
+    });
+    highestId.current = Math.max(highestId.current, ...incoming.map((m) => m.id));
+  }, []);
 
   // Auto-scroll to bottom when messages change
   useEffect(() => {
@@ -115,14 +136,71 @@ export default function ChatbotWidget() {
     return () => clearTimeout(t);
   }, [isOpen, lead]);
 
+  // Rejoin an existing conversation. A refresh must not lose the thread, and
+  // Rashid may have replied while the visitor was away.
+  useEffect(() => {
+    if (!conversationId || messages.length > 0) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch(`/api/chat/${conversationId}/messages`);
+        if (!res.ok) {
+          // Stale id — drop it and let them start again rather than sitting on
+          // a conversation the server has never heard of.
+          if (res.status === 404) {
+            window.localStorage.removeItem(LEAD_STORAGE_KEY);
+            setLead(null);
+          }
+          return;
+        }
+        const data = await res.json();
+        if (cancelled) return;
+        merge(data.messages ?? []);
+        if (data.status) setStatus(data.status);
+      } catch {
+        // offline — the next send or poll recovers
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [conversationId, messages.length, merge]);
+
+  // Poll only once a human is involved. In plain bot mode the reply arrives in
+  // the response to the visitor's own message, so there is nothing to poll for.
+  useEffect(() => {
+    if (!isOpen || !conversationId) return;
+    if (status !== "awaiting_human" && status !== "human") return;
+
+    const tick = async () => {
+      if (document.visibilityState === "hidden") return;
+      try {
+        const res = await fetch(
+          `/api/chat/${conversationId}/messages?since=${highestId.current}`
+        );
+        if (!res.ok) return;
+        const data = await res.json();
+        merge(data.messages ?? []);
+        if (data.status) setStatus(data.status);
+      } catch {
+        // transient blip; the next tick retries
+      }
+    };
+    const handle = window.setInterval(tick, POLL_MS);
+    // Catch up the instant the tab comes back, rather than making someone who
+    // just switched back wait for the next tick to see a reply already waiting.
+    document.addEventListener("visibilitychange", tick);
+    window.addEventListener("focus", tick);
+    return () => {
+      window.clearInterval(handle);
+      document.removeEventListener("visibilitychange", tick);
+      window.removeEventListener("focus", tick);
+    };
+  }, [isOpen, conversationId, status, merge]);
+
   function handleClose() {
-    // Fire-and-forget: notify backend the session ended, only if user chatted
-    if (messages.length > 1) {
-      fetch("/api/chat/end", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages }),
-      }).catch(() => {});
+    if (conversationId && messages.some((m) => m.role === "visitor")) {
+      fetch(`/api/chat/${conversationId}/close`, { method: "POST" }).catch(() => {});
     }
     setIsOpen(false);
   }
@@ -146,53 +224,75 @@ export default function ChatbotWidget() {
     setLeadError(null);
     setIsSubmittingLead(true);
 
-    const newLead: Lead = { name, email };
-
     try {
-      window.localStorage.setItem(LEAD_STORAGE_KEY, JSON.stringify(newLead));
-    } catch {
-      // ignore storage errors (private mode etc.) — chat still works for this session
+      const res = await fetch("/api/chat/start", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Could not start the chat");
+
+      const newLead: Lead = { name, email, conversationId: data.conversationId };
+      // Stored only AFTER the server confirms. Storing first meant a failed
+      // request left the visitor marked as known while nothing was captured —
+      // and they were never asked again.
+      try {
+        window.localStorage.setItem(LEAD_STORAGE_KEY, JSON.stringify(newLead));
+      } catch {
+        // private mode — the chat still works for this session
+      }
+
+      setLead(newLead);
+      setStatus(data.status ?? "bot");
+      merge([{ id: data.greetingId ?? 1, role: "bot", content: data.greeting }]);
+      setLeadName("");
+      setLeadEmail("");
+    } catch (err: any) {
+      setLeadError(err.message || "Something went wrong. Please try again.");
+    } finally {
+      setIsSubmittingLead(false);
     }
+  }
 
-    // Fire-and-forget: notify backend a new lead arrived
-    fetch("/api/chat/lead", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newLead),
-    }).catch(() => {});
-
-    setLead(newLead);
-    setMessages([buildGreeting()]);
-    setLeadName("");
-    setLeadEmail("");
-    setIsSubmittingLead(false);
+  async function requestHuman() {
+    if (!conversationId) return;
+    try {
+      const res = await fetch(`/api/chat/${conversationId}/request-human`, {
+        method: "POST",
+      });
+      const data = await res.json();
+      if (res.ok) {
+        merge(data.messages ?? []);
+        if (data.status) setStatus(data.status);
+      }
+    } catch {
+      // the bot is still there; nothing useful to tell the visitor
+    }
   }
 
   async function handleSend() {
     const trimmed = input.trim();
-    if (!trimmed || isLoading) return;
+    if (!trimmed || isLoading || !conversationId) return;
 
-    const userMessage: Message = { role: "user", content: trimmed };
-    const updatedMessages = [...messages, userMessage];
-
-    setMessages(updatedMessages);
     setInput("");
     setIsLoading(true);
 
     try {
-      const res = await fetch("/api/chat", {
+      const res = await fetch(`/api/chat/${conversationId}/message`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: updatedMessages }),
+        body: JSON.stringify({ content: trimmed }),
       });
       const data = await res.json();
-      const reply: string = data.reply ?? "Sorry, I couldn't get a response.";
-      setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
+      if (!res.ok) throw new Error(data.error || "Something went wrong");
+      merge(data.messages ?? []);
+      if (data.status) setStatus(data.status);
     } catch {
-      setMessages((prev) => [
-        ...prev,
+      merge([
         {
-          role: "assistant",
+          id: Date.now(),
+          role: "bot",
           content: "Sorry, something went wrong. Please try again.",
         },
       ]);
@@ -208,47 +308,74 @@ export default function ChatbotWidget() {
     }
   }
 
+  const waitingForHuman = status === "awaiting_human";
+  const humanLive = status === "human";
+
   return (
     <>
-      {/* Chat Panel */}
       {isOpen && (
         <div className="fixed bottom-20 right-6 z-50 flex flex-col w-[calc(100vw-3rem)] sm:w-[400px] h-[500px] max-h-[70vh] bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
           {/* Header */}
           <div className="flex items-center justify-between px-4 py-3 bg-navy">
             <span className="text-white font-semibold text-sm">
-              Ask about DSPOps
+              {humanLive ? "Chatting with Rashid" : "Ask about DSPOps"}
             </span>
-            <button
-              onClick={handleClose}
-              className="text-white/70 hover:text-white transition-colors p-1 rounded"
-              aria-label="Close chat"
-            >
-              <X size={18} />
-            </button>
+            <div className="flex items-center gap-1">
+              {lead && !waitingForHuman && !humanLive && status !== "closed" && (
+                <button
+                  onClick={requestHuman}
+                  className="text-white/70 hover:text-white transition-colors text-[11px] font-semibold px-2 py-1 rounded flex items-center gap-1"
+                >
+                  <UserRound size={13} />
+                  Talk to a person
+                </button>
+              )}
+              <button
+                onClick={handleClose}
+                className="text-white/70 hover:text-white transition-colors p-1 rounded"
+                aria-label="Close chat"
+              >
+                <X size={18} />
+              </button>
+            </div>
           </div>
 
           {lead ? (
             <>
               {/* Message Thread */}
               <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
-                {messages.map((msg, idx) => (
-                  <div
-                    key={idx}
-                    className={`flex ${
-                      msg.role === "user" ? "justify-end" : "justify-start"
-                    }`}
-                  >
+                {messages.map((msg) =>
+                  msg.role === "system" ? (
+                    <p
+                      key={msg.id}
+                      className="text-[11px] italic text-gray-500 text-center leading-snug px-4"
+                    >
+                      {msg.content}
+                    </p>
+                  ) : (
                     <div
-                      className={`max-w-[85%] px-4 py-3 rounded-2xl text-sm ${
-                        msg.role === "user"
-                          ? "bg-[#2563EB] text-white rounded-br-sm"
-                          : "bg-white border border-gray-100 shadow-sm text-gray-700 rounded-bl-sm"
+                      key={msg.id}
+                      className={`flex ${
+                        msg.role === "visitor" ? "justify-end" : "justify-start"
                       }`}
                     >
-                      {renderContent(msg.content, msg.role === "user")}
+                      <div
+                        className={`max-w-[85%] px-4 py-3 rounded-2xl text-sm ${
+                          msg.role === "visitor"
+                            ? "bg-[#2563EB] text-white rounded-br-sm"
+                            : "bg-white border border-gray-100 shadow-sm text-gray-700 rounded-bl-sm"
+                        }`}
+                      >
+                        {msg.role === "admin" && (
+                          <span className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wide text-[#2563EB] mb-1">
+                            <UserRound size={11} /> Rashid
+                          </span>
+                        )}
+                        {renderContent(msg.content, msg.role === "visitor")}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  )
+                )}
 
                 {/* Typing indicator */}
                 {isLoading && (
@@ -275,13 +402,13 @@ export default function ChatbotWidget() {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  disabled={isLoading}
-                  placeholder="Type a message..."
+                  disabled={isLoading || status === "closed"}
+                  placeholder={humanLive ? "Message Rashid..." : "Type a message..."}
                   className="flex-1 text-sm px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand disabled:opacity-50 disabled:cursor-not-allowed"
                 />
                 <button
                   onClick={handleSend}
-                  disabled={isLoading || !input.trim()}
+                  disabled={isLoading || !input.trim() || status === "closed"}
                   className="p-2 bg-navy text-white rounded-lg hover:bg-navy-light transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                   aria-label="Send message"
                 >

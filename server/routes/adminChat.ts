@@ -1,11 +1,13 @@
 import { Router, type Request, type Response, type NextFunction } from "express";
 import { verifyChatLink } from "../lib/chatLinks.js";
+import { hasValidBearer } from "../lib/adminTokens.js";
 import { refineDraft, suggestOperatorReply } from "../lib/chatAi.js";
 import {
   addMessage,
   getConversationByPublicId,
   getMessages,
   getRecentMessages,
+  listConversations,
   setStatus,
   type ChatMessage,
 } from "../lib/chatStore.js";
@@ -15,11 +17,9 @@ const router = Router();
 // Operator side of the live chat — the screen Rashid reaches from the link in
 // the escalation email.
 //
-// Auth is currently the signed link only. The admin bearer token cannot be
-// checked from here yet: it lives in a module-private Set in routes/admin.ts,
-// and that file is being edited by another session. When it is free, move the
-// Set into server/lib/adminTokens.ts and accept it in requireChatAccess below,
-// which is what unblocks the conversation list.
+// Auth is either a normal admin session (Bearer) or a signed link scoped to a
+// single conversation. The conversation LIST is bearer-only — a link token must
+// never be able to enumerate other visitors chats.
 
 const MAX_MESSAGE_CHARS = 2000;
 
@@ -28,24 +28,57 @@ function publicMessage(m: ChatMessage) {
 }
 
 /**
- * A signed link authorises exactly the conversation named in the URL. Reading
- * publicId from req.params is what makes that true — a token minted for one
- * chat cannot open another.
+ * Two ways in: a normal admin session, or a signed link from the escalation
+ * email. The link authorises exactly the conversation named in the URL —
+ * reading publicId from req.params is what makes that true, so a token minted
+ * for one chat can never open another.
  */
 function requireChatAccess(req: Request, res: Response, next: NextFunction) {
+  if (hasValidBearer(req.headers.authorization)) return next();
+
   const { publicId } = req.params;
   const k = typeof req.query.k === "string" ? req.query.k : "";
-
   if (publicId && k && verifyChatLink(publicId, k)) return next();
+
   return res.status(401).json({ error: "Unauthorized" });
 }
 
-// GET /api/admin/chats — every conversation.
-// Bearer-only by design: a link token is scoped to one chat and must never be
-// able to list other visitors' conversations. Until the bearer check is wired
-// up this stays closed rather than open.
-router.get("/", (_req, res) => {
-  res.status(401).json({ error: "Unauthorized" });
+/** Bearer only — a link token is scoped to one chat and must never list others. */
+function requireAdmin(req: Request, res: Response, next: NextFunction) {
+  if (hasValidBearer(req.headers.authorization)) return next();
+  return res.status(401).json({ error: "Unauthorized" });
+}
+
+// GET /api/admin/chats — every conversation, for the dashboard panel
+router.get("/", requireAdmin, async (_req, res) => {
+  try {
+    const conversations = await listConversations(50);
+    // Anyone actually waiting on a human comes first — that is the whole point
+    // of the panel. Everything else falls back to most recently active.
+    const rank = (s: string) => (s === "awaiting_human" ? 0 : s === "human" ? 1 : 2);
+    conversations.sort(
+      (a, b) =>
+        rank(a.status) - rank(b.status) ||
+        new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+    );
+
+    return res.json({
+      conversations: conversations.map((c) => ({
+        conversationId: c.publicId,
+        visitorName: c.visitorName,
+        visitorEmail: c.visitorEmail,
+        status: c.status,
+        escalationReason: c.escalationReason,
+        messageCount: c.messageCount,
+        lastMessageAt: c.lastMessageAt,
+        createdAt: c.createdAt,
+      })),
+      total: conversations.length,
+    });
+  } catch (err) {
+    console.error("Admin chat list error:", err);
+    return res.status(500).json({ error: "Server error" });
+  }
 });
 
 // GET /api/admin/chats/:publicId — transcript and details
