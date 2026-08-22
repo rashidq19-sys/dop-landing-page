@@ -76,20 +76,17 @@ function loadStoredLead(): Lead | null {
   return null;
 }
 
-function buildGreeting(lead: Lead | null): Message {
-  const firstName = lead?.name.trim().split(/\s+/)[0];
+function buildGreeting(): Message {
   return {
     role: "assistant",
-    content: firstName
-      ? `Hi ${firstName}! Ask me anything about DSPOps — features, pricing, or how it works.`
-      : "Hi! Ask me anything about DSPOps — features, pricing, or how it works.",
+    content: "Hi! Ask me anything about DSPOps — features, pricing, or how it works.",
   };
 }
 
 export default function ChatbotWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [lead, setLead] = useState<Lead | null>(() => loadStoredLead());
-  const [messages, setMessages] = useState<Message[]>(() => [buildGreeting(loadStoredLead())]);
+  const [messages, setMessages] = useState<Message[]>(() => [buildGreeting()]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [leadName, setLeadName] = useState("");
@@ -165,7 +162,7 @@ export default function ChatbotWidget() {
     }).catch(() => {});
 
     setLead(newLead);
-    setMessages([buildGreeting(newLead)]);
+    setMessages([buildGreeting()]);
     setLeadName("");
     setLeadEmail("");
     setIsSubmittingLead(false);
