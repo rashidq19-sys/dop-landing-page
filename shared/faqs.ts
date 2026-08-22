@@ -39,6 +39,6 @@ export const faqs: Faq[] = [
   {
     question: "What if my fleet grows past a tier?",
     answer:
-      "We upgrade you mid-month and prorate the difference. No per-driver fees, ever — you just move to the next tier when you hit the driver limit.",
+      "We upgrade you mid-month and prorate the difference. Starter and Professional have no per-driver fees — you simply move to the next tier when you hit the driver limit. Past 100 drivers you move to Enterprise, which is priced per active driver at a rate agreed with you, billed on a minimum of 100 drivers a month.",
   },
 ];

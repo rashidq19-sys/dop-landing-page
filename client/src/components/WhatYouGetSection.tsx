@@ -4,7 +4,7 @@ const OUTCOMES = [
   {
     role: "DSP Owner",
     headline: "Stop paying five separate bills.",
-    detail: "Consolidate rota, dispatch, payroll, compliance, van inspections and SDD tracking. One invoice, no per-driver fees, and you keep the cash your old stack was costing you.",
+    detail: "Consolidate rota, dispatch, payroll, compliance, van inspections and SDD tracking. One invoice instead of five, and you keep the cash your old stack was costing you.",
     metric: "~£3k–£6k/yr saved",
     Icon: PoundSterling,
     color: "text-brand",

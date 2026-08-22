@@ -11,20 +11,21 @@ const STARTER_MODULES = "Rota · Dispatch · Portal · Scorecards · Compliance 
 
 const plans = [
   {
-    name: "Starter", price: "99", period: "/mo", drivers: "Up to 30 drivers", popular: false,
+    name: "Starter", price: "99", priceLabel: null, period: "/mo", drivers: "Up to 30 drivers", popular: false,
     features: ["6 modules", "Email support", "Cortex integration"],
   },
   {
-    name: "Professional", price: "249", period: "/mo", drivers: "Up to 100 drivers", popular: true,
+    name: "Professional", price: "249", priceLabel: null, period: "/mo", drivers: "Up to 100 drivers", popular: true,
     features: ["Everything in Starter", "Payroll", "Van Condition", "Same-Day Delivery", "Priority support"],
   },
   {
-    name: "Enterprise", price: null, period: "", drivers: "100+ drivers", popular: false,
-    features: ["Everything in Pro", "Multi-station support", "API access", "Dedicated CSM", "Custom SLAs", "White-glove setup"],
+    name: "Enterprise", price: null, priceLabel: "Per driver", period: "/mo", drivers: "100+ drivers · rate agreed with you", popular: false,
+    features: ["Everything in Pro", "Minimum 100 drivers billed monthly", "Multi-station support", "API access", "Dedicated CSM", "Custom SLAs", "White-glove setup"],
   },
 ] as const satisfies {
   name: string;
   price: string | null;
+  priceLabel: string | null;
   period: string;
   drivers: string;
   popular: boolean;
@@ -114,10 +115,10 @@ export default function PricingSection() {
             PRICING
           </span>
           <h2 className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-extrabold text-navy tracking-tight">
-            Flat monthly. No per-driver fees. Ever.
+            Flat monthly up to 100 drivers. Per driver above that.
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            Add all the drivers you want within your tier. We never charge per-seat — so you're never penalised for growing.
+            Starter and Professional are a flat fee — add drivers up to your tier limit at no extra cost. Enterprise is priced per active driver at a rate agreed with you, with a monthly minimum of at least 100 drivers.
           </p>
         </div>
 
@@ -156,12 +157,18 @@ export default function PricingSection() {
 
               <div className="mb-6">
                 <div className="flex items-baseline gap-1">
-                  {plan.price !== null && (
-                    <span className={`text-lg ${plan.popular ? 'text-white/60' : 'text-muted-foreground'}`}>£</span>
+                  {plan.price !== null ? (
+                    <>
+                      <span className={`text-lg ${plan.popular ? 'text-white/60' : 'text-muted-foreground'}`}>£</span>
+                      <span className={`text-4xl lg:text-5xl font-extrabold ${plan.popular ? 'text-white' : 'text-navy'}`}>
+                        {plan.price}
+                      </span>
+                    </>
+                  ) : (
+                    <span className={`text-3xl lg:text-4xl font-extrabold ${plan.popular ? 'text-white' : 'text-navy'}`}>
+                      {plan.priceLabel}
+                    </span>
                   )}
-                  <span className={`text-4xl lg:text-5xl font-extrabold ${plan.popular ? 'text-white' : 'text-navy'}`}>
-                    {plan.price}
-                  </span>
                   {plan.period && (
                     <span className={plan.popular ? 'text-white/60' : 'text-muted-foreground'}>{plan.period}</span>
                   )}
