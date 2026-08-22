@@ -1,5 +1,6 @@
 import { Router } from "express";
 import Anthropic from "@anthropic-ai/sdk";
+import pool from "../db.js";
 import { sendEmail } from "../email.js";
 
 const router = Router();
@@ -112,7 +113,10 @@ router.post("/lead", async (req, res) => {
   const { name, email } = req.body as { name?: string; email?: string };
 
   const trimmedName = typeof name === "string" ? name.trim() : "";
-  const trimmedEmail = typeof email === "string" ? email.trim() : "";
+  // Lowercased to match the waitlist route — waitlist.email is UNIQUE, so mixed
+  // case would create a second row for the same person.
+  const trimmedEmail =
+    typeof email === "string" ? email.trim().toLowerCase() : "";
 
   if (!trimmedName || !trimmedEmail) {
     return res.status(400).json({ error: "name and email are required" });
@@ -123,12 +127,38 @@ router.post("/lead", async (req, res) => {
     return res.status(400).json({ error: "invalid email" });
   }
 
+  // waitlist.name is VARCHAR(255) — truncate rather than lose the whole lead to
+  // a failed insert.
+  const storedName = trimmedName.slice(0, 255);
+
+  // Persist the lead. The chatbot is the only place on the site that asks a
+  // visitor for their name, so without this the name lived nowhere but their own
+  // browser. An email we already know keeps its original source (first-touch
+  // attribution) and simply gains the name.
+  let stored = false;
+  try {
+    await pool.query(
+      `INSERT INTO waitlist (email, name, source) VALUES ($1, $2, $3)
+       ON CONFLICT (email) DO UPDATE
+         SET name = COALESCE(EXCLUDED.name, waitlist.name), updated_at = NOW()`,
+      [trimmedEmail, storedName, "Chatbot"]
+    );
+    stored = true;
+  } catch (err) {
+    console.error("Chat lead insert error:", err);
+  }
+
+  // Sent whatever happened above — if the database write failed, this email is
+  // the only surviving copy of the lead.
   sendEmail(
     "New lead started chatting on DSPOps",
-    `Name: ${trimmedName}\nEmail: ${trimmedEmail}\nTime: ${new Date().toISOString()}`
+    `Name: ${trimmedName}\nEmail: ${trimmedEmail}\nTime: ${new Date().toISOString()}` +
+      (stored
+        ? ""
+        : "\n\nWARNING: this lead could NOT be saved to the database — keep this email.")
   ).catch((err) => console.error("Lead notification email failed:", err));
 
-  return res.json({ ok: true });
+  return res.json({ ok: true, stored });
 });
 
 export default router;
