@@ -1,6 +1,7 @@
 import "dotenv/config";
 import express from "express";
 import compression from "compression";
+import rateLimit from "express-rate-limit";
 import { createServer } from "http";
 import path from "path";
 import fs from "fs";
@@ -48,11 +49,16 @@ async function startServer() {
   const app = express();
   const server = createServer(app);
 
+  // Railway terminates TLS and proxies to us, so without this every visitor
+  // arrives as the proxy's IP and the rate limiters below would throttle the
+  // whole site as if it were one caller.
+  app.set("trust proxy", 1);
+
   // Gzip/Brotli compression for all responses.
   app.use(compression());
 
   // Parse JSON request bodies
-  app.use(express.json());
+  app.use(express.json({ limit: "64kb" }));
 
   // Initialize database
   await initDb();
@@ -66,6 +72,24 @@ async function startServer() {
       res.status(404).end();
     }
   });
+
+  // /api/chat is public, unauthenticated, and bills an Anthropic call plus a
+  // database write on every message. These caps are the only thing standing
+  // between a bored caller and a real invoice.
+  app.use("/api/chat/start", rateLimit({
+    windowMs: 60 * 60 * 1000,
+    limit: 5,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { error: "Too many chats started from this address. Please try again later." },
+  }));
+  app.use("/api/chat", rateLimit({
+    windowMs: 10 * 60 * 1000,
+    limit: 30,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { error: "You're sending messages too quickly. Please slow down." },
+  }));
 
   // API routes
   app.use("/api/waitlist", waitlistRoutes);
