@@ -10,6 +10,7 @@ import NotFound from "./pages/NotFound";
 
 // Code-split everything that isn't the homepage so initial JS payload stays small.
 const Admin = lazy(() => import("./pages/Admin"));
+const AdminChat = lazy(() => import("./pages/AdminChat"));
 const Privacy = lazy(() => import("./pages/Privacy"));
 const Download = lazy(() => import("./pages/Download"));
 const AmazonDspManagementSoftware = lazy(() => import("./pages/AmazonDspManagementSoftware"));
@@ -44,6 +45,7 @@ function App() {
           <Suspense fallback={<PageFallback />}>
             <Switch>
               <Route path="/admin" component={Admin} />
+              <Route path="/admin/chat/:publicId" component={AdminChat} />
               <Route path="/privacy" component={Privacy} />
               <Route path="/download" component={Download} />
               <Route path="/amazon-dsp-management-software" component={AmazonDspManagementSoftware} />

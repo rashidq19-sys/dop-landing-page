@@ -30,6 +30,10 @@ const PERMANENT_REDIRECTS: Record<string, string> = {
 const PUBLIC_ROUTE_PATTERNS: RegExp[] = [
   /^\/$/,
   /^\/admin$/,
+  // Rashid's operator screen. Deliberately absent from sitemap.xml and from the
+  // prerender ROUTES list — it is private, sets noindex, and must never be
+  // crawled or captured into dist/public.
+  /^\/admin\/chat\/[A-Za-z0-9_-]+$/,
   /^\/privacy$/,
   /^\/download$/,
   /^\/amazon-dsp-management-software$/,
