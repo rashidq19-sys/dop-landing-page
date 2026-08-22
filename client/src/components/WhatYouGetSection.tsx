@@ -34,8 +34,8 @@ const OUTCOMES = [
   {
     role: "Multi-Station DSPs",
     headline: "Run multiple stations. One platform.",
-    detail: "Got a station in Bracknell and another in Wembley? Manage both from one account. Each station has its own drivers, scheduling, dispatch, and performance — tracked separately, with zero confusion between them.",
-    metric: "Unlimited stations",
+    detail: "Got a station in Bracknell and another in Wembley? On Enterprise, manage both from one account. Each station has its own drivers, scheduling, dispatch, and performance — tracked separately, with zero confusion between them.",
+    metric: "Unlimited stations · Enterprise",
     Icon: Building2,
     color: "text-violet-600",
     bg: "bg-violet-100",

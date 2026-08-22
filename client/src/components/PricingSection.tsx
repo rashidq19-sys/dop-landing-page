@@ -16,11 +16,11 @@ const plans = [
   },
   {
     name: "Professional", price: "249", priceLabel: null, period: "/mo", drivers: "Up to 100 drivers", popular: true,
-    features: ["Everything in Starter", "Payroll", "Van Condition", "Same-Day Delivery", "Priority support"],
+    features: ["Everything in Starter", "Payroll", "Van Condition", "Priority support"],
   },
   {
-    name: "Enterprise", price: null, priceLabel: "Per driver", period: "/mo", drivers: "100+ drivers · rate agreed with you", popular: false,
-    features: ["Everything in Pro", "Minimum 100 drivers billed monthly", "Multi-station support", "API access", "Dedicated CSM", "Custom SLAs", "White-glove setup"],
+    name: "Enterprise", price: null, priceLabel: "Per driver", period: "/mo", drivers: "Unlimited drivers · rate agreed with you", popular: false,
+    features: ["Everything in Pro", "Unlimited stations", "Minimum 100 drivers billed monthly", "API access", "Dedicated CSM", "Custom SLAs", "White-glove setup"],
   },
 ] as const satisfies {
   name: string;
@@ -206,7 +206,7 @@ export default function PricingSection() {
 
         {/* Footer note */}
         <p className="text-center text-sm text-muted-foreground mt-10">
-          All plans include 14-day free trial. No credit card required. Cancel anytime.
+          All plans include Same-Day Delivery support and hassle-free driver onboarding, plus a 14-day free trial. No credit card required. Cancel anytime.
         </p>
       </div>
     </section>
