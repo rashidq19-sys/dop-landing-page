@@ -6,7 +6,7 @@
 
 import React from "react";
 
-const EFFECTIVE_DATE = "30 July 2026";
+const EFFECTIVE_DATE = "22 August 2026";
 
 const dataCategories = [
   { category: "Identity", data: "Full name, date of birth, email address, phone number, home address" },
@@ -23,6 +23,7 @@ const dataCategories = [
 
 const thirdParties = [
   { service: "Anthropic (Claude AI)", data: "Document images (licence, passport)", purpose: "Automated field extraction during onboarding" },
+  { service: "Anthropic (Claude AI)", data: "Chat messages (this website's chat widget)", purpose: "Generating chatbot replies and draft suggestions for our team" },
   { service: "OneSignal", data: "Device tokens, driver identifiers", purpose: "Push notifications" },
   { service: "Cloudflare R2", data: "All uploaded files and photos", purpose: "Cloud file storage" },
   { service: "Neon (PostgreSQL)", data: "All structured data", purpose: "Database hosting" },
@@ -190,6 +191,15 @@ export default function PrivacyPage() {
               data stays on our own systems, is not shared with any third party, and
               is not used for advertising or cross-site tracking.
             </p>
+            <p className="text-navy/70 text-[15px] leading-relaxed mt-4">
+              This website also offers a chat widget. If you start a conversation,
+              we store your name, email address, and the full message transcript.
+              This lets our AI assistant answer your questions, and lets a member
+              of our team review or join the conversation if you ask to speak to a
+              person. Only DSPOps can see your conversation — we do not sell or
+              share it beyond the Anthropic processing described above. See Data
+              Retention below for how long it is kept.
+            </p>
           </section>
 
           {/* 5. Data Security */}
@@ -230,6 +240,12 @@ export default function PrivacyPage() {
               <p>
                 Drivers may request earlier deletion of their data at any time. See Your Rights
                 below for how to make that request.
+              </p>
+              <p>
+                Chat transcripts from this website's chat widget (your name, email address, and
+                messages) are retained for <strong className="text-navy">90 days</strong> from
+                your last message, after which they are permanently deleted. You may request
+                earlier deletion at any time — see Your Rights below.
               </p>
             </div>
           </section>
