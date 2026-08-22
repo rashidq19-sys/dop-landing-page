@@ -9,6 +9,7 @@ import { fileURLToPath } from "url";
 import { initDb } from "./db.js";
 import waitlistRoutes from "./routes/waitlist.js";
 import adminRoutes from "./routes/admin.js";
+import adminChatRoutes from "./routes/adminChat.js";
 import chatRoutes from "./routes/chat.js";
 import trackRoutes from "./routes/track.js";
 
@@ -93,6 +94,7 @@ async function startServer() {
 
   // API routes
   app.use("/api/waitlist", waitlistRoutes);
+  app.use("/api/admin/chats", adminChatRoutes);
   app.use("/api/admin", adminRoutes);
   app.use("/api/chat", chatRoutes);
   app.use("/api/track", trackRoutes);
