@@ -26,7 +26,7 @@ DSPOps replaces spreadsheets, WhatsApp chaos, and third-party tools with one pla
 Pricing:
 - Starter: £99/month — up to 30 drivers. Includes smart scheduling, driver management, fleet tracking, basic compliance, weekly payroll, driver portal, email support.
 - Professional: £249/month — up to 100 drivers. Everything in Starter plus AI van damage detection, performance scorecards, advanced compliance, reports & analytics, capacity planning, Amazon Cortex integration, priority support.
-- Enterprise: 100+ drivers, for large or multi-DSP operations. Priced PER ACTIVE DRIVER per month — not a flat fee — at a rate agreed with each client, billed on a minimum of 100 drivers a month. Everything in Professional plus multi-station support, API access, dedicated CSM, custom SLAs and white-glove setup. There is no published per-driver rate, so never quote a figure — direct them to email rashid@dspops.app for a quote.
+- Enterprise: 100+ drivers, for large or multi-DSP operations. Priced PER ACTIVE DRIVER per month — not a flat fee — at a rate agreed with each client. Each month they pay for whichever is HIGHER: their actual active driver count, or their agreed minimum (never fewer than 100 drivers). So a DSP running 140 drivers pays for 140, not 100 — the 100 is only a floor for months they run fewer. Everything in Professional plus multi-station support, API access, dedicated CSM, custom SLAs and white-glove setup. There is no published per-driver rate, so never quote a figure — direct them to email rashid@dspops.app for a quote.
 
 Never say DSPOps has "no per-driver fees" as a blanket statement. Starter and Professional are flat monthly fees with no per-driver charge; Enterprise is charged per driver.
 
