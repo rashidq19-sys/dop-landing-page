@@ -18,6 +18,7 @@ const dataCategories = [
   { category: "Health", data: "Medical fitness self-declarations" },
   { category: "Emergency Contact", data: "Name, phone number, and relationship of a nominated third party" },
   { category: "Messages", data: "In-app conversations between drivers and managers" },
+  { category: "Website Chat", data: "Your name, email address, and the messages you send in the chat widget on this website — including replies from our team when a person joins the conversation" },
   { category: "Audit", data: "IP address, user agent string, timestamps (recorded when signing agreements)" },
 ];
 
@@ -140,6 +141,7 @@ export default function PrivacyPage() {
                 "Push notifications for shift and deployment updates",
                 "Driver performance tracking and scorecards",
                 "Payroll and employment compliance",
+                "Answering enquiries you send through this website's chat widget, and following them up",
               ].map((item) => (
                 <li key={item} className="flex items-start gap-2.5 text-navy/70 text-[15px] leading-relaxed">
                   <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-brand flex-shrink-0" />
