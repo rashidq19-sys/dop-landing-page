@@ -114,9 +114,25 @@ router.post("/start", async (req, res) => {
       )
       .catch((err) => console.error("Chat lead insert error:", err));
 
+    // The link matters as much as the name. Without it the only door into a new
+    // chat was the escalation email, which only arrives if the bot decides to
+    // escalate — so an ordinary lead could be sitting there with no way in.
+    // Signing is wrapped for the same reason it is in escalate(): a missing
+    // secret must degrade this email, not 500 the chat for every visitor.
+    let link = "(link unavailable — CHAT_LINK_SECRET is not set)";
+    try {
+      link = chatLinkUrl(conversation.publicId);
+    } catch (err) {
+      console.error("Chat link could not be signed:", err);
+    }
+
     sendEmail(
       "New lead started chatting on DSPOps",
-      `Name: ${trimmedName}\nEmail: ${trimmedEmail}\nTime: ${new Date().toISOString()}`
+      `Name:  ${trimmedName}\n` +
+        `Email: ${trimmedEmail}\n` +
+        `Time:  ${new Date().toISOString()}\n\n` +
+        `Open the chat and reply:\n${link}\n\n` +
+        `The bot is handling it until you join.`
     ).catch((err) => console.error("Lead notification email failed:", err));
 
     return res.json({

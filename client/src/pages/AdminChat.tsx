@@ -93,6 +93,12 @@ export default function AdminChat() {
       ? ""
       : new URLSearchParams(window.location.search).get("k") ?? ""
   );
+  // Two ways in, and this page has to present whichever one it arrived with:
+  // the signed ?k= from an escalation email, or the ordinary admin session when
+  // he opens a chat from the dashboard list — those links carry no token.
+  const [bearer] = useState(() =>
+    typeof window === "undefined" ? "" : sessionStorage.getItem("admin_token") ?? ""
+  );
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [status, setStatus] = useState<Status>("bot");
@@ -122,6 +128,20 @@ export default function AdminChat() {
   const qs = useCallback(
     (suffix = "") => `/api/admin/chats/${publicId}${suffix}?k=${encodeURIComponent(token)}`,
     [publicId, token]
+  );
+
+  // Every operator call goes through here so no call site can forget the session
+  // header. Missing it on one route is invisible until that route is used — the
+  // transcript loads, and then Join and Send come back unauthorised.
+  const authFetch = useCallback(
+    (url: string, init: RequestInit = {}) =>
+      fetch(url, {
+        ...init,
+        headers: bearer
+          ? { ...(init.headers ?? {}), Authorization: `Bearer ${bearer}` }
+          : init.headers,
+      }),
+    [bearer]
   );
 
   const applyMessages = useCallback((incoming: Message[], announce: boolean) => {
@@ -169,7 +189,7 @@ export default function AdminChat() {
   const suggest = useCallback(async () => {
     setBusy("suggest");
     try {
-      const res = await fetch(qs("/suggest"), { method: "POST" });
+      const res = await authFetch(qs("/suggest"), { method: "POST" });
       const data = await res.json();
       if (res.ok && typeof data.draft === "string" && data.draft.trim()) {
         setDraft(data.draft.trim());
@@ -181,7 +201,7 @@ export default function AdminChat() {
     } finally {
       setBusy(null);
     }
-  }, [qs]);
+  }, [qs, authFetch]);
 
   // Initial load
   useEffect(() => {
@@ -189,10 +209,16 @@ export default function AdminChat() {
     let cancelled = false;
     (async () => {
       try {
-        const res = await fetch(qs());
+        const res = await authFetch(qs());
         if (res.status === 401) {
+          // Admin sessions live in memory on the server, so a deploy or restart
+          // signs him out — that is a different problem from a stale email link,
+          // and telling him to "use the dashboard" when the dashboard session is
+          // the thing that died just sends him round in a circle.
           setError(
-            "This link has expired or isn't valid. Open the chat from the admin dashboard instead."
+            bearer
+              ? "Your admin session has expired — the server restarted. Sign in again on the dashboard, then reopen this chat."
+              : "This link has expired or isn't valid. Sign in on the admin dashboard and open the chat from the list there."
           );
           return;
         }
@@ -215,7 +241,7 @@ export default function AdminChat() {
     return () => {
       cancelled = true;
     };
-  }, [publicId, qs, applyMessages, suggest]);
+  }, [publicId, qs, authFetch, bearer, applyMessages, suggest]);
 
   // Poll. Pauses while the tab is hidden so a forgotten tab doesn't poll all day.
   useEffect(() => {
@@ -223,7 +249,7 @@ export default function AdminChat() {
     const tick = async () => {
       if (document.visibilityState === "hidden") return;
       try {
-        const res = await fetch(`${qs("/messages")}&since=${highestId.current}`);
+        const res = await authFetch(`${qs("/messages")}&since=${highestId.current}`);
         if (!res.ok) return;
         const data = await res.json();
         const fresh: Message[] = data.messages ?? [];
@@ -247,7 +273,7 @@ export default function AdminChat() {
       document.removeEventListener("visibilitychange", tick);
       window.removeEventListener("focus", tick);
     };
-  }, [error, loading, status, qs, applyMessages, suggest, draft, isAiDraft]);
+  }, [error, loading, status, qs, authFetch, applyMessages, suggest, draft, isAiDraft]);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -256,7 +282,7 @@ export default function AdminChat() {
   async function join() {
     setBusy("join");
     try {
-      const res = await fetch(qs("/join"), { method: "POST" });
+      const res = await authFetch(qs("/join"), { method: "POST" });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Could not join");
       setStatus(data.status);
@@ -273,7 +299,7 @@ export default function AdminChat() {
     if (!text || busy) return;
     setBusy("send");
     try {
-      const res = await fetch(qs("/message"), {
+      const res = await authFetch(qs("/message"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ content: text }),
@@ -297,7 +323,7 @@ export default function AdminChat() {
     if (!text || busy) return;
     setBusy("refine");
     try {
-      const res = await fetch(qs("/refine"), {
+      const res = await authFetch(qs("/refine"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ draft: text }),
@@ -495,7 +521,7 @@ export default function AdminChat() {
             {status === "human" && (
               <button
                 onClick={async () => {
-                  await fetch(qs("/handback"), { method: "POST" });
+                  await authFetch(qs("/handback"), { method: "POST" });
                   setStatus("bot");
                 }}
                 className="mt-4 w-full px-3 py-2.5 rounded-lg border border-black/12 text-[13px] font-semibold flex items-center justify-center gap-1.5"
