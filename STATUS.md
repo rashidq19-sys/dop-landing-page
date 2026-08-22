@@ -26,10 +26,11 @@
 
 ## Work NOT on main
 - `redesign/linear` — **deleted 2026-08-22** on Rashid's instruction. It was a single June commit (`08392ff`, ~700 lines) restyling the landing and download pages in a dark Linear aesthetic; a design direction he did not take, and it would have conflicted heavily with everything shipped since. Recoverable from reflog only, and not for long.
-- `claude/dspops-landing-audit-b7df3c` (`61165e8`) — **kept deliberately.** Its worktree was removed; the branch remains. It holds ~1,300 lines: `Security.tsx`, `Status.tsx`, `SocialProofSection.tsx`, `shared/socialProof.ts`, `useCountUp.ts`, plus prerender/route wiring for two new pages.
-  - `[IMPORTANT]` **It is not finished, despite looking it.** Every customer-specific value is a `[[REPLACE: ...]]` token — 10 in `Security.tsx`, 7 in `Status.tsx`, and the whole of `socialProof.ts`. Merging as-is would publish *"Currently in private beta with [[REPLACE: N]] UK DSPs across [[REPLACE: N]] stations"* on the homepage. Whoever wrote it deliberately refused to invent testimonials, which is right — but it means the branch is blocked on Rashid supplying real DSP/station counts, real quotes, and real uptime figures.
-  - `[CRITICAL]` It also sets **Enterprise to "From £499/mo"**, which would undo the pricing corrections in `bb2e786` / `3d9ec5c` / `26be449`. Never merge that branch wholesale — cherry-pick by file and leave `PricingSection.tsx` and `shared/faqs.ts` behind.
-  - The one genuinely shippable piece was already rescued: the `prefers-reduced-motion` fix in `useScrollAnimation.ts` (`ce2df16`).
+- `claude/dspops-landing-audit-b7df3c` — **deleted 2026-08-22** on Rashid's instruction, after he was shown what it contained. Worktree removed first. Tip was **`61165e821d1f4061f17f6e484fd12070da041571`** (parent `6ae1613`), 24 source files, ~1,300 lines.
+  - What went with it: draft `Security.tsx` and `Status.tsx` pages, `SocialProofSection.tsx`, `shared/socialProof.ts`, `useCountUp.ts` and their route/prerender wiring. **None of it was finished** — every customer-specific value was a `[[REPLACE: ...]]` token (10 in Security, 7 in Status, all of socialProof), so merging it would have published *"private beta with [[REPLACE: N]] UK DSPs"* on the homepage. It also set Enterprise to "From £499/mo", which would have undone `bb2e786` / `3d9ec5c` / `26be449`.
+  - The one shippable piece was rescued before deletion: the `prefers-reduced-motion` fix in `useScrollAnimation.ts` (`ce2df16`, live).
+  - Recoverable for now with `git cherry-pick 61165e8` or `git branch <name> 61165e8` — until git garbage-collects the unreachable objects. After that it is gone.
+  - Worth knowing: if those pages are ever wanted, they need real DSP and station counts, real attributable testimonials, and a real uptime figure. That data is the blocker, not the code.
 
 ## Parallel writers (why your checkout goes stale)
 - A weekly scheduled blog agent commits straight to main (Railway auto-deploys it); other AI tools have pushed here before.
