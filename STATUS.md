@@ -2,10 +2,12 @@
 
 > Session handoff file. Read at session start (with DECISIONS.md); update at session end. The rule lives in global CLAUDE.md → Memory System.
 
-**Last updated:** 2026-08-22 (Enterprise per-driver pricing copy)
+**Last updated:** 2026-08-22 (chatbot leads now saved to the database)
 
 ## Where things stand
-- main @ b5c6847, clean tree, **pushed and verified live** (2026-08-22). Railway deploy `d0cc810b` SUCCESS; dspops.app serves the new pricing copy and carries zero stale "no per-driver fees" claims.
+- main @ 927172d, clean tree, **pushed and verified live** (2026-08-22). Railway deploy `a13d1139` SUCCESS at 12:41 UK.
+- `[CRITICAL]` **Chatbot leads were never written to the database.** The widget gates the chat behind a name + email form, but `POST /api/chat/lead` only fired a notification email and returned `ok` — no `pool.query` anywhere in the handler. Every visitor's name existed solely in that email and in their own `localStorage`; the `waitlist` table had zero rows with a name and zero sourced from the chatbot. The handler now upserts into `waitlist` with `source = 'Chatbot'`: email lowercased (the column is UNIQUE, so mixed case would have split one person across two rows), `ON CONFLICT` fills the name and leaves `source` alone so first-touch attribution survives, name truncated to the column's 255 chars, and the notification email is sent whether or not the insert succeeded — carrying a warning when it did not, since it is then the only copy of the lead. Verified live in production: a real submission through the widget at 12:42 landed as row 22 with its name intact.
+- Note this was the *second* half of a broken chatbot. The first (missing `ANTHROPIC_API_KEY`, below) killed the bot's replies; this one silently dropped the leads. Both are now fixed.
 - **Pricing copy now matches the product.** Enterprise is billed per active driver at a per-client rate, floor `max(committed, 100)` (`ENTERPRISE_MIN_DRIVERS` in the dop-app repo's `shared/subscription-logic.ts`). Five surfaces carried the old flat-fee promise and were corrected: `PricingSection.tsx` (headline, subhead, Enterprise card), `WhatYouGetSection.tsx`, `shared/faqs.ts` (which also feeds the FAQPage JSON-LD), and the sales bot's prompt in `server/routes/chat.ts`. Starter/Professional are unchanged — still flat, no per-driver charge.
 - `[CRITICAL]` **The site chatbot had never worked in production** — `ANTHROPIC_API_KEY` was missing from the Railway `dop-landing-page` service, so every visitor question returned a 500 ("Failed to get response from AI"). It worked locally because the key is in `.env`, which is why it looked healthy. Key added to Railway 2026-08-22; verified live answering correctly. If the bot dies again, check that variable first.
 - No per-driver rate is published anywhere; Enterprise reads "rate agreed with you" and the bot is instructed never to quote a figure.
@@ -24,6 +26,8 @@
 - Origin has branches `seo-report/2026-06-29`, `2026-07-13`, `2026-07-20`, `2026-07-27` created by scheduled runs — review their contents, then merge or delete.
 
 ## Open loose ends
+- `[IMPORTANT]` **One chat lead from before the fix is unrecoverable from here.** A visitor gave their name and email while the bug was live; that data only exists in a "New lead started chatting on DSPOps" email in the `rashid@dspops.app` inbox, which is neither of the mailboxes connected to Claude (searched both `rashidq19@googlemail.com` and the Yahoo account — nothing from `notifications@dspops.app`). Paste the name and email into a session and it can be inserted with `source = 'Chatbot'`.
+- `ChatbotWidget.tsx` writes the lead to `localStorage` *before* the `POST /api/chat/lead` resolves and ignores the result (`.catch(() => {})`). If that request fails, the visitor is never asked again and the lead is lost to the database — the notification email remains the only copy. Worth `keepalive: true` plus a single retry. Deliberately not done in the fix above to keep it server-side only (no `dist/public` rebuild needed).
 - Reddit marketing posts drafted 2026-06-18 were never posted (Reddit hard-blocked the browser tool) — post manually or drop the idea.
 - Deploy rule reminder: UI changes need a local `npm run build` + commit of `dist/public`, or Railway serves stale HTML.
 - LinkedIn company page is `linkedin.com/company/dspopsltd` and presumably still says "DSPOps Ltd" — inconsistent with the entity naming now on the site. Decide whether to update it.
