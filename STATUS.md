@@ -25,7 +25,11 @@
 - Search Console: domain verified, sitemap submitted, homepage indexed; remaining URLs queued (manual checklist: SEO_GOOGLE_SUBMISSION_CHECKLIST.md). Indexing latency is normal — a monthly scheduled SEO report now delivers ranking movement instead of manual googling.
 
 ## Work NOT on main
-- `redesign/linear` — unmerged redesign experiment from 2026-06-23. Decide: merge, cherry-pick the good parts, or delete.
+- `redesign/linear` — **deleted 2026-08-22** on Rashid's instruction. It was a single June commit (`08392ff`, ~700 lines) restyling the landing and download pages in a dark Linear aesthetic; a design direction he did not take, and it would have conflicted heavily with everything shipped since. Recoverable from reflog only, and not for long.
+- `claude/dspops-landing-audit-b7df3c` (`61165e8`) — **kept deliberately.** Its worktree was removed; the branch remains. It holds ~1,300 lines: `Security.tsx`, `Status.tsx`, `SocialProofSection.tsx`, `shared/socialProof.ts`, `useCountUp.ts`, plus prerender/route wiring for two new pages.
+  - `[IMPORTANT]` **It is not finished, despite looking it.** Every customer-specific value is a `[[REPLACE: ...]]` token — 10 in `Security.tsx`, 7 in `Status.tsx`, and the whole of `socialProof.ts`. Merging as-is would publish *"Currently in private beta with [[REPLACE: N]] UK DSPs across [[REPLACE: N]] stations"* on the homepage. Whoever wrote it deliberately refused to invent testimonials, which is right — but it means the branch is blocked on Rashid supplying real DSP/station counts, real quotes, and real uptime figures.
+  - `[CRITICAL]` It also sets **Enterprise to "From £499/mo"**, which would undo the pricing corrections in `bb2e786` / `3d9ec5c` / `26be449`. Never merge that branch wholesale — cherry-pick by file and leave `PricingSection.tsx` and `shared/faqs.ts` behind.
+  - The one genuinely shippable piece was already rescued: the `prefers-reduced-motion` fix in `useScrollAnimation.ts` (`ce2df16`).
 
 ## Parallel writers (why your checkout goes stale)
 - A weekly scheduled blog agent commits straight to main (Railway auto-deploys it); other AI tools have pushed here before.
