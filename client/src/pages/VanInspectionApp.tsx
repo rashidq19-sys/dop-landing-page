@@ -17,7 +17,7 @@ const faqs: Faq[] = [
   {
     question: "Do drivers need to install anything?",
     answer:
-      "No app store, no download. Drivers get a one-tap login link via text and use any phone's browser. The portal is designed to work even on patchy signal so checks aren't blocked at depot.",
+      "DSPOps is on the App Store and Google Play, and drivers can also just use any phone's browser — they get a one-tap login link by text either way. It is designed to work even on patchy signal so checks aren't blocked at depot.",
   },
   {
     question: "Can DSPOps replace our existing third-party inspection app?",

@@ -3,7 +3,9 @@ import { Menu, X, ChevronDown } from "lucide-react";
 import { Link } from "wouter";
 import SignInModal from "./SignInModal";
 
-const LOGO_URL = "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/dop-logo_ba62af1c.png";
+// Served from our own public/ folder. The previous CloudFront URL began
+// returning 403, so the logo was broken in the header and footer on prod.
+const LOGO_URL = "/images/logo-mark.png";
 
 const featuresMenu: { label: string; href: string; desc: string }[] = [
   { label: "Driver Performance", href: "/driver-performance-tracking", desc: "Cortex scorecard, per driver and per route" },

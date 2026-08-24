@@ -173,7 +173,7 @@ export default function DspRotaManagement() {
               <div className="mt-8 space-y-5">
                 {[
                   { step: "01", title: "Import drivers from CSV", body: "Your current driver list is pulled straight from your existing spreadsheet during onboarding." },
-                  { step: "02", title: "Drivers log in via the portal", body: "Each driver gets a text with a one-tap login. No app store, no download required." },
+                  { step: "02", title: "Drivers log in via the portal", body: "Each driver gets a text with a one-tap login — on iOS, Android or any phone browser." },
                   { step: "03", title: "Drivers set availability themselves", body: "Each driver marks the days they can work, requests holiday and flags route preferences." },
                   { step: "04", title: "Publish the rota in one click", body: "Drag-and-drop to assign — drivers see updates in real time inside the portal." },
                 ].map((s) => (

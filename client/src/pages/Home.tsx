@@ -1,10 +1,11 @@
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
-import ReplacesSection from "@/components/ReplacesSection";
-import FeaturesSection from "@/components/FeaturesSection";
-import SEOOverviewSection from "@/components/SEOOverviewSection";
-import WhatYouGetSection from "@/components/WhatYouGetSection";
+import WhatChangesSection from "@/components/home/WhatChangesSection";
+import PlatformSection from "@/components/home/PlatformSection";
+import EssentialsSection from "@/components/home/EssentialsSection";
+import DriverAppSection from "@/components/home/DriverAppSection";
 import PricingSection from "@/components/PricingSection";
+import SEOOverviewSection from "@/components/SEOOverviewSection";
 import FAQSection from "@/components/FAQSection";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
@@ -25,12 +26,15 @@ export default function Home() {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <main>
+        {/* Light / navy / light / navy — the rhythm that separates "what it does"
+            from "what it changes" without needing a divider between every block. */}
         <HeroSection />
-        <ReplacesSection />
-        <FeaturesSection />
-        <SEOOverviewSection />
-        <WhatYouGetSection />
+        <WhatChangesSection />
+        <PlatformSection />
+        <EssentialsSection />
+        <DriverAppSection />
         <PricingSection />
+        <SEOOverviewSection />
         <FAQSection />
         <CTASection />
       </main>

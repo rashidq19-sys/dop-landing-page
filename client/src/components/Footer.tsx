@@ -1,6 +1,8 @@
 import { Link } from "wouter";
 
-const LOGO_URL = "https://d2xsxph8kpxj0f.cloudfront.net/310519663388555786/8DtwBuanmPJ74yjYc3B4WU/dop-logo_ba62af1c.png";
+// Served from our own public/ folder. The previous CloudFront URL began
+// returning 403, so the logo was broken in the header and footer on prod.
+const LOGO_URL = "/images/logo-mark.png";
 
 const productLinks = [
   { label: "DSP Management Software", href: "/amazon-dsp-management-software" },
@@ -92,6 +94,16 @@ export default function Footer() {
           </Link>
           <span>© {new Date().getFullYear()} Layerform System Limited, trading as DSPOps · Amazon DSP management software for UK Delivery Service Partners</span>
         </div>
+
+        {/* Substantiation for the time-saved figures and the roadmap badge, plus the
+            trademark notice. Every claim these qualify appears on the homepage. */}
+        <p className="mt-5 text-[11.5px] leading-[1.6] text-[#6B7A99] max-w-[95ch]">
+          Product screens show DSPOps running a demonstration fleet with sample data. Time savings
+          are estimates based on what operators using DSPOps report; your results will vary.
+          Micromobility support is in development and not available today. Amazon, Amazon Cortex and
+          Delivery Service Partner are trademarks of Amazon.com, Inc. DSPOps is an independent
+          product and is not affiliated with or endorsed by Amazon.
+        </p>
       </div>
     </footer>
   );

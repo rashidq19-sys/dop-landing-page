@@ -1,46 +1,80 @@
-/*
- * Design: Clean Logistics Blueprint
- * Pricing: 3 tiers, middle highlighted. CTAs updated to Get Early Access / Book a Demo
- */
-
 import { useState } from "react";
+import { Check, ArrowRight } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { Check, Star, ArrowRight } from "lucide-react";
+import SectionEyebrow from "@/components/home/SectionEyebrow";
 
-const STARTER_MODULES = "Rota · Dispatch · Portal · Scorecards · Compliance · Tracking";
-
-const plans = [
-  {
-    name: "Starter", price: "99", priceLabel: null, period: "/mo", drivers: "Up to 30 drivers", popular: false,
-    features: ["6 modules", "Email support", "Cortex integration"],
-  },
-  {
-    name: "Professional", price: "249", priceLabel: null, period: "/mo", drivers: "Up to 100 drivers", popular: true,
-    features: ["Everything in Starter", "Payroll", "Van Condition", "Priority support"],
-  },
-  {
-    name: "Enterprise", price: null, priceLabel: "Per driver", period: "/mo", drivers: "Unlimited drivers · rate agreed with you", popular: false,
-    features: ["Everything in Pro", "Unlimited stations", "Minimum 100 drivers billed monthly", "API access", "Dedicated CSM", "Custom SLAs", "White-glove setup"],
-  },
-] as const satisfies {
+type Plan = {
   name: string;
-  price: string | null;
-  priceLabel: string | null;
-  period: string;
+  price: string;
+  priceNote: string;
   drivers: string;
-  popular: boolean;
-  features: readonly string[];
-}[];
+  features: string[];
+  featured?: boolean;
+  dark?: boolean;
+  trial: string;
+};
 
-function PricingEmailCapture({ popular, planName }: { popular: boolean; planName: string }) {
+const PLANS: Plan[] = [
+  {
+    name: "Starter",
+    price: "£99",
+    priceNote: "/mo",
+    drivers: "Up to 30 drivers · single station",
+    features: [
+      "Rota · Dispatch · Check-in · Driver app",
+      "Cortex scorecards & van inspections",
+      "Compliance & document expiry tracking",
+    ],
+    trial: "14-day free trial · no card",
+  },
+  {
+    name: "Professional",
+    price: "£249",
+    priceNote: "/mo",
+    drivers: "Up to 100 drivers · single station",
+    features: [
+      "Everything in Starter",
+      "Driver invoicing & pay runs",
+      "Self-service driver onboarding",
+      "Same-day delivery module · priority support",
+    ],
+    featured: true,
+    trial: "14-day free trial · no card",
+  },
+  {
+    name: "Enterprise",
+    price: "Per driver",
+    priceNote: "/mo · rate agreed with you",
+    drivers: "Unlimited drivers & stations",
+    features: [
+      "Unlimited depots on one account, each with its own board",
+      "Everything in Professional",
+      "You only pay for drivers actually on the road",
+      "White-glove setup & data import, dedicated contact",
+    ],
+    dark: true,
+    trial: "Billed on a minimum of 100 drivers a month",
+  },
+];
+
+const NETWORKS = ["Amazon (Cortex sync)", "Evri", "UPS", "FedEx", "DX", "ArrowXL", "Parcelforce"];
+
+/**
+ * Per-plan lead capture. Kept from the previous pricing section: `source` tells
+ * the admin list which tier someone was looking at when they signed up, which is
+ * the only signal distinguishing a Starter enquiry from an Enterprise one.
+ */
+function PlanEmailCapture({ planName, dark }: { planName: string; dark?: boolean }) {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
     setError("");
+    setLoading(true);
     try {
       const res = await fetch("/api/waitlist", {
         method: "POST",
@@ -52,162 +86,164 @@ function PricingEmailCapture({ popular, planName }: { popular: boolean; planName
       setEmail("");
     } catch {
       setError("Something went wrong — please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
-  return (
-    <div className="mb-6">
-      {submitted && (
-        <div className={`flex items-center gap-2 px-4 py-3 mb-3 rounded-lg text-[13px] font-semibold ${
-          popular
+  if (submitted) {
+    return (
+      <div
+        className={`mt-4 flex items-center gap-2 rounded-lg px-3.5 py-2.5 text-[13px] font-semibold ${
+          dark
             ? "bg-emerald-500/15 border border-emerald-500/25 text-emerald-300"
-            : "bg-emerald-50 border border-emerald-200 text-emerald-700"
-        }`}>
-          <Check size={15} className="shrink-0" />
-          Got it — someone from the team will reach out shortly.
-        </div>
-      )}
-      {error && (
-        <div className={`px-4 py-3 mb-3 rounded-lg text-[13px] ${
-          popular ? "bg-red-500/15 border border-red-500/25 text-red-300" : "bg-red-50 border border-red-200 text-red-600"
-        }`}>
-          {error}
-        </div>
-      )}
-      <form onSubmit={handleSubmit} className="space-y-2">
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter your email"
-          required
-          className="w-full px-4 py-2.5 rounded-lg border border-border bg-white text-navy placeholder:text-muted-foreground text-sm focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-colors"
-        />
-        <button
-          type="submit"
-          className={`w-full flex items-center justify-center gap-2 py-3 rounded-lg font-semibold transition-all duration-200 ${
-            popular
-              ? "bg-brand hover:bg-brand-dark text-white shadow-[0_4px_14px_0_rgba(59,130,246,0.3)]"
-              : "bg-navy/5 hover:bg-navy/10 text-navy"
-          }`}
-        >
-          Start Free Trial
-          <ArrowRight size={16} />
-        </button>
-      </form>
-    </div>
+            : "bg-mint-soft border border-mint/25 text-mint-ink"
+        }`}
+      >
+        <Check size={15} className="shrink-0" />
+        Got it — we'll be in touch shortly.
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-2">
+      <label className="sr-only" htmlFor={`plan-email-${planName}`}>
+        Your email
+      </label>
+      <input
+        id={`plan-email-${planName}`}
+        type="email"
+        required
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="you@yourdsp.co.uk"
+        className={`w-full rounded-[10px] px-3.5 py-2.5 text-[14px] outline-none transition-colors ${
+          dark
+            ? "bg-white/10 border border-white/15 text-white placeholder:text-white/45 focus:border-brand-light"
+            : "bg-background border border-border text-ink placeholder:text-muted-foreground focus:border-brand"
+        }`}
+      />
+      {error && <p className={`text-[12.5px] ${dark ? "text-red-300" : "text-destructive"}`}>{error}</p>}
+      <button
+        type="submit"
+        disabled={loading}
+        className={`inline-flex items-center justify-center gap-2 rounded-[10px] px-4 py-2.5 text-[14.5px] font-bold transition-colors disabled:opacity-50 ${
+          dark
+            ? "bg-brand text-white hover:bg-brand-dark"
+            : "bg-brand text-white hover:bg-brand-dark"
+        }`}
+      >
+        {loading ? "Sending…" : <>Start free trial <ArrowRight size={15} /></>}
+      </button>
+    </form>
   );
 }
 
 export default function PricingSection() {
-  const { ref, isVisible } = useScrollAnimation(0.1);
+  const { ref, isVisible } = useScrollAnimation(0.05);
 
   return (
-    <section id="pricing" className="py-20 lg:py-28 bg-white">
-      <div ref={ref} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
+    <section id="pricing" className="bg-background py-16 sm:py-20 lg:py-[82px]">
+      <div ref={ref} className="max-w-[1180px] mx-auto px-5 sm:px-9">
         <div
-          className={`text-center max-w-3xl mx-auto mb-14 transition-all duration-600 ${
+          className={`transition-all duration-700 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">
-            PRICING
-          </span>
-          <h2 className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-extrabold text-navy tracking-tight">
-            Flat monthly up to 100 drivers. Per driver above that.
+          <SectionEyebrow>Pricing</SectionEyebrow>
+          <h2 className="mt-3.5 font-display text-[30px] sm:text-[40px] lg:text-[44px] font-extrabold tracking-[-0.035em] leading-[1.06] text-ink text-balance">
+            Flat to 100 drivers.
+            <br />
+            Per driver above that.
           </h2>
-          <p className="mt-4 text-lg text-muted-foreground">
-            Starter and Professional are a flat fee — add drivers up to your tier limit at no extra cost. Enterprise is priced per active driver at a rate agreed with you, with a monthly minimum of at least 100 drivers.
+          <p className="mt-3.5 text-[15.5px] sm:text-[17px] text-muted-foreground leading-[1.6] max-w-[62ch]">
+            No setup fee, no per-seat charge for your office staff, and no contract to sign before
+            you've tried it.
           </p>
         </div>
 
-        {/* Plans */}
-        <div className="grid md:grid-cols-3 gap-6 lg:gap-8 max-w-5xl mx-auto items-start">
-          {plans.map((plan, i) => (
+        <div className="grid md:grid-cols-3 gap-3.5 mt-8 items-stretch">
+          {PLANS.map((p, i) => (
             <div
-              key={plan.name}
-              className={`relative rounded-2xl p-6 lg:p-8 transition-all duration-700 ${
-                plan.popular
-                  ? "border-2 border-brand shadow-[0_25px_60px_-8px_rgba(59,130,246,0.28),0_8px_24px_-4px_rgba(0,0,0,0.08)] scale-[1.03] lg:scale-[1.05] z-10"
-                  : "border border-border/50 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.07)] hover:shadow-[0_16px_40px_-8px_rgba(0,0,0,0.12)] hover:-translate-y-1"
-              } ${plan.popular ? 'bg-[#111113]' : plan.name === 'Enterprise' ? 'bg-gradient-to-br from-slate-50 to-blue-50/70' : 'bg-white'} ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              key={p.name}
+              style={{ transitionDelay: `${i * 80}ms` }}
+              className={`relative rounded-2xl p-6 flex flex-col transition-all duration-700 ${
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+              } ${
+                p.dark
+                  ? "bg-deep text-white border border-deep shadow-lg"
+                  : p.featured
+                    ? "bg-card border border-brand shadow-lg"
+                    : "bg-card border border-border shadow-sm"
               }`}
-              style={{ transitionDelay: `${i * 100 + 200}ms` }}
             >
-              {plan.popular && (
-                <div className="absolute top-6 right-6 inline-flex items-center gap-1 px-3 py-1 bg-brand text-white text-xs font-bold rounded-full">
-                  <Star size={12} fill="white" />
-                  Most Popular
-                </div>
+              {p.featured && (
+                <span className="absolute -top-[11px] left-6 bg-brand text-white text-[10.5px] font-extrabold tracking-[0.06em] rounded-full px-3 py-1">
+                  MOST DSPs START HERE
+                </span>
               )}
 
-              <div className="mb-6">
-                <h3 className={`text-lg font-bold ${plan.popular ? 'text-white' : 'text-navy'}`}>{plan.name}</h3>
+              <div className="font-display text-[15px] font-extrabold">{p.name}</div>
+              <div
+                className={`font-display font-black tracking-[-0.04em] mt-2 ${
+                  p.dark ? "text-[30px]" : "text-[34px]"
+                }`}
+              >
+                {p.price}{" "}
+                <small
+                  className={`font-sans font-semibold tracking-normal ${
+                    p.dark ? "block text-[13.5px] text-[#9DB1E4] mt-1" : "text-[13.5px] text-muted-foreground"
+                  }`}
+                >
+                  {p.priceNote}
+                </small>
+              </div>
+              <div
+                className={`text-[12.5px] font-semibold mt-1.5 ${
+                  p.dark ? "text-[#9DBBFF]" : "text-brand-dark"
+                }`}
+              >
+                {p.drivers}
               </div>
 
-              {(plan.price !== null || plan.name === 'Enterprise') && (
-                <div className="mb-3 inline-flex items-center gap-1.5 px-3 py-1 bg-green-50 border border-green-200 rounded-full whitespace-nowrap">
-                  <span className="text-[11px] font-semibold text-green-700">
-                    14-day free trial — no card required
-                  </span>
-                </div>
-              )}
-
-              <div className="mb-6">
-                <div className="flex items-baseline gap-1">
-                  {plan.price !== null ? (
-                    <>
-                      <span className={`text-lg ${plan.popular ? 'text-white/60' : 'text-muted-foreground'}`}>£</span>
-                      <span className={`text-4xl lg:text-5xl font-extrabold ${plan.popular ? 'text-white' : 'text-navy'}`}>
-                        {plan.price}
-                      </span>
-                    </>
-                  ) : (
-                    <span className={`text-3xl lg:text-4xl font-extrabold ${plan.popular ? 'text-white' : 'text-navy'}`}>
-                      {plan.priceLabel}
-                    </span>
-                  )}
-                  {plan.period && (
-                    <span className={plan.popular ? 'text-white/60' : 'text-muted-foreground'}>{plan.period}</span>
-                  )}
-                </div>
-                <p className="text-sm text-brand font-medium mt-1">{plan.drivers}</p>
-              </div>
-
-              <PricingEmailCapture popular={plan.popular} planName={plan.name} />
-
-              <ul className="space-y-3">
-                {plan.features.map((feature) => (
-                  <li key={feature} className="flex items-start gap-2.5">
+              <ul className="grid gap-2 mt-4 text-[13.5px]">
+                {p.features.map((f) => (
+                  <li key={f} className="flex gap-2">
                     <Check
-                      size={16}
-                      className={`shrink-0 mt-0.5 ${
-                        plan.popular ? "text-brand-light" : "text-green-500"
-                      }`}
+                      size={14}
+                      strokeWidth={3}
+                      className={`shrink-0 mt-[3px] ${p.dark ? "text-[#5BD6A4]" : "text-mint"}`}
                     />
-                    {feature === "6 modules" ? (
-                      <a href="#features" className={`text-sm ${plan.popular ? 'text-white/80' : 'text-navy/80'} relative group underline decoration-dotted decoration-brand/50 underline-offset-2 hover:text-brand transition-colors`}>
-                        6 modules
-                        <span className="absolute bottom-full left-0 mb-2 hidden group-hover:block group-focus:block w-56 bg-[#111113] text-white text-xs rounded-lg px-3 py-2 shadow-xl z-20 leading-relaxed pointer-events-none">
-                          {STARTER_MODULES}
-                        </span>
-                      </a>
-                    ) : (
-                      <span className={`text-sm ${plan.popular ? 'text-white/80' : 'text-navy/80'}`}>{feature}</span>
-                    )}
+                    <span className={`flex-1 ${p.dark ? "text-[#DCE4F9]" : "text-ink/85"}`}>{f}</span>
                   </li>
                 ))}
               </ul>
+
+              <PlanEmailCapture planName={p.name} dark={p.dark} />
+
+              <div
+                className={`mt-auto pt-4 text-[12px] ${
+                  p.dark ? "text-[#9DB1E4]" : "text-muted-foreground"
+                }`}
+              >
+                {p.trial}
+              </div>
             </div>
           ))}
         </div>
 
-        {/* Footer note */}
-        <p className="text-center text-sm text-muted-foreground mt-10">
-          All plans include Same-Day Delivery support and hassle-free driver onboarding, plus a 14-day free trial. No credit card required. Cancel anytime.
-        </p>
+        <div className="mt-6 flex flex-wrap gap-2 items-center text-[13px] text-muted-foreground">
+          Runs alongside the networks you already serve:
+          {NETWORKS.map((n) => (
+            <span
+              key={n}
+              className="bg-card border border-border rounded-full px-3 py-1 font-semibold text-ink/80"
+            >
+              {n}
+            </span>
+          ))}
+        </div>
       </div>
     </section>
   );
