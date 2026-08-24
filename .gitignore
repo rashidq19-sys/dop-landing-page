@@ -128,3 +128,6 @@ dist/public/__manus__/
 *.mp4
 *.mov
 *.avi
+
+# Hand-over folder for brand artwork; not part of the build
+brand-drop/
