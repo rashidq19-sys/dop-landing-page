@@ -17,6 +17,7 @@ import DspRotaPeakDeliverySeasons from "@/content/blog/dsp-rota-peak-delivery-se
 import AmazonDspCsatImprovement from "@/content/blog/amazon-dsp-csat-improvement";
 import ManagingDriverAbsenceAmazonDsp from "@/content/blog/managing-driver-absence-amazon-dsp";
 import DspDriverWorkingHoursUk from "@/content/blog/dsp-driver-working-hours-uk";
+import ReduceMentorSafetyEventsAmazonDsp from "@/content/blog/reduce-mentor-safety-events-amazon-dsp";
 
 export type BlogPost = {
   slug: string;
@@ -30,6 +31,17 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  {
+    slug: "reduce-mentor-safety-events-amazon-dsp",
+    title: "How to reduce Mentor safety events at an Amazon DSP",
+    description:
+      "How UK Amazon DSP owners can reduce speeding, harsh braking, and distracted-driving events on Mentor — and lift the Safety score on their Cortex scorecard.",
+    excerpt:
+      "Mentor safety events are the most fixable numbers on your scorecard. Here is the per-event playbook that moves the FICO score inside two weeks.",
+    date: "2026-08-24",
+    readingMinutes: 5,
+    Body: ReduceMentorSafetyEventsAmazonDsp,
+  },
   {
     slug: "dsp-driver-working-hours-uk",
     title: "Managing driver working hours compliance at a UK Amazon DSP",
