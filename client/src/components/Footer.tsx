@@ -2,7 +2,9 @@ import { Link } from "wouter";
 
 // Served from our own public/ folder. The previous CloudFront URL began
 // returning 403, so the logo was broken in the header and footer on prod.
-const LOGO_URL = "/images/logo-mark.png";
+// The dark variant carries a white "DSP" — the standard lockup's is near-black
+// and would disappear against this footer.
+const LOGO_URL = "/images/logo-on-dark.png";
 
 const productLinks = [
   { label: "DSP Management Software", href: "/amazon-dsp-management-software" },
@@ -86,11 +88,8 @@ export default function Footer() {
         </div>
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-white/6 text-[13px] text-[#94A3B8]">
-          <Link href="/" className="flex items-center gap-2.5">
-            <img src={LOGO_URL} alt="DSPOps" className="w-6 h-6 rounded-md" />
-            <span className="font-extrabold text-white tracking-tight text-[15px]">
-              DSP<span className="text-brand">Ops</span>
-            </span>
+          <Link href="/" className="flex items-center">
+            <img src={LOGO_URL} alt="DSPOps" className="h-7 w-auto" />
           </Link>
           <span>© {new Date().getFullYear()} Layerform System Limited, trading as DSPOps · Amazon DSP management software for UK Delivery Service Partners</span>
         </div>

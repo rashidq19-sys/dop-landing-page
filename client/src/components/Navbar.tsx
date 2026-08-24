@@ -5,7 +5,7 @@ import SignInModal from "./SignInModal";
 
 // Served from our own public/ folder. The previous CloudFront URL began
 // returning 403, so the logo was broken in the header and footer on prod.
-const LOGO_URL = "/images/logo-mark.png";
+const LOGO_URL = "/logo.png";
 
 const featuresMenu: { label: string; href: string; desc: string }[] = [
   { label: "Driver Performance", href: "/driver-performance-tracking", desc: "Cortex scorecard, per driver and per route" },
@@ -52,11 +52,10 @@ export default function Navbar() {
       <div className="max-w-[1280px] mx-auto px-4 sm:px-8">
         <div className="flex items-center justify-between h-[68px]">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2.5">
-            <img src={LOGO_URL} alt="DSPOps" className="w-9 h-9 rounded-lg" />
-            <span className="text-[#111113] font-bold text-lg tracking-tight">
-              DSP<span className="text-brand">Ops</span>
-            </span>
+          {/* The wordmark is part of the logo artwork, not text set in DM Sans —
+              the brand's letterforms are not the site's body face. */}
+          <Link href="/" className="flex items-center">
+            <img src={LOGO_URL} alt="DSPOps" className="h-9 w-auto" />
           </Link>
 
           {/* Desktop nav */}
