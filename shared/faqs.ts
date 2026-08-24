@@ -9,7 +9,7 @@ export const faqs: Faq[] = [
   {
     question: "How long does setup take?",
     answer:
-      "Most DSPs are live in 20 minutes. We import your drivers from a CSV, connect your Cortex scorecard feed, and generate driver portal logins automatically. Priority onboarding sessions are included on Professional and Enterprise plans.",
+      "Most DSPs are running their first dispatch within 20 minutes. We import your drivers from a spreadsheet, connect your Cortex scorecard feed, and generate driver logins automatically. A full depot — every driver onboarded and using the app daily — typically settles within a week. Priority onboarding sessions are included on Professional and Enterprise plans.",
   },
   {
     question: "Does it work with Amazon Cortex?",
@@ -24,7 +24,7 @@ export const faqs: Faq[] = [
   {
     question: "Do drivers need to install anything?",
     answer:
-      "No app store, no download. Drivers get a login link via text and access the portal from any phone's browser. It works offline too — they can mark vans, submit damage, check rota without signal.",
+      "DSPOps is on the App Store and Google Play, and drivers can also just open it in their phone's browser — whichever suits them. They get a login link by text either way, and it works offline: they can submit van checks, report damage and check their rota without signal.",
   },
   {
     question: "Can I cancel my other tools immediately?",

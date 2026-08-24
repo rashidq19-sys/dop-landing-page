@@ -1,91 +1,65 @@
-/*
- * Design: Clean Logistics Blueprint
- * FAQ: Clean accordion with 7 questions, updated per redesign spec
- */
-
-import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { useState } from "react";
-import { ChevronDown } from "lucide-react";
-import { faqs, type Faq } from "@shared/faqs";
-
-function FAQItem({
-  faq,
-  isOpen,
-  onToggle,
-}: {
-  faq: Faq;
-  isOpen: boolean;
-  onToggle: () => void;
-}) {
-  return (
-    <div className="border-b border-border last:border-b-0">
-      <button
-        onClick={onToggle}
-        className="w-full flex items-center justify-between py-5 text-left group"
-      >
-        <span className="text-base lg:text-lg font-semibold text-navy pr-4 group-hover:text-brand transition-colors">
-          {faq.question}
-        </span>
-        <ChevronDown
-          size={18}
-          className={`shrink-0 text-muted-foreground transition-transform duration-300 ${
-            isOpen ? "rotate-180 text-brand" : ""
-          }`}
-        />
-      </button>
-      <div
-        className={`overflow-hidden transition-all duration-300 ${
-          isOpen ? "max-h-60 pb-5" : "max-h-0"
-        }`}
-      >
-        <p className="text-sm lg:text-base text-muted-foreground leading-relaxed pr-4 sm:pr-8">
-          {faq.answer}
-        </p>
-      </div>
-    </div>
-  );
-}
+import { Plus, Minus } from "lucide-react";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import SectionEyebrow from "@/components/home/SectionEyebrow";
+import { faqs } from "@shared/faqs";
 
 export default function FAQSection() {
   const { ref, isVisible } = useScrollAnimation(0.1);
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="py-20 lg:py-28">
-      <div ref={ref} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-[1fr_1.5fr] gap-12 lg:gap-20">
-          {/* Left — Header */}
-          <div
-            className={`transition-all duration-600 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-            }`}
-          >
-            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">
-              FAQ
-            </span>
-            <h2 className="mt-3 text-3xl sm:text-4xl font-extrabold text-navy tracking-tight">
-              Questions DSP owners ask us.
-            </h2>
-            <p className="mt-4 text-muted-foreground">
-              Still something missing? Email support@dspops.app — real humans answer.
-            </p>
-          </div>
+    <section id="faq" className="bg-background py-16 sm:py-20 lg:py-[82px]">
+      <div ref={ref} className="max-w-[1180px] mx-auto px-5 sm:px-9">
+        <div
+          className={`transition-all duration-700 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+          }`}
+        >
+          <SectionEyebrow>Questions</SectionEyebrow>
+          <h2 className="mt-3.5 font-display text-[30px] sm:text-[40px] lg:text-[44px] font-extrabold tracking-[-0.035em] leading-[1.06] text-ink text-balance">
+            The things owners ask first.
+          </h2>
+          <p className="mt-3.5 text-[15.5px] sm:text-[17px] text-muted-foreground leading-[1.6] max-w-[62ch]">
+            Still something missing? Email{" "}
+            <a href="mailto:support@dspops.app" className="text-brand-dark font-semibold hover:underline">
+              support@dspops.app
+            </a>{" "}
+            — real humans answer.
+          </p>
+        </div>
 
-          {/* Right — Accordion */}
-          <div
-            className={`transition-all duration-700 delay-200 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
-          >
-            {faqs.map((faq, i) => (
-              <FAQItem
-                key={i}
-                faq={faq}
-                isOpen={openIndex === i}
-                onToggle={() => setOpenIndex(openIndex === i ? null : i)}
-              />
-            ))}
-          </div>
+        <div className="grid gap-2.5 mt-8 max-w-[860px]">
+          {faqs.map((faq, i) => {
+            const open = openIndex === i;
+            return (
+              <div key={faq.question} className="bg-card border border-border rounded-[13px] overflow-hidden">
+                <h3>
+                  <button
+                    type="button"
+                    onClick={() => setOpenIndex(open ? null : i)}
+                    aria-expanded={open}
+                    aria-controls={`faq-panel-${i}`}
+                    className="w-full flex items-center justify-between gap-4 px-5 py-[18px] text-left"
+                  >
+                    <span className="text-[15.5px] font-bold text-ink">{faq.question}</span>
+                    {open ? (
+                      <Minus size={18} className="text-brand shrink-0" />
+                    ) : (
+                      <Plus size={18} className="text-brand shrink-0" />
+                    )}
+                  </button>
+                </h3>
+                <div
+                  id={`faq-panel-${i}`}
+                  hidden={!open}
+                  className="px-5 pb-[18px] text-[14.5px] text-muted-foreground leading-[1.62]"
+                >
+                  {faq.answer}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

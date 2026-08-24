@@ -41,10 +41,27 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
   --font-sans: "DM Sans", system-ui, sans-serif;
-  /* Brand colors: Dark navy + Blue accent (from the app's own theme) */
-  --color-brand: oklch(0.55 0.2 255);
-  --color-brand-dark: oklch(0.45 0.2 255);
-  --color-brand-light: oklch(0.65 0.18 255);
+  /* Display face for headings. Archivo is a grotesque — it reads as industrial
+     next to DM Sans's geometry, which suits a logistics product. Headings only;
+     body copy stays on DM Sans. */
+  --font-display: "Archivo", "DM Sans", system-ui, sans-serif;
+  /* Full-bleed section grounds. Sampled from the logo mark's square (#121835)
+     so the navy behind white type is the same navy in the logo sitting above it. */
+  --color-deep: #121835;
+  --color-deep-alt: #1b2450;
+  --color-ink: #111113;
+  /* "Time saved" chips and tick marks. Distinct from the blue accent so a
+     positive outcome never reads as just another link. */
+  --color-mint: #0ba06e;
+  --color-mint-soft: #e2f6ee;
+  --color-mint-ink: #06714d;
+  /* Brand blue sampled from the logo wordmark (#1879f1). The previous
+     oklch(0.55 0.2 255) was visibly more indigo than the logo it sat beside.
+     `brand` is the fill colour; `brand-dark` is the one to use for small text on
+     white, where the logo blue alone lands at 4.2:1 and misses the 4.5:1 floor. */
+  --color-brand: #1879f1;
+  --color-brand-dark: #0b63d6;
+  --color-brand-light: #4e9bf6;
   --color-navy: oklch(0.18 0.04 260);
   --color-navy-light: oklch(0.3 0.04 260);
   --color-slate-light: oklch(0.97 0.002 260);
@@ -58,7 +75,7 @@
   --card-foreground: oklch(0.18 0.04 260);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.18 0.04 260);
-  --primary: oklch(0.55 0.2 255);
+  --primary: #1879f1;
   --primary-foreground: oklch(1 0 0);
   --secondary: oklch(0.96 0.005 260);
   --secondary-foreground: oklch(0.3 0.04 260);
@@ -70,7 +87,7 @@
   --destructive-foreground: oklch(0.985 0 0);
   --border: oklch(0.91 0.005 260);
   --input: oklch(0.91 0.005 260);
-  --ring: oklch(0.55 0.2 255);
+  --ring: #1879f1;
   --chart-1: oklch(0.55 0.2 255);
   --chart-2: oklch(0.45 0.2 255);
   --chart-3: oklch(0.65 0.18 255);
