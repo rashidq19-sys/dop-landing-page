@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { Check, ArrowRight, Loader2, Mail, PoundSterling } from "lucide-react";
 import SectionEyebrow from "@/components/home/SectionEyebrow";
+import { LOGO_MARK } from "@/lib/brandAssets";
 
 type FormStep = "email" | "details" | "done";
-
-const LOGO_MARK = "/images/logo-mark.png";
 
 export default function CTASection() {
   const [step, setStep] = useState<FormStep>("email");

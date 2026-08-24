@@ -123,8 +123,18 @@ async function startServer() {
       setHeaders: (res, filePath) => {
         if (filePath.endsWith(".html")) {
           res.setHeader("Cache-Control", "no-cache");
-        } else if (/\.(?:js|css|woff2?|png|jpg|jpeg|webp|svg|ico)$/.test(filePath)) {
+        } else if (/[\\/]assets[\\/]/.test(filePath)) {
+          // Vite's own output only. These filenames carry a content hash, so the
+          // URL changes whenever the bytes do and caching forever is safe.
           res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+        } else if (/\.(?:js|css|woff2?|png|jpg|jpeg|webp|svg|ico)$/.test(filePath)) {
+          // Everything else in public/ keeps a stable filename while its content
+          // can change — logo.png, og-image.png, the product screenshots. These
+          // were previously marked `immutable` too, which meant a returning
+          // visitor kept the old artwork for a year and could not refresh out of
+          // it: `immutable` tells the browser not even to revalidate. Cache them
+          // briefly and let the ETag settle it after that.
+          res.setHeader("Cache-Control", "public, max-age=3600, must-revalidate");
         }
       },
     })
