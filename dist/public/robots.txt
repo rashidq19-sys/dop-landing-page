@@ -4,7 +4,8 @@ Allow: /
 Disallow: /admin
 Disallow: /download
 Disallow: /api/
-# Private brochure prepared for a single prospect: shared by link, never indexed.
+# Sales brochures shared by link with named prospects. Never indexed.
 Disallow: /sbl.html
+Disallow: /brochure.html
 
 Sitemap: https://dspops.app/sitemap.xml
