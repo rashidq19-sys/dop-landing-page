@@ -130,11 +130,14 @@ export default function HeroSection() {
               <a href="#book-demo" className="px-6 py-[14px] bg-brand text-white rounded-[10px] text-[15px] font-bold tracking-[-0.005em] shadow-[0_10px_24px_rgba(37,99,235,0.4)] hover:bg-brand-dark transition-colors">
                 Book a demo →
               </a>
+              {/* TEMP: video tour hidden on request — uncomment this block to put it back */}
+              {/*
               <button onClick={() => setLightboxOpen(true)}
                 className="px-[22px] py-[14px] text-[#111113] text-[15px] font-semibold flex items-center gap-2 hover:opacity-70 transition-opacity">
                 <span className="w-7 h-7 rounded-full bg-[#111113] text-white inline-flex items-center justify-center text-xs">▶</span>
                 Watch 2-min tour
               </button>
+              */}
             </div>
 
             {/* Trust signals */}
