@@ -2,7 +2,17 @@
 
 > Session handoff file. Read at session start (with DECISIONS.md); update at session end. The rule lives in global CLAUDE.md → Memory System.
 
-**Last updated:** 2026-08-22 (chat operator-access fix — server half LIVE, `dist` commit NOT pushed; mobile chat/viewport fix SHIPPED; live chat takeover SHIPPED and verified live; privacy policy updated)
+**Last updated:** 2026-08-24 (homepage redesign SHIPPED and verified live; brand colours realigned to the logo; broken CloudFront logo fixed)
+
+## 2026-08-24 — Homepage redesign, SHIPPED and verified live (`f2a42a7`)
+- **Live and confirmed**: dspops.app serves `assets/index-MUZIoH0p.js`, the new copy is in the prerendered HTML, and every new image returns 200. Verified against production, not just a green Railway chip.
+- **What changed**: the homepage was rebuilt around real product screenshots, following the structure of the SBL proposal at `/sbl.html`. Removed: `ReplacesSection` (the scroll-driven artefact animation), `FeaturesSection` (nine modules behind a wheel-jacking tab carousel — it intercepted the page scroll and hid eight of the nine), and `WhatYouGetSection` (folded into the tiles and pricing). The new sections live in `client/src/components/home/`.
+- `[IMPORTANT]` **Brand colours are now sampled from `client/public/logo.png`**, not chosen: blue `#1879f1`, navy `#121835`. The site had been running `oklch(0.55 0.2 255)`, visibly more indigo than the logo sitting beside it. Small text on white must use `--color-brand-dark`; the logo blue alone measures 4.2:1 against white and misses the 4.5:1 floor.
+- `[IMPORTANT]` **The header and footer logo was broken on production** — it loaded from a CloudFront URL that now returns 403. It is now `/images/logo-mark.png`, served from `client/public/`.
+- **Three places still claimed "no app store, no download"**, which stopped being true when the app shipped to the App Store and Google Play. Corrected in `shared/faqs.ts`, `SEOOverviewSection`, `DspRotaManagement` and `VanInspectionApp`.
+- **Still to do — the six SEO feature pages.** They inherit the new tokens, the rewritten `CTASection` and the corrected copy, so they are consistent and not broken, but their *layouts* have not been reworked to match the homepage. That was the agreed scope and is the natural next commit. Their titles, descriptions, canonicals and H1s must survive any restyle untouched.
+- Screenshots come from the **Aurora Logistics demo client** (fabricated drivers). The imported-roster screen was deliberately dropped: it shows driver email addresses and phone numbers, and unlike `/sbl.html` this page is indexed.
+- `CostCalculatorSection.tsx` and `Lightbox.tsx` are both dead code now — the latter became orphaned when the rebuilt hero dropped the "Watch 2-min tour" button that `8a862d9` had already hidden. Left in place, flagged only.
 
 ## Where things stand
 - `[IMPORTANT]` **Sign-in modal now survives the keyboard too** (`56aceef`). Auditing the rest of the site's inputs after the chat fix turned up the same defect in `SignInModal`: a fixed, centred overlay sized to the layout viewport. Measured at 375x812 with a 332px keyboard, both fields stayed reachable but the "Sign in" button sat at 486-533px, below the 480px visible line — you could fill the form in and have nothing to press. It now pins to the visual viewport on phones (button lands at 367px). Two details worth keeping: the card uses `m-auto` rather than the parent's `items-center`, because a centred flex item inside `overflow-y-auto` has its top clipped and cannot be scrolled back to (verified by squeezing the visible area to 260px against a 317px card); and the close button gained padding, not a bigger icon, taking its tap area from 20px to 36px.
