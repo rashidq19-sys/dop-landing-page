@@ -102,10 +102,10 @@ export default function HeroSection() {
           {/* ── Right: the two screens ────────────────────────── */}
           <div className="relative">
             <span className="absolute -top-[15px] -right-1 z-[5] hidden sm:inline-flex items-center gap-2 rounded-full px-[15px] py-2 text-[11px] font-extrabold uppercase tracking-[0.07em] text-white bg-gradient-to-br from-brand to-violet-600 shadow-[0_10px_26px_rgba(37,99,235,0.4)] whitespace-nowrap">
-              🚴 Coming soon — Micromobility
+              🚴 New — Micromobility just added
             </span>
             <span className="sm:hidden inline-flex items-center gap-2 mb-3 rounded-full px-[15px] py-2 text-[11px] font-extrabold uppercase tracking-[0.07em] text-white bg-gradient-to-br from-brand to-violet-600 shadow-[0_10px_26px_rgba(37,99,235,0.4)]">
-              🚴 Coming soon — Micromobility
+              🚴 New — Micromobility just added
             </span>
 
             {/* The phone is positioned against this box, not the column: including

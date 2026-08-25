@@ -97,7 +97,7 @@ export default function Footer() {
         <p className="mt-5 text-[11.5px] leading-[1.6] text-[#6B7A99] max-w-[95ch]">
           Product screens show DSPOps running a demonstration fleet with sample data. Time savings
           are estimates based on what operators using DSPOps report; your results will vary.
-          Micromobility support is in development and not available today. Amazon, Amazon Cortex and
+          The live check-in map and arrival ETA are in development and not available today. Amazon, Amazon Cortex and
           Delivery Service Partner are trademarks of Amazon.com, Inc. DSPOps is an independent
           product and is not affiliated with or endorsed by Amazon.
         </p>
