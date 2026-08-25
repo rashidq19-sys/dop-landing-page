@@ -150,7 +150,8 @@
   /* coming soon strip */
   .soon{margin-top:36px;background:linear-gradient(120deg,rgba(37,99,235,.22),rgba(124,58,237,.18));border:1px solid rgba(143,176,255,.35);border-radius:18px;padding:24px 26px;display:grid;gap:18px}
   @media(min-width:860px){.soon{grid-template-columns:auto 1fr;align-items:center;gap:26px}}
-  .soon .badge{display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--navy);font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;border-radius:999px;padding:7px 14px;align-self:start}
+  .soon .badge{display:inline-flex;align-items:center;gap:8px;background:#12C97E;color:#04301F;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;border-radius:999px;padding:7px 14px;align-self:start;box-shadow:0 6px 18px rgba(18,201,126,.35)}
+  .soon .later{margin-top:14px;font-size:12.5px;color:#9DB1E4}
   .soon h3{color:#fff;font-size:21px;margin-bottom:8px}
   .soon p{font-size:14.5px;color:#C7D3F2;line-height:1.6}
   .soon ul{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
@@ -423,15 +424,16 @@
     </div>
 
     <div class="soon rv">
-      <span class="badge">🚴 Coming soon</span>
+      <span class="badge">🚴 New · just added</span>
       <div>
         <h3>Micromobility — cyclists and walkers</h3>
-        <p>As Amazon rolls out on-foot and cycle delivery, DSPOps is being extended to run those teams alongside your van routes: micromobility rounds on the same deployment board, the same check-in, the same rota and the same driver app. If you take on micromobility work, the tooling will already be there.</p>
+        <p>Amazon is rolling out on-foot and cycle delivery, and DSPOps now runs those teams alongside your van routes. Riders and walkers sit on the same deployment board, the same rota, the same check-in and the same driver app, so you are not running a second system for them. Switch it on per company when the work starts.</p>
         <ul>
           <li>Cycle &amp; on-foot rounds</li>
-          <li>Live map view on check-in</li>
-          <li>Arrival ETA for drivers en route</li>
+          <li>Riders on the same board as vans</li>
+          <li>Same rota, check-in and driver app</li>
         </ul>
+        <p class="later">Still in development: a live map view on check-in and an arrival ETA for drivers en route.</p>
       </div>
     </div>
   </div>
@@ -554,7 +556,7 @@
       <a href="mailto:support@dspops.app">support@dspops.app</a>
       <span>Built in the UK 🇬🇧</span>
     </div>
-    <div class="fine">Screens show DSPOps running a demonstration fleet with sample data. Micromobility support, the live check-in map and arrival ETA are in development and not available today. Time and cost savings are estimates based on what operators using DSPOps report; your own results will vary.</div>
+    <div class="fine">Screens show DSPOps running a demonstration fleet with sample data. The live check-in map and arrival ETA are in development and not available today. Time and cost savings are estimates based on what operators using DSPOps report; your own results will vary.</div>
   </div>
 </footer>
 
