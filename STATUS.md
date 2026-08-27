@@ -2,7 +2,36 @@
 
 > Session handoff file. Read at session start (with DECISIONS.md); update at session end. The rule lives in global CLAUDE.md → Memory System.
 
-**Last updated:** 2026-08-24 (homepage redesign + real logo artwork SHIPPED and confirmed live by Rashid; immutable-cache trap fixed)
+**Last updated:** 2026-08-27 (sales brochures live at /sbl.html and /brochure.html; micromobility badged as shipped; dead Umami tag removed)
+
+## 2026-08-27 — Sales brochures, micromobility badge, dead analytics tag removed (all live)
+
+- **Two brochures live and verified**: `/sbl.html` (written for SBL Couriers) and `/brochure.html`
+  (generic, for approaching any DSP). Self-contained single files, `noindex` + disallowed in
+  robots.txt. Source and build script now in `brochures/` — see its README.
+- `[CRITICAL]` **Caught the committed-`dist` trap the hard way**: the first brochure commit put the
+  file only in `client/public` and it 404'd in production. Railway runs only `build:server` here.
+  Written up in CLAUDE.md; the brochure build script now writes both locations.
+- **Micromobility is presented as shipped**, not coming soon: a green hero badge on the homepage and
+  both brochures. The live check-in map and arrival ETA are deliberately kept as "in development"
+  because they are genuinely not built — do not let those get folded into the "added" claim.
+- **Removed a dead Umami tag** that 502'd on every homepage visit and had never collected anything
+  (see CLAUDE.md). First-party analytics at `/admin` is the real source and is unaffected.
+- **Enterprise pricing is now public on the brochures**: £2.75 per driver per month. Note it reads
+  as dearer per head than Professional (£249 / 100 drivers = £2.49); justified on multi-station and
+  white-glove setup, but expect the question.
+- **Contact is WhatsApp-first** on both brochures, pointing at Rashid's work number. The number is
+  deliberately **not printed** on the page — buttons only. His personal number appears nowhere; that
+  was checked explicitly.
+
+### Open / next
+- [ ] **Brochure opens are not tracked.** Rashid asked twice how to tell whether a prospect opened
+      the link. The first-party beacon is in the React app, so the standalone brochures are not
+      counted. Agreed approach when he wants it: add the `/api/track` beacon to both pages plus a
+      per-recipient `?ref=` tag (e.g. `?ref=redline`), and one line in the privacy policy. He was
+      told plainly that covert IP/location tracking of a named prospect is not something to build.
+- [ ] Aurora demo data was reshaped for the screenshots (check-in times, a 2.4 mi distance flag,
+      3 stations, multi-station enabled). Fine to leave, but it is not pristine demo state.
 
 ## 2026-08-24 — Homepage redesign, SHIPPED and verified live (`f2a42a7`)
 - **Live and confirmed**: dspops.app serves `assets/index-MUZIoH0p.js`, the new copy is in the prerendered HTML, and every new image returns 200. Verified against production, not just a green Railway chip.

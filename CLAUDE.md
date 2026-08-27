@@ -74,6 +74,38 @@ This repo has more than one committer: Claude Code sessions, a **scheduled weekl
 
 ## Lessons Learned
 
+### `[CRITICAL]` A source-only change never reaches production — `dist/public` is committed and served
+Railway runs only `npm run build:server` for this service (`nixpacks.toml`, `railway.json`). Vite
+never runs in the cloud, so nothing copies `client/public` and nothing rebuilds the React bundle.
+`dist/public/` is committed to git and served verbatim. Two consequences, both hit on 2026-08-27:
+- A static file added only to `client/public` **404s in production** while working perfectly on a
+  local dev server. It must be written to `dist/public` as well.
+- A change to any `.tsx` requires a full local `npm run build` (vite + esbuild + prerender) and a
+  commit of the regenerated `dist/`, or the deploy ships the old bundle and it looks like the edit
+  silently did nothing. Expect ~25 changed files from asset-hash churn; that is normal.
+A green Railway deploy proves neither. Verify by fetching the live URL and grepping the served
+bytes for a string unique to the change.
+
+### The Umami analytics tag never worked — site traffic is first-party
+`client/index.html` carried a Umami script pointing at `VITE_ANALYTICS_ENDPOINT` and
+`VITE_ANALYTICS_WEBSITE_ID`. Neither was ever defined, so Vite left the placeholders literal and
+every visitor fired a 502 at `/%VITE_ANALYTICS_ENDPOINT%/umami`. Broken since `60fa97f` and it
+collected nothing the whole time; removed 2026-08-27. Real numbers come from the first-party
+counter: `client/src/lib/tracking` posts to `/api/track`, `page_views` stores it (table created in
+`server/db.ts`), and `/admin` renders visitors, page views and a per-page breakdown. If Umami is
+ever wanted, both vars must be set **before `npm run build`**, not on Railway — the build is local.
+**Note the gap:** that beacon lives in the React app, so the standalone brochures at `/sbl.html`
+and `/brochure.html` are **not** counted. Nobody's opens of those are recorded anywhere.
+
+### Sales brochures live in `brochures/` — edit the template, never the built HTML
+See `brochures/README.md`. Two self-contained pages built by `node brochures/src/build.mjs` from a
+body-only template plus `src/assets.json` (screenshots as WebP data URIs). The built files are ~1MB
+of base64 and are hand-editable only in theory. Screenshots are cropped so the app's left
+navigation is never visible — deliberate, so the page shows what the product does without handing a
+competitor a blueprint of the interface. Both pages are `noindex` and disallowed in `robots.txt`;
+they are sales links for named prospects, not public marketing pages.
+
+
 ### Frontend
 
 - `[IMPORTANT]` **Brand colours come from the artwork in `brand-drop/`, not from taste.** Blue is `#006ae1` (the "Ops" wordmark), light blue `#3189fe` (the icon's truck outline), navy `#0a1235` (the icon's ground). A first pass sampled `client/public/logo.png` instead and got `#1879f1` / `#121835` — that file was an **older** logo, navy "DSP" and rounded letterforms, and the site shipped the wrong mark for a couple of hours because of it. If a colour needs to "look like DSPOps", sample `brand-drop/Logo Light.png`, and confirm the file is the current artwork before trusting it.

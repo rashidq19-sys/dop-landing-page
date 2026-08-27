@@ -131,3 +131,7 @@ dist/public/__manus__/
 
 # Hand-over folder for brand artwork; not part of the build
 brand-drop/
+
+# Built brochure copies (regenerate with: node brochures/src/build.mjs)
+brochures/sbl/
+brochures/generic/

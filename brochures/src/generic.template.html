@@ -1,0 +1,705 @@
+<title>DSPOps Overview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700&display=swap">
+<style>
+  :root{
+    --ink:#0B1220; --ink-soft:#243044; --muted:#5A6478; --faint:#8B94A7;
+    --paper:#F7F8FB; --card:#FFFFFF; --line:#E3E7EF;
+    --brand:#2563EB; --brand-dark:#1D4FC4; --brand-soft:#EAF0FE;
+    --navy:#071231; --navy-line:rgba(255,255,255,.12);
+    --mint:#0BA06E; --mint-soft:#E2F6EE; --amber:#D97706;
+    --disp:'Archivo',Arial,sans-serif;
+    --body:'Instrument Sans','Segoe UI',Arial,sans-serif;
+    --sh-lg:0 30px 70px -25px rgba(11,18,32,.35);
+    --sh-md:0 14px 40px -16px rgba(11,18,32,.2);
+    --sh-sm:0 4px 16px -6px rgba(11,18,32,.13);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  body{font-family:var(--body);background:var(--paper);color:var(--ink);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  img{max-width:100%;display:block}
+  a{color:inherit}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 20px}
+  @media(min-width:700px){.wrap{padding:0 36px}}
+
+  .ribbon{background:var(--navy);color:#B9C6E8;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;text-align:center;padding:9px 14px;font-weight:600}
+  .ribbon b{color:#fff;font-weight:700}
+
+  nav.top{position:sticky;top:0;z-index:60;background:rgba(247,248,251,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .nav-in{display:flex;align-items:center;gap:18px;height:58px}
+  .logo{display:flex;align-items:center;gap:10px;font-family:var(--disp);font-weight:800;font-size:18.5px;letter-spacing:-.02em;text-decoration:none}
+  .logo .mark{width:29px;height:29px;border-radius:9px;background:linear-gradient(135deg,#2563EB,#1D4FC4);display:grid;place-items:center;color:#fff;flex:none;box-shadow:0 4px 10px rgba(37,99,235,.35)}
+  .logo span b{color:var(--brand)}
+  .nav-links{display:none;gap:2px;margin-left:auto}
+  @media(min-width:880px){.nav-links{display:flex}}
+  .nav-links a{font-size:13.5px;font-weight:600;color:var(--muted);text-decoration:none;padding:8px 11px;border-radius:8px;transition:color .15s,background .15s}
+  .nav-links a:hover{color:var(--ink);background:#fff}
+  .nav-links a.on{color:var(--brand)}
+  .nav-cta{margin-left:auto}
+  @media(min-width:880px){.nav-cta{margin-left:10px}}
+
+  .btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--body);font-weight:700;font-size:15px;padding:13px 22px;border-radius:11px;text-decoration:none;border:0;cursor:pointer;transition:transform .15s,background .15s;white-space:nowrap}
+  .btn:active{transform:translateY(1px)}
+  .btn-brand{background:var(--brand);color:#fff;box-shadow:0 10px 26px rgba(37,99,235,.36)}
+  .btn-brand:hover{background:var(--brand-dark)}
+  .btn-wa{background:#1FAF5F;color:#fff;box-shadow:0 10px 26px rgba(31,175,95,.33)}
+  .btn-wa:hover{background:#178C4C}
+  .btn-wa.big{font-size:16.5px;padding:15px 26px}
+  .btn-quiet{background:transparent;color:var(--ink);border:1px solid var(--line)}
+  .btn-quiet:hover{border-color:#C9D2E2;background:#fff}
+  .btn.small{padding:9px 15px;font-size:13.5px;border-radius:9px}
+  .btn svg{flex:none}
+  .wa-line{margin-top:12px;font-size:14px;color:var(--muted);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .wa-line b{font-family:var(--disp);font-weight:800;font-size:16px;color:var(--ink);letter-spacing:-.01em}
+  .wa-line svg{color:#1FAF5F}
+  .reach a.primary{background:rgba(31,175,95,.16);border-color:rgba(91,214,164,.55)}
+  .reach a.primary:hover{background:rgba(31,175,95,.24)}
+
+  .stop{display:flex;align-items:center;gap:12px;font-size:11.5px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--brand)}
+  .stop::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--brand);box-shadow:0 0 0 4px var(--brand-soft);flex:none}
+  .stop::after{content:"";flex:0 1 80px;border-top:2px dashed #C4D2F1}
+  .navy .stop{color:#8FB0FF}
+  .navy .stop::before{box-shadow:0 0 0 4px rgba(143,176,255,.18)}
+  .navy .stop::after{border-top-color:rgba(143,176,255,.35)}
+
+  h1,h2,h3{font-family:var(--disp);letter-spacing:-.03em;text-wrap:balance}
+  h1{font-size:clamp(34px,5.8vw,60px);font-weight:900;line-height:1.03}
+  h2{font-size:clamp(26px,3.8vw,40px);font-weight:800;line-height:1.08;margin-top:16px}
+  h3{font-size:18px;font-weight:800;line-height:1.2;letter-spacing:-.02em}
+  .lead{font-size:clamp(15.5px,1.8vw,17.5px);color:var(--muted);line-height:1.6;max-width:60ch;margin-top:14px}
+  .navy .lead{color:#AAB8DC}
+  .accent{color:var(--brand)}
+  section,header{scroll-margin-top:74px}
+  section{padding:58px 0}
+  @media(min-width:900px){section{padding:76px 0}}
+  .navy{background:linear-gradient(180deg,var(--navy),#0A1840);color:#fff}
+
+  .hero{padding:44px 0 58px;overflow:hidden}
+  .hero-grid{display:grid;gap:38px;align-items:center}
+  @media(min-width:1020px){.hero-grid{grid-template-columns:1fr 1.08fr;gap:44px}}
+  .for-chip{display:inline-flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 14px 6px 7px;font-size:13px;font-weight:600;box-shadow:var(--sh-sm);margin-bottom:20px}
+  .for-chip .tag{background:var(--navy);color:#fff;font-size:10.5px;font-weight:800;letter-spacing:.08em;border-radius:999px;padding:4px 10px}
+  .hero-ctas{display:flex;flex-wrap:wrap;gap:11px;margin-top:24px}
+  .trust{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:18px;font-size:12.5px;color:var(--muted)}
+  .trust span{display:inline-flex;align-items:center;gap:6px}
+  .trust svg{color:var(--mint)}
+  .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:30px;padding-top:24px;border-top:1px solid var(--line)}
+  @media(min-width:620px){.stats{grid-template-columns:repeat(4,1fr)}}
+  .stat{background:#fff;border:1px solid var(--line);border-radius:13px;padding:14px;box-shadow:var(--sh-sm)}
+  .stat .n{font-family:var(--disp);font-weight:900;font-size:25px;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+  .stat .l{font-size:12px;color:var(--muted);margin-top:2px;line-height:1.35}
+  .stat i{display:block;width:24px;height:4px;border-radius:99px;background:var(--brand);margin-bottom:9px}
+
+  .heroshot{position:relative}
+  .mm-flag{position:absolute;top:-15px;right:-4px;z-index:5;display:none;align-items:center;gap:8px;border-radius:999px;padding:8px 15px;font-size:11px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:#fff;background:linear-gradient(135deg,var(--brand),#7C3AED);box-shadow:0 10px 26px rgba(37,99,235,.4);white-space:nowrap}
+  @media(min-width:640px){.mm-flag{display:inline-flex}}
+  .mm-flag-sm{display:inline-flex;align-items:center;gap:8px;margin-bottom:12px;border-radius:999px;padding:8px 15px;font-size:11px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:#fff;background:linear-gradient(135deg,var(--brand),#7C3AED);box-shadow:0 10px 26px rgba(37,99,235,.4)}
+  @media(min-width:640px){.mm-flag-sm{display:none}}
+  .browser{background:#fff;border:1px solid var(--line);border-radius:15px;overflow:hidden;box-shadow:var(--sh-lg)}
+  .browser .bar{display:flex;align-items:center;justify-content:space-between;background:var(--paper);border-bottom:1px solid var(--line);padding:9px 13px}
+  .browser .dots{display:flex;gap:5px}
+  .browser .dots i{width:9px;height:9px;border-radius:50%}
+  .browser .url{font-size:11px;color:var(--faint)}
+  .phone{background:#0B1220;border-radius:32px;padding:6px;box-shadow:var(--sh-lg)}
+  .phone .screen{border-radius:26px;overflow:hidden}
+  .zoomnote{margin-top:16px;font-size:12.5px;color:var(--faint)}
+
+  .swap{display:grid;gap:10px;margin-top:34px}
+  @media(min-width:820px){.swap{grid-template-columns:1fr 1fr}}
+  .swap-row{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.045);border:1px solid var(--navy-line);border-radius:13px;padding:15px 17px}
+  .swap-row .was{flex:1;font-size:14px;color:#94A3C7;text-decoration:line-through;text-decoration-color:rgba(148,163,199,.45)}
+  .swap-row .arw{color:#8FB0FF;flex:none}
+  .swap-row .now{flex:1.15;font-size:14.5px;font-weight:600;color:#fff}
+  .punch{margin-top:30px;font-family:var(--disp);font-weight:800;font-size:clamp(17px,2.3vw,22px);letter-spacing:-.02em;color:#fff}
+
+  .tiles{display:grid;gap:14px;margin-top:34px}
+  @media(min-width:760px){.tiles{grid-template-columns:1fr 1fr}}
+  @media(min-width:1040px){.tiles{grid-template-columns:repeat(3,1fr)}}
+  .tile{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--sh-sm);display:flex;flex-direction:column}
+  .tile .pic{background:var(--paper);border-bottom:1px solid var(--line);height:150px;overflow:hidden;position:relative;cursor:zoom-in}
+  .tile .pic img{width:100%;height:100%;object-fit:cover;object-position:left top;transition:transform .35s}
+  .tile .pic:hover img{transform:scale(1.04)}
+  .tile .pic.contain img{object-fit:contain;object-position:center;padding:10px;background:#fff}
+  .tile .body{padding:18px 20px 20px;display:flex;flex-direction:column;flex:1}
+  .tile h3{margin-bottom:7px}
+  .tile p{font-size:14px;color:var(--muted);line-height:1.55;flex:1}
+  .tile .win{margin-top:13px;font-size:12.5px;font-weight:700;color:#06714D;background:var(--mint-soft);border-radius:999px;padding:6px 12px;align-self:flex-start}
+
+  .hi{display:grid;gap:16px;margin-top:34px}
+  @media(min-width:960px){.hi{grid-template-columns:repeat(3,1fr)}}
+  .hicard{background:rgba(255,255,255,.05);border:1px solid var(--navy-line);border-radius:18px;padding:22px;display:flex;flex-direction:column}
+  .hicard .ic{width:40px;height:40px;border-radius:11px;background:rgba(143,176,255,.16);color:#9DBBFF;display:grid;place-items:center;margin-bottom:14px}
+  .hicard h3{color:#fff;margin-bottom:8px;font-size:19px}
+  .hicard p{font-size:14px;color:#A7B4D8;line-height:1.6}
+  .hicard .shotwrap{margin-top:16px;border-radius:11px;overflow:hidden;border:1px solid var(--navy-line);background:#fff;cursor:zoom-in}
+  .hicard .shotwrap img{width:100%}
+  .stepline{margin-top:16px;display:grid;gap:7px}
+  .stepline div{display:flex;gap:10px;align-items:center;font-size:13.5px;color:#C7D3F2}
+  .stepline i{width:20px;height:20px;border-radius:6px;background:rgba(143,176,255,.16);color:#9DBBFF;display:grid;place-items:center;font-size:10.5px;font-weight:800;font-style:normal;flex:none;font-family:var(--disp)}
+  .hicard .kick{margin-top:16px;font-size:13px;font-weight:700;color:#5BD6A4}
+
+  /* coming soon strip */
+  .soon{margin-top:36px;background:linear-gradient(120deg,rgba(37,99,235,.22),rgba(124,58,237,.18));border:1px solid rgba(143,176,255,.35);border-radius:18px;padding:24px 26px;display:grid;gap:18px}
+  @media(min-width:860px){.soon{grid-template-columns:auto 1fr;align-items:center;gap:26px}}
+  .soon .badge{display:inline-flex;align-items:center;gap:8px;background:#12C97E;color:#04301F;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;border-radius:999px;padding:7px 14px;align-self:start;box-shadow:0 6px 18px rgba(18,201,126,.35)}
+  .soon .later{margin-top:14px;font-size:12.5px;color:#9DB1E4}
+  .soon h3{color:#fff;font-size:21px;margin-bottom:8px}
+  .soon p{font-size:14.5px;color:#C7D3F2;line-height:1.6}
+  .soon ul{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .soon ul li{background:rgba(255,255,255,.1);border:1px solid rgba(143,176,255,.3);border-radius:999px;padding:6px 13px;font-size:13px;font-weight:600;color:#fff}
+
+  #driverapp{overflow:hidden}
+  .carousel{margin-top:36px;display:grid;gap:32px;align-items:center}
+  @media(min-width:960px){.carousel{grid-template-columns:0.92fr 1.08fr}}
+  .ph-stage{position:relative;height:520px;display:flex;align-items:center;justify-content:center}
+  @media(max-width:520px){.ph-stage{height:440px}}
+  .ph-item{position:absolute;width:min(222px,54vw);transition:transform .45s cubic-bezier(.2,.8,.2,1),opacity .45s,filter .45s;cursor:pointer}
+  .ph-dots{display:flex;gap:8px;justify-content:center;margin-top:16px}
+  .ph-dots button{width:24px;height:6px;border-radius:99px;background:rgba(255,255,255,.22);border:0;cursor:pointer}
+  .ph-dots button.on{background:#fff}
+  .app-points{display:grid;gap:11px}
+  .app-point{display:flex;gap:13px;padding:14px 16px;border:1px solid var(--navy-line);border-radius:13px;background:rgba(255,255,255,.04);cursor:pointer;transition:background .2s,border-color .2s;text-align:left;color:#fff;font-family:var(--body)}
+  .app-point.on{background:rgba(37,99,235,.22);border-color:rgba(143,176,255,.5)}
+  .app-point .ic{width:34px;height:34px;border-radius:9px;background:rgba(143,176,255,.15);color:#9DBBFF;display:grid;place-items:center;flex:none}
+  .app-point b{display:block;font-size:14.5px}
+  .app-point span{font-size:13px;color:#A7B4D8;line-height:1.45;display:block;margin-top:2px}
+  .store-row{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}
+  .store-row span{border:1px solid var(--navy-line);border-radius:999px;padding:6px 13px;font-size:12px;font-weight:600;color:#C7D3F2}
+
+  .plans{display:grid;gap:13px;margin-top:32px;align-items:stretch}
+  @media(min-width:860px){.plans{grid-template-columns:1fr 1fr 1.2fr}}
+  .plan{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--sh-sm);display:flex;flex-direction:column}
+  .plan.big{background:var(--navy);color:#fff;border-color:var(--navy);box-shadow:var(--sh-md);position:relative}
+  .plan .name{font-family:var(--disp);font-weight:800;font-size:15px}
+  .plan .price{font-family:var(--disp);font-weight:900;font-size:31px;letter-spacing:-.03em;margin-top:8px}
+  .plan .price small{font-size:13.5px;font-weight:600;color:var(--muted);font-family:var(--body);letter-spacing:0}
+  .plan.big .price{font-size:27px}
+  .plan.big .price small{color:#9DB1E4;display:block;margin-top:4px}
+  .plan .for{font-size:12.5px;font-weight:600;color:var(--brand);margin-top:6px}
+  .plan.big .for{color:#9DBBFF}
+  .plan ul{list-style:none;margin-top:15px;display:grid;gap:7px;font-size:13.5px}
+  .plan ul li{display:flex;gap:8px}
+  .plan ul li svg{color:var(--mint);flex:none;margin-top:3px}
+  .plan.big ul li svg{color:#5BD6A4}
+  .plan .badge{position:absolute;top:16px;right:16px;background:var(--brand);color:#fff;font-size:10.5px;font-weight:800;letter-spacing:.06em;border-radius:999px;padding:5px 11px}
+  .plan .trial{margin-top:auto;padding-top:15px;font-size:12px;color:var(--muted)}
+  .plan.big .trial{color:#9DB1E4}
+  .works{margin-top:22px;display:flex;flex-wrap:wrap;gap:7px;align-items:center;font-size:13px;color:var(--muted)}
+  .works span{background:#fff;border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-weight:600;color:var(--ink-soft)}
+
+  .contact-grid{display:grid;gap:30px;margin-top:34px;align-items:start}
+  @media(min-width:960px){.contact-grid{grid-template-columns:1fr 1fr;gap:48px}}
+  .founder{display:flex;gap:16px;background:rgba(255,255,255,.05);border:1px solid var(--navy-line);border-radius:16px;padding:20px}
+  .founder .av{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#2563EB,#7C3AED);display:grid;place-items:center;font-family:var(--disp);font-weight:900;font-size:22px;color:#fff;flex:none}
+  .founder b{font-size:16px;display:block}
+  .founder span{font-size:13px;color:#9DB1E4;display:block}
+  .founder p{font-size:14px;color:#C7D3F2;margin-top:9px;line-height:1.55}
+  .reach{display:grid;gap:9px;margin-top:16px}
+  .reach a{display:flex;align-items:center;gap:12px;border:1px solid var(--navy-line);border-radius:12px;padding:13px 15px;text-decoration:none;color:#fff;font-weight:600;font-size:14px;transition:background .2s}
+  .reach a:hover{background:rgba(255,255,255,.07)}
+  .reach a .ic{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;flex:none}
+  .reach a small{display:block;font-weight:500;color:#9DB1E4;font-size:12px;margin-top:1px}
+  .composer{background:#fff;color:var(--ink);border-radius:16px;padding:24px;box-shadow:var(--sh-lg)}
+  .composer h3{font-size:21px;margin-bottom:5px}
+  .composer p.hint{font-size:13px;color:var(--muted);margin-bottom:16px}
+  .composer label{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px}
+  .composer input,.composer textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:11px 13px;font-family:var(--body);font-size:15px;color:var(--ink);background:var(--paper);margin-bottom:14px}
+  .composer textarea{min-height:96px;resize:vertical}
+  .composer input:focus,.composer textarea:focus{outline:2px solid var(--brand);border-color:var(--brand)}
+  .composer .send-row{display:flex;flex-wrap:wrap;gap:9px}
+  .fwd{margin-top:26px;font-size:13.5px;color:#9DB1E4;display:flex;gap:9px;align-items:flex-start}
+  .fwd svg{flex:none;margin-top:2px;color:#8FB0FF}
+
+  footer{background:var(--navy);border-top:1px solid var(--navy-line);color:#8B99C4;font-size:12.5px;padding:22px 0 34px}
+  footer .row{display:flex;flex-wrap:wrap;gap:9px 24px;align-items:center}
+  footer a{color:#C7D3F2;text-decoration:none}
+  footer a:hover{text-decoration:underline}
+  footer .fine{margin-top:12px;font-size:11.5px;color:#5F6E9C;max-width:90ch}
+
+  .lb{position:fixed;inset:0;z-index:100;background:rgba(7,18,49,.92);display:none;align-items:center;justify-content:center;padding:26px;cursor:zoom-out}
+  .lb.open{display:flex}
+  .lb img{max-width:min(1400px,96vw);max-height:92vh;border-radius:12px;box-shadow:var(--sh-lg)}
+
+  .rv{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s ease}
+  .rv.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+  :focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+  .navy :focus-visible{outline-color:#8FB0FF}
+</style>
+
+<div class="ribbon">DSPOps · Operations software for UK delivery fleets</div>
+
+<nav class="top" aria-label="Page">
+  <div class="wrap nav-in">
+    <a class="logo" href="#top"><span class="mark"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 17h4V5H2v12h3m5 0H8m13 0h-3v-6h4l1 2.5V17h-2ZM7.5 17a1.5 1.5 0 1 1-3 0m14 0a1.5 1.5 0 1 1-3 0"/></svg></span><span>DSP<b>Ops</b></span></a>
+    <div class="nav-links" id="navLinks">
+      <a href="#platform">What it does</a>
+      <a href="#three">Check-in &amp; onboarding</a>
+      <a href="#driverapp">Driver app</a>
+      <a href="#pricing">Pricing</a>
+    </div>
+    <div class="nav-cta"><a class="btn btn-wa small" data-wa href="#contact"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2Zm5.4 14.1c-.2.7-1.3 1.3-1.9 1.4-.5.1-1.1.2-3.5-.7-3-1.2-4.9-4.2-5-4.4-.2-.2-1.2-1.6-1.2-3.1s.8-2.2 1-2.5c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5.2.6.9 2.1.9 2.2.1.2.1.4 0 .6l-.4.6c-.2.2-.4.4-.2.8.2.3.9 1.5 2 2.4 1.4 1.2 2.5 1.6 2.9 1.7.3.2.6.1.8-.1l1-1.1c.2-.3.5-.2.8-.1l2.1 1c.3.2.6.3.6.5.1.1.1.7-.1 1.3Z"/></svg>WhatsApp Rashid</a><a class="btn btn-brand small" data-wa-alt href="#contact" style="display:none">Get in touch</a></div>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<header class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="for-chip"><span class="tag">FOR DSPs</span> Built by a former Amazon DSP operations manager</div>
+      <h1>Run every driver and depot from <span class="accent">one screen.</span></h1>
+      <p class="lead">DSPOps is the UK-built operations platform for delivery fleets — rota, dispatch, check-in, driver onboarding, performance and driver invoicing in one place, across all your stations, with an app your drivers actually use.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-wa big" data-wa href="#contact"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2Zm5.4 14.1c-.2.7-1.3 1.3-1.9 1.4-.5.1-1.1.2-3.5-.7-3-1.2-4.9-4.2-5-4.4-.2-.2-1.2-1.6-1.2-3.1s.8-2.2 1-2.5c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5.2.6.9 2.1.9 2.2.1.2.1.4 0 .6l-.4.6c-.2.2-.4.4-.2.8.2.3.9 1.5 2 2.4 1.4 1.2 2.5 1.6 2.9 1.7.3.2.6.1.8-.1l1-1.1c.2-.3.5-.2.8-.1l2.1 1c.3.2.6.3.6.5.1.1.1.7-.1 1.3Z"/></svg>Message Rashid on WhatsApp</a>
+        <a class="btn btn-quiet" href="mailto:support@dspops.app?subject=DSPOps%20%E2%80%94%20let%27s%20talk"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Or email</a>
+      </div>
+      <p class="wa-line" data-wa-line style="display:none">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2Zm5.4 14.1c-.2.7-1.3 1.3-1.9 1.4-.5.1-1.1.2-3.5-.7-3-1.2-4.9-4.2-5-4.4-.2-.2-1.2-1.6-1.2-3.1s.8-2.2 1-2.5c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5.2.6.9 2.1.9 2.2.1.2.1.4 0 .6l-.4.6c-.2.2-.4.4-.2.8.2.3.9 1.5 2 2.4 1.4 1.2 2.5 1.6 2.9 1.7.3.2.6.1.8-.1l1-1.1c.2-.3.5-.2.8-.1l2.1 1c.3.2.6.3.6.5.1.1.1.7-.1 1.3Z"/></svg>
+        Goes straight to my phone — I usually reply the same day.
+      </p>
+      <div class="trust">
+        <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m4 12 5 5L20 6"/></svg>Built in the UK</span>
+        <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m4 12 5 5L20 6"/></svg>Syncs directly with Amazon Cortex</span>
+        <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m4 12 5 5L20 6"/></svg>iOS &amp; Android</span>
+        <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m4 12 5 5L20 6"/></svg>14-day free trial</span>
+      </div>
+      <div class="stats" id="stats">
+        <div class="stat"><i></i><div class="n" data-count="3" data-suffix="+ hrs">0</div><div class="l">saved per ops manager, per day</div></div>
+        <div class="stat"><i></i><div class="n" data-count="32" data-suffix=" hrs">0</div><div class="l">back per site, per week</div></div>
+        <div class="stat"><i style="background:var(--mint)"></i><div class="n" data-count="6" data-prefix="£3–" data-suffix="k">£0</div><div class="l">a year in separate tools replaced</div></div>
+        <div class="stat"><i style="background:var(--amber)"></i><div class="n" data-count="5" data-suffix=" days">0</div><div class="l">to go live across a depot</div></div>
+      </div>
+    </div>
+    <div class="rv heroshot">
+      <span class="mm-flag">🚴 New — Micromobility just added</span>
+      <span class="mm-flag-sm">🚴 New — Micromobility just added</span>
+      <div class="browser">
+        <div class="bar">
+          <div class="dots"><i style="background:#F87171"></i><i style="background:#FBBF24"></i><i style="background:#34D399"></i></div>
+          <div class="url">app.dspops.app — live operations</div>
+          <div style="width:28px"></div>
+        </div>
+        <img src="{{IMG:board}}" alt="Operations dashboard showing driver status, today's deployment plan, the morning check-in board and the driver leaderboard" loading="eager">
+      </div>
+      <p class="zoomnote" style="text-align:center">One depot's morning, live. Every screen in this document is the real product.</p>
+    </div>
+  </div>
+</header>
+
+<!-- ===== PROBLEM → ANSWER ===== -->
+<section class="navy" id="problem" style="padding-top:56px;padding-bottom:56px">
+  <div class="wrap">
+    <div class="stop rv">Stop 01 — What changes</div>
+    <h2 class="rv" style="color:#fff">Scale has a price.<br>It's paid in management hours.</h2>
+    <p class="lead rv">Most DSPs run on a rota spreadsheet, a WhatsApp group and a handful of separate tools. It works, until volume rises or you add a second station, and then it quietly eats your managers' days. Here's what stops.</p>
+    <div class="swap">
+      <div class="swap-row rv"><span class="was">Chasing availability on WhatsApp all weekend</span><span class="arw">→</span><span class="now">Drivers set their own rota in the app</span></div>
+      <div class="swap-row rv"><span class="was">Ringing round at 06:30 to see who turned up</span><span class="arw">→</span><span class="now">Check-in board fills itself as they arrive</span></div>
+      <div class="swap-row rv"><span class="was">Typing the plan into Cortex by hand</span><span class="arw">→</span><span class="now">DSPOps syncs straight to Amazon Cortex</span></div>
+      <div class="swap-row rv"><span class="was">A separate spreadsheet for every station</span><span class="arw">→</span><span class="now">Every station under one login</span></div>
+      <div class="swap-row rv"><span class="was">Onboarding packs emailed back and forth</span><span class="arw">→</span><span class="now">Drivers onboard themselves, you approve</span></div>
+      <div class="swap-row rv"><span class="was">Driver invoices rebuilt by hand each week</span><span class="arw">→</span><span class="now">Generated, sent and exported in minutes</span></div>
+    </div>
+    <p class="punch rv">Same operation. Roughly 32 fewer admin hours a week, per site.</p>
+  </div>
+</section>
+
+<!-- ===== WHAT IT DOES ===== -->
+<section id="platform">
+  <div class="wrap">
+    <div class="stop rv">Stop 02 — What it does</div>
+    <h2 class="rv">Every daily job, one login.</h2>
+    <p class="lead rv">A glimpse of each — tap any image to see it larger.</p>
+    <div class="tiles">
+      <div class="tile rv">
+        <div class="pic" data-zoom="{{IMG:waveboard}}"><img src="{{IMG:waveboard}}" alt="Deployment board showing a wave with drivers, route codes and vans" loading="lazy"></div>
+        <div class="body">
+          <h3>Dispatch &amp; deployment</h3>
+          <p>Smart Assign fills every route from live availability, you adjust, then one tap publishes waves, routes and vans to every driver's phone. DSPOps syncs directly with Amazon Cortex, so the plan you build is the plan Amazon has.</p>
+          <span class="win">~4 hrs/week back</span>
+        </div>
+      </div>
+      <div class="tile rv">
+        <div class="pic" data-zoom="{{IMG:rotagrid}}"><img src="{{IMG:rotagrid}}" alt="Weekly rota grid with per-day headcount" loading="lazy"></div>
+        <div class="body">
+          <h3>Rota &amp; availability</h3>
+          <p>Drivers mark themselves ON or OFF for every day in their own app. The week fills itself, locks when you need certainty, and shortfalls show up days early instead of at 06:00.</p>
+          <span class="win">~9 hrs/week back</span>
+        </div>
+      </div>
+      <div class="tile rv">
+        <div class="pic" data-zoom="{{IMG:scorecards}}"><img src="{{IMG:scorecards}}" alt="Driver quality metrics ranked by worst offenders" loading="lazy"></div>
+        <div class="body">
+          <h3>Driver performance</h3>
+          <p>Every metric Amazon scores your drivers on, weekly, per driver: DCR, DNR DPMO, POD, contact compliance, CDF and customer escalations — with worst-offender lists per metric and a league table your drivers can see too.</p>
+          <span class="win">Better network scores</span>
+        </div>
+      </div>
+      <div class="tile rv">
+        <div class="pic contain" data-zoom="{{IMG:stations}}"><img src="{{IMG:stations}}" alt="Station switcher listing three depots" loading="lazy"></div>
+        <div class="body">
+          <h3>Multi-station, one account</h3>
+          <p>Running more than one station? Each is its own space inside the same account, with its own rota, deployment board, drivers and vans. Switch between them from the top of the screen — no separate logins, no separate spreadsheets, and the owner sees all of them.</p>
+          <span class="win">One or twenty stations</span>
+        </div>
+      </div>
+      <div class="tile rv">
+        <div class="pic contain" data-zoom="{{IMG:announce}}"><img src="{{IMG:announce}}" alt="Announcements list with read tracking" loading="lazy"></div>
+        <div class="body">
+          <h3>Announcements &amp; messaging</h3>
+          <p>Send a notice to every driver, one station, or a single person — it lands as a push notification in their app, and you see who has actually read it. One-to-one chat is built in too, so operational messages stop living in personal WhatsApp.</p>
+          <span class="win">Proof it was read</span>
+        </div>
+      </div>
+      <div class="tile rv">
+        <div class="pic contain" data-zoom="{{IMG:vanchecks}}"><img src="{{IMG:vanchecks}}" alt="Van inspection photo set" loading="lazy"></div>
+        <div class="body">
+          <h3>Van checks &amp; damage AI</h3>
+          <p>A guided 10-angle walkaround from the driver's phone, morning and evening. Every photo is timestamped and tied to that driver and that van, and AI flags new dents and scratches — so a damage charge is settled with evidence, not memory.</p>
+          <span class="win">Disputes end here</span>
+        </div>
+      </div>
+      <div class="tile rv">
+        <div class="pic" data-zoom="{{IMG:docs}}"><img src="{{IMG:docs}}" alt="Driver document compliance showing licence, passport and right-to-work status" loading="lazy"></div>
+        <div class="body">
+          <h3>Compliance &amp; PCNs</h3>
+          <p>Licences, right to work, passports, insurance, MOT and road tax tracked per driver and per van, with everything needing attention on one screen. Photograph a penalty notice and DSPOps reads it and finds the driver who had that van that day.</p>
+          <span class="win">~2 hrs/week back</span>
+        </div>
+      </div>
+      <div class="tile rv">
+        <div class="pic contain" data-zoom="{{IMG:invoicephone}}"><img src="{{IMG:invoicephone}}" alt="Weekly driver invoice run and a driver's invoice on a phone" loading="lazy"></div>
+        <div class="body">
+          <h3>Generate driver invoices</h3>
+          <p>Upload the week's report and DSPOps generates every driver's invoice — day rates, same-day rates, bonuses and deductions — then sends it to each driver in the app and gives you a clean export for your accountant.</p>
+          <span class="win">~6 hrs/week back</span>
+        </div>
+      </div>
+    </div>
+    <p class="zoomnote rv">Also included: same-day delivery waves · live route progress · incident &amp; accident reports · fuel logs · repair and off-road tracking · shift history &amp; reliability reporting · e-signed agreements · role-based access and 2FA.</p>
+  </div>
+</section>
+
+<!-- ===== THREE THINGS + COMING SOON ===== -->
+<section class="navy" id="three">
+  <div class="wrap">
+    <div class="stop rv">Stop 03 — The three that matter most</div>
+    <h2 class="rv" style="color:#fff">Getting in, turning up, and moving over.</h2>
+    <p class="lead rv">The parts that decide whether new software actually sticks with a driver workforce.</p>
+    <div class="hi">
+      <div class="hicard rv">
+        <div class="ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <h3>Check-in that answers 06:30</h3>
+        <p>The driver taps <b style="color:#fff">"I'm here"</b> at the depot. You get the exact arrival time, how many minutes late they are against their own start time, and <b style="color:#fff">how far from the station they were standing</b> — so a driver who checks in from two miles away is flagged, not assumed.</p>
+        <div class="shotwrap" data-zoom="{{IMG:checkincard}}"><img src="{{IMG:checkincard}}" alt="Morning check-in board showing arrival times, +8m and +23m late markers, and a 2.4 mi away distance flag" loading="lazy"></div>
+        <div class="kick">The distance flag raises a question — it never blocks a driver from working.</div>
+      </div>
+      <div class="hicard rv">
+        <div class="ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="m17 11 2 2 4-4"/></svg></div>
+        <h3>Drivers onboard themselves</h3>
+        <p>A new starter gets a link and completes eight guided steps on their phone — no packs emailed back and forth. You get a review queue: approve, reject or ask for a better photo. ID numbers are encrypted, and agreements are signed in the app.</p>
+        <div class="stepline">
+          <div><i>1</i>Personal details &amp; address history</div>
+          <div><i>2</i>Emergency contact</div>
+          <div><i>3</i>ID documents &amp; right to work</div>
+          <div><i>4</i>Tax, payroll &amp; medical declaration</div>
+          <div><i>5</i>Agreement, signed on screen</div>
+        </div>
+        <div class="kick">Switch it off per company if you onboard your own way.</div>
+      </div>
+      <div class="hicard rv">
+        <div class="ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v6h-6"/></svg></div>
+        <h3>Moving over takes days</h3>
+        <p>Send your driver and van lists as a spreadsheet — we give you the template, or just send what you already have and we do it. Your station is set up, drivers install the app, and you run tomorrow's dispatch in DSPOps. No IT project, no downtime.</p>
+        <div class="shotwrap" data-zoom="{{IMG:roster}}"><img src="{{IMG:roster}}" alt="Imported driver roster with transporter IDs and document expiry dates" loading="lazy"></div>
+        <div class="kick">Setup and data import are done for you.</div>
+      </div>
+    </div>
+
+    <div class="soon rv">
+      <span class="badge">🚴 New · just added</span>
+      <div>
+        <h3>Micromobility — cyclists and walkers</h3>
+        <p>Amazon is rolling out on-foot and cycle delivery, and DSPOps now runs those teams alongside your van routes. Riders and walkers sit on the same deployment board, the same rota, the same check-in and the same driver app, so you are not running a second system for them. Switch it on per company when the work starts.</p>
+        <ul>
+          <li>Cycle &amp; on-foot rounds</li>
+          <li>Riders on the same board as vans</li>
+          <li>Same rota, check-in and driver app</li>
+        </ul>
+        <p class="later">Still in development: a live map view on check-in and an arrival ETA for drivers en route.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== DRIVER APP ===== -->
+<section id="driverapp" style="background:linear-gradient(180deg,#0A1840,#071231);color:#fff">
+  <div class="wrap">
+    <div class="stop rv">Stop 04 — The driver app</div>
+    <h2 class="rv" style="color:#fff">If they can use WhatsApp,<br>they can use this.</h2>
+    <p class="lead rv" style="color:#AAB8DC">Real screens. One tap to check in; shifts, invoices, scorecards and announcements all in one place.</p>
+    <div class="carousel">
+      <div>
+        <div class="ph-stage rv" id="phStage">
+          <div class="ph-item" data-i="0"><div class="phone"><div class="screen"><img src="{{IMG:phome}}" alt="Driver home — check in, today's route and van"></div></div></div>
+          <div class="ph-item" data-i="1"><div class="phone"><div class="screen"><img src="{{IMG:prota}}" alt="My Rota — set availability"></div></div></div>
+          <div class="ph-item" data-i="2"><div class="phone"><div class="screen"><img src="{{IMG:pscore}}" alt="My Scorecards"></div></div></div>
+          <div class="ph-item" data-i="3"><div class="phone"><div class="screen"><img src="{{IMG:pmenu}}" alt="App menu"></div></div></div>
+        </div>
+        <div class="ph-dots" id="phDots"></div>
+      </div>
+      <div class="app-points" id="appPoints">
+        <button class="app-point on" data-i="0"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></span><span><b>Check in, and today's job</b><span>Route, van, wave and start time — no morning group chat.</span></span></button>
+        <button class="app-point" data-i="1"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span><span><b>Set availability</b><span>Every day marked ON or OFF, weeks ahead.</span></span></button>
+        <button class="app-point" data-i="2"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17 9 11l4 4 8-8"/><path d="M14 7h7v7"/></svg></span><span><b>Their own scorecard</b><span>They see the number before you have to mention it.</span></span></button>
+        <button class="app-point" data-i="3"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span><span><b>Invoices, documents, announcements</b><span>Everything in their pocket, nothing forwarded on WhatsApp.</span></span></button>
+        <div class="store-row"><span>📱 App Store</span><span>🤖 Google Play</span><span>🌐 Any browser</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRICING ===== -->
+<section id="pricing">
+  <div class="wrap">
+    <div class="stop rv">Stop 05 — Pricing</div>
+    <h2 class="rv">Flat to 100 drivers. £2.75 a driver above that.</h2>
+    <div class="plans">
+      <div class="plan rv">
+        <div class="name">Starter</div>
+        <div class="price">£99 <small>/mo</small></div>
+        <div class="for">Up to 30 drivers · single station</div>
+        <ul>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m4 12 5 5L20 6"/></svg>Rota · Dispatch · Check-in · Driver app · Scorecards</li>
+        </ul>
+        <div class="trial">14-day free trial · no card</div>
+      </div>
+      <div class="plan rv">
+        <div class="name">Professional</div>
+        <div class="price">£249 <small>/mo</small></div>
+        <div class="for">Up to 100 drivers · single station</div>
+        <ul>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m4 12 5 5L20 6"/></svg>Everything in Starter</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m4 12 5 5L20 6"/></svg>Driver invoicing &amp; onboarding</li>
+        </ul>
+        <div class="trial">14-day free trial · no card</div>
+      </div>
+      <div class="plan big rv">
+        <div class="badge">100+ DRIVERS</div>
+        <div class="name" style="color:#fff">Enterprise</div>
+        <div class="price" style="color:#fff">£2.75 <small>per driver, per month</small></div>
+        <div class="for">Unlimited drivers &amp; stations</div>
+        <ul style="color:#DCE4F9">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m4 12 5 5L20 6"/></svg><span><b style="color:#fff">Multi-station — unlimited stations on one account</b>, each with its own board, switched from the top of the screen</span></li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m4 12 5 5L20 6"/></svg>Everything in Professional</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m4 12 5 5L20 6"/></svg>You only pay for drivers actually on the road — the count flexes with your roster, month to month</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m4 12 5 5L20 6"/></svg>White-glove setup &amp; data import, dedicated contact</li>
+        </ul>
+        <div class="trial">14-day free trial · no card · cancel anytime</div>
+      </div>
+    </div>
+    <div class="works rv">Runs alongside the networks you already serve: <span>Amazon (Cortex sync)</span><span>Evri</span><span>UPS</span><span>FedEx</span><span>DX</span><span>ArrowXL</span><span>Parcelforce</span></div>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section class="navy" id="contact" style="padding-bottom:48px">
+  <div class="wrap">
+    <div class="stop rv">Final stop — Over to you</div>
+    <h2 class="rv" style="color:#fff">Delivered. Signed for by…?</h2>
+    <p class="lead rv">Fifteen minutes and you'll know whether this fits your operation. You'd be talking to the person who built it — no sales team.</p>
+    <div class="contact-grid">
+      <div class="rv">
+        <div class="founder">
+          <div class="av">R</div>
+          <div>
+            <b>Rashid</b>
+            <span>Founder, DSPOps</span>
+            <p>Former operations manager for an Amazon delivery partner. DSPOps was built on the depot floor to fix these exact headaches.</p>
+          </div>
+        </div>
+        <div class="reach">
+          <a class="primary" data-wa-full href="#" style="display:none"><span class="ic" style="background:rgba(31,175,95,.28);color:#5BD6A4"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2Zm5.4 14.1c-.2.7-1.3 1.3-1.9 1.4-.5.1-1.1.2-3.5-.7-3-1.2-4.9-4.2-5-4.4-.2-.2-1.2-1.6-1.2-3.1s.8-2.2 1-2.5c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5.2.6.9 2.1.9 2.2.1.2.1.4 0 .6l-.4.6c-.2.2-.4.4-.2.8.2.3.9 1.5 2 2.4 1.4 1.2 2.5 1.6 2.9 1.7.3.2.6.1.8-.1l1-1.1c.2-.3.5-.2.8-.1l2.1 1c.3.2.6.3.6.5.1.1.1.7-.1 1.3Z"/></svg></span><span>Message me on WhatsApp<small>Fastest way to reach me</small></span></a>
+          <a href="mailto:support@dspops.app?subject=DSPOps%20%E2%80%94%20let%27s%20talk"><span class="ic" style="background:rgba(37,99,235,.25);color:#9DBBFF"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span><span>support@dspops.app<small>Goes straight to Rashid</small></span></a>
+          <a href="https://dspops.app" target="_blank" rel="noopener"><span class="ic" style="background:rgba(255,255,255,.1);color:#C7D3F2"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"/></svg></span><span>dspops.app<small>Full site, demo booking &amp; free trial</small></span></a>
+        </div>
+        <div class="fwd"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 14 5-5-5-5"/><path d="M20 9H9.5A5.5 5.5 0 0 0 4 14.5V18"/></svg><span>Seen enough? <b style="color:#fff">Forward this page to your business partner</b> — it makes the case on its own.</span></div>
+      </div>
+      <div class="composer rv">
+        <h3>Drop Rashid a note</h3>
+        <p class="hint">Type it here — it opens in your WhatsApp, already written. Fastest way to reach me.</p>
+        <label for="cName">Your name</label>
+        <input id="cName" type="text" autocomplete="off" placeholder="e.g. Sam, owner at Redline Logistics">
+        <label for="cMsg">Message</label>
+        <textarea id="cMsg">Hi Rashid, I've had a look at DSPOps and it looks like it could work for us. Worth a call. When are you free?</textarea>
+        <div class="send-row">
+          <button class="btn btn-wa" id="sendWa" type="button" style="display:none"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2Zm5.4 14.1c-.2.7-1.3 1.3-1.9 1.4-.5.1-1.1.2-3.5-.7-3-1.2-4.9-4.2-5-4.4-.2-.2-1.2-1.6-1.2-3.1s.8-2.2 1-2.5c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5.2.6.9 2.1.9 2.2.1.2.1.4 0 .6l-.4.6c-.2.2-.4.4-.2.8.2.3.9 1.5 2 2.4 1.4 1.2 2.5 1.6 2.9 1.7.3.2.6.1.8-.1l1-1.1c.2-.3.5-.2.8-.1l2.1 1c.3.2.6.3.6.5.1.1.1.7-.1 1.3Z"/></svg>Send on WhatsApp</button>
+          <button class="btn btn-quiet" id="sendMail" type="button"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Send by email</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="row">
+      <span style="font-family:var(--disp);font-weight:800;color:#fff">DSP<span style="color:#6E9BFF">Ops</span></span>
+      <a href="https://dspops.app" target="_blank" rel="noopener">dspops.app</a>
+      <a href="mailto:support@dspops.app">support@dspops.app</a>
+      <span>Built in the UK 🇬🇧</span>
+    </div>
+    <div class="fine">Screens show DSPOps running a demonstration fleet with sample data. The live check-in map and arrival ETA are in development and not available today. Time and cost savings are estimates based on what operators using DSPOps report; your own results will vary.</div>
+  </div>
+</footer>
+
+<div class="lb" id="lightbox" role="dialog" aria-label="Screenshot preview"><img id="lbImg" src="" alt="Zoomed screenshot"></div>
+
+<script>
+(function(){
+  "use strict";
+  /* ============================================================
+     Rashid's WhatsApp — international format, digits only.
+     Leave "" and the WhatsApp buttons hide themselves and email
+     takes over as the main call to action.
+  ============================================================ */
+  var PHONE = "447873225516";
+
+  var pretty = PHONE ? "+" + PHONE.replace(/^(44)(7\d{3})(\d{6})$/, "$1 $2 $3") : "";
+  var OPENER = "Hi Rashid, just read through the DSPOps page. Worth a conversation.";
+  function waLink(t){ return "https://wa.me/" + PHONE + (t ? "?text=" + encodeURIComponent(t) : ""); }
+
+  if (PHONE) {
+    document.querySelectorAll("[data-wa]").forEach(function(a){
+      a.href = waLink(OPENER);
+      a.target = "_blank"; a.rel = "noopener";
+    });
+    var full = document.querySelector("[data-wa-full]");
+    if (full) {
+      full.style.display = "";
+      full.href = waLink(OPENER);
+      full.target = "_blank"; full.rel = "noopener";
+    }
+    var line = document.querySelector("[data-wa-line]");
+    if (line) line.style.display = "";
+    var wb = document.getElementById("sendWa");
+    if (wb) wb.style.display = "";
+  } else {
+    // No number configured — hide every WhatsApp affordance and let email lead.
+    document.querySelectorAll("[data-wa]").forEach(function(a){ a.style.display = "none"; });
+    document.querySelectorAll("[data-wa-alt]").forEach(function(a){ a.style.display = ""; });
+    document.querySelectorAll(".btn-quiet").forEach(function(b){
+      b.classList.remove("btn-quiet"); b.classList.add("btn-brand");
+    });
+  }
+
+  function note(){
+    var n = (document.getElementById("cName").value || "").trim();
+    var m = (document.getElementById("cMsg").value || "").trim();
+    return m + (n ? "\n\n— " + n : "");
+  }
+  var sw = document.getElementById("sendWa");
+  if (sw) sw.addEventListener("click", function(){ window.open(waLink(note()), "_blank", "noopener"); });
+  document.getElementById("sendMail").addEventListener("click", function(){
+    var n = (document.getElementById("cName").value || "").trim();
+    window.location.href = "mailto:support@dspops.app?subject=" +
+      encodeURIComponent("DSPOps enquiry" + (n ? " — " + n : "")) +
+      "&body=" + encodeURIComponent(note());
+  });
+
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var rv = document.querySelectorAll(".rv");
+  if (reduced || !("IntersectionObserver" in window)) {
+    rv.forEach(function(el){ el.classList.add("in"); });
+  } else {
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    rv.forEach(function(el){ io.observe(el); });
+  }
+
+  function countUp(el){
+    var target = parseFloat(el.getAttribute("data-count"));
+    var dec = parseInt(el.getAttribute("data-decimal") || "0", 10);
+    var pre = el.getAttribute("data-prefix") || "";
+    var suf = el.getAttribute("data-suffix") || "";
+    if (reduced) { el.textContent = pre + target.toFixed(dec) + suf; return; }
+    var t0 = null;
+    function step(ts){
+      if (!t0) t0 = ts;
+      var p = Math.min((ts - t0) / 1500, 1);
+      p = 1 - Math.pow(1 - p, 3);
+      el.textContent = pre + (target * p).toFixed(dec) + suf;
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  var sb = document.getElementById("stats");
+  if (sb && "IntersectionObserver" in window) {
+    var fired = false;
+    var io2 = new IntersectionObserver(function(es){
+      if (!fired && es[0].isIntersecting) { fired = true; sb.querySelectorAll("[data-count]").forEach(countUp); io2.disconnect(); }
+    }, { threshold: 0.4 });
+    io2.observe(sb);
+  }
+
+  var lb = document.getElementById("lightbox"), lbImg = document.getElementById("lbImg");
+  document.querySelectorAll("[data-zoom]").forEach(function(s){
+    s.addEventListener("click", function(){ lbImg.src = s.getAttribute("data-zoom"); lb.classList.add("open"); });
+  });
+  lb.addEventListener("click", function(){ lb.classList.remove("open"); lbImg.src = ""; });
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape") lb.classList.remove("open"); });
+
+  var items = [].slice.call(document.querySelectorAll(".ph-item"));
+  var points = [].slice.call(document.querySelectorAll(".app-point"));
+  var dotsBox = document.getElementById("phDots");
+  var cur = 0, n = items.length;
+  items.forEach(function(_, i){
+    var b = document.createElement("button");
+    b.setAttribute("aria-label", "Screen " + (i + 1));
+    b.addEventListener("click", function(){ go(i); });
+    dotsBox.appendChild(b);
+  });
+  var dots = [].slice.call(dotsBox.children);
+  function layout(){
+    items.forEach(function(el, i){
+      var off = i - cur;
+      if (off > n / 2) off -= n;
+      if (off < -n / 2) off += n;
+      var abs = Math.abs(off);
+      el.style.zIndex = String(10 - abs);
+      el.style.opacity = abs > 1 ? "0" : String(1 - abs * 0.25);
+      el.style.filter = abs === 0 ? "none" : "brightness(.72)";
+      el.style.transform = "translateX(" + (off * 62) + "%) scale(" + (1 - abs * 0.12) + ")";
+      el.style.pointerEvents = abs > 1 ? "none" : "auto";
+    });
+    dots.forEach(function(d, i){ d.className = i === cur ? "on" : ""; });
+    points.forEach(function(p){ p.classList.toggle("on", parseInt(p.getAttribute("data-i"), 10) === cur); });
+  }
+  function go(i){ cur = ((i % n) + n) % n; layout(); }
+  items.forEach(function(el){ el.addEventListener("click", function(){ go(parseInt(el.getAttribute("data-i"), 10)); }); });
+  points.forEach(function(p){ p.addEventListener("click", function(){ go(parseInt(p.getAttribute("data-i"), 10)); }); });
+  layout();
+  if (!reduced) {
+    var auto = setInterval(function(){ go(cur + 1); }, 4200);
+    var stop = function(){ if (auto) { clearInterval(auto); auto = null; } };
+    document.getElementById("phStage").addEventListener("pointerdown", stop);
+    points.forEach(function(p){ p.addEventListener("click", stop); });
+  }
+
+  var navLinks = [].slice.call(document.querySelectorAll("#navLinks a"));
+  var secs = navLinks.map(function(a){ return document.querySelector(a.getAttribute("href")); });
+  if ("IntersectionObserver" in window) {
+    var io3 = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if (e.isIntersecting) {
+          var id = "#" + e.target.id;
+          navLinks.forEach(function(a){ a.classList.toggle("on", a.getAttribute("href") === id); });
+        }
+      });
+    }, { rootMargin: "-40% 0px -55% 0px" });
+    secs.forEach(function(s){ if (s) io3.observe(s); });
+  }
+})();
+</script>
