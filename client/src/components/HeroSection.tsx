@@ -3,6 +3,7 @@ import { Check } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { useCountUp } from "@/hooks/useCountUp";
 import ScreenshotLightbox from "@/components/home/ScreenshotLightbox";
+import Lightbox from "@/components/Lightbox";
 
 const DASHBOARD = "/images/product/dashboard.webp";
 const DRIVER_PHONE = "/images/product/phone-home.webp";
@@ -22,6 +23,7 @@ const TRUST = [
 export default function HeroSection() {
   const { ref, isVisible } = useScrollAnimation(0.1);
   const [zoom, setZoom] = useState<{ src: string; alt: string } | null>(null);
+  const [videoOpen, setVideoOpen] = useState(false);
 
   const hours = useCountUp(3, 1600, isVisible);
   const weekly = useCountUp(32, 1600, isVisible);
@@ -62,13 +64,23 @@ export default function HeroSection() {
               actually use.
             </p>
 
-            <div className="flex flex-wrap gap-3 mt-6">
+            <div className="flex flex-wrap gap-3 mt-6 items-center">
               <a
                 href="#book-demo"
                 className="inline-flex items-center gap-2 px-6 py-[15px] bg-brand text-white rounded-[10px] text-[16.5px] font-bold shadow-[0_10px_26px_rgba(37,99,235,0.36)] hover:bg-brand-dark transition-colors"
               >
                 Book a demo →
               </a>
+              <button
+                type="button"
+                onClick={() => setVideoOpen(true)}
+                className="inline-flex items-center gap-2 px-[18px] py-[13px] text-[15px] font-bold text-ink hover:opacity-70 transition-opacity"
+              >
+                <span className="w-7 h-7 rounded-full bg-ink text-white inline-flex items-center justify-center text-[10px]">
+                  ▶
+                </span>
+                Watch 2-min tour
+              </button>
               <a
                 href="#platform"
                 className="inline-flex items-center px-[22px] py-[13px] rounded-[10px] border border-border text-[15px] font-bold text-ink hover:bg-card transition-colors"
@@ -152,6 +164,7 @@ export default function HeroSection() {
       </div>
 
       <ScreenshotLightbox src={zoom?.src ?? null} alt={zoom?.alt} onClose={() => setZoom(null)} />
+      <Lightbox videoId={videoOpen ? "DJtEvVlwjHo" : null} onClose={() => setVideoOpen(false)} />
     </section>
   );
 }
