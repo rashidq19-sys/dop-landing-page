@@ -2,7 +2,38 @@
 
 > Session handoff file. Read at session start (with DECISIONS.md); update at session end. The rule lives in global CLAUDE.md → Memory System.
 
-**Last updated:** 2026-08-27 (sales brochures live at /sbl.html and /brochure.html; micromobility badged as shipped; dead Umami tag removed)
+**Last updated:** 2026-08-30 (waitlist welcome-email plan written and approved — not built yet)
+
+## 2026-08-30 — Waitlist welcome emails: PLANNED, nothing built
+
+Rashid asked for an automatic welcome email to website signups, with different wording
+depending on whether the visitor left a phone number. **The plan is written and approved;
+no code was written.** It lives in `WAITLIST-WELCOME-EMAIL-PLAN.md` in this repo — start
+there, it is self-contained.
+
+- **The gap it fixes:** the waitlist is two-step (`POST /api/waitlist` = email,
+  `PATCH /api/waitlist/:id` = name/DSP/phone). Both steps email **Rashid**. The visitor gets
+  **nothing, ever**. Anyone who drops off after step 1 — and everyone from the Pricing
+  section, which has no step 2 at all — is a bare email address with no follow-up.
+- **Rashid's answers, already decided:** wait **5 minutes** before the no-phone nudge; they
+  hand over the number by **replying to the email** (no resume link, no token, no new page);
+  ask which station(s) and how many drivers.
+- `[IMPORTANT]` **One open question blocks the email copy only.** He originally wanted a
+  third question, "which programme — 1.0 or 2.0?", then rejected the plain-English rendering
+  of it ("do your drivers use your vans or their own?"). Ask him whether to use his own
+  wording or drop it. **Do not invent a third phrasing.** Everything else can be built while
+  waiting.
+- **Two traps recorded in the plan:** `sendEmail()` in `server/email.ts` has seven call sites
+  and means "notify Rashid" — add a separate `sendVisitorEmail`, do not widen it. And
+  `notifications@dspops.app` is the only sender proven to work on this Resend account;
+  `support@dspops.app` comes from dop-app's mailer, a different path entirely.
+
+### Open / next
+- [ ] Build the plan. Nothing is started — no columns, no shell file, no sweeper.
+- [ ] The DSPOps email shell has to be **copied** from
+      `F:\Github-DOP\dop-app\server\services\agreementEmails.ts` (`buildAgreementEmailHtml`,
+      line 56) because the repos cannot share code. Leave a comment naming that path or the
+      next theme change will silently diverge between the two.
 
 ## 2026-08-27 — Sales brochures, micromobility badge, dead analytics tag removed (all live)
 
