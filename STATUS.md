@@ -138,3 +138,5 @@ there, it is self-contained.
 - `CostCalculatorSection.tsx` (`getTier`, lines 3-5) caps at 100 drivers and falls through to "Contact sales" above that. Consistent only while no Enterprise rate is published — if a public "from £X per driver" figure is ever added, this must compute it.
 - The Frontend lesson in CLAUDE.md claiming the 7 homepage FAQs are duplicated as JSON-LD in `client/index.html` is **stale** — `Home.tsx` derives them from `shared/faqs.ts` via `faqJsonLd(faqs)`. One file, not two.
 - Pre-existing typecheck failure: `npm run check` reports TS2802 in `client/src/components/FeaturesSection.tsx:61` (`Set` iteration needs a higher `target`). Unrelated to any current work; the Vite build is unaffected. Worth fixing, one line in tsconfig.
+
+## Builder report
