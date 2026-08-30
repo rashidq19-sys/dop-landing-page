@@ -135,3 +135,6 @@ brand-drop/
 # Built brochure copies (regenerate with: node brochures/src/build.mjs)
 brochures/sbl/
 brochures/generic/
+
+# Builder task briefs and run logs; scratch space, not part of the build
+.builder/
