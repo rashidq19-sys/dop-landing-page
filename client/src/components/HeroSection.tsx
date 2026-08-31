@@ -3,7 +3,7 @@ import { Check } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { useCountUp } from "@/hooks/useCountUp";
 import ScreenshotLightbox from "@/components/home/ScreenshotLightbox";
-import Lightbox from "@/components/Lightbox";
+// import Lightbox from "@/components/Lightbox"; // demo video hidden — see HeroSection button + render below
 
 const DASHBOARD = "/images/product/dashboard.webp";
 const DRIVER_PHONE = "/images/product/phone-home.webp";
@@ -23,7 +23,7 @@ const TRUST = [
 export default function HeroSection() {
   const { ref, isVisible } = useScrollAnimation(0.1);
   const [zoom, setZoom] = useState<{ src: string; alt: string } | null>(null);
-  const [videoOpen, setVideoOpen] = useState(false);
+  // const [videoOpen, setVideoOpen] = useState(false); // demo video hidden
 
   const hours = useCountUp(3, 1600, isVisible);
   const weekly = useCountUp(32, 1600, isVisible);
@@ -71,6 +71,8 @@ export default function HeroSection() {
               >
                 Book a demo →
               </a>
+              {/* Demo video hidden — uncomment this button, the Lightbox render below, and the
+                  videoOpen state + import above to bring it back
               <button
                 type="button"
                 onClick={() => setVideoOpen(true)}
@@ -81,6 +83,7 @@ export default function HeroSection() {
                 </span>
                 Watch 2-min tour
               </button>
+              */}
               <a
                 href="#platform"
                 className="inline-flex items-center px-[22px] py-[13px] rounded-[10px] border border-border text-[15px] font-bold text-ink hover:bg-card transition-colors"
@@ -164,7 +167,7 @@ export default function HeroSection() {
       </div>
 
       <ScreenshotLightbox src={zoom?.src ?? null} alt={zoom?.alt} onClose={() => setZoom(null)} />
-      <Lightbox videoId={videoOpen ? "DJtEvVlwjHo" : null} onClose={() => setVideoOpen(false)} />
+      {/* <Lightbox videoId={videoOpen ? "DJtEvVlwjHo" : null} onClose={() => setVideoOpen(false)} /> */}
     </section>
   );
 }
