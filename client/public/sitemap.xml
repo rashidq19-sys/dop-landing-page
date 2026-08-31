@@ -44,9 +44,15 @@
   </url>
   <url>
     <loc>https://dspops.app/blog</loc>
-    <lastmod>2026-08-24</lastmod>
+    <lastmod>2026-08-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://dspops.app/blog/managing-van-damage-claims-amazon-dsp</loc>
+    <lastmod>2026-08-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://dspops.app/blog/reduce-mentor-safety-events-amazon-dsp</loc>

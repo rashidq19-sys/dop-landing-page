@@ -18,6 +18,7 @@ import AmazonDspCsatImprovement from "@/content/blog/amazon-dsp-csat-improvement
 import ManagingDriverAbsenceAmazonDsp from "@/content/blog/managing-driver-absence-amazon-dsp";
 import DspDriverWorkingHoursUk from "@/content/blog/dsp-driver-working-hours-uk";
 import ReduceMentorSafetyEventsAmazonDsp from "@/content/blog/reduce-mentor-safety-events-amazon-dsp";
+import ManagingVanDamageClaimsAmazonDsp from "@/content/blog/managing-van-damage-claims-amazon-dsp";
 
 export type BlogPost = {
   slug: string;
@@ -31,6 +32,17 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  {
+    slug: "managing-van-damage-claims-amazon-dsp",
+    title: "How to manage van damage claims at an Amazon DSP",
+    description:
+      "How UK Amazon DSP owners can build a van damage reporting process — from pre-dispatch walkarounds to incident reports and insurance claims — to reduce costs and disputes.",
+    excerpt:
+      "Van damage is easy to ignore until the costs compound. Here is the end-to-end process that closes the gap between when damage happens and when anyone finds out about it.",
+    date: "2026-08-31",
+    readingMinutes: 5,
+    Body: ManagingVanDamageClaimsAmazonDsp,
+  },
   {
     slug: "reduce-mentor-safety-events-amazon-dsp",
     title: "How to reduce Mentor safety events at an Amazon DSP",
