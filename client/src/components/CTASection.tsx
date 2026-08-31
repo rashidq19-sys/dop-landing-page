@@ -124,7 +124,7 @@ export default function CTASection() {
                   <PoundSterling size={17} />
                 </span>
                 <span>
-                  Start the 14-day free trial
+                  Start the 7-day free trial
                   <small className="block font-normal text-[12px] text-[#9DB1E4] mt-0.5">
                     No card, cancel any time
                   </small>
@@ -194,7 +194,7 @@ export default function CTASection() {
                   </button>
                 </form>
                 <p className="mt-3 text-[12px] text-muted-foreground">
-                  No credit card · 14-day free trial · GDPR compliant
+                  No credit card · 7-day free trial · GDPR compliant
                 </p>
               </>
             )}

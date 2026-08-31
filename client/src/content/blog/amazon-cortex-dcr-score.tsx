@@ -231,7 +231,7 @@ export default function AmazonCortexDcrScore() {
         <a href="/amazon-dsp-management-software">
           Amazon DSP management software
         </a>{" "}
-        built specifically for UK operators, with a 14-day free trial and no credit card required.
+        built specifically for UK operators, with a 7-day free trial and no credit card required.
       </p>
     </>
   );

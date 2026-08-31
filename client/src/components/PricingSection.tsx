@@ -25,7 +25,7 @@ const PLANS: Plan[] = [
       "Cortex scorecards & van inspections",
       "Compliance & document expiry tracking",
     ],
-    trial: "14-day free trial · no card",
+    trial: "7-day free trial · no card",
   },
   {
     name: "Professional",
@@ -39,7 +39,7 @@ const PLANS: Plan[] = [
       "Same-day delivery module · priority support",
     ],
     featured: true,
-    trial: "14-day free trial · no card",
+    trial: "7-day free trial · no card",
   },
   {
     name: "Enterprise",

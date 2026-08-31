@@ -17,7 +17,7 @@ export default function Home() {
   usePageMeta({
     title: "DSPOps — Amazon DSP Management Platform for UK Delivery Service Partners",
     description:
-      "Run your Amazon DSP from one screen. DSPOps brings rota, driver performance, van inspections, payroll and compliance into a single UK-built platform. 14-day free trial.",
+      "Run your Amazon DSP from one screen. DSPOps brings rota, driver performance, van inspections, payroll and compliance into a single UK-built platform. 7-day free trial.",
     canonicalPath: "/",
     jsonLd: faqJsonLd(faqs),
   });

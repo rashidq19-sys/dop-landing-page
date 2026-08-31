@@ -17,7 +17,7 @@ const TRUST = [
   "Built & hosted in the UK",
   "Syncs with Amazon Cortex",
   "iOS & Android",
-  "14-day free trial, no card",
+  "7-day free trial, no card",
 ];
 
 export default function HeroSection() {

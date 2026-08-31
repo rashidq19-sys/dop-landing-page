@@ -98,7 +98,7 @@ export default function SEOOverviewSection() {
 
         <div className="mt-10 flex flex-wrap items-center justify-between gap-4 pt-7 border-t border-border">
           <p className="text-[15px] text-muted-foreground max-w-[680px]">
-            Built for UK Delivery Service Partners. UK-hosted, GDPR-compliant, with a 14-day free
+            Built for UK Delivery Service Partners. UK-hosted, GDPR-compliant, with a 7-day free
             trial — no card required.
           </p>
           <a
