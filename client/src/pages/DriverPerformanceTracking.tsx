@@ -12,12 +12,12 @@ const faqs: Faq[] = [
   {
     question: "What does DSPOps track for driver performance?",
     answer:
-      "DSPOps pulls the core Amazon Cortex scorecard metrics into the platform live: DCR (Delivery Completion Rate), DPMO (Defects Per Million Opportunities), DNRs (Delivered Not Received), POD (Photo on Delivery), CC (Contact Compliance) and CDF (Customer Delivery Feedback). Each metric is broken down per driver and per route.",
+      "DSPOps pulls the core Amazon scorecard metrics into the platform live: DCR (Delivery Completion Rate), DPMO (Defects Per Million Opportunities), DNRs (Delivered Not Received), POD (Photo on Delivery), CC (Contact Compliance) and CDF (Customer Delivery Feedback). Each metric is broken down per driver and per route.",
   },
   {
-    question: "How is this different from looking at Cortex directly?",
+    question: "How is this different from looking at Amazon's scorecard directly?",
     answer:
-      "Cortex shows the weekly fleet-level scorecard, which doesn't tell you which driver or route is dragging the numbers. DSPOps brings the same data in but joins it to your roster, so a low POD score lands on the specific driver who missed the photos.",
+      "Amazon shows the weekly fleet-level scorecard, which doesn't tell you which driver or route is dragging the numbers. DSPOps brings the same data in but joins it to your roster, so a low POD score lands on the specific driver who missed the photos.",
   },
   {
     question: "Can drivers see their own performance?",
@@ -32,7 +32,7 @@ const faqs: Faq[] = [
   {
     question: "How quickly does new performance data appear?",
     answer:
-      "Scorecard data refreshes from Cortex on a regular cadence throughout the day. You see day-by-day movement rather than a Monday-morning weekly summary.",
+      "Scorecard data refreshes from Amazon on a regular cadence throughout the day. You see day-by-day movement rather than a Monday-morning weekly summary.",
   },
 ];
 
@@ -48,7 +48,7 @@ export default function DriverPerformanceTracking() {
   usePageMeta({
     title: "DSP Driver Performance Tracking Software | DSPOps",
     description:
-      "Track every Amazon Cortex scorecard metric per driver and per route. DCR, DPMO, DNRs, POD, CC and CDF — live, so OSMs can act mid-week instead of explaining a drop on Monday.",
+      "Track every Amazon scorecard metric per driver and per route. DCR, DPMO, DNRs, POD, CC and CDF — live, so OSMs can act mid-week instead of explaining a drop on Monday.",
     canonicalPath: "/driver-performance-tracking",
     jsonLd: [
       faqJsonLd(faqs),
@@ -72,10 +72,10 @@ export default function DriverPerformanceTracking() {
               <span className="text-[#353538]">Driver Performance Tracking</span>
             </nav>
             <h1 className="text-[36px] sm:text-[56px] font-extrabold text-[#111113] tracking-[-0.035em] leading-[1.02] max-w-[820px]">
-              DSP driver performance tracking, joined up to the Cortex scorecard.
+              DSP driver performance tracking, joined up to your Amazon scorecard.
             </h1>
             <p className="mt-6 text-[18px] sm:text-[20px] text-[#353538] leading-[1.55] max-w-[760px]">
-              DSPOps brings Amazon Cortex scorecard data into the platform live and breaks it down per driver and
+              DSPOps brings Amazon scorecard data into the platform live and breaks it down per driver and
               per route. Designed to give owners and OSMs the visibility they need to intervene mid-week instead of
               explaining a drop on Monday.
             </p>
@@ -90,7 +90,7 @@ export default function DriverPerformanceTracking() {
                 href="/blog/improve-amazon-cortex-scorecard"
                 className="inline-flex items-center gap-2 px-5 py-3 text-[#353538] text-[15px] font-semibold hover:text-[#111113] transition-colors"
               >
-                Read: improving your Cortex scorecard →
+                Read: improving your Amazon scorecard →
               </Link>
             </div>
           </div>
@@ -104,12 +104,12 @@ export default function DriverPerformanceTracking() {
                 — THE PROBLEM
               </div>
               <h2 className="text-[28px] sm:text-[36px] font-extrabold text-[#111113] tracking-[-0.02em] leading-[1.1]">
-                Cortex tells you the fleet score. It doesn't tell you who's dragging it.
+                Amazon tells you the fleet score. It doesn't tell you who's dragging it.
               </h2>
             </div>
             <div className="text-[16px] text-[#353538] leading-[1.65] space-y-4">
               <p>
-                Every Monday, owners open Cortex and see a fleet-average score. The metric moved, but the data
+                Every Monday, owners open the scorecard and see a fleet-average score. The metric moved, but the data
                 doesn't tell you which driver, which route or which day caused it — and by the time you ask the OSM
                 to find out, the people involved have forgotten the specifics.
               </p>
@@ -196,7 +196,7 @@ export default function DriverPerformanceTracking() {
             <div className="bg-gradient-to-b from-background to-border/40 rounded-[16px] border border-border p-6 sm:p-9 flex items-center justify-center">
               <img
                 src="/images/scorecard.png"
-                alt="DSPOps Amazon Cortex scorecard view per driver"
+                alt="DSPOps Amazon scorecard view per driver"
                 loading="lazy"
                 className="max-h-[480px] rounded-[22px] shadow-[0_25px_60px_-12px_rgba(17,17,19,0.28)]"
               />
@@ -226,10 +226,10 @@ export default function DriverPerformanceTracking() {
                   WORKS WITH
                 </span>
               </div>
-              <div className="text-[28px] font-extrabold text-[#111113] tracking-[-0.02em]">Amazon Cortex</div>
+              <div className="text-[28px] font-extrabold text-[#111113] tracking-[-0.02em]">Amazon</div>
               <p className="mt-3 text-[14px] text-[#6C6C72] leading-[1.6]">
-                Live sync. Scorecards, delivery progress and route data flow into DSPOps automatically — no manual
-                re-keying, no "why is my score wrong?" calls.
+                Scorecards, delivery progress and route data come into DSPOps without re-keying — no more
+                "why is my score wrong?" calls.
               </p>
             </div>
           </div>

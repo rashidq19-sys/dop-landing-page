@@ -20,7 +20,7 @@ const SCREENS = [
   },
   {
     img: "/images/product/phone-scorecards.webp",
-    alt: "Driver app My Scorecards — the driver's own Cortex metrics",
+    alt: "Driver app My Scorecards — the driver's own performance metrics",
     Icon: TrendingUp,
     title: "Their own scorecard",
     body: "They see the number before you have to mention it.",

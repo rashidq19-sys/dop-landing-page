@@ -6,10 +6,10 @@ import SignInModal from "./SignInModal";
 import { LOGO_LIGHT_BG } from "@/lib/brandAssets";
 
 const featuresMenu: { label: string; href: string; desc: string }[] = [
-  { label: "Driver Performance", href: "/driver-performance-tracking", desc: "Cortex scorecard, per driver and per route" },
+  { label: "Driver Performance", href: "/driver-performance-tracking", desc: "Scorecard, per driver and per route" },
   { label: "Van Inspections", href: "/van-inspection-app", desc: "Daily van checks with photos and video" },
   { label: "Rota Management", href: "/dsp-rota-management", desc: "Driver self-service availability and cover" },
-  { label: "Invoicing & Payroll", href: "/dsp-invoicing-payroll", desc: "Pay calculated from Amazon Cortex" },
+  { label: "Invoicing & Payroll", href: "/dsp-invoicing-payroll", desc: "Pay calculated from Amazon" },
   { label: "Compliance Tools", href: "/dsp-compliance-tools", desc: "Right-to-Work, licences, GDPR" },
   { label: "Platform Overview", href: "/amazon-dsp-management-software", desc: "How DSPOps fits together" },
 ];

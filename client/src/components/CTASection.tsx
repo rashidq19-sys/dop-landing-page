@@ -73,7 +73,7 @@ export default function CTASection() {
           Your depot on the screen.
         </h2>
         <p className="mt-3.5 text-[15.5px] sm:text-[17px] text-[#AAB8DC] leading-[1.6] max-w-[62ch]">
-          Not a canned walkthrough — we import your drivers, your rota and your Cortex data on the
+          Not a canned walkthrough — we import your drivers, your rota and your Amazon data on the
           call, so what you're looking at is your own operation. You'd be talking to the person who
           built it, not a sales team.
         </p>
@@ -142,7 +142,7 @@ export default function CTASection() {
               See your DSP live on DSPOps
             </h3>
             <p className="text-[13px] text-muted-foreground mt-1 mb-5">
-              We'll import your drivers, rota and Cortex data on the call, so you're looking at your
+              We'll import your drivers, rota and Amazon data on the call, so you're looking at your
               own operation — not a canned demo.
             </p>
 

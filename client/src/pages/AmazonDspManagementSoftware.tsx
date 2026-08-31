@@ -12,22 +12,22 @@ const faqs: Faq[] = [
   {
     question: "What is Amazon DSP management software?",
     answer:
-      "Amazon DSP management software is a platform designed to help Delivery Service Partners run the operational side of their fleet — driver scheduling, performance tracking, van inspections, payroll, and compliance. It's built around the specific way Amazon DSPs work, so it integrates with Amazon Cortex and supports both standard and Same-Day Delivery operations.",
+      "Amazon DSP management software is a platform designed to help Delivery Service Partners run the operational side of their fleet — driver scheduling, performance tracking, van inspections, payroll, and compliance. It's built around the specific way Amazon DSPs work, so it pulls in your Amazon schedule and scorecard data and supports both standard and Same-Day Delivery operations.",
   },
   {
     question: "Why do UK Delivery Service Partners need a dedicated platform?",
     answer:
-      "DSP operations don't fit neatly into generic fleet software. Owners juggle Cortex scorecards, route assignments, driver portals, van checks and weekly payroll all referencing the same drivers. DSPOps is designed for that workflow, so the same driver record connects to their rota, their score, their van check, and their payslip.",
+      "DSP operations don't fit neatly into generic fleet software. Owners juggle Amazon scorecards, route assignments, driver portals, van checks and weekly payroll all referencing the same drivers. DSPOps is designed for that workflow, so the same driver record connects to their rota, their score, their van check, and their payslip.",
   },
   {
-    question: "Does DSPOps work with Amazon Cortex?",
+    question: "Does DSPOps sync with Amazon?",
     answer:
-      "Yes — DSPOps connects to Amazon Cortex to pull scorecard data, delivery progress and route information into the platform. You don't need to re-key data between systems, and per-driver metrics are surfaced live rather than as a weekly summary screenshot.",
+      "Yes — DSPOps connects to Amazon to pull scorecard data, delivery progress and route information into the platform. You don't need to re-key data between systems, and per-driver metrics are surfaced live rather than as a weekly summary screenshot.",
   },
   {
     question: "How long does it take to get set up?",
     answer:
-      "Most DSPs are live in around 20 minutes. The team imports your drivers from CSV, connects your Cortex feed and generates driver portal logins. Priority onboarding sessions are included on Professional and Enterprise plans.",
+      "Most DSPs are live in around 20 minutes. The team imports your drivers from CSV, connects your Amazon feed and generates driver portal logins. Priority onboarding sessions are included on Professional and Enterprise plans.",
   },
   {
     question: "Is DSPOps suitable for DSPs running Same-Day Delivery?",
@@ -52,7 +52,7 @@ const modules = [
     icon: BarChart2,
     name: "Driver performance tracking",
     href: "/driver-performance-tracking",
-    summary: "Cortex scorecard metrics, broken down per driver and per route. DCR, DPMO, DNRs, POD, CC, CDF.",
+    summary: "Amazon scorecard metrics, broken down per driver and per route. DCR, DPMO, DNRs, POD, CC, CDF.",
   },
   {
     icon: Truck,
@@ -64,7 +64,7 @@ const modules = [
     icon: PoundSterling,
     name: "Invoicing and payroll support",
     href: "/dsp-invoicing-payroll",
-    summary: "Driver pay calculated from Amazon Cortex's Work Summary Tool. One-click export for accountants.",
+    summary: "Driver pay calculated from Amazon's Work Summary Tool. One-click export for accountants.",
   },
   {
     icon: Shield,
@@ -146,7 +146,7 @@ export default function AmazonDspManagementSoftware() {
             <div className="text-[16px] text-[#353538] leading-[1.65] space-y-4">
               <p>
                 A typical UK DSP runs the rota in Excel, dispatches over WhatsApp, checks vans on a third-party
-                inspection app, calculates pay against Cortex screenshots in a separate sheet, and tracks compliance
+                inspection app, calculates pay against Amazon screenshots in a separate sheet, and tracks compliance
                 in a folder of PDFs. Each tool stores driver data its own way, and none of them know about each
                 other.
               </p>
@@ -170,7 +170,7 @@ export default function AmazonDspManagementSoftware() {
             </h2>
             <p className="mt-5 text-[16px] text-[#353538] leading-[1.6] max-w-[760px]">
               Each DSPOps module is built for a specific job UK DSP owners have to do every week. They share one
-              driver record, so the same person on Cortex is the same person on the rota, the payslip and the van
+              driver record, so the same person in Amazon's system is the same person on the rota, the payslip and the van
               check.
             </p>
             <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -209,12 +209,12 @@ export default function AmazonDspManagementSoftware() {
             <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
                 {
-                  title: "Does it actually connect to Amazon Cortex?",
+                  title: "Does it actually connect to Amazon?",
                   body: "Live scorecard sync — not weekly screenshot uploads — is the difference between intervening mid-week and explaining a drop on Monday.",
                 },
                 {
                   title: "Is it designed for DSPs, or general fleet software?",
-                  body: "Generic fleet tools don't know about Cortex, Work Summary Tool exports, or SDD waves. A DSP-specific platform reflects how the operation actually runs.",
+                  body: "Generic fleet tools don't know about Amazon scorecards, Work Summary Tool exports, or SDD waves. A DSP-specific platform reflects how the operation actually runs.",
                 },
                 {
                   title: "Does it cover the full week's workflow?",
@@ -259,7 +259,7 @@ export default function AmazonDspManagementSoftware() {
               </h2>
               <p className="mt-5 text-[16px] text-[#353538] leading-[1.65]">
                 Every driver gets a personal login — no app download — and sees their week's routes, their personal
-                Cortex score, their last payslip and any compliance documents they need to update. Self-service for
+                scorecard, their last payslip and any compliance documents they need to update. Self-service for
                 the things drivers ask about every week.
               </p>
             </div>

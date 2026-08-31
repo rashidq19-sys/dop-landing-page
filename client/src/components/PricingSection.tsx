@@ -22,7 +22,7 @@ const PLANS: Plan[] = [
     drivers: "Up to 30 drivers · single station",
     features: [
       "Rota · Dispatch · Check-in · Driver app",
-      "Cortex scorecards & van inspections",
+      "Performance scorecards & van inspections",
       "Compliance & document expiry tracking",
     ],
     trial: "7-day free trial · no card",
@@ -57,7 +57,7 @@ const PLANS: Plan[] = [
   },
 ];
 
-const NETWORKS = ["Amazon (Cortex sync)", "Evri", "UPS", "FedEx", "DX", "ArrowXL", "Parcelforce"];
+const NETWORKS = ["Amazon", "Evri", "UPS", "FedEx", "DX", "ArrowXL", "Parcelforce"];
 
 /**
  * Per-plan lead capture. Kept from the previous pricing section: `source` tells

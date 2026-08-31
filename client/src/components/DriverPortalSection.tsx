@@ -1,7 +1,7 @@
 const PORTAL_SCREENS = [
   { src: "/images/portal/home.jpeg", label: "Deployment", desc: "Wave, route, van, cage — every morning, clearly laid out." },
   { src: "/images/portal/rota.jpeg", label: "Availability", desc: "Drivers set their own rota. OSM locks it when ready." },
-  { src: "/images/portal/scorecards.jpeg", label: "Scorecards", desc: "Cortex metrics live. Drivers see their score — fewer calls." },
+  { src: "/images/portal/scorecards.jpeg", label: "Scorecards", desc: "Scorecard metrics live. Drivers see their score — fewer calls." },
   { src: "/images/portal/invoice.jpeg", label: "Payslips", desc: "Auto-generated. PDF download. Zero questions." },
 ];
 

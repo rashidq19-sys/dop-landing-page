@@ -16,7 +16,7 @@ type Module = {
 const MODULES: Module[] = [
   {
     title: "Dispatch & deployment",
-    body: "Smart Assign fills every route from live availability, you adjust, then one tap publishes waves, routes and vans to every driver's phone. Syncs directly with Amazon Cortex, so the plan you build is the plan Amazon has.",
+    body: "Smart Assign fills every route from live availability, you adjust, then one tap publishes waves, routes and vans to every driver's phone.",
     win: "~4 hrs a week back",
     img: "/images/product/deployment.webp",
     alt: "Deployment board showing a wave with drivers, route codes and vans",
@@ -142,7 +142,7 @@ export default function PlatformSection() {
         </div>
 
         <p className="mt-8 text-[12.5px] text-muted-foreground leading-[1.6]">
-          Also included: live route progress from Cortex · driver document &amp; right-to-work
+          Also included: live route progress from Amazon · driver document &amp; right-to-work
           expiry tracking · incident reports · shift history &amp; reliability reporting · e-signed
           agreements · role-based access and 2FA.
         </p>

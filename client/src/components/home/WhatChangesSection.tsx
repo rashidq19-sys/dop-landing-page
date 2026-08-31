@@ -6,7 +6,7 @@ import SectionEyebrow from "@/components/home/SectionEyebrow";
 const SWAPS = [
   ["Chasing availability on WhatsApp all weekend", "Drivers set their own rota in the app"],
   ["Ringing round at 06:30 to see who turned up", "Check-in board fills itself as they arrive"],
-  ["Typing the plan into Cortex by hand", "DSPOps syncs straight to Amazon Cortex"],
+  ["Typing the plan into Amazon's system by hand", "One tap publishes it to every driver's phone"],
   ["A spreadsheet per station, a login per tool", "One account, every station, one bill"],
   ["Onboarding packs emailed back and forth", "Drivers onboard themselves, you approve"],
   ["Driver invoices rebuilt by hand each week", "Generated, sent and exported in minutes"],

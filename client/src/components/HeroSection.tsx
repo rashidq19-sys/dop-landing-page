@@ -15,7 +15,7 @@ const PHONE_ALT =
 
 const TRUST = [
   "Built & hosted in the UK",
-  "Syncs with Amazon Cortex",
+  "Syncs with Amazon",
   "iOS & Android",
   "7-day free trial, no card",
 ];
@@ -59,7 +59,7 @@ export default function HeroSection() {
             </h1>
 
             <p className="mt-4 text-[15.5px] sm:text-[17px] text-muted-foreground leading-[1.6] max-w-[62ch]">
-              Rota, dispatch, morning check-in, driver onboarding, Cortex performance, van
+              Rota, dispatch, morning check-in, driver onboarding, performance scorecards, van
               inspections and driver invoicing — one login, one bill, and an app your drivers
               actually use.
             </p>

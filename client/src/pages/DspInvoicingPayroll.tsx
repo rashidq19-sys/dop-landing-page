@@ -12,7 +12,7 @@ const faqs: Faq[] = [
   {
     question: "How does DSPOps calculate driver pay?",
     answer:
-      "DSPOps connects to Amazon Cortex's Work Summary Tool and pulls each driver's worked hours, routes, stops and miles every day. The platform applies your pay rules — standard rates, SDD rates, overtime, mileage, bonus thresholds — and produces a per-driver pay number you can audit line by line.",
+      "DSPOps connects to Amazon's Work Summary Tool and pulls each driver's worked hours, routes, stops and miles every day. The platform applies your pay rules — standard rates, SDD rates, overtime, mileage, bonus thresholds — and produces a per-driver pay number you can audit line by line.",
   },
   {
     question: "Can I export payroll to send to my accountant?",
@@ -32,7 +32,7 @@ const faqs: Faq[] = [
   {
     question: "What if there's a dispute on a payslip?",
     answer:
-      "Every pay line traces back to a specific route, date and Cortex record. When a driver questions a number you open their pay period, show them the routes and hours that built it, and resolve the conversation in minutes instead of hours.",
+      "Every pay line traces back to a specific route, date and Amazon record. When a driver questions a number you open their pay period, show them the routes and hours that built it, and resolve the conversation in minutes instead of hours.",
   },
 ];
 
@@ -48,7 +48,7 @@ export default function DspInvoicingPayroll() {
   usePageMeta({
     title: "DSP Invoicing and Payroll Support Software | DSPOps",
     description:
-      "DSP invoicing and payroll support that pulls driver pay directly from Amazon Cortex's Work Summary Tool. One-click CSV exports for accountants. Built for UK Delivery Service Partners.",
+      "DSP invoicing and payroll support that pulls driver pay directly from Amazon's Work Summary Tool. One-click CSV exports for accountants. Built for UK Delivery Service Partners.",
     canonicalPath: "/dsp-invoicing-payroll",
     jsonLd: [
       faqJsonLd(faqs),
@@ -71,11 +71,11 @@ export default function DspInvoicingPayroll() {
               <span className="text-[#353538]">DSP Invoicing and Payroll</span>
             </nav>
             <h1 className="text-[36px] sm:text-[56px] font-extrabold text-[#111113] tracking-[-0.035em] leading-[1.02] max-w-[820px]">
-              DSP invoicing and payroll support, calculated from Cortex.
+              DSP invoicing and payroll support, calculated from Amazon.
             </h1>
             <p className="mt-6 text-[18px] sm:text-[20px] text-[#353538] leading-[1.55] max-w-[760px]">
-              Stop rekeying driver hours into Excel every Sunday night. DSPOps pulls pay directly from Amazon
-              Cortex's Work Summary Tool, applies your pay rules, and produces a per-driver number you can audit
+              Stop rekeying driver hours into Excel every Sunday night. DSPOps pulls pay directly from Amazon's
+              Work Summary Tool, applies your pay rules, and produces a per-driver number you can audit
               line by line — ready to export to your accountant.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
@@ -102,12 +102,12 @@ export default function DspInvoicingPayroll() {
                 — A TYPICAL FRIDAY
               </div>
               <h2 className="text-[28px] sm:text-[36px] font-extrabold text-[#111113] tracking-[-0.02em] leading-[1.1]">
-                Hours of payroll. Cortex screenshots. Manual reconciliation. Monday complaints.
+                Hours of payroll. Amazon screenshots. Manual reconciliation. Monday complaints.
               </h2>
             </div>
             <div className="text-[16px] text-[#353538] leading-[1.65] space-y-4">
               <p>
-                Most DSP owners spend the best part of a Friday — or worse, a Sunday — pulling Cortex screenshots,
+                Most DSP owners spend the best part of a Friday — or worse, a Sunday — pulling Amazon screenshots,
                 matching drivers to routes, applying different pay rates for standard vs Same-Day, adding holiday
                 pay, adjusting for sickness, sending the file to the accountant, then fielding complaints on
                 Monday.
@@ -138,7 +138,7 @@ export default function DspInvoicingPayroll() {
                 {
                   icon: Calculator,
                   title: "Live mileage and bonus thresholds",
-                  body: "Pay per mile, per stop, or per bonus tier — calculated against live Cortex data, not Friday's screenshot.",
+                  body: "Pay per mile, per stop, or per bonus tier — calculated against live Amazon data, not Friday's screenshot.",
                 },
                 {
                   icon: FileSpreadsheet,
@@ -148,7 +148,7 @@ export default function DspInvoicingPayroll() {
                 {
                   icon: ShieldCheck,
                   title: "Every pay line is auditable",
-                  body: "Each number traces back to a route, a date and a Cortex record. When a driver disputes, you have receipts.",
+                  body: "Each number traces back to a route, a date and an Amazon record. When a driver disputes, you have receipts.",
                 },
               ].map((it) => (
                 <div key={it.title} className="bg-white rounded-[14px] border border-border p-6">

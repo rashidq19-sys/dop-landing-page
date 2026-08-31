@@ -9,12 +9,12 @@ export const faqs: Faq[] = [
   {
     question: "How long does setup take?",
     answer:
-      "Most DSPs are running their first dispatch within 20 minutes. We import your drivers from a spreadsheet, connect your Cortex scorecard feed, and generate driver logins automatically. A full depot — every driver onboarded and using the app daily — typically settles within a week. Priority onboarding sessions are included on Professional and Enterprise plans.",
+      "Most DSPs are running their first dispatch within 20 minutes. We import your drivers from a spreadsheet, connect your Amazon scorecard feed, and generate driver logins automatically. A full depot — every driver onboarded and using the app daily — typically settles within a week. Priority onboarding sessions are included on Professional and Enterprise plans.",
   },
   {
-    question: "Does it work with Amazon Cortex?",
+    question: "Does it sync with Amazon?",
     answer:
-      "Yes — live two-way sync. Scorecards, delivery progress, and route data flow into DSPOps automatically. No more manual re-keying, no more 'why is my score wrong?' calls.",
+      "Yes. Scorecards, delivery progress and route data come into DSPOps without re-keying — no more 'why is my score wrong?' calls.",
   },
   {
     question: "We run Same-Day Delivery. Is that supported?",

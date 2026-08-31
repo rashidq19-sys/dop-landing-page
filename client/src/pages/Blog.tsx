@@ -10,7 +10,7 @@ export default function Blog() {
   usePageMeta({
     title: "DSPOps Blog — Practical guides for UK Amazon DSPs",
     description:
-      "Practical guides on Amazon Cortex, DSP operations, payroll, rota management and same-day delivery — written for UK DSP owners.",
+      "Practical guides on Amazon scorecards, DSP operations, payroll, rota management and same-day delivery — written for UK DSP owners.",
     canonicalPath: "/blog",
   });
 
@@ -28,7 +28,7 @@ export default function Blog() {
               Practical guides for UK Amazon DSPs.
             </h1>
             <p className="mt-6 text-[18px] sm:text-[20px] text-[#353538] leading-[1.55] max-w-[700px]">
-              Plain-English playbooks on Cortex, scorecards, rota management, payroll, and same-day delivery —
+              Plain-English playbooks on dispatch, scorecards, rota management, payroll, and same-day delivery —
               written for the people actually running DSPs.
             </p>
           </div>
