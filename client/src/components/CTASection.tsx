@@ -1,9 +1,29 @@
-import { useState } from "react";
-import { Check, ArrowRight, Loader2, Mail, PoundSterling } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import Cal, { getCalApi } from "@calcom/embed-react";
+import { Check, ArrowRight, Loader2, Mail, PoundSterling, CalendarCheck } from "lucide-react";
 import SectionEyebrow from "@/components/home/SectionEyebrow";
 import { LOGO_MARK } from "@/lib/brandAssets";
 
-type FormStep = "email" | "details" | "done";
+type FormStep = "email" | "details" | "calendar" | "done";
+
+// The Cal.com event type behind the calendar. This is the last part of the
+// public booking URL (cal.com/<user>/<event>) — change it here if the event
+// type is ever renamed in Cal.com.
+const CAL_LINK = "rashid-qanooni-j1pvld/30min";
+
+// Cal.com reports the slot as an ISO string. Show it back in the visitor's own
+// timezone — the one they picked it in — rather than forcing UK time.
+function formatSlot(iso: string): string {
+  const date = new Date(iso);
+  if (isNaN(date.getTime())) return "Your slot is confirmed";
+  return date.toLocaleString(undefined, {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    hour: "numeric",
+    minute: "2-digit",
+  });
+}
 
 export default function CTASection() {
   const [step, setStep] = useState<FormStep>("email");
@@ -11,8 +31,63 @@ export default function CTASection() {
   const [dspName, setDspName] = useState("");
   const [phone, setPhone] = useState("");
   const [recordId, setRecordId] = useState<number | null>(null);
+  const [bookedSlot, setBookedSlot] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  // Cal.com fires its booking event from inside the iframe, long after this
+  // effect was set up, so the callback must not close over stale state. Refs
+  // hold the values it needs; bookedRef also stops the legacy and V2 events
+  // both being handled for the same booking.
+  const recordIdRef = useRef<number | null>(null);
+  const bookedRef = useRef(false);
+  recordIdRef.current = recordId;
+
+  useEffect(() => {
+    if (step !== "calendar") return;
+    let cancelled = false;
+
+    const handleBooking = (startTime: string | null, uid: string | null) => {
+      if (bookedRef.current) return;
+      bookedRef.current = true;
+      setBookedSlot(startTime);
+      setStep("done");
+
+      const id = recordIdRef.current;
+      if (!id) return;
+      // Cal.com has already made the booking and sent the invite. This is
+      // only so the lead record knows, so a failure here must stay silent.
+      fetch(`/api/waitlist/${id}/demo-booked`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ startTime, uid }),
+      }).catch((err) => console.error("Could not record the demo booking:", err));
+    };
+
+    (async () => {
+      try {
+        const cal = await getCalApi();
+        if (cancelled) return;
+        cal("on", {
+          action: "bookingSuccessfulV2",
+          callback: (e: any) =>
+            handleBooking(e?.detail?.data?.startTime ?? null, e?.detail?.data?.uid ?? null),
+        });
+        cal("on", {
+          action: "bookingSuccessful",
+          callback: (e: any) => handleBooking(e?.detail?.data?.date ?? null, null),
+        });
+      } catch (err) {
+        // If the embed script cannot load, the visitor still sees the
+        // calendar area and the "call me instead" escape hatch.
+        console.error("Cal.com embed failed to initialise:", err);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [step]);
 
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,7 +124,7 @@ export default function CTASection() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Something went wrong");
-      setStep("done");
+      setStep("calendar");
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -134,7 +209,11 @@ export default function CTASection() {
           </div>
 
           {/* ── The demo form ─────────────────────────────────── */}
-          <div className="bg-card text-ink rounded-2xl p-6 sm:p-7 shadow-[0_30px_70px_-25px_rgba(11,18,32,0.5)]">
+          <div
+            className={`bg-card text-ink rounded-2xl p-6 sm:p-7 shadow-[0_30px_70px_-25px_rgba(11,18,32,0.5)] ${
+              step === "calendar" ? "lg:col-span-2" : ""
+            }`}
+          >
             <div className="text-[11px] font-bold uppercase tracking-[0.12em] text-brand-dark">
               Book a 20-minute demo
             </div>
@@ -147,9 +226,21 @@ export default function CTASection() {
             </p>
 
             {step === "done" && (
-              <div className="flex items-center gap-2 rounded-lg bg-mint-soft border border-mint/25 px-4 py-3 text-[13px] font-semibold text-mint-ink">
-                <Check size={15} className="shrink-0" />
-                Got it — we'll reach out shortly to book you in.
+              <div className="rounded-lg bg-mint-soft border border-mint/25 px-4 py-3.5 text-[13px] text-mint-ink">
+                <div className="flex items-center gap-2 font-semibold">
+                  {bookedSlot ? (
+                    <CalendarCheck size={15} className="shrink-0" />
+                  ) : (
+                    <Check size={15} className="shrink-0" />
+                  )}
+                  {bookedSlot ? "You're booked in." : "Got it — we'll reach out shortly to book you in."}
+                </div>
+                {bookedSlot && (
+                  <p className="mt-1.5 font-normal leading-[1.55]">
+                    {formatSlot(bookedSlot)}. The calendar invite and joining link are on their way
+                    to <strong className="font-semibold">{email}</strong>.
+                  </p>
+                )}
               </div>
             )}
 
@@ -229,6 +320,41 @@ export default function CTASection() {
                     {loading ? <Loader2 size={16} className="animate-spin" /> : <>Complete booking <ArrowRight size={15} /></>}
                   </button>
                 </form>
+              </>
+            )}
+
+            {step === "calendar" && (
+              <>
+                <div className="flex items-center gap-2 mb-4 rounded-lg bg-mint-soft border border-mint/25 px-4 py-2.5 text-[13px] font-semibold text-mint-ink">
+                  <Check size={15} className="shrink-0" />
+                  Got your details — now pick a time that suits you.
+                </div>
+                <div className="-mx-1 rounded-xl border border-border overflow-hidden">
+                  <Cal
+                    calLink={CAL_LINK}
+                    // Cal sizes its own iframe to the content. Left to a narrow
+                    // column it stacks the month view above the slot list and
+                    // runs to ~1500px, so the card goes full width for this
+                    // step and the calendar is left to find its own height.
+                    style={{ width: "100%" }}
+                    config={{
+                      email,
+                      // The form asks for the DSP, not the person, so leave the
+                      // name for them to fill in — it is the one useful detail
+                      // this form never captures.
+                      notes: `DSP: ${dspName}\nPhone: ${phone}`,
+                      theme: "light",
+                      layout: "month_view",
+                    }}
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setStep("done")}
+                  className="mt-3 text-[13px] text-muted-foreground underline underline-offset-2 hover:text-ink transition-colors"
+                >
+                  I'd rather you just called me
+                </button>
               </>
             )}
           </div>

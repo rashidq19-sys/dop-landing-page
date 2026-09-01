@@ -28,6 +28,11 @@ const thirdParties = [
   { service: "OneSignal", data: "Device tokens, driver identifiers", purpose: "Push notifications" },
   { service: "Cloudflare R2", data: "All uploaded files and photos", purpose: "Cloud file storage" },
   { service: "Neon (PostgreSQL)", data: "All structured data", purpose: "Database hosting" },
+  {
+    service: "Cal.com",
+    data: "Your name, email address, and any notes you add when booking a demo",
+    purpose: "Scheduling demo calls booked through the calendar on this website",
+  },
 ];
 
 const gdprRights: { right: string; desc: React.ReactNode }[] = [

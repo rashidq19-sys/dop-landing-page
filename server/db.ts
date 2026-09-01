@@ -24,6 +24,11 @@ export async function initDb() {
   await pool.query(`ALTER TABLE waitlist ADD COLUMN IF NOT EXISTS dsp_name VARCHAR(255)`);
   await pool.query(`ALTER TABLE waitlist ADD COLUMN IF NOT EXISTS welcome_email_sent_at TIMESTAMPTZ`);
   await pool.query(`ALTER TABLE waitlist ADD COLUMN IF NOT EXISTS phone_nudge_sent_at TIMESTAMPTZ`);
+  // Demo bookings made through the Cal.com calendar embedded in the "Book a
+  // demo" section. demo_booked_at is when they picked a slot; demo_slot_at is
+  // the start of the slot itself.
+  await pool.query(`ALTER TABLE waitlist ADD COLUMN IF NOT EXISTS demo_booked_at TIMESTAMPTZ`);
+  await pool.query(`ALTER TABLE waitlist ADD COLUMN IF NOT EXISTS demo_slot_at TIMESTAMPTZ`);
   // This 1-day boundary matches the sweeper ceiling, so re-running this can only
   // claim rows the sweeper already ignores and cannot swallow a pending nudge.
   await pool.query(`

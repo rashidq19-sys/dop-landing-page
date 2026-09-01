@@ -104,4 +104,68 @@ router.patch("/:id", async (req, res) => {
   }
 });
 
+// POST /api/waitlist/:id/demo-booked — Step 3: they picked a slot in the
+// embedded Cal.com calendar. Cal.com owns the booking itself (invites,
+// reminders, the calendar entry); this only records against the lead that a
+// demo was booked, so the admin list can tell a booked lead from a cold one.
+router.post("/:id/demo-booked", async (req, res) => {
+  const id = parseInt(req.params.id, 10);
+  if (isNaN(id)) {
+    return res.status(400).json({ error: "Invalid ID" });
+  }
+
+  // Cal.com reports the slot start; treat anything unparseable as absent
+  // rather than failing the request — the booking itself is already made.
+  const rawStart = req.body?.startTime;
+  const parsedStart = typeof rawStart === "string" ? new Date(rawStart) : null;
+  const slotAt = parsedStart && !isNaN(parsedStart.getTime()) ? parsedStart.toISOString() : null;
+
+  // Cal.com's own reference for the booking, used to build a link Rashid can
+  // open to reschedule or cancel. Restricted to the characters Cal.com uses so
+  // it cannot be turned into some other URL.
+  const rawUid = req.body?.uid;
+  const bookingUid =
+    typeof rawUid === "string" && /^[A-Za-z0-9_-]{1,64}$/.test(rawUid) ? rawUid : null;
+
+  try {
+    const result = await pool.query(
+      `UPDATE waitlist
+       SET demo_booked_at = NOW(),
+           demo_slot_at = COALESCE($1::timestamptz, demo_slot_at),
+           updated_at = NOW()
+       WHERE id = $2
+       RETURNING email, name, dsp_name, phone`,
+      [slotAt, id]
+    );
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: "Record not found" });
+    }
+    res.json({ success: true });
+
+    const row = result.rows[0];
+    const slotLabel = slotAt
+      ? new Date(slotAt).toLocaleString("en-GB", {
+          timeZone: "Europe/London",
+          dateStyle: "full",
+          timeStyle: "short",
+        }) + " (UK time)"
+      : "see the Cal.com confirmation";
+
+    sendEmail(
+      "Demo booked — DSPOps website",
+      `Someone booked a demo slot from the website.\n\n` +
+        `DSP name: ${row.dsp_name || "—"}\n` +
+        `Contact name: ${row.name || "—"}\n` +
+        `Email: ${row.email}\n` +
+        `Phone: ${row.phone || "—"}\n` +
+        `Slot: ${slotLabel}\n\n` +
+        `Cal.com has sent the calendar invite and will send the reminders.` +
+        (bookingUid ? `\n\nView, reschedule or cancel: https://cal.com/booking/${bookingUid}` : "")
+    ).catch((err) => console.error("Notification email failed (demo booked):", err));
+  } catch (err) {
+    console.error("Demo booking update error:", err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 export default router;
