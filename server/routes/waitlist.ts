@@ -1,6 +1,7 @@
 import { Router } from "express";
 import pool from "../db.js";
-import { sendEmail } from "../email.js";
+import { sendEmail, sendVisitorEmail } from "../email.js";
+import { buildWaitlistEmailHtml } from "../emailShell.js";
 
 const router = Router();
 
@@ -74,6 +75,25 @@ router.patch("/:id", async (req, res) => {
     res.json({ success: true });
 
     const row = result.rows[0];
+    void pool.query(
+      `UPDATE waitlist SET welcome_email_sent_at = now()
+       WHERE id = $1 AND welcome_email_sent_at IS NULL
+       RETURNING email, name, dsp_name`,
+      [id]
+    ).then((welcomeResult) => {
+      const welcomeRow = welcomeResult.rows[0];
+      if (!welcomeRow) return;
+
+      return sendVisitorEmail({
+        to: welcomeRow.email,
+        subject: "Welcome to DSPOps",
+        html: buildWaitlistEmailHtml({
+          name: welcomeRow.name,
+          variant: "welcome",
+        }),
+      });
+    }).catch((err) => console.error("Visitor welcome email failed (step 2):", err));
+
     sendEmail(
       "DSPOps signup complete — Step 2 (full details)",
       `A signup has been completed.\n\nDSP name: ${cleanDspName || "—"}\nContact name: ${cleanName || "—"}\nEmail: ${row.email}\nPhone: ${cleanPhone}\nSignup source: ${row.source || "unknown"}`

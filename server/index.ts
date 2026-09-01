@@ -6,7 +6,9 @@ import { createServer } from "http";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
-import { initDb } from "./db.js";
+import pool, { initDb } from "./db.js";
+import { sendVisitorEmail } from "./email.js";
+import { buildWaitlistEmailHtml } from "./emailShell.js";
 import waitlistRoutes from "./routes/waitlist.js";
 import adminRoutes from "./routes/admin.js";
 import adminChatRoutes from "./routes/adminChat.js";
@@ -50,6 +52,45 @@ function isKnownRoute(pathname: string): boolean {
   return PUBLIC_ROUTE_PATTERNS.some((re) => re.test(pathname));
 }
 
+async function sendPhoneNudges() {
+  try {
+    const result = await pool.query(`
+      SELECT id, email, name, dsp_name FROM waitlist
+      WHERE phone IS NULL
+        AND phone_nudge_sent_at IS NULL
+        AND welcome_email_sent_at IS NULL
+        AND created_at < now() - interval '5 minutes'
+        AND created_at > now() - interval '1 day'
+    `);
+
+    for (const row of result.rows) {
+      try {
+        const claimResult = await pool.query(
+          `UPDATE waitlist SET phone_nudge_sent_at = now()
+           WHERE id = $1 AND phone_nudge_sent_at IS NULL AND phone IS NULL
+           RETURNING email, name, dsp_name`,
+          [row.id]
+        );
+        const claimedRow = claimResult.rows[0];
+        if (!claimedRow) continue;
+
+        await sendVisitorEmail({
+          to: claimedRow.email,
+          subject: "Welcome to DSPOps",
+          html: buildWaitlistEmailHtml({
+            name: claimedRow.name,
+            variant: "phone-nudge",
+          }),
+        });
+      } catch (err) {
+        console.error("Visitor phone-nudge email failed:", err);
+      }
+    }
+  } catch (err) {
+    console.error("Phone-nudge sweeper failed:", err);
+  }
+}
+
 async function startServer() {
   const app = express();
   const server = createServer(app);
@@ -67,6 +108,9 @@ async function startServer() {
 
   // Initialize database
   await initDb();
+  setInterval(() => {
+    void sendPhoneNudges();
+  }, 2 * 60 * 1000);
 
   // 301 redirects (must come before API + static)
   app.get(Object.keys(PERMANENT_REDIRECTS), (req, res) => {

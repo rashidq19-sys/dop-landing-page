@@ -140,3 +140,19 @@ there, it is self-contained.
 - Pre-existing typecheck failure: `npm run check` reports TS2802 in `client/src/components/FeaturesSection.tsx:61` (`Set` iteration needs a higher `target`). Unrelated to any current work; the Vite build is unaffected. Worth fixing, one line in tsconfig.
 
 ## Builder report
+
+### WAITLIST-WELCOME-EMAIL — 2026-08-30 12:02
+Status: DONE
+Files changed:
+server/db.ts
+server/emailShell.ts
+server/email.ts
+server/routes/waitlist.ts
+server/index.ts
+STATUS.md
+Test command: npm run check
+Test output:
+> dop-marketing-landing-page@1.0.0 check
+> tsc --noEmit
+Outside the brief: none
+Doubts: The browser pane was unavailable, so the two locally rendered variants could not be opened or screenshotted here. No real email was sent, per the task instruction.

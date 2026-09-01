@@ -22,6 +22,15 @@ export async function initDb() {
   `);
   await pool.query(`ALTER TABLE waitlist ADD COLUMN IF NOT EXISTS source VARCHAR(50)`);
   await pool.query(`ALTER TABLE waitlist ADD COLUMN IF NOT EXISTS dsp_name VARCHAR(255)`);
+  await pool.query(`ALTER TABLE waitlist ADD COLUMN IF NOT EXISTS welcome_email_sent_at TIMESTAMPTZ`);
+  await pool.query(`ALTER TABLE waitlist ADD COLUMN IF NOT EXISTS phone_nudge_sent_at TIMESTAMPTZ`);
+  // This 1-day boundary matches the sweeper ceiling, so re-running this can only
+  // claim rows the sweeper already ignores and cannot swallow a pending nudge.
+  await pool.query(`
+    UPDATE waitlist SET phone_nudge_sent_at = now()
+    WHERE phone IS NULL AND phone_nudge_sent_at IS NULL
+      AND created_at < now() - interval '1 day'
+  `);
 
   // First-party, anonymous page-view tracking for the admin traffic counter.
   // visitor_id is a random ID generated in the visitor's browser (no name,
