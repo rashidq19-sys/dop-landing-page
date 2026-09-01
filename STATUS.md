@@ -2,9 +2,38 @@
 
 > Session handoff file. Read at session start (with DECISIONS.md); update at session end. The rule lives in global CLAUDE.md → Memory System.
 
-**Last updated:** 2026-08-30 (waitlist welcome-email plan written and approved — not built yet)
+**Last updated:** 2026-09-01 (demo-booking calendar shipped; welcome emails finally committed)
 
-## 2026-08-30 — Waitlist welcome emails: PLANNED, nothing built
+## 2026-09-01 — Demo booking calendar: SHIPPED
+
+Visitors can now book their own demo slot. The "Book a demo" section (`CTASection.tsx`) runs
+three steps: email + DSP name → phone → an embedded Cal.com calendar, pre-filled, where they
+pick a time. A "I'd rather you just called me" link ends at the old confirmation.
+
+- **Cal.com, not our own calendar.** It holds free/busy against the real Google Calendar, so
+  we cannot be double-booked, and it brings invites, reminders, timezones and reschedule
+  links. Event type is `rashid-qanooni-j1pvld/30min`, set in the `CAL_LINK` constant at the
+  top of `CTASection.tsx` — one line to change.
+- `[IMPORTANT]` **The site copy says "Twenty minutes" but the event type books 30.** Either
+  add a 20-minute event type in Cal.com and change `CAL_LINK`, or change the copy. Open.
+- `[CRITICAL]` **The phone number must be captured before the calendar, by our own PATCH.**
+  The phone-nudge sweeper emails anyone whose row has no phone after five minutes. A number
+  that only reached Cal.com would leave every booker chased for a number they had just given.
+  Do not move the phone into a Cal.com booking question.
+- **The name typed into the Cal.com form does not come back to us.** `waitlist.name` stays
+  null for demo bookers; the name is in Cal.com and in the notification email only.
+- New columns `demo_booked_at` / `demo_slot_at`; new route `POST /api/waitlist/:id/demo-booked`.
+  Cal.com is named as a processor on the privacy page.
+
+## 2026-08-30 — Waitlist welcome emails: BUILT BY CODEX, uncommitted for two days, now shipped
+
+`[IMPORTANT]` The section below said "nothing built" while a complete, working implementation
+sat uncommitted in the worktree — Codex delivered it on 2026-08-30, appended its builder
+report to the bottom of this file, and nobody committed it. **When a `/delegate` run ends,
+check `git status` before believing this file's headline.** It was committed on 2026-09-01 as
+`bd7b380` and the welcome path has since run for real against the live database.
+
+## 2026-08-30 — Waitlist welcome emails: the original plan (superseded by the note above)
 
 Rashid asked for an automatic welcome email to website signups, with different wording
 depending on whether the visitor left a phone number. **The plan is written and approved;
