@@ -28,9 +28,9 @@ export default function WhatChangesSection() {
         >
           <SectionEyebrow onDark>What changes</SectionEyebrow>
           <h2 className="mt-3.5 font-display text-[30px] sm:text-[40px] lg:text-[44px] font-extrabold tracking-[-0.035em] leading-[1.06] text-balance">
-            Six jobs that stop
+            Six jobs you&rsquo;ll never
             <br />
-            being jobs.
+            do by hand again.
           </h2>
           <p className="mt-3.5 text-[15.5px] sm:text-[17px] text-[#AAB8DC] leading-[1.6] max-w-[62ch]">
             Every DSP runs on the same handful of admin rituals — the weekend availability chase,
