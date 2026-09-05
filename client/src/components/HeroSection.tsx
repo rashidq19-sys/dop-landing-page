@@ -116,10 +116,12 @@ export default function HeroSection() {
 
           {/* ── Right: the two screens ────────────────────────── */}
           <div className="relative">
-            <span className="absolute -top-[15px] -right-1 z-[5] hidden sm:inline-flex items-center gap-2 rounded-full px-[15px] py-2 text-[11px] font-extrabold uppercase tracking-[0.07em] text-white bg-gradient-to-br from-brand to-violet-600 shadow-[0_10px_26px_rgba(37,99,235,0.4)] whitespace-nowrap">
+            {/* Amber, not brand blue: the page is blue end to end, so a blue pill
+                reads as furniture. This is the only warm colour on the page. */}
+            <span className="absolute -top-[15px] -right-1 z-[5] hidden sm:inline-flex items-center gap-2 rounded-full px-[15px] py-2 text-[11px] font-extrabold uppercase tracking-[0.07em] text-deep ring-2 ring-white bg-gradient-to-br from-[#FFC53D] to-[#F97316] shadow-[0_10px_26px_rgba(249,115,22,0.45)] whitespace-nowrap">
               🚴 New — Micromobility just added
             </span>
-            <span className="sm:hidden inline-flex items-center gap-2 mb-3 rounded-full px-[15px] py-2 text-[11px] font-extrabold uppercase tracking-[0.07em] text-white bg-gradient-to-br from-brand to-violet-600 shadow-[0_10px_26px_rgba(37,99,235,0.4)]">
+            <span className="sm:hidden inline-flex items-center gap-2 mb-3 rounded-full px-[15px] py-2 text-[11px] font-extrabold uppercase tracking-[0.07em] text-deep ring-2 ring-white bg-gradient-to-br from-[#FFC53D] to-[#F97316] shadow-[0_10px_26px_rgba(249,115,22,0.45)]">
               🚴 New — Micromobility just added
             </span>
 
