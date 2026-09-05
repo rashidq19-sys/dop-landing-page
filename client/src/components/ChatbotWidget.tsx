@@ -517,7 +517,7 @@ export default function ChatbotWidget() {
       {/* Floating Action Button */}
       <button
         onClick={() => setIsOpen((prev) => !prev)}
-        className={`fixed bottom-6 right-6 z-50 w-14 h-14 bg-navy text-white rounded-full shadow-lg hover:bg-navy-light transition-colors items-center justify-center ${
+        className={`fixed bottom-6 right-6 z-50 w-14 h-14 bg-[#F97316] text-white rounded-full shadow-[0_10px_26px_rgba(249,115,22,0.45)] hover:bg-[#EA580C] transition-colors items-center justify-center ${
           isSheet ? "hidden" : "flex"
         }`}
         aria-label={isOpen ? "Close chat" : "Open chat"}
