@@ -125,16 +125,18 @@ export default function CTASection() {
     }
   };
 
+  // What they actually answered: the typed text when they picked "Other",
+  // the chosen option otherwise, and an empty string when they skipped it.
+  const heardAboutAnswer =
+    heardAbout === "Other" ? heardAboutOther.trim() : heardAbout;
+
   const handleDetailsSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!phone) return;
     setLoading(true);
     setError("");
     try {
-      // The question is optional, so send the key only when they answered —
-      // and send what they typed when they picked "Other".
-      const heardAboutAnswer =
-        heardAbout === "Other" ? heardAboutOther.trim() : heardAbout;
+      // The question is optional, so send the key only when they answered.
       const res = await fetch(`/api/waitlist/${recordId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -399,7 +401,11 @@ export default function CTASection() {
                       // The form asks for the DSP, not the person, so leave the
                       // name for them to fill in — it is the one useful detail
                       // this form never captures.
-                      notes: `DSP: ${dspName}\nPhone: ${phone}`,
+                      notes: `DSP: ${dspName}\nPhone: ${phone}${
+                        heardAboutAnswer
+                          ? `\nHeard about us: ${heardAboutAnswer}`
+                          : ""
+                      }`,
                       theme: "light",
                       layout: "month_view",
                     }}
