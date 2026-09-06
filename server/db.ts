@@ -29,6 +29,10 @@ export async function initDb() {
   // the start of the slot itself.
   await pool.query(`ALTER TABLE waitlist ADD COLUMN IF NOT EXISTS demo_booked_at TIMESTAMPTZ`);
   await pool.query(`ALTER TABLE waitlist ADD COLUMN IF NOT EXISTS demo_slot_at TIMESTAMPTZ`);
+  // Their own answer to "Where did you hear about us?" on the last step of the
+  // demo form. Not the same thing as `source`, which is the page the signup came
+  // from and is set by us. TEXT because the "Other" option is typed freely.
+  await pool.query(`ALTER TABLE waitlist ADD COLUMN IF NOT EXISTS heard_about TEXT`);
   // This 1-day boundary matches the sweeper ceiling, so re-running this can only
   // claim rows the sweeper already ignores and cannot swallow a pending nudge.
   await pool.query(`

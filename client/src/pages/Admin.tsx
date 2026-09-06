@@ -8,6 +8,7 @@ interface WaitlistEntry {
   dsp_name: string | null;
   phone: string | null;
   source: string | null;
+  heard_about: string | null;
   created_at: string;
 }
 
@@ -504,6 +505,9 @@ export default function Admin() {
                       Source
                     </th>
                     <th className="text-left px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                      Heard About Us
+                    </th>
+                    <th className="text-left px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">
                       Signed Up
                     </th>
                     <th className="px-6 py-3" />
@@ -529,6 +533,9 @@ export default function Admin() {
                       </td>
                       <td className="px-6 py-4 text-sm text-slate-700">
                         {entry.source || "—"}
+                      </td>
+                      <td className="px-6 py-4 text-sm text-slate-700">
+                        {entry.heard_about || "—"}
                       </td>
                       <td className="px-6 py-4 text-sm text-slate-500">
                         {new Date(entry.created_at).toLocaleDateString("en-US", {

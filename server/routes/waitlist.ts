@@ -41,14 +41,15 @@ router.post("/", async (req, res) => {
   }
 });
 
-// PATCH /api/waitlist/:id — Step 2: add details (name, dsp_name, phone)
+// PATCH /api/waitlist/:id — Step 2: add details (name, dsp_name, phone,
+// and optionally where they heard about us)
 router.patch("/:id", async (req, res) => {
   const id = parseInt(req.params.id, 10);
   if (isNaN(id)) {
     return res.status(400).json({ error: "Invalid ID" });
   }
 
-  const { name, dsp_name, phone } = req.body;
+  const { name, dsp_name, phone, heard_about } = req.body;
 
   if (!phone || typeof phone !== "string" || !phone.trim()) {
     return res.status(400).json({ error: "Phone is required" });
@@ -57,6 +58,13 @@ router.patch("/:id", async (req, res) => {
   const cleanName = typeof name === "string" ? name.trim() : null;
   const cleanDspName = typeof dsp_name === "string" ? dsp_name.trim() : null;
   const cleanPhone = phone.trim();
+  // Optional, and self-reported: picking "Other" lets them type anything, so
+  // cap the length here. A missing or over-long answer must never block the
+  // booking — it is the one field on this step that is not required.
+  const cleanHeardAbout =
+    typeof heard_about === "string" && heard_about.trim()
+      ? heard_about.trim().slice(0, 200)
+      : null;
 
   try {
     const result = await pool.query(
@@ -64,10 +72,11 @@ router.patch("/:id", async (req, res) => {
        SET name = COALESCE($1, name),
            dsp_name = COALESCE($2, dsp_name),
            phone = $3,
+           heard_about = COALESCE($4, heard_about),
            updated_at = NOW()
-       WHERE id = $4
+       WHERE id = $5
        RETURNING id, email, source`,
-      [cleanName || null, cleanDspName || null, cleanPhone, id]
+      [cleanName || null, cleanDspName || null, cleanPhone, cleanHeardAbout, id]
     );
     if (result.rowCount === 0) {
       return res.status(404).json({ error: "Record not found" });
@@ -96,7 +105,7 @@ router.patch("/:id", async (req, res) => {
 
     sendEmail(
       "DSPOps signup complete — Step 2 (full details)",
-      `A signup has been completed.\n\nDSP name: ${cleanDspName || "—"}\nContact name: ${cleanName || "—"}\nEmail: ${row.email}\nPhone: ${cleanPhone}\nSignup source: ${row.source || "unknown"}`
+      `A signup has been completed.\n\nDSP name: ${cleanDspName || "—"}\nContact name: ${cleanName || "—"}\nEmail: ${row.email}\nPhone: ${cleanPhone}\nHeard about us: ${cleanHeardAbout || "—"}\nSignup source: ${row.source || "unknown"}`
     ).catch((err) => console.error("Notification email failed (step 2):", err));
   } catch (err) {
     console.error("Waitlist update error:", err);

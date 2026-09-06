@@ -51,7 +51,7 @@ function requireAuth(req: Request, res: Response, next: NextFunction) {
 router.get("/waitlist", requireAuth, async (_req, res) => {
   try {
     const result = await pool.query(
-      `SELECT id, email, name, dsp_name, phone, source, created_at FROM waitlist ORDER BY created_at DESC`
+      `SELECT id, email, name, dsp_name, phone, source, heard_about, created_at FROM waitlist ORDER BY created_at DESC`
     );
     res.json({ entries: result.rows, total: result.rowCount });
   } catch (err) {

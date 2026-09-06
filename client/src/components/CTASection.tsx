@@ -11,6 +11,18 @@ type FormStep = "email" | "details" | "calendar" | "done";
 // type is ever renamed in Cal.com.
 const CAL_LINK = "dspops/30min";
 
+// The fixed answers to "Where did you hear about us?" on the details step. The
+// question is optional and self-reported, so the list stays short — anything it
+// does not cover goes in the free-text box behind "Other".
+const HEARD_ABOUT_OPTIONS = [
+  "Google search",
+  "Word of mouth / another DSP",
+  "Facebook or LinkedIn",
+  "Amazon contact",
+  "Event or conference",
+  "Other",
+];
+
 // Cal.com reports the slot as an ISO string. Show it back in the visitor's own
 // timezone — the one they picked it in — rather than forcing UK time.
 function formatSlot(iso: string): string {
@@ -30,6 +42,8 @@ export default function CTASection() {
   const [email, setEmail] = useState("");
   const [dspName, setDspName] = useState("");
   const [phone, setPhone] = useState("");
+  const [heardAbout, setHeardAbout] = useState("");
+  const [heardAboutOther, setHeardAboutOther] = useState("");
   const [recordId, setRecordId] = useState<number | null>(null);
   const [bookedSlot, setBookedSlot] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -117,10 +131,18 @@ export default function CTASection() {
     setLoading(true);
     setError("");
     try {
+      // The question is optional, so send the key only when they answered —
+      // and send what they typed when they picked "Other".
+      const heardAboutAnswer =
+        heardAbout === "Other" ? heardAboutOther.trim() : heardAbout;
       const res = await fetch(`/api/waitlist/${recordId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ dsp_name: dspName, phone }),
+        body: JSON.stringify({
+          dsp_name: dspName,
+          phone,
+          ...(heardAboutAnswer ? { heard_about: heardAboutAnswer } : {}),
+        }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Something went wrong");
@@ -311,6 +333,41 @@ export default function CTASection() {
                       className={inputClass}
                     />
                   </div>
+                  <div>
+                    <label htmlFor="cta-heard" className="block text-[12px] font-bold uppercase tracking-[0.05em] text-muted-foreground mb-1.5">
+                      Where did you hear about us?{" "}
+                      <span className="normal-case tracking-normal font-semibold text-muted-foreground/70">(optional)</span>
+                    </label>
+                    <select
+                      id="cta-heard"
+                      value={heardAbout}
+                      onChange={(e) => setHeardAbout(e.target.value)}
+                      className={`${inputClass} ${heardAbout ? "" : "text-muted-foreground"}`}
+                    >
+                      <option value="">Please choose…</option>
+                      {HEARD_ABOUT_OPTIONS.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  {heardAbout === "Other" && (
+                    <div>
+                      <label htmlFor="cta-heard-other" className="sr-only">
+                        Tell us where you heard about us
+                      </label>
+                      <input
+                        id="cta-heard-other"
+                        type="text"
+                        value={heardAboutOther}
+                        onChange={(e) => setHeardAboutOther(e.target.value)}
+                        placeholder="Tell us where…"
+                        maxLength={200}
+                        className={inputClass}
+                      />
+                    </div>
+                  )}
                   {error && <p className="text-[13px] text-destructive">{error}</p>}
                   <button
                     type="submit"
