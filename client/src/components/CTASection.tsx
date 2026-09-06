@@ -9,7 +9,7 @@ type FormStep = "email" | "details" | "calendar" | "done";
 // The Cal.com event type behind the calendar. This is the last part of the
 // public booking URL (cal.com/<user>/<event>) — change it here if the event
 // type is ever renamed in Cal.com.
-const CAL_LINK = "rashid-qanooni-j1pvld/30min";
+const CAL_LINK = "dspops/30min";
 
 // Cal.com reports the slot as an ISO string. Show it back in the visitor's own
 // timezone — the one they picked it in — rather than forcing UK time.

@@ -12,8 +12,9 @@ pick a time. A "I'd rather you just called me" link ends at the old confirmation
 
 - **Cal.com, not our own calendar.** It holds free/busy against the real Google Calendar, so
   we cannot be double-booked, and it brings invites, reminders, timezones and reschedule
-  links. Event type is `rashid-qanooni-j1pvld/30min`, set in the `CAL_LINK` constant at the
-  top of `CTASection.tsx` — one line to change.
+  links. Event type is `dspops/30min`, set in the `CAL_LINK` constant at the
+  top of `CTASection.tsx` — one line to change. (Moved 2026-09-06 from the personal
+  `rashid-qanooni-j1pvld/30min` link to the `dspops` Cal.com account.)
 - `[IMPORTANT]` **The site copy says "Twenty minutes" but the event type books 30.** Either
   add a 20-minute event type in Cal.com and change `CAL_LINK`, or change the copy. Open.
 - `[CRITICAL]` **The phone number must be captured before the calendar, by our own PATCH.**
@@ -185,3 +186,12 @@ Test output:
 > tsc --noEmit
 Outside the brief: none
 Doubts: The browser pane was unavailable, so the two locally rendered variants could not be opened or screenshotted here. No real email was sent, per the task instruction.
+
+### SCROLL-CRAFT-REDESIGN — 2026-09-05 10:14
+Status: BLOCKED
+Files changed:
+STATUS.md
+Test command: none
+Test output: Not run; no implementation changes made.
+Outside the brief: STATUS.md (required handover report)
+Doubts: Required README.md is missing. AGENTS.md explicitly requires stopping when a file is missing; BUILDER.md limits edits to files named in a brief, but the redesign request names no files. Need user direction to proceed without README.md and treat the redesign request as authorisation to edit the necessary frontend files. Skill installation, redesign, and preview have not been performed. No staging, commits, or pushes.
