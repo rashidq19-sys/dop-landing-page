@@ -386,7 +386,7 @@ export default function CTASection() {
               <>
                 <div className="flex items-center gap-2 mb-4 rounded-lg bg-mint-soft border border-mint/25 px-4 py-2.5 text-[13px] font-semibold text-mint-ink">
                   <Check size={15} className="shrink-0" />
-                  Got your details — now pick a time that suits you.
+                  Got your details — pick a date, then tap a time to continue.
                 </div>
                 <div className="-mx-1 rounded-xl border border-border overflow-hidden">
                   <Cal
