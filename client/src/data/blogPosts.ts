@@ -20,6 +20,7 @@ import DspDriverWorkingHoursUk from "@/content/blog/dsp-driver-working-hours-uk"
 import ReduceMentorSafetyEventsAmazonDsp from "@/content/blog/reduce-mentor-safety-events-amazon-dsp";
 import ManagingVanDamageClaimsAmazonDsp from "@/content/blog/managing-van-damage-claims-amazon-dsp";
 import AmazonDspOperationalReview from "@/content/blog/amazon-dsp-operational-review";
+import AmazonMicromobilityDspGuide from "@/content/blog/amazon-micromobility-dsp-guide";
 
 export type BlogPost = {
   slug: string;
@@ -33,6 +34,18 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  {
+    slug: "amazon-micromobility-dsp-guide",
+    title: "Amazon micromobility: what e-cargo bikes and on-foot rounds mean for UK DSPs",
+    metaTitle: "Amazon Micromobility for DSPs: E-Cargo Bikes & On-Foot Rounds",
+    description:
+      "What Amazon's micromobility rollout — electric cargo bikes, on-foot rounds and city hubs — actually changes for UK DSP owners, and how to run riders, walkers and van drivers without a second system.",
+    excerpt:
+      "Amazon is rolling out e-cargo bikes and on-foot rounds through UK micromobility hubs, and DSPs are running them. A bike round is not a small van round — here is what changes in your rota, payroll and compliance.",
+    date: "2026-09-07",
+    readingMinutes: 7,
+    Body: AmazonMicromobilityDspGuide,
+  },
   {
     slug: "amazon-dsp-operational-review",
     title: "How to prepare for an Amazon DSP operational review",
