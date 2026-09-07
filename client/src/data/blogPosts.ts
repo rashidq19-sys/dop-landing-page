@@ -19,6 +19,7 @@ import ManagingDriverAbsenceAmazonDsp from "@/content/blog/managing-driver-absen
 import DspDriverWorkingHoursUk from "@/content/blog/dsp-driver-working-hours-uk";
 import ReduceMentorSafetyEventsAmazonDsp from "@/content/blog/reduce-mentor-safety-events-amazon-dsp";
 import ManagingVanDamageClaimsAmazonDsp from "@/content/blog/managing-van-damage-claims-amazon-dsp";
+import AmazonDspOperationalReview from "@/content/blog/amazon-dsp-operational-review";
 
 export type BlogPost = {
   slug: string;
@@ -32,6 +33,17 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  {
+    slug: "amazon-dsp-operational-review",
+    title: "How to prepare for an Amazon DSP operational review",
+    description:
+      "What Amazon looks at in a DSP operational review and how UK DSP owners can prepare their scorecard data, compliance documents, and fleet records ahead of time.",
+    excerpt:
+      "An Amazon operational review rewards operators who can produce evidence quickly, not ones who scramble. Here is what gets assessed and how to have everything ready.",
+    date: "2026-09-07",
+    readingMinutes: 5,
+    Body: AmazonDspOperationalReview,
+  },
   {
     slug: "managing-van-damage-claims-amazon-dsp",
     title: "How to manage van damage claims at an Amazon DSP",

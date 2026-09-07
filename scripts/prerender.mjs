@@ -34,6 +34,7 @@ const ROUTES = [
   "/dsp-invoicing-payroll",
   "/dsp-compliance-tools",
   "/blog",
+  "/blog/amazon-dsp-operational-review",
   "/blog/managing-van-damage-claims-amazon-dsp",
   "/blog/reduce-mentor-safety-events-amazon-dsp",
   "/blog/dsp-driver-working-hours-uk",
