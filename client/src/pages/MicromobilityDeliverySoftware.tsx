@@ -188,10 +188,10 @@ export default function MicromobilityDeliverySoftware() {
             </div>
             <div className="bg-gradient-to-b from-background to-border/40 rounded-[16px] border border-border p-6 sm:p-9 flex items-center justify-center">
               <img
-                src="/images/rota-phone-v2.png"
-                alt="DSPOps rota on a phone"
+                src="/images/product/micromobility-rota.webp"
+                alt="DSPOps rota showing van drivers and e-cargo bike riders side by side, riders answering morning and afternoon separately"
                 loading="lazy"
-                className="max-h-[480px] rounded-[22px] shadow-[0_25px_60px_-12px_rgba(17,17,19,0.28)]"
+                className="w-full max-w-full rounded-[10px] border border-border shadow-[0_25px_60px_-12px_rgba(17,17,19,0.28)]"
               />
             </div>
           </div>

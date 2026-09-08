@@ -84,8 +84,8 @@ const MODULES: Module[] = [
     title: "Micromobility",
     body: "Riders have their own blocks, availability, pay and compliance alongside your vans, so e-cargo bike delivery runs on the same rota without being forced into a driver workflow.",
     win: "Built for rider blocks",
-    img: "/images/product/rota.webp",
-    alt: "Weekly rota grid with per-day headcount",
+    img: "/images/product/micromobility-rota.webp",
+    alt: "Rota grid showing van drivers and e-cargo bike riders side by side, riders answering morning and afternoon separately",
   },
 ];
 
