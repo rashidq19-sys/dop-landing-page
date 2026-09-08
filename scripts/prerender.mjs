@@ -31,6 +31,7 @@ const ROUTES = [
   "/driver-performance-tracking",
   "/van-inspection-app",
   "/dsp-rota-management",
+  "/micromobility-delivery-software",
   "/dsp-invoicing-payroll",
   "/dsp-compliance-tools",
   "/blog",

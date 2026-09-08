@@ -207,3 +207,19 @@ Test output:
 > tsc --noEmit
 Outside the brief: STATUS.md (required handover report)
 Doubts: README.md is absent despite AGENTS.md requiring it; this did not prevent the explicitly scoped T1 change. The untracked plan file was present before this task and was not changed.
+
+### T2 — 2026-09-08 13:13
+Status: DONE
+Files changed:
+client/src/pages/MicromobilityDeliverySoftware.tsx
+client/src/App.tsx
+client/public/sitemap.xml
+server/index.ts
+scripts/prerender.mjs
+STATUS.md
+Test command: npm run check
+Test output:
+> dop-marketing-landing-page@1.0.0 check
+> tsc --noEmit
+Outside the brief: STATUS.md (required handover report)
+Doubts: README.md is absent despite AGENTS.md requiring it; this did not prevent the explicitly scoped T2 change. No build was run, per task instruction. The Impeccable mechanical UI scan reported no findings.

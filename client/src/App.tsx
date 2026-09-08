@@ -17,6 +17,7 @@ const AmazonDspManagementSoftware = lazy(() => import("./pages/AmazonDspManageme
 const DriverPerformanceTracking = lazy(() => import("./pages/DriverPerformanceTracking"));
 const VanInspectionApp = lazy(() => import("./pages/VanInspectionApp"));
 const DspRotaManagement = lazy(() => import("./pages/DspRotaManagement"));
+const MicromobilityDeliverySoftware = lazy(() => import("./pages/MicromobilityDeliverySoftware"));
 const DspInvoicingPayroll = lazy(() => import("./pages/DspInvoicingPayroll"));
 const DspComplianceTools = lazy(() => import("./pages/DspComplianceTools"));
 const Blog = lazy(() => import("./pages/Blog"));
@@ -52,6 +53,7 @@ function App() {
               <Route path="/driver-performance-tracking" component={DriverPerformanceTracking} />
               <Route path="/van-inspection-app" component={VanInspectionApp} />
               <Route path="/dsp-rota-management" component={DspRotaManagement} />
+              <Route path="/micromobility-delivery-software" component={MicromobilityDeliverySoftware} />
               <Route path="/dsp-invoicing-payroll" component={DspInvoicingPayroll} />
               <Route path="/dsp-compliance-tools" component={DspComplianceTools} />
               <Route path="/blog" component={Blog} />
