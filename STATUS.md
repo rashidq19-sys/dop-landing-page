@@ -195,3 +195,15 @@ Test command: none
 Test output: Not run; no implementation changes made.
 Outside the brief: STATUS.md (required handover report)
 Doubts: Required README.md is missing. AGENTS.md explicitly requires stopping when a file is missing; BUILDER.md limits edits to files named in a brief, but the redesign request names no files. Need user direction to proceed without README.md and treat the redesign request as authorisation to edit the necessary frontend files. Skill installation, redesign, and preview have not been performed. No staging, commits, or pushes.
+
+### T1 — 2026-09-08 13:10
+Status: DONE
+Files changed:
+client/src/components/HeroSection.tsx
+STATUS.md
+Test command: npm run check
+Test output:
+> dop-marketing-landing-page@1.0.0 check
+> tsc --noEmit
+Outside the brief: STATUS.md (required handover report)
+Doubts: README.md is absent despite AGENTS.md requiring it; this did not prevent the explicitly scoped T1 change. The untracked plan file was present before this task and was not changed.

@@ -20,6 +20,14 @@ const TRUST = [
   "7-day free trial, no card",
 ];
 
+function BicycleGlyph() {
+  return (
+    <svg viewBox="0 0 256 256" fill="currentColor" className="h-[13px] w-[13px]" aria-hidden="true">
+      <path d="M208,112a47.81,47.81,0,0,0-16.93,3.09L165.93,72H192a8,8,0,0,1,8,8,8,8,0,0,0,16,0,24,24,0,0,0-24-24H152a8,8,0,0,0-6.91,12l11.65,20H99.26L82.91,60A8,8,0,0,0,76,56H48a8,8,0,0,0,0,16H71.41L85.12,95.51,69.41,117.06a48.13,48.13,0,1,0,12.92,9.44l11.59-15.9L125.09,164A8,8,0,1,0,138.91,156l-30.32-52h57.48l11.19,19.17A48,48,0,1,0,208,112ZM80,160a32,32,0,1,1-20.21-29.74l-18.25,25a8,8,0,1,0,12.92,9.42l18.25-25A31.88,31.88,0,0,1,80,160Zm128,32a32,32,0,0,1-22.51-54.72L201.09,164A8,8,0,1,0,214.91,156L199.3,129.21A32,32,0,1,1,208,192Z" />
+    </svg>
+  );
+}
+
 export default function HeroSection() {
   const { ref, isVisible } = useScrollAnimation(0.1);
   const [zoom, setZoom] = useState<{ src: string; alt: string } | null>(null);
@@ -116,13 +124,12 @@ export default function HeroSection() {
 
           {/* ── Right: the two screens ────────────────────────── */}
           <div className="relative">
-            {/* Amber, not brand blue: the page is blue end to end, so a blue pill
-                reads as furniture. This is the only warm colour on the page. */}
-            <span className="absolute -top-[15px] -right-1 z-[5] hidden sm:inline-flex items-center gap-2 rounded-full px-[15px] py-2 text-[11px] font-extrabold uppercase tracking-[0.07em] text-deep ring-2 ring-white bg-gradient-to-br from-[#FFC53D] to-[#F97316] shadow-[0_10px_26px_rgba(249,115,22,0.45)] whitespace-nowrap">
-              🚴 New — Micromobility just added
+            {/* A restrained amber pill keeps the micromobility update noticeable without competing with the product screens. */}
+            <span className="absolute -top-[15px] -right-1 z-[5] hidden sm:inline-flex items-center gap-2 rounded-full px-[15px] py-2 text-[11px] font-extrabold uppercase tracking-[0.07em] bg-amber-50 border border-amber-200 text-amber-900 whitespace-nowrap">
+              <BicycleGlyph /> New — Micromobility just added
             </span>
-            <span className="sm:hidden inline-flex items-center gap-2 mb-3 rounded-full px-[15px] py-2 text-[11px] font-extrabold uppercase tracking-[0.07em] text-deep ring-2 ring-white bg-gradient-to-br from-[#FFC53D] to-[#F97316] shadow-[0_10px_26px_rgba(249,115,22,0.45)]">
-              🚴 New — Micromobility just added
+            <span className="sm:hidden inline-flex items-center gap-2 mb-3 rounded-full px-[15px] py-2 text-[11px] font-extrabold uppercase tracking-[0.07em] bg-amber-50 border border-amber-200 text-amber-900">
+              <BicycleGlyph /> New — Micromobility just added
             </span>
 
             {/* The phone is positioned against this box, not the column: including
