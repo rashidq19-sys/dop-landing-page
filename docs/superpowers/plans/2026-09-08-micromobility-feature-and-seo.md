@@ -186,3 +186,61 @@ done-when: `npm run check` passes and the diff touches only the SYSTEM_PROMPT fe
 3. Browser-verify the new page renders and its internal links resolve.
 4. Re-check `git status` / `git log` immediately before committing `dist/public`: a scheduled blog
    agent commits straight to main in this repo and will conflict across ~20 hashed asset files.
+
+---
+
+## Task log
+
+| # | Task | Status |
+|---|------|--------|
+| 1 | Hero badge — readable mark, subtle pill | ✅ |
+| 2 | Micromobility pillar page + route in 4 places | ✅ |
+| 3 | Internal links from the 6 feature pages | ✅ |
+| 4 | Homepage: platform card, overview card, FAQ | ✅ |
+| 5 | llms.txt for AI crawlers | ✅ |
+| 6 | Site chatbot learns micromobility | ✅ |
+| + | Footer + Features menu (found in review) | ✅ |
+
+### Run summary — 2026-09-08
+Built by Codex (gpt-5.6-terra) task by task, reviewed and committed in Claude. Eight commits,
+`c5483ae` (plan) through `6bfd42e` (footer/navbar + rebuild). Every task passed `npm run check`.
+
+- **Done:** `/micromobility-delivery-software` pillar page with FAQPage + BreadcrumbList JSON-LD;
+  the route registered in App.tsx, sitemap.xml, PUBLIC_ROUTE_PATTERNS and prerender ROUTES;
+  internal links from all six feature pages plus the footer and the Features dropdown; a
+  micromobility card on the homepage platform grid and the SEO overview block; a homepage FAQ
+  (which is what feeds the homepage's FAQPage structured data); `client/public/llms.txt`; a
+  micromobility bullet in the site chatbot's SYSTEM_PROMPT; and the hero badge rebuilt with a
+  monochrome bicycle SVG on a soft amber pill.
+- **Verified:** built `dist/public/micromobility-delivery-software/index.html` carries its OWN
+  title and canonical (not the homepage's) and both JSON-LD blocks — the prerenderer exits 0
+  even when it fails, so the build log alone proves nothing. Browser-checked the page and the
+  desktop badge; the mobile badge was confirmed by computed style (275×34, identical classes,
+  13px currentColor SVG) because the preview pane renders blank mid-animation.
+- **Deviations:** reviewer changed the pillar page's four card icons (Codex copied the rota
+  page's, leaving a bell on "licence-free onboarding"), softened "set pay by block" to "pay is
+  calculated per block", and rewrote the llms.txt module descriptions, which were generic
+  enough to be useless to a model quoting them. Footer and Features menu were not in the plan —
+  found during review and added, since they appear on every page.
+- **NOT shipped.** Rashid's call. Use the `ship` skill.
+
+## Suggestions and issues
+
+- [ ] **The blog post published 2026-09-07 contradicts this page.**
+      `client/src/content/blog/amazon-micromobility-dsp-guide.tsx` (written by the scheduled blog
+      agent) says "Pay rules are set per mode, so hourly walkers, per-round riders and per-route
+      drivers all calculate correctly from one timesheet into one pay run" and "Deployment assigns
+      the right kit to the right person". Both are ahead of what the app does. It also uses
+      "cycle" to mean bikes ("on-foot versus cycle work", "Cycle and on-foot rounds"), which in
+      DSPOps means same-day delivery. It is live and in the sitemap. A prospect reading the blog
+      and then the new page gets two different answers about per-mode pay.
+- [ ] **The scheduled blog agent has no honesty constraint.** It invented capability claims
+      unchecked. Worth giving it the same ground-truth rules this plan carries.
+- [ ] **The chat launcher is still the loud orange** picked in `b9e28ff` specifically to match the
+      old micromobility badge. The badge is now soft amber, so the launcher stands alone as the
+      only saturated orange on the page. Rashid's call whether it follows.
+- [ ] **The Micromobility card on the homepage platform grid reuses `/images/product/rota.webp`**,
+      already used by the "Rota & availability" card. A real rider-view screenshot exported from
+      the Aurora demo client would be better. Out of scope here — needs the demo client running.
+- [ ] **`SEOOverviewSection` now has 7 module cards in a 3-column grid**, so the last row holds
+      one card. Visually acceptable, but an 8th module (or a spanning last card) would balance it.

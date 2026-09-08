@@ -2,7 +2,39 @@
 
 > Session handoff file. Read at session start (with DECISIONS.md); update at session end. The rule lives in global CLAUDE.md → Memory System.
 
-**Last updated:** 2026-09-01 (demo-booking calendar shipped; welcome emails finally committed)
+**Last updated:** 2026-09-08 (micromobility page + SEO + llms.txt built and committed — NOT shipped)
+
+## 2026-09-08 — Micromobility feature page, SEO and AI discoverability: BUILT, NOT SHIPPED
+
+`[IMPORTANT]` **Committed to main but never pushed. Nothing is live.** Eight commits, `c5483ae`
+(plan) through `6bfd42e`. Ship with the `ship` skill when Rashid says so.
+
+Plan and full task log: `docs/superpowers/plans/2026-09-08-micromobility-feature-and-seo.md`.
+Delegated to Codex task by task (`delegate-full`), reviewed and committed in Claude.
+
+What landed: a new `/micromobility-delivery-software` pillar page carrying FAQPage and
+BreadcrumbList JSON-LD; the route registered in all four required places; internal links from the
+six feature pages plus the footer and the Features dropdown; a micromobility card on the homepage
+platform grid and the SEO overview block; a homepage FAQ (which feeds the homepage's FAQPage
+structured data); `client/public/llms.txt`; a micromobility bullet in the chatbot's SYSTEM_PROMPT;
+and the hero badge rebuilt as a monochrome bicycle SVG on a soft amber pill.
+
+- `[CRITICAL]` **The copy holds a deliberate honesty line and must keep holding it.** Bikes are
+  shipped in the app. **Walkers are not a separate type** — there is no walker mode, no walk
+  vehicle type, and the app draws a bicycle next to them. Every surface here says on-foot couriers
+  are managed *as Riders*. Never let a future edit promote walkers to a named feature until the
+  app has one. The constraint and its evidence are in the plan's "honesty constraint" section.
+- **The blog post published 2026-09-07 by the scheduled blog agent contradicts this.** It claims
+  per-mode pay rules ("hourly walkers, per-round riders … into one pay run") and uses "cycle" to
+  mean bikes, which app-wide means same-day delivery. It is live and in the sitemap. Open — see
+  Suggestions in the plan file.
+- **`robots.txt` was deliberately NOT touched.** Its group matching is most-specific-wins, so a
+  named `User-agent: GPTBot` block would stop that crawler reading the wildcard group and silently
+  expose the `Disallow`ed private sales brochures (`/sbl.html`, `/brochure.html`). The lever for AI
+  reach here is the prerenderer plus `llms.txt`, not robots.txt.
+- **Verified in the built output, not the build log.** `scripts/prerender.mjs` exits 0 on failure,
+  so `dist/public/micromobility-delivery-software/index.html` was opened and confirmed to carry its
+  own title and canonical rather than the homepage's.
 
 ## 2026-09-01 — Demo booking calendar: SHIPPED
 
@@ -171,110 +203,4 @@ there, it is self-contained.
 
 ## Builder report
 
-### T5 — 2026-09-08 13:23
-Status: DONE
-Files changed:
-client/public/llms.txt
-STATUS.md
-Test command: npm run check
-Test output:
-> dop-marketing-landing-page@1.0.0 check
-> tsc --noEmit
-Outside the brief: STATUS.md (required handover report)
-Doubts: README.md is absent despite AGENTS.md requiring it; this did not prevent the explicitly scoped T5 change. No build was run, per task instruction.
-
-### T4 — 2026-09-08 13:22
-Status: DONE
-Files changed:
-client/src/components/home/PlatformSection.tsx
-client/src/components/SEOOverviewSection.tsx
-shared/faqs.ts
-STATUS.md
-Test command: npm run check
-Test output:
-> dop-marketing-landing-page@1.0.0 check
-> tsc --noEmit
-Outside the brief: STATUS.md (required handover report)
-Doubts: PlatformSection.tsx has no lucide-react import or icon field in its card schema, so adding Bike there would create an unused import and violate the requirement to copy neighbouring card fields exactly. The new card therefore preserves the existing schema and reuses the rota screen for the block-based rider workflow. README.md is absent despite AGENTS.md requiring it; this did not prevent the explicitly scoped T4 change. No build was run, per task instruction.
-
-### WAITLIST-WELCOME-EMAIL — 2026-08-30 12:02
-Status: DONE
-Files changed:
-server/db.ts
-server/emailShell.ts
-server/email.ts
-server/routes/waitlist.ts
-server/index.ts
-STATUS.md
-Test command: npm run check
-Test output:
-> dop-marketing-landing-page@1.0.0 check
-> tsc --noEmit
-Outside the brief: none
-Doubts: The browser pane was unavailable, so the two locally rendered variants could not be opened or screenshotted here. No real email was sent, per the task instruction.
-
-### SCROLL-CRAFT-REDESIGN — 2026-09-05 10:14
-Status: BLOCKED
-Files changed:
-STATUS.md
-Test command: none
-Test output: Not run; no implementation changes made.
-Outside the brief: STATUS.md (required handover report)
-Doubts: Required README.md is missing. AGENTS.md explicitly requires stopping when a file is missing; BUILDER.md limits edits to files named in a brief, but the redesign request names no files. Need user direction to proceed without README.md and treat the redesign request as authorisation to edit the necessary frontend files. Skill installation, redesign, and preview have not been performed. No staging, commits, or pushes.
-
-### T1 — 2026-09-08 13:10
-Status: DONE
-Files changed:
-client/src/components/HeroSection.tsx
-STATUS.md
-Test command: npm run check
-Test output:
-> dop-marketing-landing-page@1.0.0 check
-> tsc --noEmit
-Outside the brief: STATUS.md (required handover report)
-Doubts: README.md is absent despite AGENTS.md requiring it; this did not prevent the explicitly scoped T1 change. The untracked plan file was present before this task and was not changed.
-
-### T2 — 2026-09-08 13:13
-Status: DONE
-Files changed:
-client/src/pages/MicromobilityDeliverySoftware.tsx
-client/src/App.tsx
-client/public/sitemap.xml
-server/index.ts
-scripts/prerender.mjs
-STATUS.md
-Test command: npm run check
-Test output:
-> dop-marketing-landing-page@1.0.0 check
-> tsc --noEmit
-Outside the brief: STATUS.md (required handover report)
-Doubts: README.md is absent despite AGENTS.md requiring it; this did not prevent the explicitly scoped T2 change. No build was run, per task instruction. The Impeccable mechanical UI scan reported no findings.
-
-### T3 — 2026-09-08 13:16
-Status: DONE
-Files changed:
-client/src/pages/DspRotaManagement.tsx
-client/src/pages/DriverPerformanceTracking.tsx
-client/src/pages/VanInspectionApp.tsx
-client/src/pages/DspInvoicingPayroll.tsx
-client/src/pages/DspComplianceTools.tsx
-client/src/pages/AmazonDspManagementSoftware.tsx
-STATUS.md
-Test command: npm run check
-Test output:
-> dop-marketing-landing-page@1.0.0 check
-> tsc --noEmit
-Outside the brief: STATUS.md (required handover report)
-Doubts: README.md is absent despite AGENTS.md requiring it; no build was run, per task instruction.
-
-### T6 â€” 2026-09-08 13:26
-Status: DONE
-Files changed:
-server/lib/chatAi.ts
-STATUS.md
-Test command: npm run check
-Test output:
-> dop-marketing-landing-page@1.0.0 check
-> tsc --noEmit
-Outside the brief: STATUS.md (required handover report)
-Doubts: README.md is absent despite AGENTS.md requiring it; no build was run, per task instruction.
+_Empty — nothing awaiting review. A delegated builder appends its report here._
