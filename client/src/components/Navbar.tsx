@@ -11,6 +11,7 @@ const featuresMenu: { label: string; href: string; desc: string }[] = [
   { label: "Rota Management", href: "/dsp-rota-management", desc: "Driver self-service availability and cover" },
   { label: "Invoicing & Payroll", href: "/dsp-invoicing-payroll", desc: "Pay calculated from Amazon" },
   { label: "Compliance Tools", href: "/dsp-compliance-tools", desc: "Right-to-Work, licences, GDPR" },
+  { label: "Micromobility", href: "/micromobility-delivery-software", desc: "E-cargo bike riders, blocks and pay" },
   { label: "Platform Overview", href: "/amazon-dsp-management-software", desc: "How DSPOps fits together" },
 ];
 

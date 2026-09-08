@@ -11,6 +11,7 @@ const productLinks = [
   { label: "Rota Management", href: "/dsp-rota-management" },
   { label: "Invoicing & Payroll", href: "/dsp-invoicing-payroll" },
   { label: "Compliance Tools", href: "/dsp-compliance-tools" },
+  { label: "Micromobility", href: "/micromobility-delivery-software" },
 ];
 
 const resourceLinks = [
