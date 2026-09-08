@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { ArrowRight, Calendar, Smartphone, BarChart2, Truck, PoundSterling, Shield } from "lucide-react";
+import { ArrowRight, Calendar, Smartphone, BarChart2, Truck, PoundSterling, Shield, Bike } from "lucide-react";
 import SectionEyebrow from "@/components/home/SectionEyebrow";
 
 /**
@@ -40,6 +40,12 @@ const modules = [
     body: "Right-to-work, licence and insurance expiries tracked with auto-reminders. UK-hosted and GDPR-compliant, with audit logs for every data access.",
   },
   {
+    icon: Bike,
+    name: "Micromobility delivery software",
+    href: "/micromobility-delivery-software",
+    body: "Manage e-cargo bike riders as their own person type, with blocks, availability, pay and compliance alongside the rest of your operation.",
+  },
+  {
     icon: Smartphone,
     name: "DSP driver app",
     href: "/amazon-dsp-management-software",
@@ -71,7 +77,8 @@ export default function SEOOverviewSection() {
             <p>
               Every module is built for how DSPs actually operate: live Amazon scorecard
               sync, POD and CDF tracking per driver, a dedicated DSP driver app on the phone, and
-              the SDD-specific tooling owners running Same-Day Delivery routes have been asking for.
+              the SDD-specific tooling owners running Same-Day Delivery routes have been asking for,
+              alongside micromobility tools for e-cargo bike riders.
               Use the links below to see how each module works.
             </p>
           </div>

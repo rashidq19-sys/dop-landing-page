@@ -80,6 +80,13 @@ const MODULES: Module[] = [
     img: "/images/product/sdd.webp",
     alt: "Same-day delivery wave management view",
   },
+  {
+    title: "Micromobility",
+    body: "Riders have their own blocks, availability, pay and compliance alongside your vans, so e-cargo bike delivery runs on the same rota without being forced into a driver workflow.",
+    win: "Built for rider blocks",
+    img: "/images/product/rota.webp",
+    alt: "Weekly rota grid with per-day headcount",
+  },
 ];
 
 export default function PlatformSection() {

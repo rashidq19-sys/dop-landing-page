@@ -22,6 +22,11 @@ export const faqs: Faq[] = [
       "Yes — SDD is a first-class module, not an afterthought. You get a separate wave view for same-day routes, tighter SLA timers, late-stop alerts, and SDD-specific payroll rates. Owners running both standard and SDD contracts see everything in one fleet-wide dashboard.",
   },
   {
+    question: "We run e-cargo bike riders. Does DSPOps handle micromobility?",
+    answer:
+      "Yes — riders are their own person type, not van drivers with a note. They submit availability for morning and afternoon blocks on the same date, and pay is calculated per block. Rider onboarding drops the driving licence and DVLA check but keeps every other vetting step. Vans, bikes and on-foot rounds sit in one rota and one compliance list; on-foot couriers are managed as Riders in the same way.",
+  },
+  {
     question: "Do drivers need to install anything?",
     answer:
       "DSPOps is on the App Store and Google Play, and drivers can also just open it in their phone's browser — whichever suits them. They get a login link by text either way, and it works offline: they can submit van checks, report damage and check their rota without signal.",

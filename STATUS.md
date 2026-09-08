@@ -171,6 +171,20 @@ there, it is self-contained.
 
 ## Builder report
 
+### T4 — 2026-09-08 13:22
+Status: DONE
+Files changed:
+client/src/components/home/PlatformSection.tsx
+client/src/components/SEOOverviewSection.tsx
+shared/faqs.ts
+STATUS.md
+Test command: npm run check
+Test output:
+> dop-marketing-landing-page@1.0.0 check
+> tsc --noEmit
+Outside the brief: STATUS.md (required handover report)
+Doubts: PlatformSection.tsx has no lucide-react import or icon field in its card schema, so adding Bike there would create an unused import and violate the requirement to copy neighbouring card fields exactly. The new card therefore preserves the existing schema and reuses the rota screen for the block-based rider workflow. README.md is absent despite AGENTS.md requiring it; this did not prevent the explicitly scoped T4 change. No build was run, per task instruction.
+
 ### WAITLIST-WELCOME-EMAIL — 2026-08-30 12:02
 Status: DONE
 Files changed:
