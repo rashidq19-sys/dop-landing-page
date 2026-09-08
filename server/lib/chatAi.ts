@@ -23,6 +23,7 @@ DSPOps replaces spreadsheets, WhatsApp chaos, and third-party tools with one pla
 - Driver portal app (drivers see shifts, pay, performance, damage — stop calling the OSM)
 - Live Tracking (delivery progress synced from Amazon to driver portal automatically)
 - Same Day Delivery management (separate SDD driver roster and scheduling)
+- Micromobility management (e-cargo bike riders as their own person type, morning/afternoon blocks, per-block availability and pay, licence-free onboarding; on-foot couriers managed as riders)
 - Arriving / dispatch attendance (OSM marks arrivals live during dispatch)
 - Automatic data backup (all data continuously backed up, nothing lost)
 - Driver Rating & Leaderboard (automatic ratings from Amazon metrics, OSM-adjustable weighting)
