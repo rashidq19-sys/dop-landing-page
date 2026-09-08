@@ -171,6 +171,18 @@ there, it is self-contained.
 
 ## Builder report
 
+### T5 — 2026-09-08 13:23
+Status: DONE
+Files changed:
+client/public/llms.txt
+STATUS.md
+Test command: npm run check
+Test output:
+> dop-marketing-landing-page@1.0.0 check
+> tsc --noEmit
+Outside the brief: STATUS.md (required handover report)
+Doubts: README.md is absent despite AGENTS.md requiring it; this did not prevent the explicitly scoped T5 change. No build was run, per task instruction.
+
 ### T4 — 2026-09-08 13:22
 Status: DONE
 Files changed:
