@@ -223,3 +223,20 @@ Test output:
 > tsc --noEmit
 Outside the brief: STATUS.md (required handover report)
 Doubts: README.md is absent despite AGENTS.md requiring it; this did not prevent the explicitly scoped T2 change. No build was run, per task instruction. The Impeccable mechanical UI scan reported no findings.
+
+### T3 — 2026-09-08 13:16
+Status: DONE
+Files changed:
+client/src/pages/DspRotaManagement.tsx
+client/src/pages/DriverPerformanceTracking.tsx
+client/src/pages/VanInspectionApp.tsx
+client/src/pages/DspInvoicingPayroll.tsx
+client/src/pages/DspComplianceTools.tsx
+client/src/pages/AmazonDspManagementSoftware.tsx
+STATUS.md
+Test command: npm run check
+Test output:
+> dop-marketing-landing-page@1.0.0 check
+> tsc --noEmit
+Outside the brief: STATUS.md (required handover report)
+Doubts: README.md is absent despite AGENTS.md requiring it; no build was run, per task instruction.

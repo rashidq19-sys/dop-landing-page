@@ -41,6 +41,7 @@ const otherPages = [
   { name: "Driver performance tracking", href: "/driver-performance-tracking" },
   { name: "Invoicing and payroll support", href: "/dsp-invoicing-payroll" },
   { name: "Compliance tools", href: "/dsp-compliance-tools" },
+  { name: "Micromobility delivery software", href: "/micromobility-delivery-software" },
   { name: "DSP management software overview", href: "/amazon-dsp-management-software" },
 ];
 

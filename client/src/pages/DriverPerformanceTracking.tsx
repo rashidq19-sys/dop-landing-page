@@ -41,6 +41,7 @@ const otherPages = [
   { name: "Van inspection app", href: "/van-inspection-app" },
   { name: "Invoicing and payroll support", href: "/dsp-invoicing-payroll" },
   { name: "Compliance tools", href: "/dsp-compliance-tools" },
+  { name: "Micromobility delivery software", href: "/micromobility-delivery-software" },
   { name: "DSP management software overview", href: "/amazon-dsp-management-software" },
 ];
 

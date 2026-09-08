@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { ArrowRight, Check, Calendar, BarChart2, Truck, PoundSterling, Shield, Smartphone } from "lucide-react";
+import { ArrowRight, Check, Calendar, BarChart2, Truck, PoundSterling, Shield, Bike, Smartphone } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CTASection from "@/components/CTASection";
@@ -71,6 +71,12 @@ const modules = [
     name: "Compliance tools",
     href: "/dsp-compliance-tools",
     summary: "Right-to-work, licence and insurance expiries tracked with auto-reminders. UK-hosted and GDPR-compliant.",
+  },
+  {
+    icon: Bike,
+    name: "Micromobility delivery software",
+    href: "/micromobility-delivery-software",
+    summary: "E-cargo bike riders work morning and afternoon blocks, with licence-free rider onboarding.",
   },
   {
     icon: Smartphone,
