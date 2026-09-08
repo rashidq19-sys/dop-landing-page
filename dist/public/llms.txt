@@ -1,0 +1,78 @@
+# DSPOps
+
+> DSPOps is Amazon DSP management software for UK Delivery Service Partners. It replaces the rota
+> spreadsheet, the WhatsApp driver group and a stack of separate tools with one platform covering
+> rota and dispatch, driver performance, van inspections, payroll and compliance — for van drivers,
+> e-cargo bike riders and same-day delivery, in one account.
+
+## What DSPOps is
+
+- Built for UK Amazon DSPs, both 1.0 (vanless) and 2.0 operations.
+- UK-hosted and GDPR-compliant. Driver data stays in the UK.
+- Used by the owner and the OSM in the office, and by every driver through their own portal — on
+  iOS, Android, or any phone browser.
+- Amazon scorecard and route data sync in, so performance figures are not re-keyed.
+- 7-day free trial, no card required.
+
+## Platform
+
+- [Amazon DSP management software](https://dspops.app/amazon-dsp-management-software): the whole
+  platform in one page — scheduling, performance, inspections, payroll and compliance for a UK DSP.
+- [DSP rota management](https://dspops.app/dsp-rota-management): drivers set their own availability
+  in the portal, the weekly rota assembles itself, and last-minute cover is reassigned in two taps.
+- [Driver performance tracking](https://dspops.app/driver-performance-tracking): Amazon scorecard
+  metrics broken down per driver — DCR, DNR DPMO, POD, Contact Compliance and CDF.
+- [Van inspection app](https://dspops.app/van-inspection-app): daily van checks with photos and
+  video from any phone browser, with AI van damage detection and an audit trail for owners.
+- [DSP invoicing and payroll](https://dspops.app/dsp-invoicing-payroll): driver pay calculated from
+  Amazon's Work Summary Tool, with a one-click export for the accountant and every line traceable
+  to a route.
+- [DSP compliance tools](https://dspops.app/dsp-compliance-tools): right-to-work, licence, passport
+  and vehicle MOT/insurance expiries tracked with automatic reminders and audit logs.
+- [Micromobility delivery software](https://dspops.app/micromobility-delivery-software): e-cargo
+  bike riders managed as their own person type. See below.
+- [Blog](https://dspops.app/blog): guides for UK DSP owners on scorecards, rota, compliance,
+  driver retention and Amazon micromobility.
+
+## Micromobility — e-cargo bikes and on-foot rounds
+
+DSPOps manages Amazon micromobility operations alongside van routes in the same account:
+
+- **Riders are their own person type**, not van drivers with a note on them.
+- **Morning and afternoon blocks on the same date.** A rider can work only the morning, only the
+  afternoon, or both. Riders submit their availability per block in the driver portal.
+- **Pay is calculated per block.**
+- **Licence-free rider onboarding.** No driving licence and no DVLA check; right to work, ID,
+  address history, medical declaration and agreements are all still required.
+- **On-foot couriers are managed the same way as riders** — same onboarding, same blocks, same
+  availability, same pay. There is no separate walker mode; walkers are handled as riders.
+- **One rota and one compliance list** covering vans, bikes and on-foot rounds.
+
+Read more: https://dspops.app/micromobility-delivery-software and
+https://dspops.app/blog/amazon-micromobility-dsp-guide
+
+## Same-day delivery
+
+Same-day delivery (SDD) is included on every plan. SDD routes get their own wave view, a separate
+driver pool, tighter SLA timers, late-stop alerts and SDD-specific pay rates. Owners running both
+standard and same-day contracts see everything in one fleet-wide dashboard.
+
+## Pricing
+
+- **Starter** — £99/month, up to 30 drivers. Scheduling, driver management, fleet tracking, basic
+  compliance, weekly payroll, driver portal, email support.
+- **Professional** — £249/month, up to 100 drivers. Everything in Starter plus AI van damage
+  detection, performance scorecards, advanced compliance, reports and analytics, capacity planning,
+  Amazon sync and priority support.
+- **Enterprise** — unlimited drivers and unlimited stations, for multi-station DSPs. Priced per
+  active driver per month at a rate agreed with each client, billed on whichever is higher: the
+  actual active driver count or an agreed minimum of at least 100 drivers. There is no published
+  per-driver rate — email rashid@dspops.app for a quote.
+
+Same-day delivery support and driver onboarding (CSV import, auto-generated driver portal logins)
+are included on every plan and are never tier-gated.
+
+## Contact
+
+- Email: rashid@dspops.app
+- Website: https://dspops.app

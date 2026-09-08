@@ -31,6 +31,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://dspops.app/micromobility-delivery-software</loc>
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://dspops.app/dsp-invoicing-payroll</loc>
     <lastmod>2026-05-18</lastmod>
     <changefreq>monthly</changefreq>
