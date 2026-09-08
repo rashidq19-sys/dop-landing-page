@@ -72,17 +72,17 @@ export default function AmazonMicromobilityDspGuide() {
         <li>
           <strong>Pay basis.</strong> Van drivers are commonly paid per day or per route. Riders and
           walkers are far more often hourly or per-round, sometimes with a different rate for
-          on-foot versus cycle work, and frequently on shorter or more flexible shifts. One pay rule
+          on-foot versus bike work, and frequently on shorter or more flexible shifts. One pay rule
           cannot cover both.
         </li>
         <li>
           <strong>Compliance set.</strong> No driving licence check, no MOT, no motor insurance, no
-          DVLA record — but you pick up cycle maintenance and safety checks, PPE and helmet
+          DVLA record — but you pick up bike maintenance and safety checks, PPE and helmet
           compliance, and public liability considerations for on-foot work. Right-to-work checks
           apply identically to every worker regardless of mode.
         </li>
         <li>
-          <strong>The deployment unit changes.</strong> A van round is driver + van + cage. A cycle
+          <strong>The deployment unit changes.</strong> A van round is driver + van + cage. A bike
           round is rider + bike + load box. A walking round is associate + cart. Anything that
           assumes a vehicle registration in the middle of that record starts to break.
         </li>
@@ -130,7 +130,7 @@ export default function AmazonMicromobilityDspGuide() {
       </p>
       <ul>
         <li>
-          <strong>A worker record that is not vehicle-shaped.</strong> Mode — van, cycle, on-foot —
+          <strong>A worker record that is not vehicle-shaped.</strong> Mode — van, bike, on-foot —
           should be an attribute of the round, not a hard-coded assumption baked into the record.
           Workers who do both should be one person, not two entries.
         </li>
@@ -169,26 +169,28 @@ export default function AmazonMicromobilityDspGuide() {
           a rate you have already advertised is the fastest route to a grievance.
         </li>
         <li>
-          Write the compliance list for non-driving staff now — right to work, PPE, cycle safety
+          Write the compliance list for non-driving staff now — right to work, PPE, bike safety
           check, training sign-off — so onboarding day one is a checklist rather than an improvisation.
         </li>
       </ul>
 
       <h2>Where DSPOps fits in</h2>
       <p>
-        DSPOps runs micromobility teams alongside your van routes, in the same system. Riders and
-        walkers sit on the same deployment board, the same rota, the same morning check-in and the
-        same driver app as your van drivers — so you are not running a second operation in parallel.
-        It can be switched on per company when the work actually starts.
+        DSPOps runs micromobility teams alongside your van routes, in the same system. Riders sit on
+        the same deployment board, the same rota, the same morning check-in and the same driver app
+        as your van drivers — so you are not running a second operation in parallel. It can be
+        switched on per company when the work actually starts. Couriers working on foot are managed
+        as riders, on the same records and the same screens.
       </p>
       <p>
-        The distinction that matters is that each mode is handled on its own terms inside that one
-        system. Cycle and on-foot rounds are their own round types, not vans with the wrong label.
-        Rotas can staff a hub and a station together while still reflecting that a rider's shift is
-        built from several rounds. Pay rules are set per mode, so hourly walkers, per-round riders
-        and per-route drivers all calculate correctly from one timesheet into one pay run. Deployment
-        assigns the right kit to the right person. And right-to-work and document expiry sit on a
-        single compliance list covering every worker, whether they hold a van key or a bike lock.
+        The distinction that matters is that a rider is handled on their own terms inside that one
+        system, rather than as a van driver with a note on them. A rider's day is split into a
+        morning and an afternoon block, and riders answer availability for each block separately —
+        so someone can be on for the morning, off for the afternoon, and the rota shows exactly
+        that. Pay is calculated per block rather than per route. Rider onboarding drops the driving
+        licence and the DVLA check while keeping right to work, ID, address history, the medical
+        declaration and the agreements. And document expiry sits on a single compliance list
+        covering every worker, whether they hold a van key or a bike lock.
       </p>
       <p>
         Amazon's performance data comes into DSPOps for the whole operation, so your scorecard

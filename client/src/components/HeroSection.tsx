@@ -125,10 +125,10 @@ export default function HeroSection() {
           {/* ── Right: the two screens ────────────────────────── */}
           <div className="relative">
             {/* A restrained amber pill keeps the micromobility update noticeable without competing with the product screens. */}
-            <span className="absolute -top-[15px] -right-1 z-[5] hidden sm:inline-flex items-center gap-2 rounded-full px-[15px] py-2 text-[11px] font-extrabold uppercase tracking-[0.07em] bg-amber-50 border border-amber-200 text-amber-900 whitespace-nowrap">
+            <span className="absolute -top-[15px] -right-1 z-[5] hidden sm:inline-flex items-center gap-2 rounded-full px-[15px] py-2 text-[11px] font-extrabold uppercase tracking-[0.07em] bg-amber-100 border border-amber-300 text-amber-900 ring-1 ring-white shadow-[0_6px_18px_rgba(217,119,6,0.22)] whitespace-nowrap">
               <BicycleGlyph /> New — Micromobility just added
             </span>
-            <span className="sm:hidden inline-flex items-center gap-2 mb-3 rounded-full px-[15px] py-2 text-[11px] font-extrabold uppercase tracking-[0.07em] bg-amber-50 border border-amber-200 text-amber-900">
+            <span className="sm:hidden inline-flex items-center gap-2 mb-3 rounded-full px-[15px] py-2 text-[11px] font-extrabold uppercase tracking-[0.07em] bg-amber-100 border border-amber-300 text-amber-900 ring-1 ring-white shadow-[0_6px_18px_rgba(217,119,6,0.22)]">
               <BicycleGlyph /> New — Micromobility just added
             </span>
 
