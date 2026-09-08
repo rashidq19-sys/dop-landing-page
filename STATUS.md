@@ -2,12 +2,16 @@
 
 > Session handoff file. Read at session start (with DECISIONS.md); update at session end. The rule lives in global CLAUDE.md → Memory System.
 
-**Last updated:** 2026-09-08 (micromobility page + SEO + llms.txt built and committed — NOT shipped)
+**Last updated:** 2026-09-08 (micromobility page + SEO + llms.txt — SHIPPED and verified live)
 
-## 2026-09-08 — Micromobility feature page, SEO and AI discoverability: BUILT, NOT SHIPPED
+## 2026-09-08 — Micromobility feature page, SEO and AI discoverability: SHIPPED
 
-`[IMPORTANT]` **Committed to main but never pushed. Nothing is live.** Eight commits, `c5483ae`
-(plan) through `6bfd42e`. Ship with the `ship` skill when Rashid says so.
+Ten commits, `c5483ae` (plan) through `f82aa4a`, pushed and deployed to the `dop-landing-page`
+Railway service. Verified on the live site, not just the deploy chip:
+`https://dspops.app/micromobility-delivery-software` returns 200 with its own title and canonical,
+carries FAQPage and BreadcrumbList structured data, `https://dspops.app/llms.txt` serves as
+`text/plain`, the sitemap lists the new URL, and the hero badge on the homepage is the amber pill
+with no emoji.
 
 Plan and full task log: `docs/superpowers/plans/2026-09-08-micromobility-feature-and-seo.md`.
 Delegated to Codex task by task (`delegate-full`), reviewed and committed in Claude.
