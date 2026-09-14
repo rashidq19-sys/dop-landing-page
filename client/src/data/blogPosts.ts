@@ -22,6 +22,7 @@ import ManagingVanDamageClaimsAmazonDsp from "@/content/blog/managing-van-damage
 import AmazonDspOperationalReview from "@/content/blog/amazon-dsp-operational-review";
 import AmazonMicromobilityDspGuide from "@/content/blog/amazon-micromobility-dsp-guide";
 import DspDriverPerformanceReviews from "@/content/blog/dsp-driver-performance-reviews";
+import MixedFleetVanDriversBikeRidersDsp from "@/content/blog/mixed-fleet-van-drivers-bike-riders-amazon-dsp";
 
 export type BlogPost = {
   slug: string;
@@ -35,6 +36,18 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  {
+    slug: "mixed-fleet-van-drivers-bike-riders-amazon-dsp",
+    title: "Van drivers and e-cargo bike riders in the same DSP: managing a mixed fleet without the chaos",
+    metaTitle: "Mixed Fleet DSP: Managing Van Drivers and E-Cargo Bike Riders",
+    description:
+      "How UK Amazon DSP owners can manage van drivers and e-cargo bike riders together — rota structure, onboarding, pay and compliance for a mixed-fleet operation.",
+    excerpt:
+      "Van drivers and e-cargo bike riders run on different schedules, different onboarding checklists and different pay structures. Here is how to manage both without doubling your admin.",
+    date: "2026-09-14",
+    readingMinutes: 5,
+    Body: MixedFleetVanDriversBikeRidersDsp,
+  },
   {
     slug: "dsp-driver-performance-reviews",
     title: "How to run driver performance reviews at an Amazon DSP",
