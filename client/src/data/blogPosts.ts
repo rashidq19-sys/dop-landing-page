@@ -21,6 +21,7 @@ import ReduceMentorSafetyEventsAmazonDsp from "@/content/blog/reduce-mentor-safe
 import ManagingVanDamageClaimsAmazonDsp from "@/content/blog/managing-van-damage-claims-amazon-dsp";
 import AmazonDspOperationalReview from "@/content/blog/amazon-dsp-operational-review";
 import AmazonMicromobilityDspGuide from "@/content/blog/amazon-micromobility-dsp-guide";
+import DspDriverPerformanceReviews from "@/content/blog/dsp-driver-performance-reviews";
 
 export type BlogPost = {
   slug: string;
@@ -34,6 +35,17 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  {
+    slug: "dsp-driver-performance-reviews",
+    title: "How to run driver performance reviews at an Amazon DSP",
+    description:
+      "How UK Amazon DSP owners can structure driver performance reviews — what data to bring, how to run the conversation, and when a pattern requires formal action.",
+    excerpt:
+      "Performance reviews are one of the most avoided conversations in DSP management and one of the most effective when done well. Here is how to run them with the right data and the right structure.",
+    date: "2026-09-14",
+    readingMinutes: 5,
+    Body: DspDriverPerformanceReviews,
+  },
   {
     slug: "amazon-micromobility-dsp-guide",
     title: "Amazon micromobility: what e-cargo bikes and on-foot rounds mean for UK DSPs",
