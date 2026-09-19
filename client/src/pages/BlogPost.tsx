@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import CTASection from "@/components/CTASection";
 import ChatbotWidget from "@/components/ChatbotWidget";
 import NotFound from "@/pages/NotFound";
-import { usePageMeta } from "@/hooks/usePageMeta";
+import { usePageMeta, blogPostingJsonLd, breadcrumbJsonLd } from "@/hooks/usePageMeta";
 import { ArrowLeft } from "lucide-react";
 import { getPost } from "@/data/blogPosts";
 
@@ -32,6 +32,14 @@ function BlogPostBody({
     title: `${post.metaTitle ?? post.title} | DSPOps`,
     description: post.description,
     canonicalPath: `/blog/${post.slug}`,
+    jsonLd: [
+      blogPostingJsonLd(post),
+      breadcrumbJsonLd([
+        { name: "Home", path: "/" },
+        { name: "Blog", path: "/blog" },
+        { name: post.title, path: `/blog/${post.slug}` },
+      ]),
+    ],
   });
 
   return (

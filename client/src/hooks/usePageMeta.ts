@@ -119,3 +119,31 @@ export function breadcrumbJsonLd(items: { name: string; path: string }[]) {
     })),
   };
 }
+
+export function blogPostingJsonLd(post: {
+  slug: string;
+  title: string;
+  description: string;
+  date: string;
+}) {
+  const url = `https://dspops.app/blog/${post.slug}`;
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.description,
+    datePublished: post.date,
+    dateModified: post.date,
+    url,
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+    inLanguage: "en-GB",
+    image: "https://dspops.app/og-image.png",
+    author: { "@type": "Organization", name: "DSPOps", url: "https://dspops.app" },
+    publisher: {
+      "@type": "Organization",
+      name: "DSPOps",
+      url: "https://dspops.app",
+      logo: { "@type": "ImageObject", url: "https://dspops.app/logo.png" },
+    },
+  };
+}
