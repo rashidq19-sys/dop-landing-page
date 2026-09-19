@@ -2,7 +2,50 @@
 
 > Session handoff file. Read at session start (with DECISIONS.md); update at session end. The rule lives in global CLAUDE.md → Memory System.
 
-**Last updated:** 2026-09-08 (micromobility page + SEO + llms.txt — SHIPPED and verified live)
+**Last updated:** 2026-09-19 (SEO routines audit — sitemap re-read by Google, both routines rewritten, JSON-LD on blog posts)
+
+## 2026-09-19 — SEO routines audit: Google had not read the sitemap since 30 May; fixed and both routines rewritten
+
+**What was wrong.** GSC showed Indexed 11 / sitemap "Last read May 30, 2026 / 11 discovered" while
+the live sitemap listed 30 URLs and 20 blog posts. Every weekly blog post since June was invisible to
+Google; only `/blog/improve-amazon-cortex-scorecard` (May) had impressions. The weekly SEO routine
+said "all green" every Monday because its probe list was hard-coded to the original 10 URLs, it
+cannot reach dspops.app from the cloud (egress proxy `connect_rejected` — it reads `dist/public/`
+instead), and its 17 reports sat as unmerged PRs (#1–#15, #18, #19) that nobody read and that it
+could not see on `main`. Both routines fired at 08:00 UTC, so the SEO check ran before the post.
+
+**Done today (all verified live):**
+- GSC: sitemap resubmitted → Last read Sep 19, **30 pages discovered**. Soft 404 on
+  `/van-inspection-app` (crawled 27 Aug; page is fine now) → "Validate fix" started 19 Sept.
+- `1d74c1d` landed all 17 weekly reports on `main` in one commit; PRs #1–#15, #18, #19 closed.
+  Their `seo-report/*` branches are still on the remote (branch delete was blocked) — harmless.
+- `4344720` BlogPosting + BreadcrumbList JSON-LD on every blog post (`blogPostingJsonLd` in
+  `client/src/hooks/usePageMeta.ts`, wired in `client/src/pages/BlogPost.tsx`); live check shows
+  `BlogPosting`, `BreadcrumbList`, `Organization`, `WebPage` on `/blog/reduce-dnr-amazon-dsp`.
+- `c94267a` sitemap `lastmod` on the 7 core pages set to their real last git change (31 Aug / 8 Sept);
+  privacy and the May post genuinely unchanged. Live.
+- Routine `trig_01XJ25XaV24NRyYUioFzouDW` (DSPOps SEO Weekly Check) rewritten: URL list comes from
+  `client/public/sitemap.xml`; live curl first, repo fallback with a loud "live BLOCKED" line;
+  checks description length and JSON-LD per page; **"New URLs — request indexing in GSC" section
+  with inspect links** is the headline; commits straight to `main` (no PR); cron moved to
+  `0 9 * * 1` (10:00 UK BST), an hour after the blog post.
+- Routine `trig_01Xx9fMJDvkm2scjMawJBjfH` (Weekly DSPOps Blog Post): `git pull --rebase` at start
+  and before push with a retry; topic taken from the latest `seo-reports/YYYY-MM-DD.md` "Blog topic
+  suggestion" (the hard-coded list was exhausted on 14 Sept); adds the route to `scripts/prerender.mjs`
+  explicitly; post-commit `git status` check for the `dist/public/privacy/` rename false-positive;
+  verifies BlogPosting JSON-LD in the prerender.
+
+**Side effect to know about.** Closing the PRs woke five old routine sessions that were subscribed
+to them; one (the 24 Aug session) wrote `seo-reports/2026-09-19.md` to `main` (`c82be4b`, `e091e28`)
+in the OLD format. Harmless — Monday's run reads it as "last report" and will list all 20 blog URLs
+as new, which is actually what we want (inspect links for every unsubmitted post).
+
+**GSC snapshot 19 Sept (28 days):** 35 clicks / 128 impressions / CTR 27.3% / avg position 30.8.
+Brand query "dsp ops" now surfaces (4 clicks). Not indexed: 2 "Page with redirect", 1 Soft 404.
+
+**Next:** around 26 Sept open GSC → Pages and confirm Indexed has climbed past 11; check
+Sitemaps "Last read" is recent. First rewritten-routine runs are Mon 21 Sept 09:00 and 10:00 UK —
+read `seo-reports/2026-09-21.md` on `main` and click the inspect links it lists.
 
 ## 2026-09-08 — Micromobility feature page, SEO and AI discoverability: SHIPPED
 
