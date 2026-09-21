@@ -55,6 +55,7 @@ const ROUTES = [
   "/blog/how-to-onboard-new-drivers-amazon-dsp",
   "/blog/amazon-cortex-dcr-score",
   "/blog/improve-amazon-cortex-scorecard",
+  "/blog/improve-amazon-cortex-dpmo-score",
   "/privacy",
 ];
 

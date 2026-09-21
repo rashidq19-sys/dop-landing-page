@@ -50,9 +50,15 @@
   </url>
   <url>
     <loc>https://dspops.app/blog</loc>
-    <lastmod>2026-09-14</lastmod>
+    <lastmod>2026-09-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://dspops.app/blog/improve-amazon-cortex-dpmo-score</loc>
+    <lastmod>2026-09-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://dspops.app/blog/mixed-fleet-van-drivers-bike-riders-amazon-dsp</loc>

@@ -3,6 +3,7 @@
 // When adding posts, also add an entry to client/public/sitemap.xml.
 
 import type { ComponentType } from "react";
+import ImproveAmazonCortexDpmoScore from "@/content/blog/improve-amazon-cortex-dpmo-score";
 import ImproveCortexScorecard from "@/content/blog/improve-amazon-cortex-scorecard";
 import AmazonCortexDcrScore from "@/content/blog/amazon-cortex-dcr-score";
 import OnboardNewDriversAmazonDsp from "@/content/blog/how-to-onboard-new-drivers-amazon-dsp";
@@ -36,6 +37,17 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  {
+    slug: "improve-amazon-cortex-dpmo-score",
+    title: "How to improve your DPMO score on the Amazon Cortex scorecard",
+    description:
+      "What DPMO measures on your Amazon Cortex scorecard, which defect types move it most, and the practical steps UK DSP owners use to bring it down before Monday's number lands.",
+    excerpt:
+      "DPMO is the Cortex metric that feels the least fair — a handful of defects on a hundred-stop fleet can move your status overnight. Here is the per-driver playbook to fix it.",
+    date: "2026-09-21",
+    readingMinutes: 5,
+    Body: ImproveAmazonCortexDpmoScore,
+  },
   {
     slug: "mixed-fleet-van-drivers-bike-riders-amazon-dsp",
     title: "Van drivers and e-cargo bike riders in the same DSP: managing a mixed fleet without the chaos",
