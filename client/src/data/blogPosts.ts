@@ -3,6 +3,7 @@
 // When adding posts, also add an entry to client/public/sitemap.xml.
 
 import type { ComponentType } from "react";
+import AmazonDspWeeklyDriverInvoicing from "@/content/blog/amazon-dsp-weekly-driver-invoicing";
 import ImproveAmazonCortexDpmoScore from "@/content/blog/improve-amazon-cortex-dpmo-score";
 import ImproveCortexScorecard from "@/content/blog/improve-amazon-cortex-scorecard";
 import AmazonCortexDcrScore from "@/content/blog/amazon-cortex-dcr-score";
@@ -37,6 +38,18 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  {
+    slug: "amazon-dsp-weekly-driver-invoicing",
+    title: "How weekly driver invoicing works at a UK Amazon DSP",
+    metaTitle: "Weekly Driver Invoicing for Amazon DSPs: A UK Guide",
+    description:
+      "How UK Amazon DSP owners can run weekly driver invoicing — what each invoice should show, the weekly run step by step, and how to stop deductions and rate errors causing disputes.",
+    excerpt:
+      "Every driver needs an invoice that is right first time, every week. Here is how to run weekly driver invoicing as a repeatable process instead of a Sunday-night scramble.",
+    date: "2026-09-23",
+    readingMinutes: 5,
+    Body: AmazonDspWeeklyDriverInvoicing,
+  },
   {
     slug: "improve-amazon-cortex-dpmo-score",
     title: "How to improve your DPMO score on the Amazon Cortex scorecard",
