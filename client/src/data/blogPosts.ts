@@ -3,6 +3,7 @@
 // When adding posts, also add an entry to client/public/sitemap.xml.
 
 import type { ComponentType } from "react";
+import AmazonDspQ4PeakPlanning from "@/content/blog/amazon-dsp-q4-peak-planning";
 import AmazonDspWeeklyDriverInvoicing from "@/content/blog/amazon-dsp-weekly-driver-invoicing";
 import ImproveAmazonCortexDpmoScore from "@/content/blog/improve-amazon-cortex-dpmo-score";
 import ImproveCortexScorecard from "@/content/blog/improve-amazon-cortex-scorecard";
@@ -38,6 +39,18 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  {
+    slug: "amazon-dsp-q4-peak-planning",
+    title: "How to prepare your Amazon DSP for Q4 peak: the UK operator's checklist",
+    metaTitle: "Amazon DSP Q4 Peak Planning: The UK Operator's Checklist",
+    description:
+      "How UK Amazon DSP owners can prepare for Black Friday and Christmas peak — driver recruitment, fleet servicing, rota cover, Cortex coaching and compliance admin.",
+    excerpt:
+      "The problems that surface in November were almost always visible in September. Here is the Q4 planning checklist that gets UK Amazon DSP owners ahead of the crunch rather than managing it.",
+    date: "2026-09-28",
+    readingMinutes: 5,
+    Body: AmazonDspQ4PeakPlanning,
+  },
   {
     slug: "amazon-dsp-weekly-driver-invoicing",
     title: "How weekly driver invoicing works at a UK Amazon DSP",
