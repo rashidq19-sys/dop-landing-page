@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
+import DemoVideoSection from "@/components/home/DemoVideoSection";
 import WhatChangesSection from "@/components/home/WhatChangesSection";
 import PlatformSection from "@/components/home/PlatformSection";
 import EssentialsSection from "@/components/home/EssentialsSection";
@@ -29,6 +30,7 @@ export default function Home() {
         {/* Light / navy / light / navy — the rhythm that separates "what it does"
             from "what it changes" without needing a divider between every block. */}
         <HeroSection />
+        <DemoVideoSection />
         <WhatChangesSection />
         <PlatformSection />
         <EssentialsSection />
