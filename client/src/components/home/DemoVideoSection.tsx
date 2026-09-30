@@ -1,10 +1,13 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Play } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import SectionEyebrow from "@/components/home/SectionEyebrow";
 
 const VIDEO_SRC = "/video/dspops-demo.mp4";
 const POSTER_SRC = "/video/dspops-demo-poster.webp";
+
+/** Fired by the hero screenshots so a click on them plays this video. */
+export const PLAY_DEMO_EVENT = "dspops:play-demo";
 
 /**
  * The promo video, click-to-play. Until someone presses play only the poster
@@ -22,6 +25,17 @@ export default function DemoVideoSection() {
       // Playback refused (rare) — native controls are now showing, so they can press play there.
     });
   };
+
+  // dispatchEvent is synchronous, so play() still runs inside the visitor's click
+  // and the browser lets it start with sound.
+  useEffect(() => {
+    const onPlay = () => {
+      document.getElementById("demo")?.scrollIntoView({ behavior: "smooth", block: "center" });
+      start();
+    };
+    window.addEventListener(PLAY_DEMO_EVENT, onPlay);
+    return () => window.removeEventListener(PLAY_DEMO_EVENT, onPlay);
+  }, []);
 
   return (
     <section id="demo" className="bg-background py-16 sm:py-20 lg:py-[82px] border-b border-border">

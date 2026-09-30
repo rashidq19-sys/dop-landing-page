@@ -1,8 +1,7 @@
-import { useState } from "react";
 import { Check } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { useCountUp } from "@/hooks/useCountUp";
-import ScreenshotLightbox from "@/components/home/ScreenshotLightbox";
+import { PLAY_DEMO_EVENT } from "@/components/home/DemoVideoSection";
 // import Lightbox from "@/components/Lightbox"; // demo video hidden — see HeroSection button + render below
 
 const DASHBOARD = "/images/product/dashboard-ops.webp";
@@ -12,6 +11,8 @@ const DASHBOARD_ALT =
   "DSPOps operations dashboard showing driver status, today's deployment plan, the morning check-in board and the driver leaderboard";
 const PHONE_ALT =
   "DSPOps driver app home screen showing the check-in button, today's route, van and wave";
+
+const playDemo = () => window.dispatchEvent(new Event(PLAY_DEMO_EVENT));
 
 const TRUST = [
   "Built & hosted in the UK",
@@ -30,7 +31,6 @@ function BicycleGlyph() {
 
 export default function HeroSection() {
   const { ref, isVisible } = useScrollAnimation(0.1);
-  const [zoom, setZoom] = useState<{ src: string; alt: string } | null>(null);
   // const [videoOpen, setVideoOpen] = useState(false); // demo video hidden
 
   const hours = useCountUp(3, 1600, isVisible);
@@ -137,9 +137,9 @@ export default function HeroSection() {
             <div className="relative">
               <button
                 type="button"
-                onClick={() => setZoom({ src: DASHBOARD, alt: DASHBOARD_ALT })}
-                aria-label="Open the operations dashboard full size"
-                className="block w-full text-left bg-card border border-border rounded-[15px] overflow-hidden shadow-[0_30px_70px_-25px_rgba(11,18,32,0.35)] cursor-zoom-in"
+                onClick={playDemo}
+                aria-label="Play the DSPOps demo video"
+                className="block w-full text-left bg-card border border-border rounded-[15px] overflow-hidden shadow-[0_30px_70px_-25px_rgba(11,18,32,0.35)] cursor-pointer"
               >
                 <span className="flex items-center justify-between bg-background border-b border-border px-3.5 py-2.5">
                   <span className="flex gap-1.5" aria-hidden="true">
@@ -155,9 +155,9 @@ export default function HeroSection() {
 
               <button
                 type="button"
-                onClick={() => setZoom({ src: DRIVER_PHONE, alt: PHONE_ALT })}
-                aria-label="Open the driver app screen full size"
-                className="absolute -right-2 -bottom-3.5 w-24 sm:w-[124px] sm:-right-4 sm:-bottom-[18px] lg:w-[142px] lg:-right-5 lg:-bottom-5 z-[4] cursor-zoom-in"
+                onClick={playDemo}
+                aria-label="Play the DSPOps demo video"
+                className="absolute -right-2 -bottom-3.5 w-24 sm:w-[124px] sm:-right-4 sm:-bottom-[18px] lg:w-[142px] lg:-right-5 lg:-bottom-5 z-[4] cursor-pointer"
               >
                 <span className="block bg-[#0B1220] rounded-[22px] p-1 shadow-[0_25px_50px_-10px_rgba(11,18,32,0.45)]">
                   <span className="block rounded-[19px] overflow-hidden">
@@ -169,13 +169,12 @@ export default function HeroSection() {
 
             <p className="mt-8 sm:mt-10 text-center text-[12.5px] text-muted-foreground">
               Your ops manager's morning on the left, the driver's on the right. Tap either to
-              open it full size.
+              watch the demo.
             </p>
           </div>
         </div>
       </div>
 
-      <ScreenshotLightbox src={zoom?.src ?? null} alt={zoom?.alt} onClose={() => setZoom(null)} />
       {/* <Lightbox videoId={videoOpen ? "DJtEvVlwjHo" : null} onClose={() => setVideoOpen(false)} /> */}
     </section>
   );
