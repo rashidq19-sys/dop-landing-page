@@ -6,7 +6,6 @@ import PlatformSection from "@/components/home/PlatformSection";
 import EssentialsSection from "@/components/home/EssentialsSection";
 import DriverAppSection from "@/components/home/DriverAppSection";
 import PricingSection from "@/components/PricingSection";
-import SEOOverviewSection from "@/components/SEOOverviewSection";
 import FAQSection from "@/components/FAQSection";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
@@ -36,7 +35,6 @@ export default function Home() {
         <EssentialsSection />
         <DriverAppSection />
         <PricingSection />
-        <SEOOverviewSection />
         <FAQSection />
         <CTASection />
       </main>
