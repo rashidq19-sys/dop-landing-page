@@ -126,6 +126,9 @@ dist/public/__manus__/
 
 # Large media files
 *.mp4
+# Site demo video is served from dist/public (Railway never runs vite)
+!client/public/video/*.mp4
+!dist/public/video/*.mp4
 *.mov
 *.avi
 
