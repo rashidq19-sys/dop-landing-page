@@ -5,7 +5,7 @@ import { useCountUp } from "@/hooks/useCountUp";
 import ScreenshotLightbox from "@/components/home/ScreenshotLightbox";
 // import Lightbox from "@/components/Lightbox"; // demo video hidden — see HeroSection button + render below
 
-const DASHBOARD = "/images/product/dashboard.webp";
+const DASHBOARD = "/images/product/dashboard-ops.webp";
 const DRIVER_PHONE = "/images/product/phone-home.webp";
 
 const DASHBOARD_ALT =
