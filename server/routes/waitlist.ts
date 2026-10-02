@@ -2,6 +2,7 @@ import { Router } from "express";
 import pool from "../db.js";
 import { sendEmail, sendVisitorEmail } from "../email.js";
 import { buildWaitlistEmailHtml } from "../emailShell.js";
+import { scheduleNudgeAfterSignup } from "../phoneNudges.js";
 
 const router = Router();
 
@@ -30,6 +31,7 @@ router.post("/", async (req, res) => {
       [cleanEmail, cleanSource, cleanDspName || null]
     );
     res.json({ success: true, id: result.rows[0].id });
+    scheduleNudgeAfterSignup();
 
     sendEmail(
       "New DSPOps signup — Step 1 (email captured)",
