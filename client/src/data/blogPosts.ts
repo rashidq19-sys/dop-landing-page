@@ -3,6 +3,7 @@
 // When adding posts, also add an entry to client/public/sitemap.xml.
 
 import type { ComponentType } from "react";
+import DspVehicleInsuranceAmazonDsp from "@/content/blog/dsp-vehicle-insurance-amazon-dsp";
 import AmazonDspQ4PeakPlanning from "@/content/blog/amazon-dsp-q4-peak-planning";
 import AmazonDspWeeklyDriverInvoicing from "@/content/blog/amazon-dsp-weekly-driver-invoicing";
 import ImproveAmazonCortexDpmoScore from "@/content/blog/improve-amazon-cortex-dpmo-score";
@@ -39,6 +40,18 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  {
+    slug: "dsp-vehicle-insurance-amazon-dsp",
+    title: "DSP vehicle insurance: what cover UK Amazon DSP operators need",
+    metaTitle: "Amazon DSP Vehicle Insurance UK: What Cover You Actually Need",
+    description:
+      "What insurance cover UK Amazon DSP operators need — hire-and-reward fleet, employer's liability, goods-in-transit — and how to manage renewals without anything lapsing.",
+    excerpt:
+      "Standard van insurance is not enough for a DSP. Here is the full cover a UK Amazon DSP needs, the named-driver versus any-driver trade-off, and how to keep renewals from lapsing quietly.",
+    date: "2026-10-05",
+    readingMinutes: 5,
+    Body: DspVehicleInsuranceAmazonDsp,
+  },
   {
     slug: "amazon-dsp-q4-peak-planning",
     title: "How to prepare your Amazon DSP for Q4 peak: the UK operator's checklist",
