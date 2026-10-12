@@ -3,6 +3,7 @@
 // When adding posts, also add an entry to client/public/sitemap.xml.
 
 import type { ComponentType } from "react";
+import AmazonDspDriverAccidentProcedure from "@/content/blog/amazon-dsp-driver-accident-procedure";
 import DspVehicleInsuranceAmazonDsp from "@/content/blog/dsp-vehicle-insurance-amazon-dsp";
 import AmazonDspQ4PeakPlanning from "@/content/blog/amazon-dsp-q4-peak-planning";
 import AmazonDspWeeklyDriverInvoicing from "@/content/blog/amazon-dsp-weekly-driver-invoicing";
@@ -40,6 +41,18 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  {
+    slug: "amazon-dsp-driver-accident-procedure",
+    title: "On-road vehicle accidents at an Amazon DSP: what to do, what to report and what Amazon requires",
+    metaTitle: "Amazon DSP Driver Accident Procedure: What to Do, Report and Document",
+    description:
+      "What UK Amazon DSP owners and drivers must do after an on-road accident — from scene actions and police obligations to Amazon notification, insurer reporting and driver welfare.",
+    excerpt:
+      "A driver calling from the side of the road is one of the hardest moments in DSP operations. Here is the step-by-step procedure for on-road accidents — from the scene to the insurance claim.",
+    date: "2026-10-12",
+    readingMinutes: 5,
+    Body: AmazonDspDriverAccidentProcedure,
+  },
   {
     slug: "dsp-vehicle-insurance-amazon-dsp",
     title: "DSP vehicle insurance: what cover UK Amazon DSP operators need",
