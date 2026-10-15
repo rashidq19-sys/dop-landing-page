@@ -29,8 +29,8 @@ export default function Home() {
         <DemoVideoSection />
         <PlatformSection />
         <PricingSection />
-        <FAQSection />
         <CTASection />
+        <FAQSection />
       </main>
       <Footer />
       <ChatbotWidget />
