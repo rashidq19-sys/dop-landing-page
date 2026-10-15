@@ -19,15 +19,15 @@ const MODULES: Module[] = [
     title: "Rota, availability & dispatch",
     body: "Drivers mark themselves ON or OFF for every day in their own app, so the week fills itself and shortfalls show up days early. On the day, Smart Assign fills every route from that availability, you adjust, then one tap publishes waves, routes and vans to every driver's phone.",
     win: "~13 hrs a week back",
-    img: "/images/product/deployment.webp",
+    img: "/images/product/deployment-hd.webp",
     alt: "Deployment board showing a wave with drivers, route codes and vans",
   },
   {
     title: "Driver performance",
     body: "Every metric Amazon scores your drivers on, weekly, per driver: DCR, DNR DPMO, POD, contact compliance, CDF and customer escalations — with worst-offender lists per metric and a league table your drivers can see too.",
     win: "Better network scores",
-    img: "/images/product/performance.webp",
-    alt: "Driver quality metrics ranked by worst offenders",
+    img: "/images/product/performance-hd.webp",
+    alt: "Worst-offender lists for DSC DPMO, delivery completion rate and photo-on-delivery compliance",
   },
   {
     title: "Driver invoicing & pay",
