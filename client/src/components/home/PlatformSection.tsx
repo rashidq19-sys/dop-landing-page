@@ -16,25 +16,11 @@ type Module = {
 
 const MODULES: Module[] = [
   {
-    title: "Dispatch & deployment",
-    body: "Smart Assign fills every route from live availability, you adjust, then one tap publishes waves, routes and vans to every driver's phone.",
-    win: "~4 hrs a week back",
+    title: "Rota, availability & dispatch",
+    body: "Drivers mark themselves ON or OFF for every day in their own app, so the week fills itself and shortfalls show up days early. On the day, Smart Assign fills every route from that availability, you adjust, then one tap publishes waves, routes and vans to every driver's phone.",
+    win: "~13 hrs a week back",
     img: "/images/product/deployment.webp",
     alt: "Deployment board showing a wave with drivers, route codes and vans",
-  },
-  {
-    title: "Rota & availability",
-    body: "Drivers mark themselves ON or OFF for every day in their own app. The week fills itself, locks when you need certainty, and shortfalls show up days early instead of at 06:00.",
-    win: "~9 hrs a week back",
-    img: "/images/product/rota.webp",
-    alt: "Weekly rota grid with per-day headcount",
-  },
-  {
-    title: "Morning check-in",
-    body: "Drivers tap “I'm here” at the depot. You see the arrival time, how many minutes late against their own start time, and how far from the station they were standing when they tapped it.",
-    win: "06:30 answers itself",
-    img: "/images/product/checkin.webp",
-    alt: "Morning check-in board showing arrival times, late markers and a distance flag",
   },
   {
     title: "Driver performance",
@@ -75,16 +61,9 @@ const MODULES: Module[] = [
     contain: true,
   },
   {
-    title: "Same-day delivery",
-    body: "SDD is a first-class module, not an afterthought. Same-day drivers, wave times, vans and rates are kept completely separate from your standard routes, so nothing gets mixed up and nothing gets missed.",
-    win: "SDD kept separate",
-    img: "/images/product/sdd.webp",
-    alt: "Same-day delivery wave management view",
-  },
-  {
-    title: "Micromobility",
-    body: "Riders have their own blocks, availability, pay and compliance alongside your vans, so e-cargo bike delivery runs on the same rota without being forced into a driver workflow.",
-    win: "Built for rider blocks",
+    title: "Same-day & micromobility",
+    body: "Same-day drivers, wave times, vans and rates are kept completely separate from your standard routes. E-cargo bike riders get their own blocks, availability, pay and compliance on the same rota, without being forced into a driver workflow.",
+    win: "Every service type, one rota",
     img: "/images/product/micromobility-rota.webp",
     alt: "Rota grid showing van drivers and e-cargo bike riders side by side, riders answering morning and afternoon separately",
   },
@@ -159,7 +138,7 @@ export default function PlatformSection() {
           className="mt-3.5 font-display text-[36px] sm:text-[50px] lg:text-[60px] font-black tracking-[-0.045em] leading-[1.02] text-ink text-balance"
         />
         <p className="mt-4 text-[15.5px] sm:text-[17px] text-muted-foreground leading-[1.6] max-w-[62ch]">
-          Ten modules built for how a UK Amazon DSP actually runs. Tap any screen to open it
+          Seven modules built for how a UK Amazon DSP actually runs. Tap any screen to open it
           full size.
         </p>
 
