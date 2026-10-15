@@ -3,7 +3,6 @@ import HeroSection from "@/components/HeroSection";
 import DemoVideoSection from "@/components/home/DemoVideoSection";
 import WhatChangesSection from "@/components/home/WhatChangesSection";
 import PlatformSection from "@/components/home/PlatformSection";
-import EssentialsSection from "@/components/home/EssentialsSection";
 import DriverAppSection from "@/components/home/DriverAppSection";
 import PricingSection from "@/components/PricingSection";
 import FAQSection from "@/components/FAQSection";
@@ -32,7 +31,6 @@ export default function Home() {
         <DemoVideoSection />
         <WhatChangesSection />
         <PlatformSection />
-        <EssentialsSection />
         <DriverAppSection />
         <PricingSection />
         <FAQSection />
