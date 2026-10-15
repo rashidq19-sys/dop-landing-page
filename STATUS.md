@@ -2,15 +2,17 @@
 
 > Session handoff file. Read at session start (with DECISIONS.md); update at session end. The rule lives in global CLAUDE.md → Memory System.
 
-**Last updated:** 2026-10-15 (platform section stacking-card animation — committed locally, NOT pushed)
+**Last updated:** 2026-10-15 (Apple-style GSAP motion across the homepage — committed locally, NOT pushed)
 
-## 2026-10-15 — "Every daily job, one login" is now GSAP stacking cards (awaiting Rashid's OK to ship)
+## 2026-10-15 — Homepage motion (awaiting Rashid's OK to ship)
 
-- Commit `54945f7` on local `main`, one ahead of origin, **not pushed** — Rashid wanted to see it first.
+- Commits `54945f7` (platform stacking cards), `b711bb9` ("ten modules"), `2915a90` (motion on every
+  homepage section) on local `main`, **not pushed** — Rashid wants to see it before it ships.
+- Shared motion code: `client/src/lib/motion.ts` + `client/src/components/motion/SplitWords.tsx`; hero
+  pre-paint `.js` rules in `client/src/index.css`, set by the inline script in `client/index.html`.
 - **At ship time:** if the weekly blog agent has landed a rebuilt `dist/public` meanwhile, do NOT hand-merge
   `dist`. Rebase only the source/lockfile changes, rerun `npm run build`, commit the fresh `dist/public`.
-- Open decisions: intro copy still says "Nine modules" (cards run 01–10; hero count-up and `llms.txt` say 9 too);
-  GSAP adds ~48 KB gzipped to the main bundle (124 → 173 KB) — could be lazy-loaded if that matters.
+- GSAP adds ~48 KB gzipped to the main bundle (124 → 174 KB) — could be lazy-loaded if that matters.
 
 ## 2026-09-19 — SEO routines audit: Google had not read the sitemap since 30 May; fixed and both routines rewritten
 
