@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Check, ArrowRight } from "lucide-react";
-import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import SectionEyebrow from "@/components/home/SectionEyebrow";
+import SplitWords from "@/components/motion/SplitWords";
+import { lightUp, rise, useMotion } from "@/lib/motion";
 
 type Plan = {
   name: string;
@@ -141,36 +142,35 @@ function PlanEmailCapture({ planName, dark }: { planName: string; dark?: boolean
 }
 
 export default function PricingSection() {
-  const { ref, isVisible } = useScrollAnimation(0.05);
+  const scope = useRef<HTMLElement>(null);
+
+  useMotion(scope, () => {
+    lightUp(scope.current!.querySelector("h2"));
+    rise("[data-rise]", 18);
+    rise("[data-plan]");
+  });
 
   return (
-    <section id="pricing" className="bg-background py-16 sm:py-20 lg:py-[82px]">
-      <div ref={ref} className="max-w-[1180px] mx-auto px-5 sm:px-9">
-        <div
-          className={`transition-all duration-700 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-          }`}
-        >
+    <section ref={scope} id="pricing" className="bg-background py-16 sm:py-20 lg:py-[96px]">
+      <div className="max-w-[1180px] mx-auto px-5 sm:px-9">
+        <div>
           <SectionEyebrow>Pricing</SectionEyebrow>
-          <h2 className="mt-3.5 font-display text-[30px] sm:text-[40px] lg:text-[44px] font-extrabold tracking-[-0.035em] leading-[1.06] text-ink text-balance">
-            Flat to 100 drivers.
-            <br />
-            Per driver above that.
-          </h2>
-          <p className="mt-3.5 text-[15.5px] sm:text-[17px] text-muted-foreground leading-[1.6] max-w-[62ch]">
+          <SplitWords
+            lines={[["Flat to 100 drivers."], ["Per driver above that."]]}
+            className="mt-3.5 font-display text-[34px] sm:text-[48px] lg:text-[56px] font-black tracking-[-0.045em] leading-[1.03] text-ink text-balance"
+          />
+          <p data-rise className="mt-4 text-[15.5px] sm:text-[17px] text-muted-foreground leading-[1.6] max-w-[62ch]">
             No setup fee, no per-seat charge for your office staff, and no contract to sign before
             you've tried it.
           </p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-3.5 mt-8 items-stretch">
-          {PLANS.map((p, i) => (
+          {PLANS.map((p) => (
             <div
               key={p.name}
-              style={{ transitionDelay: `${i * 80}ms` }}
-              className={`relative rounded-2xl p-6 flex flex-col transition-all duration-700 ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-              } ${
+              data-plan
+              className={`lift-card relative rounded-2xl p-6 flex flex-col ${
                 p.dark
                   ? "bg-deep text-white border border-deep shadow-lg"
                   : p.featured
@@ -233,7 +233,7 @@ export default function PricingSection() {
           ))}
         </div>
 
-        <div className="mt-6 flex flex-wrap gap-2 items-center text-[13px] text-muted-foreground">
+        <div data-rise className="mt-6 flex flex-wrap gap-2 items-center text-[13px] text-muted-foreground">
           Runs alongside the networks you already serve:
           {NETWORKS.map((n) => (
             <span

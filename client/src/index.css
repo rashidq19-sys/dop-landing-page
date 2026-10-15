@@ -186,3 +186,44 @@ html {
     font-size: 16px;
   }
 }
+
+/* Hero pre-paint states. Only active while <html> carries the `js` class set by
+   the inline script in client/index.html; GSAP then animates each piece to its
+   resting state with inline styles, which win over these rules. */
+.js [data-hero-fade] {
+  opacity: 0;
+}
+.js [data-hero-word] {
+  transform: translateY(115%);
+}
+.js [data-hero-lit] {
+  color: #c3cedd;
+}
+.js [data-hero-window] {
+  clip-path: inset(0% 22% 0% 22% round 28px);
+}
+
+/* Hover lifts. They move with the separate `translate` property so they never
+   fight the `transform` GSAP animates on the same element, and they sit outside
+   any layer so they beat Tailwind's `transition-colors` utilities. */
+.lift-btn,
+.lift-card {
+  transition-property: translate, box-shadow, border-color, background-color, color;
+  transition-duration: 0.25s;
+  transition-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.lift-btn:hover {
+  translate: 0 -3px;
+  box-shadow: 0 16px 32px -12px rgba(0, 106, 225, 0.5);
+}
+.lift-card:hover {
+  translate: 0 -5px;
+  border-color: var(--color-brand);
+  box-shadow: 0 24px 50px -24px rgba(10, 18, 53, 0.35);
+}
+@media (prefers-reduced-motion: reduce) {
+  .lift-btn:hover,
+  .lift-card:hover {
+    translate: none;
+  }
+}

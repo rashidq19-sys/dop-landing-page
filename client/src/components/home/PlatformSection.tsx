@@ -1,16 +1,8 @@
 import { Fragment, useRef, useState } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
+import { gsap, lightUp, useMotion } from "@/lib/motion";
+import SplitWords from "@/components/motion/SplitWords";
 import SectionEyebrow from "@/components/home/SectionEyebrow";
 import ScreenshotLightbox from "@/components/home/ScreenshotLightbox";
-
-gsap.registerPlugin(ScrollTrigger, useGSAP);
-
-const HEADING = "Every daily job, one login.";
-/** Words start pale and light up to ink as the heading scrolls through. */
-const PALE = "#c3cedd";
-const INK = "#111113";
 
 type Module = {
   title: string;
@@ -102,93 +94,56 @@ export default function PlatformSection() {
   const scope = useRef<HTMLElement>(null);
   const [zoom, setZoom] = useState<Module | null>(null);
 
-  useGSAP(
-    () => {
-      // Puppeteer (the build-time prerender) reports webdriver: skip, so the
-      // captured HTML never bakes in a half-scrolled state.
-      if (navigator.webdriver) return;
+  useMotion(scope, () => {
+    lightUp(scope.current!.querySelector("[data-lit-heading]"));
 
-      const mm = gsap.matchMedia();
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        const heading = scope.current!.querySelector("[data-lit-heading]");
-        gsap.fromTo(
-          "[data-lit-word]",
-          { color: PALE },
-          {
-            color: INK,
-            ease: "none",
-            stagger: 0.11,
-            scrollTrigger: { trigger: heading, start: "top 82%", end: "bottom 45%", scrub: true },
+    const markers = gsap.utils.toArray<HTMLElement>("[data-stack-marker]");
+    const cards = gsap.utils.toArray<HTMLElement>("[data-stack-card]");
+
+    cards.forEach((card, i) => {
+      const marker = markers[i];
+
+      // The screenshot opens from a smaller rounded window as the card comes up.
+      gsap.fromTo(
+        card.querySelector("[data-shot]"),
+        { clipPath: "inset(6% 14% 6% 14% round 28px)" },
+        {
+          clipPath: "inset(0% 0% 0% 0% round 0px)",
+          ease: "none",
+          scrollTrigger: { trigger: marker, start: "top 95%", end: "top 40%", scrub: true },
+        },
+      );
+      gsap.fromTo(
+        card.querySelector("[data-shot] img"),
+        { scale: 1.18 },
+        {
+          scale: 1,
+          ease: "none",
+          scrollTrigger: { trigger: marker, start: "top bottom", end: "top top", scrub: true },
+        },
+      );
+
+      // As the next card slides over this one, this one sinks back. It starts
+      // the moment this card sticks, so it never shrinks while still moving.
+      const next = cards[i + 1];
+      if (!next) return;
+      const stickyTop = (el: HTMLElement) => parseFloat(getComputedStyle(el).top) || 0;
+      const nextTop = () => stickyTop(next);
+      const gap = () => markers[i + 1].offsetTop - marker.offsetTop;
+      gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: markers[i + 1],
+            start: () => `top ${stickyTop(card) + gap()}px`,
+            end: () => `top ${nextTop()}px`,
+            scrub: true,
+            invalidateOnRefresh: true,
           },
-        );
-
-        const markers = gsap.utils.toArray<HTMLElement>("[data-stack-marker]");
-        const cards = gsap.utils.toArray<HTMLElement>("[data-stack-card]");
-
-        cards.forEach((card, i) => {
-          const marker = markers[i];
-
-          // The screenshot opens from a smaller rounded window as the card comes up.
-          gsap.fromTo(
-            card.querySelector("[data-shot]"),
-            { clipPath: "inset(6% 14% 6% 14% round 28px)" },
-            {
-              clipPath: "inset(0% 0% 0% 0% round 0px)",
-              ease: "none",
-              scrollTrigger: { trigger: marker, start: "top 95%", end: "top 40%", scrub: true },
-            },
-          );
-          gsap.fromTo(
-            card.querySelector("[data-shot] img"),
-            { scale: 1.18 },
-            {
-              scale: 1,
-              ease: "none",
-              scrollTrigger: { trigger: marker, start: "top bottom", end: "top top", scrub: true },
-            },
-          );
-
-          // As the next card slides over this one, this one sinks back. It starts
-          // the moment this card sticks, so it never shrinks while still moving.
-          const next = cards[i + 1];
-          if (!next) return;
-          const stickyTop = (el: HTMLElement) => parseFloat(getComputedStyle(el).top) || 0;
-          const nextTop = () => stickyTop(next);
-          const gap = () => markers[i + 1].offsetTop - marker.offsetTop;
-          gsap
-            .timeline({
-              scrollTrigger: {
-                trigger: markers[i + 1],
-                start: () => `top ${stickyTop(card) + gap()}px`,
-                end: () => `top ${nextTop()}px`,
-                scrub: true,
-                invalidateOnRefresh: true,
-              },
-            })
-            .fromTo(card.querySelector("[data-card-inner]"), { scale: 1 }, { scale: 0.94, ease: "none" }, 0)
-            .fromTo(card.querySelector("[data-card-shade]"), { opacity: 0 }, { opacity: 0.4, ease: "none" }, 0);
-        });
-      });
-
-      // Lazy images and the video above change the page height after load,
-      // which would leave every trigger pointing at the wrong scroll position.
-      let t: number | undefined;
-      const ro = new ResizeObserver(() => {
-        window.clearTimeout(t);
-        t = window.setTimeout(() => ScrollTrigger.refresh(), 200);
-      });
-      ro.observe(document.body);
-
-      return () => {
-        ro.disconnect();
-        window.clearTimeout(t);
-        mm.revert();
-      };
-    },
-    { scope },
-  );
-
-  const words = HEADING.split(" ");
+        })
+        .fromTo(card.querySelector("[data-card-inner]"), { scale: 1 }, { scale: 0.94, ease: "none" }, 0)
+        .fromTo(card.querySelector("[data-card-shade]"), { opacity: 0 }, { opacity: 0.4, ease: "none" }, 0);
+    });
+  });
 
   return (
     <section
@@ -198,20 +153,11 @@ export default function PlatformSection() {
     >
       <div className="max-w-[1180px] mx-auto px-5 sm:px-9">
         <SectionEyebrow>The platform</SectionEyebrow>
-        <h2
+        <SplitWords
           data-lit-heading
-          aria-label={HEADING}
+          lines={[["Every daily job, one login."]]}
           className="mt-3.5 font-display text-[36px] sm:text-[50px] lg:text-[60px] font-black tracking-[-0.045em] leading-[1.02] text-ink text-balance"
-        >
-          {words.map((w, i) => (
-            <Fragment key={i}>
-              <span data-lit-word aria-hidden="true">
-                {w}
-              </span>
-              {i < words.length - 1 && " "}
-            </Fragment>
-          ))}
-        </h2>
+        />
         <p className="mt-4 text-[15.5px] sm:text-[17px] text-muted-foreground leading-[1.6] max-w-[62ch]">
           Ten modules built for how a UK Amazon DSP actually runs. Tap any screen to open it
           full size.

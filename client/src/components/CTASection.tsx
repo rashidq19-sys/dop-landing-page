@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import Cal, { getCalApi } from "@calcom/embed-react";
 import { Check, ArrowRight, Loader2, Mail, PoundSterling, CalendarCheck } from "lucide-react";
 import SectionEyebrow from "@/components/home/SectionEyebrow";
+import SplitWords from "@/components/motion/SplitWords";
+import { rise, riseWords, useMotion } from "@/lib/motion";
 import { LOGO_MARK } from "@/lib/brandAssets";
 
 type FormStep = "email" | "details" | "calendar" | "done";
@@ -48,6 +50,12 @@ export default function CTASection() {
   const [bookedSlot, setBookedSlot] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const scope = useRef<HTMLElement>(null);
+  useMotion(scope, () => {
+    riseWords(scope.current!.querySelector("h2"));
+    rise("[data-rise]");
+  });
 
   // Cal.com fires its booking event from inside the iframe, long after this
   // effect was set up, so the callback must not close over stale state. Refs
@@ -161,17 +169,18 @@ export default function CTASection() {
 
   return (
     <section
+      ref={scope}
       id="book-demo"
-      className="bg-linear-to-b from-deep to-deep-alt text-white py-16 sm:py-20 lg:py-[82px]"
+      className="bg-linear-to-b from-deep to-deep-alt text-white py-16 sm:py-20 lg:py-[96px]"
     >
       <div className="max-w-[1180px] mx-auto px-5 sm:px-9">
         <SectionEyebrow onDark>Book a demo</SectionEyebrow>
-        <h2 className="mt-3.5 font-display text-[30px] sm:text-[40px] lg:text-[44px] font-extrabold tracking-[-0.035em] leading-[1.06] text-balance">
-          Twenty minutes.
-          <br />
-          Your depot on the screen.
-        </h2>
-        <p className="mt-3.5 text-[15.5px] sm:text-[17px] text-[#AAB8DC] leading-[1.6] max-w-[62ch]">
+        <SplitWords
+          mode="rise"
+          lines={[["Twenty minutes."], ["Your depot on the screen."]]}
+          className="mt-3.5 font-display text-[34px] sm:text-[48px] lg:text-[56px] font-black tracking-[-0.045em] leading-[1.03] text-balance"
+        />
+        <p data-rise className="mt-4 text-[15.5px] sm:text-[17px] text-[#AAB8DC] leading-[1.6] max-w-[62ch]">
           Not a canned walkthrough — we import your drivers, your rota and your Amazon data on the
           call, so what you're looking at is your own operation. You'd be talking to the person who
           built it, not a sales team.
@@ -180,7 +189,7 @@ export default function CTASection() {
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 mt-9 items-start">
           {/* ── Who's behind it ───────────────────────────────── */}
           <div>
-            <div className="flex gap-4 bg-white/5 border border-white/12 rounded-2xl p-5">
+            <div data-rise className="flex gap-4 bg-white/5 border border-white/12 rounded-2xl p-5">
               <img
                 src={LOGO_MARK}
                 alt=""
@@ -200,10 +209,10 @@ export default function CTASection() {
               </div>
             </div>
 
-            <div className="grid gap-2.5 mt-4">
+            <div data-rise className="grid gap-2.5 mt-4">
               <a
                 href="mailto:support@dspops.app"
-                className="flex items-center gap-3 border border-white/12 rounded-xl px-4 py-3.5 text-[14px] font-semibold hover:bg-white/8 transition-colors"
+                className="lift-card flex items-center gap-3 border border-white/12 rounded-xl px-4 py-3.5 text-[14px] font-semibold hover:bg-white/8"
               >
                 <span className="w-[34px] h-[34px] rounded-[9px] bg-brand/25 text-[#9DBBFF] grid place-items-center shrink-0">
                   <Mail size={17} />
@@ -217,7 +226,7 @@ export default function CTASection() {
               </a>
               <a
                 href="#pricing"
-                className="flex items-center gap-3 border border-white/12 rounded-xl px-4 py-3.5 text-[14px] font-semibold hover:bg-white/8 transition-colors"
+                className="lift-card flex items-center gap-3 border border-white/12 rounded-xl px-4 py-3.5 text-[14px] font-semibold hover:bg-white/8"
               >
                 <span className="w-[34px] h-[34px] rounded-[9px] bg-white/10 text-[#C7D3F2] grid place-items-center shrink-0">
                   <PoundSterling size={17} />
@@ -234,6 +243,7 @@ export default function CTASection() {
 
           {/* ── The demo form ─────────────────────────────────── */}
           <div
+            data-rise
             className={`bg-card text-ink rounded-2xl p-6 sm:p-7 shadow-[0_30px_70px_-25px_rgba(11,18,32,0.5)] ${
               step === "calendar" ? "lg:col-span-2" : ""
             }`}

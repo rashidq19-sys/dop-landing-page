@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Play } from "lucide-react";
-import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import SectionEyebrow from "@/components/home/SectionEyebrow";
+import SplitWords from "@/components/motion/SplitWords";
+import { lightUp, openWindow, rise, useMotion } from "@/lib/motion";
 
 const VIDEO_SRC = "/video/dspops-demo.mp4";
 const POSTER_SRC = "/video/dspops-demo-poster.webp";
@@ -15,9 +16,22 @@ export const PLAY_DEMO_EVENT = "dspops:play-demo";
  * who scroll past it.
  */
 export default function DemoVideoSection() {
-  const { ref, isVisible } = useScrollAnimation(0.1);
+  const scope = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [started, setStarted] = useState(false);
+
+  // The frame grows from a rounded window to full width as it comes up the
+  // screen. Once the video is playing the effect is dropped (the dependency
+  // re-runs and reverts it) so scrolling can never clip a playing video.
+  useMotion(
+    scope,
+    () => {
+      lightUp(scope.current!.querySelector("h2"));
+      rise("[data-rise]", 18);
+      if (!started) openWindow(scope.current!.querySelector("[data-frame]"), videoRef.current);
+    },
+    [started],
+  );
 
   const start = () => {
     setStarted(true);
@@ -38,26 +52,29 @@ export default function DemoVideoSection() {
   }, []);
 
   return (
-    <section id="demo" className="bg-background py-16 sm:py-20 lg:py-[82px] border-b border-border">
-      <div ref={ref} className="max-w-[1180px] mx-auto px-5 sm:px-9">
-        <div
-          className={`transition-all duration-700 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-          }`}
-        >
+    <section
+      ref={scope}
+      id="demo"
+      className="bg-background py-16 sm:py-20 lg:py-[96px] border-b border-border"
+    >
+      <div className="max-w-[1180px] mx-auto px-5 sm:px-9">
+        <div>
           <SectionEyebrow>See it in action</SectionEyebrow>
-          <h2 className="mt-3.5 font-display text-[30px] sm:text-[40px] lg:text-[44px] font-extrabold tracking-[-0.035em] leading-[1.06] text-balance text-ink">
-            From 05:30 phone call to every driver on the road.
-          </h2>
-          <p className="mt-3.5 text-[15.5px] sm:text-[17px] text-muted-foreground leading-[1.6] max-w-[62ch]">
+          <SplitWords
+            lines={[["From 05:30 phone call to every driver on the road."]]}
+            className="mt-3.5 font-display text-[34px] sm:text-[48px] lg:text-[56px] font-black tracking-[-0.045em] leading-[1.03] text-balance text-ink"
+          />
+          <p
+            data-rise
+            className="mt-4 text-[15.5px] sm:text-[17px] text-muted-foreground leading-[1.6] max-w-[62ch]"
+          >
             A 90-second look at a DSP morning run on DSPOps — sound on.
           </p>
         </div>
 
         <div
-          className={`relative mt-8 aspect-video rounded-[16px] overflow-hidden border border-border bg-deep shadow-[0_24px_60px_rgba(10,18,53,0.18)] transition-all duration-700 delay-150 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-          }`}
+          data-frame
+          className="relative mt-8 sm:mt-10 aspect-video rounded-[16px] overflow-hidden border border-border bg-deep shadow-[0_24px_60px_rgba(10,18,53,0.18)]"
         >
           <video
             ref={videoRef}
@@ -78,7 +95,7 @@ export default function DemoVideoSection() {
               aria-label="Play the DSPOps demo video"
               className="group absolute inset-0 flex items-center justify-center bg-deep/25 hover:bg-deep/15 transition-colors"
             >
-              <span className="flex items-center gap-3 rounded-full bg-brand text-white pl-4 pr-6 py-3.5 sm:pl-5 sm:pr-7 sm:py-4 text-[15px] sm:text-[17px] font-bold shadow-[0_10px_26px_rgba(37,99,235,0.45)] group-hover:scale-105 transition-transform">
+              <span className="flex items-center gap-3 rounded-full bg-brand text-white pl-4 pr-6 py-3.5 sm:pl-5 sm:pr-7 sm:py-4 text-[15px] sm:text-[17px] font-bold shadow-[0_10px_26px_rgba(37,99,235,0.45)] group-hover:scale-105 group-hover:-translate-y-[3px] transition-transform duration-250 ease-[cubic-bezier(.2,.8,.2,1)]">
                 <span className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/20">
                   <Play size={20} fill="currentColor" aria-hidden="true" className="ml-0.5" />
                 </span>

@@ -1,26 +1,30 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Plus, Minus } from "lucide-react";
-import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import SectionEyebrow from "@/components/home/SectionEyebrow";
+import SplitWords from "@/components/motion/SplitWords";
+import { lightUp, rise, useMotion } from "@/lib/motion";
 import { faqs } from "@shared/faqs";
 
 export default function FAQSection() {
-  const { ref, isVisible } = useScrollAnimation(0.1);
+  const scope = useRef<HTMLElement>(null);
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
+  useMotion(scope, () => {
+    lightUp(scope.current!.querySelector("h2"));
+    rise("[data-rise]", 18);
+    rise("[data-faq]", 24);
+  });
+
   return (
-    <section id="faq" className="bg-background py-16 sm:py-20 lg:py-[82px]">
-      <div ref={ref} className="max-w-[1180px] mx-auto px-5 sm:px-9">
-        <div
-          className={`transition-all duration-700 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-          }`}
-        >
+    <section ref={scope} id="faq" className="bg-background py-16 sm:py-20 lg:py-[96px]">
+      <div className="max-w-[1180px] mx-auto px-5 sm:px-9">
+        <div>
           <SectionEyebrow>Questions</SectionEyebrow>
-          <h2 className="mt-3.5 font-display text-[30px] sm:text-[40px] lg:text-[44px] font-extrabold tracking-[-0.035em] leading-[1.06] text-ink text-balance">
-            The things owners ask first.
-          </h2>
-          <p className="mt-3.5 text-[15.5px] sm:text-[17px] text-muted-foreground leading-[1.6] max-w-[62ch]">
+          <SplitWords
+            lines={[["The things owners ask first."]]}
+            className="mt-3.5 font-display text-[34px] sm:text-[48px] lg:text-[56px] font-black tracking-[-0.045em] leading-[1.03] text-ink text-balance"
+          />
+          <p data-rise className="mt-4 text-[15.5px] sm:text-[17px] text-muted-foreground leading-[1.6] max-w-[62ch]">
             Still something missing? Email{" "}
             <a href="mailto:support@dspops.app" className="text-brand-dark font-semibold hover:underline">
               support@dspops.app
@@ -33,7 +37,11 @@ export default function FAQSection() {
           {faqs.map((faq, i) => {
             const open = openIndex === i;
             return (
-              <div key={faq.question} className="bg-card border border-border rounded-[13px] overflow-hidden">
+              <div
+                key={faq.question}
+                data-faq
+                className="bg-card border border-border rounded-[13px] overflow-hidden transition-colors duration-250 hover:border-brand/40"
+              >
                 <h3>
                   <button
                     type="button"

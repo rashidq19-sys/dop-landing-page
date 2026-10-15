@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { MapPin, CalendarDays, TrendingUp, LayoutGrid } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import SectionEyebrow from "@/components/home/SectionEyebrow";
+import SplitWords from "@/components/motion/SplitWords";
+import { gsap, lightUp, PALE_ON_DARK, rise, useMotion } from "@/lib/motion";
 
 const SCREENS = [
   {
@@ -38,8 +40,30 @@ const ADVANCE_MS = 3800;
 
 export default function DriverAppSection() {
   const { ref, isVisible } = useScrollAnimation(0.15);
+  const scope = useRef<HTMLElement>(null);
   const [active, setActive] = useState(0);
   const paused = useRef(false);
+
+  // The phone fan rises out of the page and opens up as it scrolls into view.
+  // A wrapper is animated, not the phones themselves: they already move with
+  // their own transition when the carousel advances.
+  useMotion(scope, ({ phone }) => {
+    lightUp(scope.current!.querySelector("h2"), PALE_ON_DARK);
+    rise("[data-rise]", 18);
+    rise("[data-feature]", 24);
+    gsap.fromTo(
+      "[data-fan]",
+      { y: phone ? 60 : 110, scale: 0.84, rotateX: 18, opacity: 0.4, transformPerspective: 1200 },
+      {
+        y: 0,
+        scale: 1,
+        rotateX: 0,
+        opacity: 1,
+        ease: "none",
+        scrollTrigger: { trigger: "[data-fan]", start: "top bottom", end: "center 62%", scrub: true },
+      },
+    );
+  });
 
   // Auto-advance only while the section is on screen, and stop for good once
   // someone picks a screen themselves.
@@ -63,22 +87,18 @@ export default function DriverAppSection() {
 
   return (
     <section
+      ref={scope}
       id="driverapp"
-      className="bg-linear-to-b from-deep-alt to-deep text-white py-16 sm:py-20 lg:py-[82px] overflow-hidden"
+      className="bg-linear-to-b from-deep-alt to-deep text-white py-16 sm:py-20 lg:py-[96px] overflow-hidden"
     >
       <div ref={ref} className="max-w-[1180px] mx-auto px-5 sm:px-9">
-        <div
-          className={`transition-all duration-700 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-          }`}
-        >
+        <div>
           <SectionEyebrow onDark>The driver app</SectionEyebrow>
-          <h2 className="mt-3.5 font-display text-[30px] sm:text-[40px] lg:text-[44px] font-extrabold tracking-[-0.035em] leading-[1.06] text-balance">
-            If they can use WhatsApp,
-            <br />
-            they can use this.
-          </h2>
-          <p className="mt-3.5 text-[15.5px] sm:text-[17px] text-[#AAB8DC] leading-[1.6] max-w-[62ch]">
+          <SplitWords
+            lines={[["If they can use WhatsApp,"], ["they can use this."]]}
+            className="mt-3.5 font-display text-[34px] sm:text-[48px] lg:text-[56px] font-black tracking-[-0.045em] leading-[1.03] text-balance"
+          />
+          <p data-rise className="mt-4 text-[15.5px] sm:text-[17px] text-[#AAB8DC] leading-[1.6] max-w-[62ch]">
             One tap to check in; shifts, invoices, scorecards and announcements all in one place —
             on iOS, Android, or any phone browser.
           </p>
@@ -87,7 +107,10 @@ export default function DriverAppSection() {
         <div className="grid lg:grid-cols-[0.92fr_1.08fr] gap-8 lg:gap-10 items-center mt-9">
           {/* ── The phone stack ───────────────────────────────── */}
           <div>
-            <div className="relative h-[430px] sm:h-[520px] flex items-center justify-center">
+            <div
+              data-fan
+              className="relative h-[430px] sm:h-[520px] flex items-center justify-center origin-bottom"
+            >
               {SCREENS.map((s, i) => {
                 const d = offsetOf(i);
                 const ad = Math.abs(d);
@@ -139,6 +162,7 @@ export default function DriverAppSection() {
                 key={s.title}
                 type="button"
                 onClick={() => select(i)}
+                data-feature
                 className={`flex gap-3.5 text-left rounded-[13px] border px-4 py-3.5 transition-colors ${
                   i === active
                     ? "bg-brand/20 border-[#8FB0FF]/50"

@@ -1,4 +1,7 @@
+import { useRef } from "react";
 import { Check } from "lucide-react";
+import { gsap, PALE, toRgb, useMotion } from "@/lib/motion";
+import SplitWords from "@/components/motion/SplitWords";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { useCountUp } from "@/hooks/useCountUp";
 import { PLAY_DEMO_EVENT } from "@/components/home/DemoVideoSection";
@@ -31,6 +34,67 @@ function BicycleGlyph() {
 
 export default function HeroSection() {
   const { ref, isVisible } = useScrollAnimation(0.1);
+  const heroRef = useRef<HTMLElement>(null);
+
+  // Page-load sequence: label, headline words rising through a slot, the
+  // sentence lighting up, then everything else cascading in, while the
+  // dashboard opens like a window and then keeps breathing. Pre-paint hidden
+  // states live in index.css under `.js` so nothing flashes before this runs.
+  useMotion(heroRef, ({ phone }) => {
+    const q = gsap.utils.selector(heroRef);
+    const sub = q("[data-hero-sub]")[0];
+    const subInk = sub ? toRgb(getComputedStyle(sub).color) : undefined;
+
+    gsap
+      .timeline({ defaults: { ease: "power3.out" } })
+      .fromTo(q("[data-hero-pill]"), { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.6 })
+      .fromTo(q("h1 [data-word]"), { y: 0, yPercent: 115 }, { y: 0, yPercent: 0, duration: 1.05, stagger: 0.09 }, 0.15)
+      .fromTo(
+        q("[data-hero-sub] [data-word]"),
+        { color: PALE },
+        { color: subInk, duration: 0.35, stagger: 0.04, ease: "none" },
+        "-=0.55",
+      )
+      .fromTo(
+        q("[data-hero-cascade]"),
+        { opacity: 0, y: 18 },
+        { opacity: 1, y: 0, duration: 0.7, stagger: 0.12, clearProps: "transform" },
+        "<0.3",
+      )
+      .fromTo(
+        q("[data-hero-stat]"),
+        { opacity: 0, y: 34 },
+        { opacity: 1, y: 0, duration: 0.8, stagger: 0.12, clearProps: "transform" },
+        "-=0.5",
+      );
+
+    // On a phone the screens sit below the fold, so they wait until they are
+    // scrolled to; on wider screens they open alongside the headline.
+    const visual = gsap.timeline({
+      defaults: { ease: "power3.out" },
+      delay: phone ? 0 : 0.25,
+      scrollTrigger: phone ? { trigger: q("[data-hero-window]")[0], start: "top 88%", once: true } : undefined,
+    });
+    visual
+      .fromTo(
+        q("[data-hero-window]"),
+        { clipPath: "inset(0% 22% 0% 22% round 28px)" },
+        { clipPath: "inset(0% 0% 0% 0% round 15px)", duration: 1.6, ease: "power3.inOut" },
+        0,
+      )
+      .fromTo(q("[data-hero-shot]"), { scale: 1.2 }, { scale: 1, duration: 2.2 }, 0)
+      .fromTo(q("[data-hero-phone]"), { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 1 }, 0.95)
+      .fromTo(q("[data-hero-late]"), { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.1 }, 1.25)
+      // After opening, the dashboard keeps breathing, very slowly, for good.
+      .to(q("[data-hero-shot]"), { scale: 1.06, duration: 10, ease: "sine.inOut", yoyo: true, repeat: -1 }, 2.2);
+
+    // Scrolling away, the phone drifts up faster than the page: a little depth.
+    gsap.to(q("[data-hero-phone]"), {
+      yPercent: -22,
+      ease: "none",
+      scrollTrigger: { trigger: heroRef.current, start: "top top", end: "bottom top", scrub: true },
+    });
+  });
   // const [videoOpen, setVideoOpen] = useState(false); // demo video hidden
 
   const hours = useCountUp(3, 1600, isVisible);
@@ -46,36 +110,48 @@ export default function HeroSection() {
   ];
 
   return (
-    <section className="bg-background border-b border-border pt-[86px] pb-14 sm:pt-24 sm:pb-16 overflow-hidden">
+    <section ref={heroRef} className="bg-background border-b border-border pt-[86px] pb-14 sm:pt-24 sm:pb-16 overflow-hidden">
       <div ref={ref} className="max-w-[1180px] mx-auto px-5 sm:px-9">
         <div
-          className={`grid grid-cols-1 lg:grid-cols-[1fr_1.06fr] gap-10 lg:gap-12 items-center transition-all duration-700 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className="grid grid-cols-1 lg:grid-cols-[1fr_1.06fr] gap-10 lg:gap-12 items-center"
         >
           {/* ── Left: the pitch ───────────────────────────────── */}
           <div>
-            <div className="inline-flex items-center gap-2.5 bg-card border border-border rounded-full py-1.5 pl-1.5 pr-4 text-[13px] font-semibold shadow-sm mb-5">
+            <div
+              data-hero-fade
+              data-hero-pill
+              className="inline-flex items-center gap-2.5 bg-card border border-border rounded-full py-1.5 pl-1.5 pr-4 text-[13px] font-semibold shadow-sm mb-5"
+            >
               <span className="bg-brand text-white text-[10.5px] font-extrabold tracking-[0.08em] rounded-full px-2.5 py-1 whitespace-nowrap">
                 UK BUILT
               </span>
               Made for Amazon DSPs — 1.0 and 2.0
             </div>
 
-            <h1 className="font-display text-[38px] sm:text-[52px] lg:text-[60px] font-black tracking-[-0.035em] leading-[1.02] text-ink text-balance">
-              Run your entire DSP from <span className="text-brand">one screen.</span>
-            </h1>
+            <SplitWords
+              as="h1"
+              mode="rise"
+              wordProps={{ "data-hero-word": "" }}
+              lines={[["Run your entire DSP from ", { text: "one screen.", className: "text-brand" }]]}
+              className="font-display text-[40px] sm:text-[56px] lg:text-[64px] font-black tracking-[-0.045em] leading-[1.02] text-ink text-balance"
+            />
 
-            <p className="mt-4 text-[15.5px] sm:text-[17px] text-muted-foreground leading-[1.6] max-w-[62ch]">
-              Rota, dispatch, morning check-in, driver onboarding, performance scorecards, van
-              inspections and driver invoicing — one login, one bill, and an app your drivers
-              actually use.
-            </p>
+            <SplitWords
+              as="p"
+              data-hero-sub
+              wordProps={{ "data-hero-lit": "" }}
+              lines={[
+                [
+                  "Rota, dispatch, morning check-in, driver onboarding, performance scorecards, van inspections and driver invoicing — one login, one bill, and an app your drivers actually use.",
+                ],
+              ]}
+              className="mt-4 text-[15.5px] sm:text-[17px] text-muted-foreground leading-[1.6] max-w-[62ch]"
+            />
 
-            <div className="flex flex-wrap gap-3 mt-6 items-center">
+            <div data-hero-fade data-hero-cascade className="flex flex-wrap gap-3 mt-6 items-center">
               <a
                 href="#book-demo"
-                className="inline-flex items-center gap-2 px-6 py-[15px] bg-brand text-white rounded-[10px] text-[16.5px] font-bold shadow-[0_10px_26px_rgba(37,99,235,0.36)] hover:bg-brand-dark transition-colors"
+                className="lift-btn inline-flex items-center gap-2 px-6 py-[15px] bg-brand text-white rounded-[10px] text-[16.5px] font-bold shadow-[0_10px_26px_rgba(37,99,235,0.36)] hover:bg-brand-dark transition-colors"
               >
                 Book a demo →
               </a>
@@ -94,13 +170,13 @@ export default function HeroSection() {
               */}
               <a
                 href="#platform"
-                className="inline-flex items-center px-[22px] py-[13px] rounded-[10px] border border-border text-[15px] font-bold text-ink hover:bg-card transition-colors"
+                className="lift-btn inline-flex items-center px-[22px] py-[13px] rounded-[10px] border border-border text-[15px] font-bold text-ink hover:bg-card transition-colors"
               >
                 See the screens
               </a>
             </div>
 
-            <div className="flex flex-wrap gap-x-4 gap-y-1.5 mt-5 text-[12.5px] text-muted-foreground">
+            <div data-hero-fade data-hero-cascade className="flex flex-wrap gap-x-4 gap-y-1.5 mt-5 text-[12.5px] text-muted-foreground">
               {TRUST.map((t) => (
                 <span key={t} className="inline-flex items-center gap-1.5">
                   <Check size={13} className="text-mint shrink-0" strokeWidth={3} />
@@ -111,7 +187,12 @@ export default function HeroSection() {
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mt-7 pt-6 border-t border-border">
               {stats.map((s) => (
-                <div key={s.label} className="bg-card border border-border rounded-[13px] p-3.5 shadow-sm">
+                <div
+                  key={s.label}
+                  data-hero-fade
+                  data-hero-stat
+                  className="lift-card bg-card border border-border rounded-[13px] p-3.5 shadow-sm"
+                >
                   <div className={`w-6 h-1 rounded-full mb-2.5 ${s.bar}`} />
                   <div className="font-display text-[25px] font-black tracking-[-0.04em] tabular-nums text-ink leading-none">
                     {s.value}
@@ -125,10 +206,10 @@ export default function HeroSection() {
           {/* ── Right: the two screens ────────────────────────── */}
           <div className="relative">
             {/* A restrained amber pill keeps the micromobility update noticeable without competing with the product screens. */}
-            <span className="absolute -top-[15px] -right-1 z-[5] hidden sm:inline-flex items-center gap-2 rounded-full px-[15px] py-2 text-[11px] font-extrabold uppercase tracking-[0.07em] bg-amber-100 border border-amber-300 text-amber-900 ring-1 ring-white shadow-[0_6px_18px_rgba(217,119,6,0.22)] whitespace-nowrap">
+            <span data-hero-fade data-hero-late className="absolute -top-[15px] -right-1 z-[5] hidden sm:inline-flex items-center gap-2 rounded-full px-[15px] py-2 text-[11px] font-extrabold uppercase tracking-[0.07em] bg-amber-100 border border-amber-300 text-amber-900 ring-1 ring-white shadow-[0_6px_18px_rgba(217,119,6,0.22)] whitespace-nowrap">
               <BicycleGlyph /> New — Micromobility just added
             </span>
-            <span className="sm:hidden inline-flex items-center gap-2 mb-3 rounded-full px-[15px] py-2 text-[11px] font-extrabold uppercase tracking-[0.07em] bg-amber-100 border border-amber-300 text-amber-900 ring-1 ring-white shadow-[0_6px_18px_rgba(217,119,6,0.22)]">
+            <span data-hero-fade data-hero-late className="sm:hidden inline-flex items-center gap-2 mb-3 rounded-full px-[15px] py-2 text-[11px] font-extrabold uppercase tracking-[0.07em] bg-amber-100 border border-amber-300 text-amber-900 ring-1 ring-white shadow-[0_6px_18px_rgba(217,119,6,0.22)]">
               <BicycleGlyph /> New — Micromobility just added
             </span>
 
@@ -139,6 +220,7 @@ export default function HeroSection() {
                 type="button"
                 onClick={playDemo}
                 aria-label="Play the DSPOps demo video"
+                data-hero-window
                 className="block w-full text-left bg-card border border-border rounded-[15px] overflow-hidden shadow-[0_30px_70px_-25px_rgba(11,18,32,0.35)] cursor-pointer"
               >
                 <span className="flex items-center justify-between bg-background border-b border-border px-3.5 py-2.5">
@@ -150,13 +232,17 @@ export default function HeroSection() {
                   <span className="text-[11px] text-muted-foreground">app.dspops.app — live operations</span>
                   <span className="w-7" aria-hidden="true" />
                 </span>
-                <img src={DASHBOARD} alt={DASHBOARD_ALT} loading="eager" className="w-full block" />
+                <span className="block overflow-hidden">
+                  <img data-hero-shot src={DASHBOARD} alt={DASHBOARD_ALT} loading="eager" className="w-full block" />
+                </span>
               </button>
 
               <button
                 type="button"
                 onClick={playDemo}
                 aria-label="Play the DSPOps demo video"
+                data-hero-fade
+                data-hero-phone
                 className="absolute -right-2 -bottom-3.5 w-24 sm:w-[124px] sm:-right-4 sm:-bottom-[18px] lg:w-[142px] lg:-right-5 lg:-bottom-5 z-[4] cursor-pointer"
               >
                 <span className="block bg-[#0B1220] rounded-[22px] p-1 shadow-[0_25px_50px_-10px_rgba(11,18,32,0.45)]">
@@ -167,7 +253,7 @@ export default function HeroSection() {
               </button>
             </div>
 
-            <p className="mt-8 sm:mt-10 text-center text-[12.5px] text-muted-foreground">
+            <p data-hero-fade data-hero-late className="mt-8 sm:mt-10 text-center text-[12.5px] text-muted-foreground">
               Your ops manager's morning on the left, the driver's on the right. Tap either to
               watch the demo.
             </p>

@@ -101,6 +101,18 @@
     }
     </script>
 
+    <!-- Hides the hero's animated pieces before first paint so the load animation
+         never flashes. Skipped for the prerenderer (webdriver) and reduced motion;
+         dropped after 4.5s as a safety net so a failed script still shows the page. -->
+    <script>
+      (function () {
+        if (navigator.webdriver) return;
+        if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        var root = document.documentElement;
+        root.classList.add("js");
+        setTimeout(function () { root.classList.remove("js"); }, 4500);
+      })();
+    </script>
   </head>
 
   <body>

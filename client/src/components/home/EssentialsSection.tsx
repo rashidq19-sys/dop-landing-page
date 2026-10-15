@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { MapPin, UserCheck, ShieldCheck } from "lucide-react";
-import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import SectionEyebrow from "@/components/home/SectionEyebrow";
+import SplitWords from "@/components/motion/SplitWords";
+import { gsap, lightUp, openWindow, PALE_ON_DARK, rise, useMotion } from "@/lib/motion";
 import ScreenshotLightbox from "@/components/home/ScreenshotLightbox";
 
 const CARDS = [
@@ -53,40 +54,45 @@ const CARDS = [
 ];
 
 export default function EssentialsSection() {
-  const { ref, isVisible } = useScrollAnimation(0.05);
+  const scope = useRef<HTMLElement>(null);
   const [zoom, setZoom] = useState<(typeof CARDS)[number] | null>(null);
+
+  // Cards cascade in; each screenshot then opens from a small window and
+  // settles as it scrolls up the screen.
+  useMotion(scope, () => {
+    lightUp(scope.current!.querySelector("h2"), PALE_ON_DARK);
+    rise("[data-rise]", 18);
+    rise("[data-card]");
+    gsap.utils.toArray<HTMLElement>("[data-shot]").forEach((shot) =>
+      openWindow(shot, shot.querySelector("img"), 11),
+    );
+  });
 
   return (
     <section
+      ref={scope}
       id="essentials"
-      className="bg-linear-to-b from-deep to-deep-alt text-white py-16 sm:py-20 lg:py-[82px]"
+      className="bg-linear-to-b from-deep to-deep-alt text-white py-16 sm:py-20 lg:py-[96px]"
     >
-      <div ref={ref} className="max-w-[1180px] mx-auto px-5 sm:px-9">
-        <div
-          className={`transition-all duration-700 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-          }`}
-        >
+      <div className="max-w-[1180px] mx-auto px-5 sm:px-9">
+        <div>
           <SectionEyebrow onDark>Turning up · getting in · staying legal</SectionEyebrow>
-          <h2 className="mt-3.5 font-display text-[30px] sm:text-[40px] lg:text-[44px] font-extrabold tracking-[-0.035em] leading-[1.06] text-balance">
-            The three that cause
-            <br />
-            the most trouble.
-          </h2>
-          <p className="mt-3.5 text-[15.5px] sm:text-[17px] text-[#AAB8DC] leading-[1.6] max-w-[62ch]">
+          <SplitWords
+            lines={[["The three that cause"], ["the most trouble."]]}
+            className="mt-3.5 font-display text-[34px] sm:text-[48px] lg:text-[56px] font-black tracking-[-0.045em] leading-[1.03] text-balance"
+          />
+          <p data-rise className="mt-4 text-[15.5px] sm:text-[17px] text-[#AAB8DC] leading-[1.6] max-w-[62ch]">
             Attendance, paperwork and expiry dates are where a DSP quietly loses its week — and
             where a failed audit starts. Here is what each one looks like in DSPOps.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-4 mt-8">
-          {CARDS.map((c, i) => (
+        <div className="grid lg:grid-cols-3 gap-4 mt-8 sm:mt-10">
+          {CARDS.map((c) => (
             <article
               key={c.title}
-              style={{ transitionDelay: `${i * 90}ms` }}
-              className={`bg-white/5 border border-white/12 rounded-[18px] p-5 sm:p-6 flex flex-col transition-all duration-700 ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-              }`}
+              data-card
+              className="lift-card bg-white/5 border border-white/12 rounded-[18px] p-5 sm:p-6 flex flex-col"
             >
               <span className="w-10 h-10 rounded-xl bg-[#8FB0FF]/15 text-[#9DBBFF] grid place-items-center mb-3.5">
                 <c.Icon size={19} aria-hidden="true" />
@@ -100,6 +106,7 @@ export default function EssentialsSection() {
                 type="button"
                 onClick={() => setZoom(c)}
                 aria-label={`Open the ${c.title} screen full size`}
+                data-shot
                 className="mt-4 block rounded-[11px] overflow-hidden border border-white/12 bg-white cursor-zoom-in"
               >
                 {/* All three screens are tall portraits at different ratios; a shared
