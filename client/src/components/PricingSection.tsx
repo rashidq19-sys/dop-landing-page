@@ -12,49 +12,43 @@ type Plan = {
   features: string[];
   featured?: boolean;
   dark?: boolean;
-  trial: string;
 };
 
 const PLANS: Plan[] = [
   {
     name: "Starter",
     price: "£99",
-    priceNote: "/mo",
-    drivers: "Up to 30 drivers · single station",
+    priceNote: "/ month",
+    drivers: "Up to 30 drivers · one station",
     features: [
-      "Rota · Dispatch · Check-in · Driver app",
-      "Performance scorecards & van inspections",
-      "Compliance & document expiry tracking",
+      "Rota, dispatch and morning check-in",
+      "Driver app and performance scorecards",
+      "Van inspections and document tracking",
     ],
-    trial: "7-day free trial · no card",
   },
   {
     name: "Professional",
     price: "£249",
-    priceNote: "/mo",
-    drivers: "Up to 100 drivers · single station",
+    priceNote: "/ month",
+    drivers: "Up to 100 drivers · one station",
     features: [
       "Everything in Starter",
-      "Driver invoicing & pay runs",
-      "Self-service driver onboarding",
-      "Same-day delivery module · priority support",
+      "Driver invoicing and onboarding",
+      "Same-day delivery and priority support",
     ],
     featured: true,
-    trial: "7-day free trial · no card",
   },
   {
     name: "Enterprise",
-    price: "Per driver",
-    priceNote: "/mo · rate agreed with you",
-    drivers: "Unlimited drivers & stations",
+    price: "Let’s discuss",
+    priceNote: "your fleet",
+    drivers: "Larger fleets · multiple stations",
     features: [
-      "Unlimited depots on one account, each with its own board",
       "Everything in Professional",
-      "You only pay for drivers actually on the road",
-      "White-glove setup & data import, dedicated contact",
+      "Multiple depots on one account",
+      "Per-driver pricing agreed with you",
     ],
     dark: true,
-    trial: "Billed on a minimum of 100 drivers a month",
   },
 ];
 
@@ -156,12 +150,11 @@ export default function PricingSection() {
         <div>
           <SectionEyebrow>Pricing</SectionEyebrow>
           <SplitWords
-            lines={[["Flat to 100 drivers."], ["Per driver above that."]]}
+            lines={[["See the price."], ["Then decide if it fits."]]}
             className="mt-3.5 font-display text-[34px] sm:text-[48px] lg:text-[56px] font-black tracking-[-0.045em] leading-[1.03] text-ink text-balance"
           />
           <p data-rise className="mt-4 text-[15.5px] sm:text-[17px] text-muted-foreground leading-[1.6] max-w-[62ch]">
-            No setup fee, no per-seat charge for your office staff, and no contract to sign before
-            you've tried it.
+            Start with a demo, or ask about the 7-day trial. No card required for the trial.
           </p>
         </div>
 
@@ -220,18 +213,16 @@ export default function PricingSection() {
                 ))}
               </ul>
 
-              <PlanEmailCapture planName={p.name} dark={p.dark} />
-
-              <div
-                className={`mt-auto pt-4 text-[12px] ${
-                  p.dark ? "text-[#9DB1E4]" : "text-muted-foreground"
-                }`}
-              >
-                {p.trial}
+              <div className="mt-auto">
+                <PlanEmailCapture planName={p.name} dark={p.dark} />
               </div>
             </div>
           ))}
         </div>
+
+        <p data-rise className="mt-5 text-[13px] text-muted-foreground">
+          Enterprise has a minimum monthly charge equivalent to 100 drivers.
+        </p>
 
         <div data-rise className="mt-6 flex flex-wrap gap-2 items-center text-[13px] text-muted-foreground">
           Runs alongside the networks you already serve:

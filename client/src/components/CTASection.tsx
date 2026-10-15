@@ -1,12 +1,26 @@
 import { useState, useEffect, useRef } from "react";
 import Cal, { getCalApi } from "@calcom/embed-react";
-import { Check, ArrowRight, Loader2, Mail, PoundSterling, CalendarCheck } from "lucide-react";
+import { Check, ArrowRight, Loader2, CalendarCheck } from "lucide-react";
 import SectionEyebrow from "@/components/home/SectionEyebrow";
 import SplitWords from "@/components/motion/SplitWords";
 import { rise, riseWords, useMotion } from "@/lib/motion";
-import { LOGO_MARK } from "@/lib/brandAssets";
 
 type FormStep = "email" | "details" | "calendar" | "done";
+
+const DEMO_STEPS = [
+  {
+    title: "Request a walkthrough",
+    body: "Tell us how to reach you and the name of your DSP.",
+  },
+  {
+    title: "Explore a sample depot",
+    body: "See availability, check-in and dispatch. No driver data needed.",
+  },
+  {
+    title: "Choose your next step",
+    body: "If it fits, discuss a trial and the first workflow you want to use.",
+  },
+];
 
 // The Cal.com event type behind the calendar. This is the last part of the
 // public booking URL (cal.com/<user>/<event>) — change it here if the event
@@ -177,69 +191,28 @@ export default function CTASection() {
         <SectionEyebrow onDark>Book a demo</SectionEyebrow>
         <SplitWords
           mode="rise"
-          lines={[["Twenty minutes."], ["Your depot on the screen."]]}
+          lines={[["See the difference."], ["Bring your questions."]]}
           className="mt-3.5 font-display text-[34px] sm:text-[48px] lg:text-[56px] font-black tracking-[-0.045em] leading-[1.03] text-balance"
         />
         <p data-rise className="mt-4 text-[15.5px] sm:text-[17px] text-[#AAB8DC] leading-[1.6] max-w-[62ch]">
-          Not a canned walkthrough — we import your drivers, your rota and your Amazon data on the
-          call, so what you're looking at is your own operation. You'd be talking to the person who
-          built it, not a sales team.
+          You shouldn't need to organise a spreadsheet just to decide whether a tool is useful.
         </p>
 
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 mt-9 items-start">
-          {/* ── Who's behind it ───────────────────────────────── */}
-          <div>
-            <div data-rise className="flex gap-4 bg-white/5 border border-white/12 rounded-2xl p-5">
-              <img
-                src={LOGO_MARK}
-                alt=""
-                aria-hidden="true"
-                className="w-[52px] h-[52px] rounded-[14px] shrink-0"
-              />
-              <div className="min-w-0">
-                <strong className="block text-[16px]">Built by a former on-site manager</strong>
-                <span className="block text-[13px] text-[#9DB1E4]">
-                  Independent · UK-built · not affiliated with Amazon
+          {/* ── What happens next ─────────────────────────────── */}
+          <ol className="grid gap-7">
+            {DEMO_STEPS.map((s, i) => (
+              <li key={s.title} data-rise className="flex gap-4">
+                <span className="w-[34px] h-[34px] rounded-full bg-brand/25 text-[#9DBBFF] grid place-items-center shrink-0 text-[14px] font-bold">
+                  {i + 1}
                 </span>
-                <p className="mt-2.5 text-[14px] text-[#C7D3F2] leading-[1.55]">
-                  DSPOps was written on the depot floor by someone who ran an Amazon delivery
-                  partner's operation day to day — which is why it looks like the job rather than
-                  like software.
-                </p>
-              </div>
-            </div>
-
-            <div data-rise className="grid gap-2.5 mt-4">
-              <a
-                href="mailto:support@dspops.app"
-                className="lift-card flex items-center gap-3 border border-white/12 rounded-xl px-4 py-3.5 text-[14px] font-semibold hover:bg-white/8"
-              >
-                <span className="w-[34px] h-[34px] rounded-[9px] bg-brand/25 text-[#9DBBFF] grid place-items-center shrink-0">
-                  <Mail size={17} />
-                </span>
-                <span>
-                  support@dspops.app
-                  <small className="block font-normal text-[12px] text-[#9DB1E4] mt-0.5">
-                    Goes straight to the person who built it
-                  </small>
-                </span>
-              </a>
-              <a
-                href="#pricing"
-                className="lift-card flex items-center gap-3 border border-white/12 rounded-xl px-4 py-3.5 text-[14px] font-semibold hover:bg-white/8"
-              >
-                <span className="w-[34px] h-[34px] rounded-[9px] bg-white/10 text-[#C7D3F2] grid place-items-center shrink-0">
-                  <PoundSterling size={17} />
-                </span>
-                <span>
-                  Start the 7-day free trial
-                  <small className="block font-normal text-[12px] text-[#9DB1E4] mt-0.5">
-                    No card, cancel any time
-                  </small>
-                </span>
-              </a>
-            </div>
-          </div>
+                <div className="min-w-0 pt-1">
+                  <strong className="block font-display text-[17px] font-extrabold">{s.title}</strong>
+                  <p className="mt-1 text-[14.5px] text-[#C7D3F2] leading-[1.55]">{s.body}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
 
           {/* ── The demo form ─────────────────────────────────── */}
           <div
@@ -248,15 +221,11 @@ export default function CTASection() {
               step === "calendar" ? "lg:col-span-2" : ""
             }`}
           >
-            <div className="text-[11px] font-bold uppercase tracking-[0.12em] text-brand-dark">
-              Book a 20-minute demo
-            </div>
-            <h3 className="font-display text-[22px] font-extrabold tracking-[-0.025em] mt-1.5">
-              See your DSP live on DSPOps
+            <h3 className="font-display text-[22px] font-extrabold tracking-[-0.025em]">
+              Let’s look at your daily workflow.
             </h3>
             <p className="text-[13px] text-muted-foreground mt-1 mb-5">
-              We'll import your drivers, rota and Amazon data on the call, so you're looking at your
-              own operation — not a canned demo.
+              Request a 20-minute demo, then pick a time that suits you.
             </p>
 
             {step === "done" && (
@@ -283,7 +252,7 @@ export default function CTASection() {
                 <form onSubmit={handleEmailSubmit} className="flex flex-col gap-3">
                   <div>
                     <label htmlFor="cta-email" className="block text-[12px] font-bold uppercase tracking-[0.05em] text-muted-foreground mb-1.5">
-                      Your email
+                      Your work email
                     </label>
                     <input
                       id="cta-email"
@@ -291,13 +260,13 @@ export default function CTASection() {
                       required
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      placeholder="you@yourdsp.co.uk"
+                      placeholder="you@yourcompany.co.uk"
                       className={inputClass}
                     />
                   </div>
                   <div>
                     <label htmlFor="cta-dsp" className="block text-[12px] font-bold uppercase tracking-[0.05em] text-muted-foreground mb-1.5">
-                      DSP name
+                      DSP / company name
                     </label>
                     <input
                       id="cta-dsp"
@@ -305,7 +274,7 @@ export default function CTASection() {
                       required
                       value={dspName}
                       onChange={(e) => setDspName(e.target.value)}
-                      placeholder="e.g. Aurora Logistics Ltd"
+                      placeholder="Your company name"
                       className={inputClass}
                     />
                   </div>
@@ -315,7 +284,7 @@ export default function CTASection() {
                     disabled={loading}
                     className="inline-flex items-center justify-center gap-2 rounded-[10px] bg-brand px-4 py-3 text-[15px] font-bold text-white hover:bg-brand-dark transition-colors disabled:opacity-50"
                   >
-                    {loading ? <Loader2 size={16} className="animate-spin" /> : <>Book demo <ArrowRight size={15} /></>}
+                    {loading ? <Loader2 size={16} className="animate-spin" /> : <>Request my demo <ArrowRight size={15} /></>}
                   </button>
                 </form>
                 <p className="mt-3 text-[12px] text-muted-foreground">
