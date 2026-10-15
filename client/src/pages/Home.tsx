@@ -1,7 +1,6 @@
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import DemoVideoSection from "@/components/home/DemoVideoSection";
-import WhatChangesSection from "@/components/home/WhatChangesSection";
 import PlatformSection from "@/components/home/PlatformSection";
 import PricingSection from "@/components/PricingSection";
 import FAQSection from "@/components/FAQSection";
@@ -28,7 +27,6 @@ export default function Home() {
             from "what it changes" without needing a divider between every block. */}
         <HeroSection />
         <DemoVideoSection />
-        <WhatChangesSection />
         <PlatformSection />
         <PricingSection />
         <FAQSection />
