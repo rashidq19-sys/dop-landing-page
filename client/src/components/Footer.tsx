@@ -39,8 +39,37 @@ function NavLink({ href, label }: { href: string; label: string }) {
   );
 }
 
+// For people who already use DSPOps and landed on the marketing site looking for
+// the app. The navbar "Sign in" opens a lead-capture modal, so this is the real way in.
+function ExistingCustomerStrip() {
+  const btn =
+    "inline-flex items-center justify-center rounded-xl border border-[#D5DDE8] bg-white px-6 py-3.5 text-[15px] font-semibold text-[#0A1235] hover:border-[#006AE1] hover:text-[#006AE1] transition-colors";
+  return (
+    <section className="bg-[#EAF3FD] font-sans">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-8 py-9 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+        <div>
+          <h2 className="font-display text-[22px] sm:text-[24px] font-bold text-[#0A1235] tracking-[-0.01em]">
+            Already part of a DSP using DSPOps?
+          </h2>
+          <p className="mt-1 text-[15px] text-[#4B5563]">Go straight to your account or get the driver app.</p>
+        </div>
+        <div className="flex flex-col sm:flex-row gap-3">
+          <a href="https://app.dspops.app" className={btn}>
+            Log in to your account
+          </a>
+          <Link href="/download" className={btn}>
+            Get the driver app
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function Footer() {
   return (
+    <>
+    <ExistingCustomerStrip />
     <footer className="bg-[#111113] border-t border-white/6 font-sans">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-8 py-12">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 mb-10 text-[13px]">
@@ -104,5 +133,6 @@ export default function Footer() {
         </p>
       </div>
     </footer>
+    </>
   );
 }
