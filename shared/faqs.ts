@@ -7,43 +7,28 @@ export type Faq = {
 
 export const faqs: Faq[] = [
   {
-    question: "How long does setup take?",
+    question: "Do I need to share driver data for the demo?",
     answer:
-      "Most DSPs are running their first dispatch within 20 minutes. We import your drivers from a spreadsheet, connect your Amazon scorecard feed, and generate driver logins automatically. A full depot — every driver onboarded and using the app daily — typically settles within a week. Priority onboarding sessions are included on Professional and Enterprise plans.",
+      "No. We show a sample depot first. Using your own data is an optional later step once you’ve decided the product is worth exploring.",
   },
   {
-    question: "Does it sync with Amazon?",
+    question: "Do I have to move everything at once?",
     answer:
-      "Yes. Scorecards, delivery progress and route data come into DSPOps without re-keying — no more 'why is my score wrong?' calls.",
+      "No. Onboarding starts with one workflow. Use the demo to discuss a sensible rollout for your depot and what setup it will need.",
   },
   {
-    question: "We run Same-Day Delivery. Is that supported?",
+    question: "Can drivers use it on their phones?",
     answer:
-      "Yes — SDD is a first-class module, not an afterthought. You get a separate wave view for same-day routes, tighter SLA timers, late-stop alerts, and SDD-specific payroll rates. Owners running both standard and SDD contracts see everything in one fleet-wide dashboard.",
+      "Yes. DSPOps supports iOS, Android and phone browsers. Drivers can access shifts, check-in and other operational information from their phone.",
   },
   {
-    question: "We run e-cargo bike riders. Does DSPOps handle micromobility?",
+    question: "What happens after I request a demo?",
     answer:
-      "Yes — riders are their own person type, not van drivers with a note. They submit availability for morning and afternoon blocks on the same date, and pay is calculated per block. Rider onboarding drops the driving licence and DVLA check but keeps every other vetting step. Vans, bikes and on-foot rounds sit in one rota and one compliance list; on-foot couriers are managed as Riders in the same way.",
+      "You get a confirmation email, then you can pick a time for your demo from the calendar on the same page.",
   },
   {
-    question: "Do drivers need to install anything?",
+    question: "Who is behind DSPOps?",
     answer:
-      "DSPOps is on the App Store and Google Play, and drivers can also just open it in their phone's browser — whichever suits them. They get a login link by text either way, and it works offline: they can submit van checks, report damage and check their rota without signal.",
-  },
-  {
-    question: "Can I cancel my other tools immediately?",
-    answer:
-      "Usually yes. DSPOps replaces rota spreadsheets, WhatsApp driver groups, van inspection apps, and most payroll sheets. We migrate historical data in your first week so you lose nothing.",
-  },
-  {
-    question: "Is it GDPR compliant?",
-    answer:
-      "Yes — UK-hosted, GDPR-compliant. Driver data stays in the UK. We sign DPAs and provide audit logs for all data access.",
-  },
-  {
-    question: "What if my fleet grows past a tier?",
-    answer:
-      "We upgrade you mid-month and prorate the difference. Starter and Professional have no per-driver fees — you simply move to the next tier when you hit the driver limit. Past 100 drivers you move to Enterprise, which is priced per active driver at a rate agreed with you, billed on a minimum of 100 drivers a month.",
+      "DSPOps is operated by Layerform System Limited and was built by a former on-site manager. It is independent and is not affiliated with or endorsed by Amazon.",
   },
 ];
