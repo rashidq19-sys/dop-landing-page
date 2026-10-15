@@ -2,7 +2,15 @@
 
 > Session handoff file. Read at session start (with DECISIONS.md); update at session end. The rule lives in global CLAUDE.md → Memory System.
 
-**Last updated:** 2026-09-19 (SEO routines audit — sitemap re-read by Google, both routines rewritten, JSON-LD on blog posts)
+**Last updated:** 2026-10-15 (platform section stacking-card animation — committed locally, NOT pushed)
+
+## 2026-10-15 — "Every daily job, one login" is now GSAP stacking cards (awaiting Rashid's OK to ship)
+
+- Commit `54945f7` on local `main`, one ahead of origin, **not pushed** — Rashid wanted to see it first.
+- **At ship time:** if the weekly blog agent has landed a rebuilt `dist/public` meanwhile, do NOT hand-merge
+  `dist`. Rebase only the source/lockfile changes, rerun `npm run build`, commit the fresh `dist/public`.
+- Open decisions: intro copy still says "Nine modules" (cards run 01–10; hero count-up and `llms.txt` say 9 too);
+  GSAP adds ~48 KB gzipped to the main bundle (124 → 173 KB) — could be lazy-loaded if that matters.
 
 ## 2026-09-19 — SEO routines audit: Google had not read the sitemap since 30 May; fixed and both routines rewritten
 
