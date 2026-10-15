@@ -266,7 +266,7 @@ export default function CTASection() {
                   </div>
                   <div>
                     <label htmlFor="cta-dsp" className="block text-[12px] font-bold uppercase tracking-[0.05em] text-muted-foreground mb-1.5">
-                      DSP / company name
+                      DSP name
                     </label>
                     <input
                       id="cta-dsp"
@@ -274,7 +274,7 @@ export default function CTASection() {
                       required
                       value={dspName}
                       onChange={(e) => setDspName(e.target.value)}
-                      placeholder="Your company name"
+                      placeholder="Your DSP name"
                       className={inputClass}
                     />
                   </div>

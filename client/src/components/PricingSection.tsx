@@ -154,7 +154,7 @@ export default function PricingSection() {
             className="mt-3.5 font-display text-[34px] sm:text-[48px] lg:text-[56px] font-black tracking-[-0.045em] leading-[1.03] text-ink text-balance"
           />
           <p data-rise className="mt-4 text-[15.5px] sm:text-[17px] text-muted-foreground leading-[1.6] max-w-[62ch]">
-            Start with a demo, or ask about the 7-day trial. No card required for the trial.
+            Start with a demo, or ask about the 7-day trial.
           </p>
         </div>
 

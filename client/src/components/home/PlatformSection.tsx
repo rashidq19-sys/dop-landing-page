@@ -1,8 +1,7 @@
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useRef } from "react";
 import { gsap, lightUp, useMotion } from "@/lib/motion";
 import SplitWords from "@/components/motion/SplitWords";
 import SectionEyebrow from "@/components/home/SectionEyebrow";
-import ScreenshotLightbox from "@/components/home/ScreenshotLightbox";
 
 type Module = {
   title: string;
@@ -71,7 +70,6 @@ const MODULES: Module[] = [
 
 export default function PlatformSection() {
   const scope = useRef<HTMLElement>(null);
-  const [zoom, setZoom] = useState<Module | null>(null);
 
   useMotion(scope, () => {
     lightUp(scope.current!.querySelector("[data-lit-heading]"));
@@ -138,8 +136,7 @@ export default function PlatformSection() {
           className="mt-3.5 font-display text-[36px] sm:text-[50px] lg:text-[60px] font-black tracking-[-0.045em] leading-[1.02] text-ink text-balance"
         />
         <p className="mt-4 text-[15.5px] sm:text-[17px] text-muted-foreground leading-[1.6] max-w-[62ch]">
-          Seven modules built for how a UK Amazon DSP actually runs. Tap any screen to open it
-          full size.
+          Seven modules built for how a UK Amazon DSP actually runs.
         </p>
 
         {/* Stacking cards: every card is sticky inside this one container, each a
@@ -158,12 +155,7 @@ export default function PlatformSection() {
                   data-card-inner
                   className="relative origin-top bg-card border border-border rounded-[22px] sm:rounded-[28px] overflow-hidden shadow-[0_24px_60px_-28px_rgba(10,18,53,0.35)] flex flex-col lg:grid lg:grid-cols-[0.92fr_1.08fr] sm:h-[min(560px,calc(100svh-240px))] sm:min-h-[420px]"
                 >
-                  <button
-                    type="button"
-                    onClick={() => setZoom(m)}
-                    aria-label={`Open the ${m.title} screen full size`}
-                    className="relative flex-none h-[min(230px,30svh)] sm:h-auto sm:flex-1 sm:min-h-[150px] lg:order-2 overflow-hidden cursor-zoom-in group"
-                  >
+                  <div className="relative flex-none h-[min(230px,30svh)] sm:h-auto sm:flex-1 sm:min-h-[150px] lg:order-2 overflow-hidden">
                     {/* The whole screen floats on a soft panel rather than being cropped:
                         the screenshots range from portrait phones to wide dashboards. */}
                     <span
@@ -186,10 +178,7 @@ export default function PlatformSection() {
                         }`}
                       />
                     </span>
-                    <span className="absolute right-3 bottom-3 hidden sm:block rounded-full bg-white/90 border border-border px-3 py-1.5 text-[11.5px] font-bold text-ink opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                      Open full size
-                    </span>
-                  </button>
+                  </div>
 
                   <div className="p-5 sm:p-8 lg:p-11 flex flex-col lg:justify-center shrink-0">
                     <span className="font-display text-[13px] sm:text-[14px] font-extrabold tracking-[0.06em] text-brand tabular-nums">
@@ -226,8 +215,6 @@ export default function PlatformSection() {
           agreements · role-based access and 2FA.
         </p>
       </div>
-
-      <ScreenshotLightbox src={zoom?.img ?? null} alt={zoom?.alt} onClose={() => setZoom(null)} />
     </section>
   );
 }
