@@ -213,7 +213,7 @@ export default function PlatformSection() {
           ))}
         </h2>
         <p className="mt-4 text-[15.5px] sm:text-[17px] text-muted-foreground leading-[1.6] max-w-[62ch]">
-          Nine modules built for how a UK Amazon DSP actually runs. Tap any screen to open it
+          Ten modules built for how a UK Amazon DSP actually runs. Tap any screen to open it
           full size.
         </p>
 

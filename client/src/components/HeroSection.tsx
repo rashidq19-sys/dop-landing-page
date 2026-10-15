@@ -35,7 +35,7 @@ export default function HeroSection() {
 
   const hours = useCountUp(3, 1600, isVisible);
   const weekly = useCountUp(32, 1600, isVisible);
-  const modules = useCountUp(9, 1600, isVisible);
+  const modules = useCountUp(10, 1600, isVisible);
   const setup = useCountUp(20, 1600, isVisible);
 
   const stats = [
