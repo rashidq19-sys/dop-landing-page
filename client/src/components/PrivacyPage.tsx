@@ -6,7 +6,7 @@
 
 import React from "react";
 
-const EFFECTIVE_DATE = "22 August 2026";
+const EFFECTIVE_DATE = "16 October 2026";
 
 const dataCategories = [
   { category: "Identity", data: "Full name, date of birth, email address, phone number, home address" },
@@ -14,6 +14,7 @@ const dataCategories = [
   { category: "Financial", data: "Bank account number, sort code, UTR number, VAT number" },
   { category: "Documents & Photos", data: "Licence photos, passport photos, Right to Work evidence, van inspection photos and videos" },
   { category: "Employment", data: "Driver code, shift data, deployment assignments, performance scorecards" },
+  { category: "Location", data: "Precise location when a driver checks in at their station, and during an On my way journey that the driver starts (current position and estimated arrival time)" },
   { category: "Device", data: "Push notification tokens, platform type (iOS, Android, or web)" },
   { category: "Health", data: "Medical fitness self-declarations" },
   { category: "Emergency Contact", data: "Name, phone number, and relationship of a nominated third party" },
@@ -26,6 +27,7 @@ const thirdParties = [
   { service: "Anthropic (Claude AI)", data: "Document images (licence, passport)", purpose: "Automated field extraction during onboarding" },
   { service: "Anthropic (Claude AI)", data: "Chat messages (this website's chat widget)", purpose: "Generating chatbot replies and draft suggestions for our team" },
   { service: "OneSignal", data: "Device tokens, driver identifiers", purpose: "Push notifications" },
+  { service: "Mapbox", data: "Station location and a driver's current position during an On my way journey", purpose: "Maps and arrival-time estimates" },
   { service: "Cloudflare R2", data: "All uploaded files and photos", purpose: "Cloud file storage" },
   { service: "Neon (PostgreSQL)", data: "All structured data", purpose: "Database hosting" },
   {
@@ -144,6 +146,7 @@ export default function PrivacyPage() {
                 "Van inspection and damage detection (AI-assisted)",
                 "Document verification during onboarding (AI-assisted)",
                 "Push notifications for shift and deployment updates",
+                "Showing a driver's manager their estimated arrival time, only during an On my way journey the driver starts",
                 "Driver performance tracking and scorecards",
                 "Payroll and employment compliance",
                 "Answering enquiries you send through this website's chat widget, and following them up",
@@ -207,11 +210,42 @@ export default function PrivacyPage() {
               share it beyond the Anthropic processing described above. See Data
               Retention below for how long it is kept.
             </p>
+            <p className="text-navy/70 text-[15px] leading-relaxed mt-4">
+              Mapbox, Inc. is based in the United States. It is certified under the UK Extension
+              to the EU-U.S. Data Privacy Framework, which is the safeguard we rely on when
+              location data is sent to it.
+            </p>
+          </section>
+
+          {/* Location sharing (On my way) */}
+          <section>
+            <h2 className="text-xl font-bold text-navy mb-3">5. Location Sharing (On my way)</h2>
+            <div className="h-px bg-navy/10 mb-4" />
+            <div className="space-y-3 text-navy/70 text-[15px] leading-relaxed">
+              <p>
+                If a driver's DSP has switched it on, a driver can tap{" "}
+                <strong className="text-navy">On my way</strong> before a shift. Only then does the
+                DSPOps app share the driver's location, so their manager can see when they are
+                likely to arrive. Location is never collected in the background otherwise, and
+                using On my way is not required to use the app, respond to a shift or check in.
+              </p>
+              <p>
+                The app asks only for "While Using" location permission, never "Always". Once a
+                driver starts a journey, it records their position about every 45 seconds,
+                including while the phone is locked, and stops automatically when the driver
+                arrives at the station, checks in, selects Not coming, or reaches the time limit
+                (60 minutes after the shift start, and never more than 3 hours).
+              </p>
+              <p>
+                Managers see only today's latest position and estimated arrival time, for their
+                own station. They never see the route a driver took or their location history.
+              </p>
+            </div>
           </section>
 
           {/* 5. Data Security */}
           <section>
-            <h2 className="text-xl font-bold text-navy mb-3">5. Data Security</h2>
+            <h2 className="text-xl font-bold text-navy mb-3">6. Data Security</h2>
             <div className="h-px bg-navy/10 mb-4" />
             <p className="text-navy/70 text-[15px] leading-relaxed mb-3">
               We apply appropriate technical and organisational measures to protect your personal
@@ -235,7 +269,7 @@ export default function PrivacyPage() {
 
           {/* 6. Data Retention */}
           <section>
-            <h2 className="text-xl font-bold text-navy mb-3">6. Data Retention</h2>
+            <h2 className="text-xl font-bold text-navy mb-3">7. Data Retention</h2>
             <div className="h-px bg-navy/10 mb-4" />
             <div className="space-y-3 text-navy/70 text-[15px] leading-relaxed">
               <p>
@@ -243,6 +277,10 @@ export default function PrivacyPage() {
                 <strong className="text-navy">1 year</strong> after a driver is offboarded or
                 their account is closed. After this period, personal data is permanently deleted
                 or anonymised.
+              </p>
+              <p>
+                Positions recorded during an On my way journey are deleted overnight. After that,
+                only the journey's start time, end time and the reason it ended are kept.
               </p>
               <p>
                 Drivers may request earlier deletion of their data at any time. See Your Rights
@@ -259,7 +297,7 @@ export default function PrivacyPage() {
 
           {/* 7. Your Rights */}
           <section>
-            <h2 className="text-xl font-bold text-navy mb-3">7. Your Rights (UK GDPR)</h2>
+            <h2 className="text-xl font-bold text-navy mb-3">8. Your Rights (UK GDPR)</h2>
             <div className="h-px bg-navy/10 mb-4" />
             <p className="text-navy/70 text-[15px] leading-relaxed mb-3">
               Under UK GDPR, you have the following rights regarding your personal data:
@@ -285,7 +323,7 @@ export default function PrivacyPage() {
 
           {/* 8. Children's Privacy */}
           <section>
-            <h2 className="text-xl font-bold text-navy mb-3">8. Children's Privacy</h2>
+            <h2 className="text-xl font-bold text-navy mb-3">9. Children's Privacy</h2>
             <div className="h-px bg-navy/10 mb-4" />
             <p className="text-navy/70 text-[15px] leading-relaxed">
               The DSPOps platform is intended for use by adults in employment. We do not knowingly
@@ -300,7 +338,7 @@ export default function PrivacyPage() {
 
           {/* 9. Changes to This Policy */}
           <section>
-            <h2 className="text-xl font-bold text-navy mb-3">9. Changes to This Policy</h2>
+            <h2 className="text-xl font-bold text-navy mb-3">10. Changes to This Policy</h2>
             <div className="h-px bg-navy/10 mb-4" />
             <p className="text-navy/70 text-[15px] leading-relaxed">
               We may update this Privacy Policy from time to time. When we do, the revised version
@@ -312,7 +350,7 @@ export default function PrivacyPage() {
 
           {/* 10. Contact Us */}
           <section>
-            <h2 className="text-xl font-bold text-navy mb-3">10. Contact Us</h2>
+            <h2 className="text-xl font-bold text-navy mb-3">11. Contact Us</h2>
             <div className="h-px bg-navy/10 mb-4" />
             <p className="text-navy/70 text-[15px] leading-relaxed mb-4">
               For any privacy-related questions, requests, or concerns, please contact us:
