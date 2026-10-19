@@ -3,6 +3,7 @@
 // When adding posts, also add an entry to client/public/sitemap.xml.
 
 import type { ComponentType } from "react";
+import AmazonDspContractRenewal from "@/content/blog/amazon-dsp-contract-renewal";
 import AmazonDspDriverAccidentProcedure from "@/content/blog/amazon-dsp-driver-accident-procedure";
 import DspVehicleInsuranceAmazonDsp from "@/content/blog/dsp-vehicle-insurance-amazon-dsp";
 import AmazonDspQ4PeakPlanning from "@/content/blog/amazon-dsp-q4-peak-planning";
@@ -41,6 +42,18 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  {
+    slug: "amazon-dsp-contract-renewal",
+    title: "Amazon DSP contract renewal: what Amazon looks for and how UK operators secure theirs",
+    metaTitle: "Amazon DSP Contract Renewal: What Amazon Looks for and How to Secure Yours",
+    description:
+      "What Amazon evaluates in a DSP contract renewal — scorecard trends, compliance records, driver stability — and how UK operators build the audit trail before they need it.",
+    excerpt:
+      "Most DSP owners don't think about contract renewal until the conversation is already scheduled. By then, the preparation window has closed. Here is what Amazon looks at and how to have the evidence ready.",
+    date: "2026-10-19",
+    readingMinutes: 5,
+    Body: AmazonDspContractRenewal,
+  },
   {
     slug: "amazon-dsp-driver-accident-procedure",
     title: "On-road vehicle accidents at an Amazon DSP: what to do, what to report and what Amazon requires",
