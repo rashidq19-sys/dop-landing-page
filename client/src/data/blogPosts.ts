@@ -3,6 +3,7 @@
 // When adding posts, also add an entry to client/public/sitemap.xml.
 
 import type { ComponentType } from "react";
+import DvsaDailyWalkaroundCheckAmazonDsp from "@/content/blog/dvsa-daily-walkaround-check-amazon-dsp";
 import AmazonDspContractRenewal from "@/content/blog/amazon-dsp-contract-renewal";
 import AmazonDspDriverAccidentProcedure from "@/content/blog/amazon-dsp-driver-accident-procedure";
 import DspVehicleInsuranceAmazonDsp from "@/content/blog/dsp-vehicle-insurance-amazon-dsp";
@@ -42,6 +43,18 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  {
+    slug: "dvsa-daily-walkaround-check-amazon-dsp",
+    title: "DVSA daily walkaround checks: a practical guide for Amazon DSP owners",
+    metaTitle: "DVSA Daily Walkaround Check: Amazon DSP Owner's Guide",
+    description:
+      "What a proper DVSA daily walkaround check covers, how to record it, and why poor inspection records cost UK Amazon DSP owners more than they expect.",
+    excerpt:
+      "Most DSPs do van checks. Far fewer have records that would hold up to an insurer or an Amazon auditor. Here is what a proper daily walkaround process looks like and why the documentation gap matters.",
+    date: "2026-10-26",
+    readingMinutes: 5,
+    Body: DvsaDailyWalkaroundCheckAmazonDsp,
+  },
   {
     slug: "amazon-dsp-contract-renewal",
     title: "Amazon DSP contract renewal: what Amazon looks for and how UK operators secure theirs",
