@@ -3,6 +3,7 @@
 // When adding posts, also add an entry to client/public/sitemap.xml.
 
 import type { ComponentType } from "react";
+import AmazonDspMarginManagement from "@/content/blog/amazon-dsp-margin-management";
 import DvsaDailyWalkaroundCheckAmazonDsp from "@/content/blog/dvsa-daily-walkaround-check-amazon-dsp";
 import AmazonDspContractRenewal from "@/content/blog/amazon-dsp-contract-renewal";
 import AmazonDspDriverAccidentProcedure from "@/content/blog/amazon-dsp-driver-accident-procedure";
@@ -43,6 +44,18 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  {
+    slug: "amazon-dsp-margin-management",
+    title: "Amazon DSP margins: understanding the financials of a UK delivery operation",
+    metaTitle: "Amazon DSP Margin Management: Fees, Costs and Where UK Operators Make Money",
+    description:
+      "How UK Amazon DSP owners can understand their weekly financial picture — route fees, driver pay, vehicle costs, and the margin leaks that compound quietly.",
+    excerpt:
+      "Most DSP owners understand their Cortex scorecard. Fewer have a clear picture of where the money goes each week. Here is the financial structure of a UK Amazon DSP and where operators most commonly lose margin.",
+    date: "2026-11-02",
+    readingMinutes: 5,
+    Body: AmazonDspMarginManagement,
+  },
   {
     slug: "dvsa-daily-walkaround-check-amazon-dsp",
     title: "DVSA daily walkaround checks: a practical guide for Amazon DSP owners",
