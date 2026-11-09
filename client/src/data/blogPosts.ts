@@ -3,6 +3,7 @@
 // When adding posts, also add an entry to client/public/sitemap.xml.
 
 import type { ComponentType } from "react";
+import AmazonDspDriverTrainingRequirements from "@/content/blog/amazon-dsp-driver-training-requirements";
 import AmazonDspMarginManagement from "@/content/blog/amazon-dsp-margin-management";
 import DvsaDailyWalkaroundCheckAmazonDsp from "@/content/blog/dvsa-daily-walkaround-check-amazon-dsp";
 import AmazonDspContractRenewal from "@/content/blog/amazon-dsp-contract-renewal";
@@ -44,6 +45,18 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  {
+    slug: "amazon-dsp-driver-training-requirements",
+    title: "Amazon DSP driver training requirements: what UK operators must cover before day one",
+    metaTitle: "Amazon DSP Driver Training Requirements: What UK Operators Must Cover",
+    description:
+      "What UK Amazon DSP owners must train drivers on before their first shift — Right to Work, licence, Mentor, walkaround checks and load security — and what records to keep.",
+    excerpt:
+      "Sending a driver onto the road before they are properly trained — and without records proving they were — is one of the fastest ways to put your DSP at risk. Here is what UK operators must cover and document.",
+    date: "2026-11-09",
+    readingMinutes: 4,
+    Body: AmazonDspDriverTrainingRequirements,
+  },
   {
     slug: "amazon-dsp-margin-management",
     title: "Amazon DSP margins: understanding the financials of a UK delivery operation",
