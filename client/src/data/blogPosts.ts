@@ -3,6 +3,7 @@
 // When adding posts, also add an entry to client/public/sitemap.xml.
 
 import type { ComponentType } from "react";
+import HowToBuildDriverRotaAmazonDsp from "@/content/blog/how-to-build-driver-rota-amazon-dsp";
 import AmazonDspDriverTrainingRequirements from "@/content/blog/amazon-dsp-driver-training-requirements";
 import AmazonDspMarginManagement from "@/content/blog/amazon-dsp-margin-management";
 import DvsaDailyWalkaroundCheckAmazonDsp from "@/content/blog/dvsa-daily-walkaround-check-amazon-dsp";
@@ -45,6 +46,18 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  {
+    slug: "how-to-build-driver-rota-amazon-dsp",
+    title: "How to build a driver rota at an Amazon DSP",
+    metaTitle: "How to Build a Driver Rota at an Amazon DSP | UK Guide",
+    description:
+      "How UK Amazon DSP owners can build the weekly driver rota — collecting availability, compliance checks, standing rotas and last-minute cover without the Sunday spreadsheet.",
+    excerpt:
+      "Building the weekly rota takes hours when it should take minutes. Here is the end-to-end process — from route count to published rota — that replaces the spreadsheet and the WhatsApp thread.",
+    date: "2026-11-16",
+    readingMinutes: 4,
+    Body: HowToBuildDriverRotaAmazonDsp,
+  },
   {
     slug: "amazon-dsp-driver-training-requirements",
     title: "Amazon DSP driver training requirements: what UK operators must cover before day one",
