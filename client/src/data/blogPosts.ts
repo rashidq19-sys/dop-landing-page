@@ -3,6 +3,7 @@
 // When adding posts, also add an entry to client/public/sitemap.xml.
 
 import type { ComponentType } from "react";
+import AmazonDspDriverRecruitment from "@/content/blog/amazon-dsp-driver-recruitment";
 import HowToBuildDriverRotaAmazonDsp from "@/content/blog/how-to-build-driver-rota-amazon-dsp";
 import AmazonDspDriverTrainingRequirements from "@/content/blog/amazon-dsp-driver-training-requirements";
 import AmazonDspMarginManagement from "@/content/blog/amazon-dsp-margin-management";
@@ -46,6 +47,18 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  {
+    slug: "amazon-dsp-driver-recruitment",
+    title: "Amazon DSP driver recruitment: how to advertise, screen and onboard drivers in the UK",
+    metaTitle: "Amazon DSP Driver Recruitment: Advertise, Screen and Onboard UK Drivers",
+    description:
+      "How UK Amazon DSP owners can recruit drivers — writing effective job ads, screening candidates, collecting pre-start documents, and reducing offer-to-start drop-out.",
+    excerpt:
+      "Most DSP owners spend more time replacing drivers than retaining them. Here is the end-to-end recruitment process — from job ad to day one — that closes the gap before the rota feels it.",
+    date: "2026-11-23",
+    readingMinutes: 5,
+    Body: AmazonDspDriverRecruitment,
+  },
   {
     slug: "how-to-build-driver-rota-amazon-dsp",
     title: "How to build a driver rota at an Amazon DSP",
